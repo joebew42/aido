@@ -1,0 +1,14 @@
+{
+  "name": "ai-augumented-engineer",
+  "description": "Skills that augment engineering practices, independent of language, framework or company",
+  "owner": {
+    "name": "Joe Bew"
+  },
+  "plugins": [
+    {
+      "name": "aiae",
+      "source": "./plugins/aiae",
+      "description": "Stack-agnostic, test-driven engineering workflow skills, invoked as /aiae:<skill>"
+    }
+  ]
+}

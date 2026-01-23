@@ -1,0 +1,24 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Write|Edit|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "f=$(jq -r '.tool_input.file_path // empty'); case \"$f\" in */.claude/projects/*/memory/*) printf '%s' '{\"hookSpecificOutput\":{\"hookEventName\":\"PreToolUse\",\"permissionDecision\":\"deny\",\"permissionDecisionReason\":\"Writing to Claude memory is forbidden here (code-standards.md: do not use auto-memory). Propose a guideline edit instead.\"}}';; esac"
+          }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "c=$(jq -r '.tool_input.command // empty'); if printf '%s' \"$c\" | grep -Eq 'git[[:space:]]+commit' && printf '%s' \"$c\" | grep -Eiq 'co-authored-by:|generated with \\[claude|noreply@anthropic'; then printf '%s' '{\"hookSpecificOutput\":{\"hookEventName\":\"PreToolUse\",\"permissionDecision\":\"deny\",\"permissionDecisionReason\":\"No Co-Authored-By/Claude references in commit messages (git-workflow.md). Use a subject-line-only message.\"}}'; fi"
+          }
+        ]
+      }
+    ]
+  }
+}
