@@ -206,6 +206,12 @@ On approval:
 If you entered at Step 4 with an existing `SPEC.md`, first load the context as in Step 3 —
 **Load the context**.
 
+The architecture index feeds the enabling refactoring analysis in Step 5, which can take long and
+is not always needed. Ask first — `AskUserQuestion`: "Should I run the enabling refactoring
+analysis? It looks for refactorings that would make this feature easier, and can take a while." —
+options **Run the analysis** (continue below) / **Skip it** (skip the rest of this step and Step 5,
+and continue at Step 6). Mark neither as recommended.
+
 The index is defined in **Index Location and Shape** in
 `${CLAUDE_PLUGIN_ROOT}/skills/map-architecture/SKILL.md`. Identify `<repo-name>` as described there, then:
 
@@ -252,8 +258,8 @@ would add a plan item.
   domain → application → delivery
 - put the **enabling** refactorings from Step 5 first, each as its own `refactor:` item, before
   the feature work; deferred findings are not planned, only listed in the Design notes
-- add a `## Plan` section and a `## Design notes` section to `SPEC.md`, the notes answering with
-  file and symbol references — `/aiae:2-implement` checks them against what was actually built:
+- add a `## Plan` section and, when the analysis ran, a `## Design notes` section to `SPEC.md`,
+  the notes answering with file and symbol references — `/aiae:2-implement` checks them against what was actually built:
 
   ```markdown
   ## Design notes
@@ -266,6 +272,9 @@ would add a plan item.
   - **Deferred:** …
   - **Open questions:** …
   ```
+- if the user skipped the enabling refactoring analysis in Step 4, there are no enabling
+  refactorings to plan and no `## Design notes` section; instead, add this line after `## Plan`:
+  `The enabling refactoring analysis was skipped.`
 - if planning shows the specification itself is wrong or incomplete, raise it with
   `AskUserQuestion` and update `SPEC.md` only with the user's agreement
 - `AskUserQuestion`: "Is the plan approved?" — options **Approve the plan** / **Change it** (ask
@@ -276,8 +285,9 @@ would add a plan item.
 Only proceed here when all of these hold:
 
 - [ ] the user explicitly approved the plan
-- [ ] `SPEC.md` holds the approved specification, the `## Plan` and the `## Design notes`, with no
-      open questions left that block implementation
+- [ ] `SPEC.md` holds the approved specification, the `## Plan` and the `## Design notes` — or,
+      when the enabling refactoring analysis was skipped, the line saying so — with no open
+      questions left that block implementation
 - [ ] `SPEC.md.draft` does not exist
 
 ### Branch Creation Checklist
