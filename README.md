@@ -29,7 +29,7 @@ The workflow is built around that split:
 ## Install
 
 ```
-/plugin marketplace add <owner>/<repo>
+/plugin marketplace add joebew42/ai-augumented-engineer
 /plugin install aiae@ai-augumented-engineer
 ```
 
