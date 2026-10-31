@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1040" height="470" viewBox="0 0 1040 470" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">
+  <title>The human stays in the loop at every stage</title>
+  <defs>
+    <marker id="flow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#0969da"/>
+    </marker>
+    <g id="you">
+      <circle cx="0" cy="-4" r="4" fill="#1a7f37"/>
+      <path d="M-7,8 Q-7,0 0,0 Q7,0 7,8 Z" fill="#1a7f37"/>
+    </g>
+  </defs>
+  <rect x="0" y="0" width="1040" height="470" rx="16" fill="#ffffff" stroke="#d0d7de"/>
+  <text x="30" y="40" font-size="14" font-weight="700" fill="#0969da">THE AGENT PROPOSES</text>
+  <text x="202" y="40" font-size="13" fill="#57606a">explores, drafts the spec, writes tests and code, shapes commits and the PR</text>
+  <rect x="30" y="58" width="184" height="58" rx="10" fill="#ddf4ff" stroke="#54aeff"/>
+  <text x="122.0" y="83" text-anchor="middle" font-size="15" font-weight="600" fill="#1f2328">1 · Plan</text>
+  <text x="122.0" y="103" text-anchor="middle" font-size="11" fill="#57606a" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">/aiae:1-plan</text>
+  <path d="M216,87 L232,87" stroke="#0969da" stroke-width="2" marker-end="url(#flow)"/>
+  <path d="M122.0,116 L122.0,150" stroke="#1a7f37" stroke-width="2" stroke-dasharray="4 4"/>
+  <rect x="30" y="150" width="184" height="186" rx="10" fill="#dafbe1" stroke="#4ac26b"/>
+  <use href="#you" x="48" y="178"/>
+  <text x="62" y="182" font-size="13" fill="#1f2328">approve the draft</text>
+  <use href="#you" x="48" y="218"/>
+  <text x="62" y="222" font-size="13" fill="#1f2328">approve the spec</text>
+  <use href="#you" x="48" y="258"/>
+  <text x="62" y="262" font-size="13" fill="#1f2328">approve the plan</text>
+  <use href="#you" x="48" y="298"/>
+  <text x="62" y="302" font-size="13" fill="#1f2328">start implementing</text>
+  <rect x="234" y="58" width="184" height="58" rx="10" fill="#ddf4ff" stroke="#54aeff"/>
+  <text x="326.0" y="83" text-anchor="middle" font-size="15" font-weight="600" fill="#1f2328">2 · Implement</text>
+  <text x="326.0" y="103" text-anchor="middle" font-size="11" fill="#57606a" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">/aiae:2-implement</text>
+  <path d="M420,87 L436,87" stroke="#0969da" stroke-width="2" marker-end="url(#flow)"/>
+  <path d="M326.0,116 L326.0,150" stroke="#1a7f37" stroke-width="2" stroke-dasharray="4 4"/>
+  <rect x="234" y="150" width="184" height="186" rx="10" fill="#dafbe1" stroke="#4ac26b"/>
+  <use href="#you" x="252" y="178"/>
+  <text x="266" y="182" font-size="13" fill="#1f2328">pick the plan items</text>
+  <use href="#you" x="252" y="218"/>
+  <text x="266" y="222" font-size="13" fill="#1f2328">follow each TDD cycle</text>
+  <use href="#you" x="252" y="258"/>
+  <text x="266" y="262" font-size="13" fill="#1f2328">approve wider refactors</text>
+  <use href="#you" x="252" y="298"/>
+  <text x="266" y="302" font-size="13" fill="#1f2328">run the final check</text>
+  <rect x="438" y="58" width="184" height="58" rx="10" fill="#ddf4ff" stroke="#54aeff"/>
+  <text x="530.0" y="83" text-anchor="middle" font-size="15" font-weight="600" fill="#1f2328">3 · Organize commits</text>
+  <text x="530.0" y="103" text-anchor="middle" font-size="11" fill="#57606a" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">/aiae:3-organize-commits</text>
+  <path d="M624,87 L640,87" stroke="#0969da" stroke-width="2" marker-end="url(#flow)"/>
+  <path d="M530.0,116 L530.0,150" stroke="#1a7f37" stroke-width="2" stroke-dasharray="4 4"/>
+  <rect x="438" y="150" width="184" height="186" rx="10" fill="#dafbe1" stroke="#4ac26b"/>
+  <use href="#you" x="456" y="178"/>
+  <text x="470" y="182" font-size="13" fill="#1f2328">keep or revert the spec</text>
+  <use href="#you" x="456" y="218"/>
+  <text x="470" y="222" font-size="13" fill="#1f2328">approve the grouping</text>
+  <use href="#you" x="456" y="258"/>
+  <text x="470" y="262" font-size="13" fill="#1f2328">push or force push</text>
+  <rect x="642" y="58" width="184" height="58" rx="10" fill="#ddf4ff" stroke="#54aeff"/>
+  <text x="734.0" y="83" text-anchor="middle" font-size="15" font-weight="600" fill="#1f2328">4 · Create PR</text>
+  <text x="734.0" y="103" text-anchor="middle" font-size="11" fill="#57606a" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">/aiae:4-create-pr</text>
+  <path d="M828,87 L844,87" stroke="#0969da" stroke-width="2" marker-end="url(#flow)"/>
+  <path d="M734.0,116 L734.0,150" stroke="#1a7f37" stroke-width="2" stroke-dasharray="4 4"/>
+  <rect x="642" y="150" width="184" height="186" rx="10" fill="#dafbe1" stroke="#4ac26b"/>
+  <use href="#you" x="660" y="178"/>
+  <text x="674" y="182" font-size="13" fill="#1f2328">push the branch</text>
+  <use href="#you" x="660" y="218"/>
+  <text x="674" y="222" font-size="13" fill="#1f2328">approve title and body</text>
+  <use href="#you" x="660" y="258"/>
+  <text x="674" y="262" font-size="13" fill="#1f2328">run a pre-flight review</text>
+  <use href="#you" x="660" y="298"/>
+  <text x="674" y="302" font-size="13" fill="#1f2328">adopt new conventions</text>
+  <rect x="846" y="58" width="184" height="58" rx="10" fill="#ddf4ff" stroke="#54aeff"/>
+  <text x="938.0" y="83" text-anchor="middle" font-size="15" font-weight="600" fill="#1f2328">5 · Handle review</text>
+  <text x="938.0" y="103" text-anchor="middle" font-size="11" fill="#57606a" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">/aiae:5-handle-review</text>
+  <path d="M938.0,116 L938.0,150" stroke="#1a7f37" stroke-width="2" stroke-dasharray="4 4"/>
+  <rect x="846" y="150" width="184" height="186" rx="10" fill="#dafbe1" stroke="#4ac26b"/>
+  <use href="#you" x="864" y="178"/>
+  <text x="878" y="182" font-size="13" fill="#1f2328">pick what to address</text>
+  <use href="#you" x="864" y="218"/>
+  <text x="878" y="222" font-size="13" fill="#1f2328">push the changes</text>
+  <use href="#you" x="864" y="258"/>
+  <text x="878" y="262" font-size="13" fill="#1f2328">adopt new conventions</text>
+  <text x="30" y="368" font-size="14" font-weight="700" fill="#1a7f37">YOU DECIDE</text>
+  <text x="130" y="368" font-size="13" fill="#57606a">every stage stops and asks before anything that matters — nothing is pushed or published without you</text>
+  <rect x="30" y="392" width="980" height="52" rx="10" fill="#f6f8fa" stroke="#d0d7de" stroke-dasharray="5 4"/>
+  <text x="520" y="414" text-anchor="middle" font-size="13" fill="#1f2328"><tspan font-weight="700">Human in the loop by default.</tspan> The decision points are always there;</text>
+  <text x="520" y="433" text-anchor="middle" font-size="13" fill="#1f2328">only a deliberately, fully unsupervised run goes through them without you.</text>
+</svg>

@@ -10,6 +10,7 @@ install it.
 - `plugins/aiae/skills/<name>/SKILL.md` — the skills, invoked as `/aiae:<name>`
 - `plugins/aiae/guidelines/` — the guidelines the skills load
 - `plugins/aiae/hooks/hooks.json` — the plugin's hooks
+- `docs/` — the diagrams in the README
 
 ## Conventions for changes
 

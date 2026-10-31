@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="560" viewBox="0 0 960 560" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">
+  <title>SPEC.md is at the center of the workflow</title>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#0969da"/>
+    </marker>
+    <marker id="flow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#8c959f"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="960" height="560" rx="16" fill="#ffffff" stroke="#d0d7de"/>
+
+  <!-- order of the stages -->
+  <g fill="none" stroke="#8c959f" stroke-width="1.5" stroke-dasharray="5 5" marker-end="url(#flow)">
+    <path d="M600,62 Q790,62 836,158"/>
+    <path d="M850,242 Q860,380 790,446"/>
+    <path d="M626,500 L334,500"/>
+    <path d="M170,446 Q100,380 110,242"/>
+  </g>
+
+  <!-- SPEC.md -->
+  <path d="M390,180 L540,180 L570,210 L570,390 L390,390 Z" fill="#fff8c5" stroke="#d4a72c" stroke-width="2"/>
+  <path d="M540,180 L540,210 L570,210" fill="none" stroke="#d4a72c" stroke-width="2"/>
+  <text x="480" y="228" text-anchor="middle" font-size="22" font-weight="700" fill="#1f2328" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">SPEC.md</text>
+  <g font-size="13" fill="#57606a" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">
+    <text x="410" y="268">specification</text>
+    <text x="410" y="298">## Plan</text>
+    <text x="410" y="328">## Design notes</text>
+    <text x="410" y="358">## Progress</text>
+  </g>
+  <text x="480" y="424" text-anchor="middle" font-size="14" font-style="italic" fill="#57606a">the one source of truth</text>
+
+  <!-- stages -->
+  <g font-size="15" font-weight="600" fill="#1f2328" text-anchor="middle">
+    <rect x="370" y="36" width="220" height="56" rx="10" fill="#f6f8fa" stroke="#d0d7de"/>
+    <text x="480" y="60">1 · Plan</text>
+    <rect x="730" y="170" width="220" height="56" rx="10" fill="#f6f8fa" stroke="#d0d7de"/>
+    <text x="840" y="194">2 · Implement</text>
+    <rect x="636" y="456" width="240" height="56" rx="10" fill="#f6f8fa" stroke="#d0d7de"/>
+    <text x="756" y="480">3 · Organize commits</text>
+    <rect x="84" y="456" width="240" height="56" rx="10" fill="#f6f8fa" stroke="#d0d7de"/>
+    <text x="204" y="480">4 · Create PR</text>
+    <rect x="10" y="170" width="220" height="56" rx="10" fill="#f6f8fa" stroke="#d0d7de"/>
+    <text x="120" y="194">5 · Handle review</text>
+  </g>
+  <g font-size="12" fill="#57606a" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">
+    <text x="480" y="80">/aiae:1-plan</text>
+    <text x="840" y="214">/aiae:2-implement</text>
+    <text x="756" y="500">/aiae:3-organize-commits</text>
+    <text x="204" y="500">/aiae:4-create-pr</text>
+    <text x="120" y="214">/aiae:5-handle-review</text>
+  </g>
+
+  <!-- input -->
+  <text x="356" y="58" text-anchor="end" font-size="13" fill="#57606a">GitHub issue</text>
+  <text x="356" y="76" text-anchor="end" font-size="13" fill="#57606a">or your idea →</text>
+
+  <!-- how each stage uses SPEC.md -->
+  <g stroke="#0969da" stroke-width="2.5" fill="none">
+    <path d="M480,92 L480,176" marker-end="url(#arrow)"/>
+    <path d="M730,214 L574,246" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+    <path d="M690,456 L574,372" marker-end="url(#arrow)"/>
+    <path d="M386,372 L270,456" marker-end="url(#arrow)"/>
+    <path d="M386,246 L230,214" marker-end="url(#arrow)"/>
+  </g>
+  <g font-size="13" fill="#0a3069">
+    <text x="494" y="130">drafts, refines</text>
+    <text x="494" y="148">and plans it</text>
+    <text x="652" y="186" text-anchor="middle">reads the plan,</text>
+    <text x="652" y="204" text-anchor="middle">records progress</text>
+    <text x="652" y="398">reverts it, or moves</text>
+    <text x="652" y="416">it into your docs</text>
+    <text x="308" y="398" text-anchor="end">turns it into the</text>
+    <text x="308" y="416" text-anchor="end">PR description</text>
+    <text x="308" y="186" text-anchor="middle">reads it,</text>
+    <text x="308" y="204" text-anchor="middle">never edits it</text>
+  </g>
+</svg>

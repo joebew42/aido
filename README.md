@@ -26,6 +26,25 @@ The workflow is built around that split:
   test, lint, name or structure code comes from your repository — first from its `CLAUDE.md` and
   `AGENTS.md`, then from the code itself.
 
+## How the workflow works
+
+### The specification is at the center
+
+Every stage works from one file, `SPEC.md`. Planning writes the specification, the plan and the
+design notes into it. Implementation reads the plan and records its progress there. The pull
+request description is written from it, and review feedback is checked against it.
+
+![SPEC.md at the center: planning writes it, implementation reads and updates it, organizing commits reverts it or moves it into the docs, the PR is written from it, and review reads it without changing it](docs/spec-at-the-center.svg)
+
+### You stay in the loop
+
+The agent does the work, but it stops before every decision that matters: it does not approve the
+specification, choose a refactoring that reaches into another module, rewrite history or push
+without you. The only way past these checkpoints is to deliberately run the workflow fully
+unsupervised.
+
+![At every stage the agent proposes and you decide: approving the draft, spec and plan; picking what to implement; approving the commit grouping and every push; approving the PR; picking which review feedback to address](docs/human-in-the-loop.svg)
+
 ## Install
 
 ```
