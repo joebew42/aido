@@ -148,12 +148,23 @@ Run it inline, on green, scoped to the evidence the cycle surfaced:
 
 ### Before completion — `fable` subagent
 
-Once every plan item is implemented — not at the end of a partial session — run the checkpoint
-over the whole feature. Launch one `Agent` with `model: "fable"`. Brief it with:
+Once every plan item is implemented — not at the end of a partial session — the checkpoint is due
+over the whole feature. It can take long and is not always needed, so ask first —
+`AskUserQuestion`: "Should I run the final Systemic Design Checkpoint over the whole feature?" —
+options **Run the checkpoint** / **Skip it**:
+
+- mark **Run the checkpoint** as recommended when the diff against main touches more than one
+  module or area, or introduces a new domain concept or abstraction; otherwise mark **Skip it** as
+  recommended. Diff size alone does not count
+- in the question, say briefly why the recommended option is recommended
+- on **Skip it**, launch nothing: note the skip for the `## Progress` handoff and go on to
+  completion
+
+On **Run the checkpoint**, launch one `Agent` with `model: "fable"`. Brief it with:
 
 - the repository root and the diff range (`git diff main...HEAD`)
-- the `SPEC.md` path, asking it to check the **Design notes** against what was actually
-  built and to call out where they no longer hold
+- the `SPEC.md` path; when it has `## Design notes`, ask the subagent to check them against what
+  was actually built and to call out where they no longer hold
 - if there is an index, its directory and the **Reading the Index** steps from
   `${CLAUDE_PLUGIN_ROOT}/skills/map-architecture/SKILL.md`, copied in full
 - the "Systemic Refactoring" section and the rules it points to, copied from `code-standards.md`
@@ -207,12 +218,13 @@ If you catch yourself doing any of these, STOP immediately:
 - ❌ Merging two pieces of code because they look alike, without confirming they share a business meaning
 - ❌ Cleaning up unrelated modules during a systemic checkpoint
 - ❌ Running a broad codebase scan after every cycle
-- ❌ Declaring the feature done without the final Systemic Design Checkpoint
+- ❌ Declaring the feature done without running the final Systemic Design Checkpoint or asking
+  whether to skip it
 
 ## STOP — Skill Complete
 
 When all units of work are implemented and committed — and, if this session finished the last plan
-items, the final Systemic Design Checkpoint has run:
+items, the final Systemic Design Checkpoint has run or the user chose to skip it:
 
 1. **Update `SPEC.md`** with a `## Progress` section at the bottom:
    - list each implemented unit of work (checked off)
@@ -220,6 +232,7 @@ items, the final Systemic Design Checkpoint has run:
    - record any key decisions made during implementation (e.g., design choices, deviations from spec)
    - list **Deferred refactorings**, each with its evidence (`path` — `Symbol`) and why it was
      deferred
+   - if the user skipped the final Systemic Design Checkpoint, say so
    - keep it brief — this is a handoff note for the next session
 
 2. **Commit the progress update** (per the `SPEC.md` rule in `git-workflow.md` Special Cases):
