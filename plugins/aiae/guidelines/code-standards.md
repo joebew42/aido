@@ -77,6 +77,9 @@ never a broad scan after every cycle:
   duplicated business rule or a boundary crossing
 - **before the feature is done** — once, over the whole diff against main
 
+The planning and before-done checks can take long and are not always needed, so they are offered
+to the user rather than run unconditionally; the on-evidence check is part of the cycle.
+
 It applies whichever testing strategy was chosen above: the testing strategy decides how to
 discover behaviour, the systemic check decides how widely to look before settling the design.
 
