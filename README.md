@@ -45,6 +45,11 @@ unsupervised.
 
 ![At every stage the agent proposes and you decide: approving the draft, spec and plan; picking what to implement; approving the commit grouping and every push; approving the PR; picking which review feedback to address](docs/human-in-the-loop.svg)
 
+For example, when you run `/aiae:1-plan`, it stops to ask where the specification comes from: a
+GitHub issue it turns into a draft, or a draft you write yourself.
+
+![/aiae:1-plan waiting for an answer: after syncing with main and finding no SPEC.md, it asks whether to start from a GitHub issue or from a SPEC.md.draft you write yourself](docs/plan-asks-for-the-spec.png)
+
 ## Install
 
 ```
