@@ -5,7 +5,7 @@ install it.
 
 ## Layout
 
-- `.claude-plugin/marketplace.json` — the marketplace `ai-augumented-engineer`, listing one plugin
+- `.claude-plugin/marketplace.json` — the marketplace `ai-augmented-engineer`, listing one plugin
 - `plugins/aiae/.claude-plugin/plugin.json` — the `aiae` plugin manifest
 - `plugins/aiae/skills/<name>/SKILL.md` — the skills, invoked as `/aiae:<name>`
 - `plugins/aiae/guidelines/` — the guidelines the skills load

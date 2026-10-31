@@ -48,8 +48,8 @@ unsupervised.
 ## Install
 
 ```
-/plugin marketplace add joebew42/ai-augumented-engineer
-/plugin install aiae@ai-augumented-engineer
+/plugin marketplace add joebew42/ai-augmented-engineer
+/plugin install aiae@ai-augmented-engineer
 ```
 
 Every skill is then available as `/aiae:<skill>`.
