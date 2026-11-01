@@ -2,9 +2,14 @@
 
 ## Commits
 
-### Before Committing
-- ensure no linting issues are present
-- ensure all relevant tests pass
+### Before Every Commit
+
+This is the per-commit gate, including for review fixes. It also applies before marking a task complete.
+
+- linting is clean
+- the relevant tests pass with no regressions. Relevant means the unit's own tests, its collaborators' tests, and the tests of every file the change edited (`git diff --name-only main...HEAD`), not only the file directly modified and not the enclosing directory, whose unrelated failures can't be told from a regression
+- when a value, constant, flag or API is changed or removed, search for all references to the old form, including comments and documentation, and update them in the same change
+- read the diff and delete every comment it introduces that "Comments" in `code-standards.md` doesn't allow
 
 ### Commit Message Format
 - use always lower case
@@ -56,58 +61,10 @@ chore: update dependencies
 - commit **stand-alone** refactoring separately with a `refactor:` prefix — that is any refactoring of code that existed before the feature, even when the feature motivated it (an enabling refactoring planned up front, or a systemic one found while implementing); it lands before the feature commits that depend on it. Refactoring the feature's own new code stays inside that feature's commit
 
 ### Special Cases
-- the feature specification — `SPEC.md`, or the file named per "The Specification File" in `project-conventions.md` — is committed as `docs: feature specification`, and that commit should always be the **first** in history
+- the feature specification — `SPEC.md`, or the file named per "The Specification File" in `specification.md` — is committed as `docs: feature specification`, and that commit should always be the **first** in history
 - squash later `SPEC.md` edits into that original docs commit **only while history is unpushed**; once it is pushed, add a new `docs: update feature specification` commit instead
 - the very last commit settles what happens to `SPEC.md`: by default a `revert: docs: feature specification` that removes it, or — when the user chooses to keep it — a `docs: move feature specification to <path>` that moves it into the repository's documentation
 - if commits are already pushed, add new commits instead (do not alter commit history)
-
-## Multi-Phase PR Context
-
-When a PR is part of a multi-phase feature, the Context section should reference the main plan PR by number (e.g., `#40`) rather than an external ticket. This keeps reviewers within GitHub and gives them direct access to the full feature specification without needing access to an external tracker.
-
-## PR Roadmap Format
-
-Use roadmap sections in PRs that are part of a multi-phase feature.
-
-### Item Format
-
-- **Completed items** — include PR number reference:
-  `- [x] <description> (#PR_NUMBER)`
-
-- **Current PR** — mark with "THIS PR" instead of a number:
-  `- [x] <description> (**THIS PR**)`
-
-- **Pending items** — no PR references:
-  `- [ ] <description>`
-
-### Writing Good Roadmap Descriptions
-
-- use specific, implementation-focused language — state what will be built or changed
-- describe what the system will do, not vague outcomes
-- include technical details when they clarify the phase (e.g., "API support", "keep completed tasks for 30 days")
-- match language and terminology from the main feature specification
-
-**API prefixes** — when the project exposes several APIs and a step changes one of them, prefix
-the step with that API's name (e.g. `PublicAPI:`), using the names the project already uses.
-
-### Example
-
-```markdown
-## Roadmap
-
-- [x] PublicAPI: Add due date and priority fields to the Task type (#12345)
-- [x] Keep completed tasks for 30 days instead of deleting them (**THIS PR**)
-- [ ] Add API support for filtering tasks by completion state
-- [ ] Hide completed tasks from the default TODO list
-```
-
-### Common Mistakes
-
-```markdown
-- [ ] Let collaborators edit shared lists (#43)  ← Wrong: no PR references on pending items
-- [x] Update reminders (**THIS PR**)             ← Too vague: update what about reminders?
-- [ ] Add API support                            ← Too vague: support for what?
-```
 
 ## Branch Management
 

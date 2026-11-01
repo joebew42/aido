@@ -7,13 +7,12 @@ disable-model-invocation: false
 
 Create or update a draft pull request for the current feature.
 
-`SPEC.md` and `SPEC.md.draft` stand for the spec file and its draft, resolved as "The
-Specification File" in `${CLAUDE_PLUGIN_ROOT}/guidelines/project-conventions.md` describes —
-resolve it before reading or writing either.
+`SPEC.md` and `SPEC.md.draft` stand for the spec file and its draft: resolve them first, per "The
+Specification File" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`.
 
 ## Step 0: Load Guidelines
 
-Load `${CLAUDE_PLUGIN_ROOT}/guidelines/git-workflow.md` — the source of truth for the **pushing** and **branch** conventions used below — and check the host repository's agent instruction files (see `project-conventions.md`) for any PR conventions of its own.
+Load `${CLAUDE_PLUGIN_ROOT}/guidelines/git-workflow.md` — the source of truth for the **pushing** and **branch** conventions used below — and `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`, and check the host repository's agent instruction files (see `project-conventions.md`) for any PR conventions of its own.
 
 ### Read the specification
 
@@ -26,7 +25,7 @@ it from wherever it is now:
   `revert: docs: feature specification` commit — `git show <revert-sha>^:<spec-file>`
 
 Note whether it has numbered acceptance criteria (see "The Specification Structure" in
-`${CLAUDE_PLUGIN_ROOT}/guidelines/project-conventions.md`). Without them, skip every
+`${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`). Without them, skip every
 acceptance-criteria step below.
 
 ## Step 1: Push Changes
@@ -126,7 +125,6 @@ The format rules (narrative vs. bullets, Context style) apply to the Default Sec
 - [ ] **DO NOT hard-wrap prose** — in PR/issue bodies GitHub renders a single newline as a line break, so fixed-column wrapping makes the rendered text choppy and stops it reflowing. One line per paragraph. (Code blocks and lists exempt.)
 - [ ] **Use less verbose and less convoluted language** — a reader should get the context and the purpose of the PR quickly, without unpacking long or complicated sentences
 - [ ] keep tone descriptive and concise
-- [ ] use paragraph/narrative style, not bullet lists
 - [ ] if follow-up PR: mention previous PR in Context section
 - [ ] if follow-up PR: include updated Roadmap section
 - [ ] if `## Progress` records a **deferred acceptance criterion**: it is named in a **Not Included** section
@@ -136,7 +134,7 @@ The format rules (narrative vs. bullets, Context style) apply to the Default Sec
 
 ### Roadmap Section (Multi-Phase Features Only)
 
-When including a Roadmap section in a PR that is part of a multi-phase feature, follow the format rules in `${CLAUDE_PLUGIN_ROOT}/guidelines/git-workflow.md` (PR Roadmap Format section).
+For a PR that is part of a multi-phase feature, follow `${CLAUDE_PLUGIN_ROOT}/guidelines/pr-roadmap.md`: its rule for the Context section, and the format of the Roadmap section.
 
 **Process:**
 1. Reference the main feature specification or tracking PR for phase descriptions
@@ -187,4 +185,4 @@ After creating the PR:
 
 ## Step 5: Suggest Repository Conventions
 
-After creating the PR, follow the "Evolving Guidelines" process in `${CLAUDE_PLUGIN_ROOT}/guidelines/code-standards.md`. It only proposes additions to this repository's `CLAUDE.md` or `AGENTS.md`, chosen by the user through `AskUserQuestion`.
+After creating the PR, follow the process in `${CLAUDE_PLUGIN_ROOT}/guidelines/evolving-guidelines.md`. It only proposes additions to this repository's `CLAUDE.md` or `AGENTS.md`, chosen by the user through `AskUserQuestion`.

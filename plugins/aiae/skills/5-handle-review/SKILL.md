@@ -7,9 +7,8 @@ disable-model-invocation: false
 
 Plan and implement changes based on PR review and comments.
 
-`SPEC.md` and `SPEC.md.draft` stand for the spec file and its draft, resolved as "The
-Specification File" in `${CLAUDE_PLUGIN_ROOT}/guidelines/project-conventions.md` describes —
-resolve it before reading or writing either.
+`SPEC.md` and `SPEC.md.draft` stand for the spec file and its draft: resolve them first, per "The
+Specification File" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`.
 
 ## Step 0: Load Context
 
@@ -17,6 +16,7 @@ Before any implementation work:
 
 - load the global guideline files once:
   - `${CLAUDE_PLUGIN_ROOT}/guidelines/code-standards.md`
+  - `${CLAUDE_PLUGIN_ROOT}/guidelines/tdd.md`
   - `${CLAUDE_PLUGIN_ROOT}/guidelines/git-workflow.md`
   - `${CLAUDE_PLUGIN_ROOT}/guidelines/project-conventions.md`
   - `${CLAUDE_PLUGIN_ROOT}/guidelines/testing-principles.md`, if testing patterns are relevant
@@ -35,13 +35,9 @@ Before any implementation work:
 4. implement each approved change, run quality checks, then commit separately
 5. do NOT add comments to the PR - the user will handle communication with reviewers
 
-## Quality Checks (BEFORE EVERY COMMIT)
+## Quality Checks
 
-**Checklist - ALL must pass:**
-- [ ] run the full relevant test suite (not just the directly modified file)
-- [ ] run linting and fix any issues
-- [ ] verify no regressions introduced
-- [ ] verify no failing tests remain
+Apply "Before Every Commit" in `git-workflow.md` before every commit.
 
 ## Important Conventions
 
@@ -60,7 +56,7 @@ Before any implementation work:
 
 ## Suggest Repository Conventions
 
-After pushing, follow the "Evolving Guidelines" process in `${CLAUDE_PLUGIN_ROOT}/guidelines/code-standards.md`. It only proposes additions to this repository's `CLAUDE.md` or `AGENTS.md`, chosen by the user through `AskUserQuestion`.
+After pushing, follow the process in `${CLAUDE_PLUGIN_ROOT}/guidelines/evolving-guidelines.md`. It only proposes additions to this repository's `CLAUDE.md` or `AGENTS.md`, chosen by the user through `AskUserQuestion`.
 
 Review comments can reveal conventions the codebase holds but hasn't written down. They can also be one reviewer's take on one file — the two look alike at the moment you read them, so run every candidate through the **generality test** in that process before presenting anything. Most review feedback is about *this* code and produces no convention; expect to propose nothing.
 

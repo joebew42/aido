@@ -28,10 +28,6 @@ test "completing an already completed task is rejected":
     assert completed_task(title: "Pay rent", completed_at: "2026-10-01").complete() == Rejected
 ```
 
-**Why:** the separation makes the cause (Act) and the effect (Assert) obvious, keeps one
-behaviour per test, and produces clearer failures — you can see exactly which call and which
-expectation broke.
-
 ## Test Collaboration, Real Behaviour End-to-End
 
 Thin **infrastructure that calls in** (controller, API endpoint, CLI handler, etc.) exists to
@@ -66,13 +62,9 @@ integration test drives the endpoint against the real service and database.
 ### Keep the stub in the test that needs it
 
 Set the stub up **inside the example**, as part of its Arrange step — not in a shared setup hook
-(`before`, `beforeEach`, `setUp`) or a fixture shared across the group. The stub is the test's setup; hoisting it splits Arrange away from
-the Act and Assert that depend on it, so the example no longer reads top-to-bottom.
-
-Hoisting also hides mismatches between what each example sets up and what it actually needs. A
-shared setup hook that stubs a return value silently hands that return value to examples
-that only assert on the arguments — inlining makes the unused half visible and lets each example
-stub exactly what it uses.
+(`before`, `beforeEach`, `setUp`) or a fixture shared across the group. Hoisting it splits Arrange
+from the Act and Assert that depend on it, and hands every example a return value only some of them
+use.
 
 ```
 # ❌ Arrange lives somewhere else; both examples get a return value only one of them uses
@@ -107,9 +99,8 @@ The same rule applies when several call sites delegate to one shared service —
 is most often missed. Each call site's test asserts only that the service was called with the
 expected arguments. What the service *does* is verified **once**, in its own tests.
 
-Re-asserting the downstream effects at every call site multiplies the same coverage by the number of
-call sites, and each new effect added to the shared service then has to be added to every one of
-those tests — so they drift, and a missing effect at one site looks identical to a deliberate one.
+Re-asserting the downstream effects at every call site multiplies the same coverage, and the copies
+drift: a missing effect at one site looks identical to a deliberate one.
 
 ```
 # ❌ Seven call sites x three effects = 21 examples asserting the same three things
@@ -132,28 +123,8 @@ describe ListShared:
     test "adds the list to the collaborator's sidebar"
 ```
 
-**Before extracting the shared service**, the per-effect assertions at each call site were correct —
-they were the only place that behaviour existed. Once the extraction lands, collapse them: the
-extraction is not finished while the old assertions remain.
-
-## Scope the Pre-Commit Suite to What the Change Touches
-
-`code-standards.md` requires running "the full relevant test suite, not just the test for the file
-directly modified". **Relevant** has an upper bound as well as a lower one: the unit's own tests,
-the tests of its collaborators, and the tests of every file the change actually edited. It does
-**not** mean the enclosing directory.
-
-Reaching for a whole directory (all request tests, all model tests) is not extra safety — it is a worse signal. It sweeps in tests the change cannot affect, so any failure among
-them has to be disproved before the commit can proceed, and a genuinely broken pre-existing test
-looks identical to a regression you just introduced. The targeted set runs in seconds and fails
-for reasons you can act on.
-
-Derive the list mechanically from the diff rather than by directory:
-
-```sh
-git diff --name-only main...HEAD          # what changed
-# → run each changed test, the test for each changed source file, and their collaborators' tests
-```
+Once a shared service is extracted, collapse the per-effect assertions at each call site: the
+extraction is not finished while they remain.
 
 ## Assert Literal Expected Values, Not Recomputed Ones
 
@@ -175,145 +146,29 @@ literal, capture it once from the real output (a runner or a first test run) and
 
 ## Avoid Flaky Tests: Precise Assertions Over Partial Matches
 
-**Core Rule:** Assertions must be specific enough to isolate the behavior under test from unrelated dynamic data.
+**Core Rule:** Assertions must be specific enough to isolate the behavior under test from unrelated
+dynamic data. Before asserting on a short string or number, ask: **"Could this match unrelated
+data?"** IDs, counts, dates, prices, status words ("active", "complete"), generic terms ("test",
+"admin") and timestamps all collide easily.
 
-### The Problem
-
-Tests become flaky when assertions match unintended data. This typically happens when:
-
-1. **Auto-generated data** contains values that collide with test assertions
-2. **Vague assertions** match partial strings or numbers that appear in multiple contexts
-
-### Example: Due Date Filtering
-
-A test filtered TODO items by their due day and verified results, but the assertion was too vague:
+- **assert on complete, contextual values** rather than fragments
+- **scope assertions** to the relevant region of the interface
+- **control test data**: explicit, deterministic values instead of auto-generated ones
+- **use semantic selectors** (data attributes, IDs, classes) over text matching for dynamic content
+- **write assertions that fail clearly**, so the failure says what matched and where
 
 ```
-# ❌ Flaky - "20" matched generated list name "List 0020"
-- Filter tasks due on day "10"
-- Assert page contains "10"
-- Assert page does NOT contain "20"  # Failed when a generated list name or ID contained "20"
-```
-
-**The fix:** Assert on complete, contextual values:
-
-```
-# ✅ Stable - full context prevents collisions
-- Assert page contains "Pay rent — due Oct 10" (complete task)
-- Assert page does NOT contain "Renew passport — due Oct 20"
-```
-
-### Example: Task Status Filtering
-
-Testing a TODO list filtered by task status:
-
-```
-# ❌ Flaky - "done" and "undone" could match task titles, notes, etc.
-- Filter tasks by status: "done"
-- Assert page contains "done"
-- Assert page does NOT contain "undone"  # Fails if a note says "undone until Friday"
-```
-
-**The fix:** Use complete, meaningful identifiers:
-
-```
-# ✅ Stable - use unique, explicit task titles
-- Create task "Pay rent" with status "done"
-- Create task "Renew passport" with status "open"
-- Filter by status: "done"
-- Assert page contains "Pay rent"
-- Assert page does NOT contain "Renew passport"
-```
-
-## Guidelines to Prevent Flaky Tests
-
-### 1. Assert on Complete, Contextual Values
-
-- ❌ **Don't:** Assert on fragments that could match unrelated data
-- ✅ **Do:** Assert on complete values that include sufficient context
-
-```
-# ❌ Bad - short strings/numbers have high collision risk
-Assert page contains "5"
-Assert page contains "open"
-
-# ✅ Good - complete values are unambiguous
-Assert page contains "5 tasks left"
-Assert page contains "Task #12345: open"
-```
-
-### 2. Scope Assertions to Specific Page Regions
-
-Limit assertions to relevant sections of the interface to reduce collision with unrelated content.
-
-```
-# ✅ Better - scoped to relevant section
-Within search results section:
-  - Assert contains "Pay rent — due Oct 10"
-
-Within task status section:
-  - Assert contains "open"
-```
-
-### 3. Control Test Data Creation
-
-Use explicit, deterministic values for test data instead of auto-generated values.
-
-```
-# ❌ Risky - auto-generated values may collide
-Create task with random title
-
-# ✅ Safe - explicit, predictable test data
-Create task with:
-  - title: "Water the plants"
-  - list: "Home chores"
-```
-
-### 4. Think About Collision Domains
-
-Before asserting on short strings or numbers, ask: **"Could this match unrelated data?"**
-
-**Common collision risks:**
-- **Numbers:** IDs, counts, dates, prices, postal codes, phone numbers
-- **Status words:** "active", "pending", "complete" (may appear in usernames, descriptions)
-- **Generic terms:** "test", "user", "admin" (often used in generated data)
-- **Timestamps:** "2024", "12:00" (may appear in multiple contexts)
-
-### 5. Write Assertions That Fail Clearly
-
-Specific assertions produce actionable failure messages.
-
-```
-# ❌ Unclear failure
+# ❌ Flaky - "20" matched the generated list name "List 0020"
+Filter tasks due on day "10"
+Assert page contains "10"
 Assert page does NOT contain "20"
-→ Failure: "found '20' in page content" (where? what matched?)
 
-# ✅ Clear failure
-Assert page does NOT contain "Renew passport — due Oct 20"
-→ Failure: "found 'Renew passport — due Oct 20' in results table" (immediately actionable)
+# ✅ Stable - explicit test data, complete values, and a failure that names what matched
+Create task "Pay rent" due Oct 10, and task "Renew passport" due Oct 20
+Filter tasks due on day "10"
+Within search results: assert contains "Pay rent — due Oct 10"
+Within search results: assert does NOT contain "Renew passport — due Oct 20"
 ```
 
-### 6. Use Semantic Selectors for Precise Selection
-
-When testing dynamic content, use semantic identifiers (data attributes, IDs, classes) instead of text matching.
-
-```
-# ❌ Fragile - text may change or collide
-Assert page contains "Water the plants - due today"
-
-# ✅ Robust - semantic selector
-Assert element with data-task-id="water-plants" exists
-Assert element with data-task-id="water-plants" contains "due today"
-```
-
-## Summary Checklist
-
-Before writing an assertion, verify:
-
-- [ ] Could this value match auto-generated data elsewhere? (IDs, names, timestamps)
-- [ ] Am I asserting on a complete, meaningful value? (not just fragments)
-- [ ] Is my assertion scoped to the relevant interface region?
-- [ ] Have I controlled test data that appears in assertions? (explicit values)
-- [ ] Will the failure message clearly indicate what went wrong?
-
-**Remember:** A test that occasionally fails due to random data is worse than no test at all—it erodes trust in the entire test suite.
+A test that occasionally fails due to random data is worse than no test at all: it erodes trust in
+the entire suite.

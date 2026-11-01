@@ -8,19 +8,12 @@ disable-model-invocation: false
 Incrementally implement the feature based on specifications using **strict, incremental
 test-driven development — one test at a time**.
 
-`SPEC.md` and `SPEC.md.draft` stand for the spec file and its draft, resolved as "The
-Specification File" in `${CLAUDE_PLUGIN_ROOT}/guidelines/project-conventions.md` describes —
-resolve it before reading or writing either.
+`SPEC.md` and `SPEC.md.draft` stand for the spec file and its draft: resolve them first, per "The
+Specification File" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`.
 
-This is *test-driven*, not *test-first*. Do NOT write a whole test file up front and then satisfy
-it all at once — that collapses the feedback loop into a single big jump. Grow the tests and the
-implementation together, one small behavior per cycle, so each step is easy to supervise and
-review.
-
-Strict TDD is the default here, but it is not the only valid mode: match step size to how much
-design you must *discover* vs. *conform to*. Outer acceptance/contract tests are written test-first
-(and committed last); the units they drive are grown with strict TDD, inside-out. See the
-"Test-First vs. Strict TDD" heuristic in `${CLAUDE_PLUGIN_ROOT}/guidelines/code-standards.md`.
+Match step size to how much design you must *discover* vs. *conform to*: outer acceptance/contract
+tests are written test-first (and committed last), and the units they drive are grown with strict
+TDD, inside-out. See "Test-First vs. Strict TDD" in `${CLAUDE_PLUGIN_ROOT}/guidelines/tdd.md`.
 
 ## Step 0: Load Context
 
@@ -28,11 +21,10 @@ Before any implementation work:
 
 - check for the presence of the `SPEC.md` file — if not present, stop; if only `SPEC.md.draft`
   exists, tell the user the specification isn't approved yet and to run `/aiae:1-plan`
-- if `SPEC.md.draft` exists next to `SPEC.md`, delete it and tell the user — the approved
-  `SPEC.md` is the only specification
+- if `SPEC.md.draft` exists next to `SPEC.md`, delete it and tell the user
 - read `SPEC.md` to understand the full scope
 - note whether it has numbered acceptance criteria (`AC1`, `AC2`, …) as "The Specification
-  Structure" in `${CLAUDE_PLUGIN_ROOT}/guidelines/project-conventions.md` describes. If it has
+  Structure" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md` describes. If it has
   none, skip everything below about acceptance criteria — goal posts, the Acceptance Criteria Check
   and their Progress lines — and do not ask about them
 
@@ -41,16 +33,15 @@ Before any implementation work:
 Load these once — they apply regardless of stack:
 
 - `${CLAUDE_PLUGIN_ROOT}/guidelines/code-standards.md`
+- `${CLAUDE_PLUGIN_ROOT}/guidelines/tdd.md`
 - `${CLAUDE_PLUGIN_ROOT}/guidelines/git-workflow.md`
 - `${CLAUDE_PLUGIN_ROOT}/guidelines/testing-principles.md`
 - `${CLAUDE_PLUGIN_ROOT}/guidelines/project-conventions.md`
+- `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`
 
 ### Project conventions
 
-Gather the host repository's conventions as `${CLAUDE_PLUGIN_ROOT}/guidelines/project-conventions.md` describes: its agent
-instruction files (`CLAUDE.md` and `AGENTS.md`, root and nested), then the repository itself for
-anything they leave out. They are **authoritative on the topics they cover** — when they overlap
-with a global guideline, defer to the repository.
+Gather the host repository's conventions as `project-conventions.md` describes.
 
 Before writing the first test, make sure you know how to run a single test, the relevant suite, and
 the linter in this project. If you can't determine one of them, ask the user.
@@ -69,7 +60,7 @@ Wait for the user's response before starting implementation.
 ## Acceptance Criteria as Goal Posts
 
 The specification's acceptance criteria are the outer loop of the double loop described in "Test-First
-vs. Strict TDD" (`code-standards.md`). Before growing the units of a plan item:
+vs. Strict TDD" (`tdd.md`). Before growing the units of a plan item:
 
 - [ ] for each **automatable** criterion the item serves and that no test covers yet, write its
       outer acceptance test **test-first**, at the boundary where the behaviour is observable
@@ -87,11 +78,8 @@ on — do not write a duplicate.
 
 ## MANDATORY: Strict, Incremental TDD — One Test at a Time
 
-A unit of work (a service, a class, a method) is **not** built in one RED→GREEN jump. It grows
-through a sequence of **micro-cycles**, each adding exactly **one** new failing test plus the
-minimum code to pass it. The unit is a *sequence of cycles*, not a single cycle.
-
-**The rhythm — repeat until the unit is fully specified:**
+Grow each unit through the cycle in `tdd.md`, one behavior per micro-cycle, until it is fully
+specified:
 
 ```
 RED (one test) → GREEN (minimum code) → REFACTOR (on green) → next test
@@ -100,55 +88,24 @@ RED (one test) → GREEN (minimum code) → REFACTOR (on green) → next test
 Present each micro-cycle as its own reviewable increment so the user can follow along and
 supervise step by step. Do not race ahead to the finished implementation.
 
-### Step 1: RED — write ONE failing test
+In REFACTOR, also check:
 
-**Checklist:**
-- [ ] before the FIRST test of a unit, run the existing suite to confirm it starts from GREEN
-- [ ] write a single test for the **next smallest behavior** — one behavior, nothing more
-- [ ] run the new test, watch it fail, and confirm it fails for the **right reason**
-- [ ] do NOT write a second test while RED
-- [ ] do NOT write any implementation until the one test is failing
-
-### Step 2: GREEN — minimum code to pass that ONE test
-
-**Checklist:**
-- [ ] write the **least** code that makes the failing test pass — an "embarrassing" hardcoded
-      value is fine if that is all the current tests demand
-- [ ] choose the smallest applicable tactic, in this order of preference:
-  - **Fake it** — return a constant / hardcoded value when one test can't yet justify real logic
-  - **Triangulate** — when the next test contradicts the fake, that test is what forces you to
-    generalize; only then write the general logic
-  - **Obvious implementation** — write the real thing directly only when it is genuinely trivial
-- [ ] do NOT implement behavior, branches, or fields that no current test demands (no speculative
-      generalization — the next RED will pull them into existence)
-- [ ] run all relevant tests; confirm GREEN with no regressions
-- [ ] do NOT refactor yet — just get to green
-
-### Step 3: REFACTOR — improve quality, on green, now
-
-**Checklist:**
-- [ ] only with all tests green, look for improvements:
-  - code smells (magic numbers, duplication, etc.)
-  - Single Level of Abstraction principle
-  - SOLID principles and separation of concerns
-  - the Dependency Rule — no outward dependency introduced (application or domain code naming
-    anything in infrastructure), and no decision-making left in infrastructure
-  - conformance to the guidelines loaded in Step 0 (do not re-read them)
-- [ ] refactor in small steps, re-running tests after each step (stay green)
-- [ ] commit stand-alone refactoring separately with a `refactor:` prefix
-- [ ] did this cycle reveal a possibly shared concept, a duplicated business rule or a boundary
-      crossing? If so, run a **Systemic Design Checkpoint** (below) before the next RED
-- [ ] then return to Step 1 (RED) for the next behavior
+- the Dependency Rule — no outward dependency introduced (application or domain code naming
+  anything in infrastructure), and no decision-making left in infrastructure
+- conformance to the guidelines loaded in Step 0 (do not re-read them)
+- whether this cycle revealed a possibly shared concept, a duplicated business rule or a boundary
+  crossing. If so, run a **Systemic Design Checkpoint** (below) before the next RED
 
 **Unit done:** when every behavior the plan gives that unit has a test and all are green. Commit
-the unit (see commit strategy), then move to the next unit.
+the unit, then move to the next unit.
 
 ## Systemic Design Checkpoint
 
 The REFACTOR step looks at the code just written; this checkpoint looks beyond it. The rules —
-what to look for, the evidence rule, the four outcomes, the boundaries and when to stop — are
-"Systemic Refactoring" in `code-standards.md`, loaded in Step 0. It runs in test-first and
-strict-TDD mode alike, and **never** as a broad scan after every cycle.
+what to look for, the evidence rule, the four outcomes, the boundaries and when to stop — are in
+`${CLAUDE_PLUGIN_ROOT}/guidelines/systemic-refactoring.md`. Read it the first time a checkpoint runs; this is the one guideline
+read allowed during implementation. It runs in test-first and strict-TDD mode alike, and **never**
+as a broad scan after every cycle.
 
 ### Starting context
 
@@ -191,7 +148,7 @@ On **Run the checkpoint**, launch one `Agent` with `model: "fable"`. Brief it wi
   was actually built and to call out where they no longer hold
 - if there is an index, its directory and the **Reading the Index** steps from
   `${CLAUDE_PLUGIN_ROOT}/skills/map-architecture/SKILL.md`, copied in full
-- the "Systemic Refactoring" section and the rules it points to, copied from `code-standards.md`
+- `systemic-refactoring.md` and the rules it points to in `code-standards.md`, copied
   — the subagent has not loaded the guidelines
 - never to edit files
 - to return only findings, each with **Observation**, **Evidence** (`path` — `Symbol`),
@@ -242,34 +199,22 @@ options:
 Note each result for the `## Progress` handoff. Never record a criterion as met without its
 evidence.
 
-## Quality Checks (BEFORE EVERY COMMIT)
+## Quality Checks
 
-Apply the per-commit gate from `git-workflow.md` / `code-standards.md` (loaded in Step 0): linting clean, all relevant tests green, no regressions. Do not commit otherwise. See the **Red Flags** below for the mistakes that block a commit.
+Apply "Before Every Commit" in `git-workflow.md` before every commit. Do not commit otherwise.
 
-## Commit Messages
+## Commits
 
-Follow the commit conventions in `git-workflow.md` (loaded in Step 0): lowercase, semantic prefix (`feat:`, `test:`, `refactor:`, `chore:`, `style:`, `docs:`), subject line only, never any Claude reference. The **Red Flags** below restate the ones that most often go wrong.
-
-## Implementation Strategy & Commit Boundary
-
-- follow the inside-out approach: build the most internal components first
-- commit each completed unit as it lands — an **atomic, per-class/module commit** with its tests; these are the working commits
-- this skill produces clean per-unit commits as you go; **final history shaping** (ordering, splitting migrations, grouping API commits, the `SPEC.md` outcome) is **not** done here — `/aiae:3-organize-commits` owns it
-- the authoritative commit-organization strategy (inside-out ordering, request-tests-last, API-vs-application separation, migration separation) lives in `git-workflow.md`
+Follow `git-workflow.md`. Commit each completed unit as it lands, inside-out: an **atomic,
+per-class/module commit** with its tests. **Final history shaping** is not done here —
+`/aiae:3-organize-commits` owns it.
 
 ## Red Flags to Watch For
 
 If you catch yourself doing any of these, STOP immediately:
-- ❌ Writing implementation code before writing the test
-- ❌ Writing more than one failing test before going green (batching tests up front)
-- ❌ Writing the whole test file at once instead of one test per cycle
-- ❌ Implementing logic, branches, or fields that no current test demands (speculative generalization)
-- ❌ Jumping straight to the full implementation when a fake-it / triangulate step was available
-- ❌ Committing without running tests
-- ❌ Including "Claude" or "Generated with" in commit messages
-- ❌ Skipping the RED phase (test must fail first)
-- ❌ Using uppercase in commit messages
-- ❌ Committing with failing tests or linting errors
+- ❌ Breaking the cycle in `tdd.md`: code before its failing test, more than one failing test, logic
+  no test demands, or skipping a fake-it / triangulate step that was available
+- ❌ Committing without the per-commit gate, or against the commit message rules
 - ❌ Merging two pieces of code because they look alike, without confirming they share a business meaning
 - ❌ Cleaning up unrelated modules during a systemic checkpoint
 - ❌ Running a broad codebase scan after every cycle

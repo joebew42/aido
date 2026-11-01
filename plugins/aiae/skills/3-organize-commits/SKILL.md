@@ -7,9 +7,8 @@ disable-model-invocation: false
 
 Organize commits into a clean, logical history following project conventions.
 
-`SPEC.md` and `SPEC.md.draft` stand for the spec file and its draft, resolved as "The
-Specification File" in `${CLAUDE_PLUGIN_ROOT}/guidelines/project-conventions.md` describes —
-resolve it before reading or writing either.
+`SPEC.md` and `SPEC.md.draft` stand for the spec file and its draft: resolve them first, per "The
+Specification File" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`.
 
 ## Step 0: Load Guidelines
 
@@ -18,6 +17,7 @@ Before organizing commits, load:
 - `${CLAUDE_PLUGIN_ROOT}/guidelines/git-workflow.md` — all commit conventions in that file **must** be respected
 - `${CLAUDE_PLUGIN_ROOT}/guidelines/project-conventions.md` — then gather the host repository's
   conventions as it describes; Step 1 needs them to place `SPEC.md`
+- `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`
 
 Do NOT skip this step.
 
@@ -58,14 +58,7 @@ The chosen outcome becomes the **last** commit of the proposed structure below:
 
 ## Commit Organization Rules
 
-All commit-organization rules are defined in `git-workflow.md` (loaded above) — that is the single source of truth. This skill **applies** them to an existing working tree / history; it does not redefine them. In scope:
-
-- semantic, lowercase, subject-only messages (`feat:`, `test:`, `refactor:`, `chore:`, `style:`, `docs:`); test-only changes use `test:`; no Claude reference
-- group per class/module (tests with their code); inside-out ordering; request/acceptance tests committed last
-- keep API-layer commits separate from application code; put implementations of collaborators in their own commit, after application code and before API-layer commits; keep database migrations and any generated schema snapshot in their own commit, separate from model code
-- refactoring of pre-existing code in its own `refactor:` commit, before the feature commits that depend on it; refactoring of the feature's own new code stays inside the feature commit
-- the `docs: feature specification` commit stays **first**; squash `SPEC.md` edits into it only while unpushed, otherwise add `docs: update feature specification`; the very last commit is the `SPEC.md` outcome chosen in Step 1
-- before committing: linting clean and all tests green
+All commit-organization rules are defined in `git-workflow.md` (loaded above); this skill **applies** them to an existing working tree / history. Its "Before Every Commit" gate applies to every commit made here. The very last commit is the `SPEC.md` outcome chosen in Step 1.
 
 This skill owns **final history shaping** (reordering, splitting, the `SPEC.md` outcome); `/aiae:2-implement` produced the per-unit working commits.
 
@@ -97,15 +90,7 @@ After organizing commits, verify ALL of the following:
 - [ ] The last commit carries the `SPEC.md` outcome chosen in Step 1: "revert: docs: feature specification" (default) or "docs: move feature specification to <path>" (if docs present)
 - [ ] No `SPEC.md.draft` is left in the working tree
 - [ ] Docs commit is the FIRST commit in history (if docs present)
-- [ ] All commit messages are lowercase
-- [ ] All commits use semantic prefixes (feat:, test:, refactor:, chore:, style:, docs:)
-- [ ] Database migrations and any generated schema snapshot are in their own commit, separate from model code
-- [ ] Tests and implementation are grouped per class/module
-- [ ] API changes are separate from application code changes
-- [ ] Implementations of collaborators are in their own commit, after application code and before API-layer commits
-- [ ] Inside-out strategy followed (internal → outer)
-- [ ] Request, integration or acceptance tests are last (if present)
-- [ ] No Claude Code references in any commit message
-- [ ] No commit body messages (subject line only)
-- [ ] No linting issues present
+- [ ] Every commit message follows "Commit Message Format" in `git-workflow.md`
+- [ ] The order and grouping follow "Commit Organization Strategy" in `git-workflow.md`
+- [ ] "Before Every Commit" in `git-workflow.md` holds
 - [ ] All tests pass
