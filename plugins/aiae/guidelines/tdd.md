@@ -9,19 +9,22 @@
 Each cycle covers exactly **one** new behavior. A class or service is built from a *sequence* of
 these cycles, not a single big one.
 
-0. **PRE-RED**: Before adding the first test to an existing suite, run it to confirm it starts GREEN
-1. **RED**: Write **one** failing test for the next smallest behavior — nothing more. Watch it
-   fail for the right reason before writing any implementation.
+0. **PRE-RED**: Before the first test of a unit, run the relevant existing tests to confirm they start GREEN
+1. **RED**: Write **one** failing test for the next smallest behavior — nothing more, and no second
+   test while red. Watch it fail for the right reason before writing any implementation.
 2. **GREEN**: Write the **minimum** code to make that one test pass. Prefer, in order:
-   - **Fake it** — return a constant when one test can't yet justify real logic
+   - **Fake it** — return a constant when one test can't yet justify real logic; an embarrassing
+     hardcoded value is fine if that is all the current tests demand
    - **Triangulate** — let the next test force you to generalize the fake
    - **Obvious implementation** — write the real thing directly only when it is trivial
 
-   Do not implement behavior that no current test demands (no speculative generalization).
-3. **REFACTOR**: After tests pass, review code and refactor if needed:
-   - check for code smells, SOLID violations, abstraction issues
-   - refactor while keeping tests green
-   - commit stand-alone refactoring separately from feature work
+   Do not implement behavior that no current test demands (no speculative generalization). Run all
+   relevant tests to confirm green with no regressions, and do not refactor yet.
+3. **REFACTOR**: With all tests green, review the code and refactor if needed:
+   - check for code smells (magic numbers, duplication), Single Level of Abstraction, SOLID
+     violations and separation of concerns
+   - refactor in small steps, re-running tests after each
+   - commit stand-alone refactoring separately with a `refactor:` prefix
 
    Then return to RED for the next behavior.
 
