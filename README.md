@@ -6,7 +6,8 @@ A Claude Code plugin for a spec-driven, test-driven workflow: the agent writes t
 and the PRs, you approve each step, and it works with any stack.
 
 `aido` stands for "AI do" and echoes `sudo`: the agent does the work, on your say-so. It serves
-AI-Augmented Engineering: more of the work done by the agent, with the judgement still yours.
+[AI-Augmented Engineering](#why-aido-ai-augmented-engineering): more of the work done by the agent,
+with the judgement still yours.
 
 ![At every stage the agent proposes and you decide: approving the draft, spec and plan; picking what to implement; approving the commit grouping and every push; approving the PR; picking which review feedback to address](docs/human-in-the-loop.svg)
 
