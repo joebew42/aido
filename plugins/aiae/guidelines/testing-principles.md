@@ -32,22 +32,32 @@ test "completing an already completed task is rejected":
 behaviour per test, and produces clearer failures — you can see exactly which call and which
 expectation broke.
 
-## Test Collaboration at the Boundary, Real Behaviour End-to-End
+## Test Collaboration, Real Behaviour End-to-End
 
-A thin **boundary/adapter** layer (controller, API endpoint, CLI handler, etc.) exists
-to translate input, delegate to a collaborator (a service / use-case), and map the result back. Its
-unit test should document that **collaboration**, not re-exercise the collaborator:
+Thin **infrastructure that calls in** (controller, API endpoint, CLI handler, etc.) exists to
+translate input, delegate to an application service, and map the result back. Its unit test should
+document that **collaboration**, not re-exercise the service:
 
-- **stub the collaborator** and assert it is **called with the expected input** — or assert it is
-  **not called** when the boundary short-circuits (e.g. an auth guard, a validation refusal)
-- assert the boundary **maps / passes through** the collaborator's result correctly
-- mocking the collaborator is appropriate here — it is a genuine service boundary, not an internal
-  data structure (do not mock internal data access such as ORM query methods — create real records
-  and let the code find them)
+- **stub the service** and assert it is **called with the expected input** — or assert it is
+  **not called** when it short-circuits (e.g. an auth guard, a validation refusal)
+- assert it **maps / passes through** the service's result correctly
+- mocking the service is appropriate here — it is a genuine service boundary, not an internal
+  data structure
 
-Leave the **real, end-to-end behaviour** (the boundary + the real collaborator + persistence) to
-integration / acceptance tests. This keeps boundary tests fast and focused and avoids duplicating
-the collaborator's own unit tests.
+Application and domain code follow the same split, down to the collaborators they call out to:
+
+- **unit tests of application and domain code mock their collaborators to the contract**, such as
+  that of `TaskRepository`, because that contract is controlled and known
+- **a real implementation is tested alone against the real thing**: `PostgresqlTaskRepository`
+  against a PostgreSQL database
+- **acceptance and integration tests use the real implementations**
+- **do not mock what the project does not control**, such as ORM query methods or third-party
+  clients. Where ORM models are their own repositories, there is no separate contract to mock:
+  create real records and let the code find them
+
+Leave the **real, end-to-end behaviour** (infrastructure + the real service + persistence) to
+integration / acceptance tests. This keeps these unit tests fast and focused and avoids duplicating
+the service's own unit tests.
 
 **Example (API endpoint):** the endpoint test stubs `Service.call`, asserts it received the mapped
 arguments (and is skipped for a guest), and asserts the endpoint returned the right result type; the
@@ -91,11 +101,11 @@ test "falls back to the default list color when none is set":
 Reserve shared setup hooks for genuinely ambient setup that every example in the group depends on and none
 of them is *about* — freezing time, configuring a client, silencing a logger.
 
-### One shared collaborator, many call sites: assert the collaboration, once each
+### One shared service, many call sites: assert the collaboration, once each
 
 The same rule applies when several call sites delegate to one shared service — and this is where it
-is most often missed. Each call site's test asserts only that the collaborator was called with the
-expected arguments. What the collaborator *does* is verified **once**, in its own tests.
+is most often missed. Each call site's test asserts only that the service was called with the
+expected arguments. What the service *does* is verified **once**, in its own tests.
 
 Re-asserting the downstream effects at every call site multiplies the same coverage by the number of
 call sites, and each new effect added to the shared service then has to be added to every one of
