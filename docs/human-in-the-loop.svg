@@ -14,7 +14,7 @@
   <text x="202" y="40" font-size="13" fill="#57606a">explores, drafts the spec, writes tests and code, shapes commits and the PR</text>
   <rect x="30" y="58" width="184" height="58" rx="10" fill="#ddf4ff" stroke="#54aeff"/>
   <text x="122.0" y="83" text-anchor="middle" font-size="15" font-weight="600" fill="#1f2328">1 · Plan</text>
-  <text x="122.0" y="103" text-anchor="middle" font-size="11" fill="#57606a" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">/aiae:1-plan</text>
+  <text x="122.0" y="103" text-anchor="middle" font-size="11" fill="#57606a" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">/aido:1-plan</text>
   <path d="M216,87 L232,87" stroke="#0969da" stroke-width="2" marker-end="url(#flow)"/>
   <path d="M122.0,116 L122.0,150" stroke="#1a7f37" stroke-width="2" stroke-dasharray="4 4"/>
   <rect x="30" y="150" width="184" height="186" rx="10" fill="#dafbe1" stroke="#4ac26b"/>
@@ -28,7 +28,7 @@
   <text x="62" y="302" font-size="13" fill="#1f2328">start implementing</text>
   <rect x="234" y="58" width="184" height="58" rx="10" fill="#ddf4ff" stroke="#54aeff"/>
   <text x="326.0" y="83" text-anchor="middle" font-size="15" font-weight="600" fill="#1f2328">2 · Implement</text>
-  <text x="326.0" y="103" text-anchor="middle" font-size="11" fill="#57606a" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">/aiae:2-implement</text>
+  <text x="326.0" y="103" text-anchor="middle" font-size="11" fill="#57606a" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">/aido:2-implement</text>
   <path d="M420,87 L436,87" stroke="#0969da" stroke-width="2" marker-end="url(#flow)"/>
   <path d="M326.0,116 L326.0,150" stroke="#1a7f37" stroke-width="2" stroke-dasharray="4 4"/>
   <rect x="234" y="150" width="184" height="186" rx="10" fill="#dafbe1" stroke="#4ac26b"/>
@@ -42,7 +42,7 @@
   <text x="266" y="302" font-size="13" fill="#1f2328">run the final check</text>
   <rect x="438" y="58" width="184" height="58" rx="10" fill="#ddf4ff" stroke="#54aeff"/>
   <text x="530.0" y="83" text-anchor="middle" font-size="15" font-weight="600" fill="#1f2328">3 · Organize commits</text>
-  <text x="530.0" y="103" text-anchor="middle" font-size="11" fill="#57606a" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">/aiae:3-organize-commits</text>
+  <text x="530.0" y="103" text-anchor="middle" font-size="11" fill="#57606a" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">/aido:3-organize-commits</text>
   <path d="M624,87 L640,87" stroke="#0969da" stroke-width="2" marker-end="url(#flow)"/>
   <path d="M530.0,116 L530.0,150" stroke="#1a7f37" stroke-width="2" stroke-dasharray="4 4"/>
   <rect x="438" y="150" width="184" height="186" rx="10" fill="#dafbe1" stroke="#4ac26b"/>
@@ -54,7 +54,7 @@
   <text x="470" y="262" font-size="13" fill="#1f2328">push or force push</text>
   <rect x="642" y="58" width="184" height="58" rx="10" fill="#ddf4ff" stroke="#54aeff"/>
   <text x="734.0" y="83" text-anchor="middle" font-size="15" font-weight="600" fill="#1f2328">4 · Create PR</text>
-  <text x="734.0" y="103" text-anchor="middle" font-size="11" fill="#57606a" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">/aiae:4-create-pr</text>
+  <text x="734.0" y="103" text-anchor="middle" font-size="11" fill="#57606a" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">/aido:4-create-pr</text>
   <path d="M828,87 L844,87" stroke="#0969da" stroke-width="2" marker-end="url(#flow)"/>
   <path d="M734.0,116 L734.0,150" stroke="#1a7f37" stroke-width="2" stroke-dasharray="4 4"/>
   <rect x="642" y="150" width="184" height="186" rx="10" fill="#dafbe1" stroke="#4ac26b"/>
@@ -68,7 +68,7 @@
   <text x="674" y="302" font-size="13" fill="#1f2328">adopt new conventions</text>
   <rect x="846" y="58" width="184" height="58" rx="10" fill="#ddf4ff" stroke="#54aeff"/>
   <text x="938.0" y="83" text-anchor="middle" font-size="15" font-weight="600" fill="#1f2328">5 · Handle review</text>
-  <text x="938.0" y="103" text-anchor="middle" font-size="11" fill="#57606a" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">/aiae:5-handle-review</text>
+  <text x="938.0" y="103" text-anchor="middle" font-size="11" fill="#57606a" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">/aido:5-handle-review</text>
   <path d="M938.0,116 L938.0,150" stroke="#1a7f37" stroke-width="2" stroke-dasharray="4 4"/>
   <rect x="846" y="150" width="184" height="186" rx="10" fill="#dafbe1" stroke="#4ac26b"/>
   <use href="#you" x="864" y="178"/>

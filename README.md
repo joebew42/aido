@@ -1,8 +1,51 @@
-# AI-Augmented Engineer
+# aido
 
-A Claude Code plugin marketplace with one plugin, `aiae`: a stack-agnostic, test-driven engineering
-workflow. The skills carry no language, framework or third-party conventions of their own — they
-read them from the repository they are working in (its `CLAUDE.md` and `AGENTS.md`).
+**AI does, you decide.**
+
+A Claude Code plugin for a spec-driven, test-driven workflow: the agent writes the spec, the code
+and the PRs, you approve each step, and it works with any stack.
+
+`aido` stands for "AI do" and echoes `sudo`: the agent does the work, on your say-so. It serves
+AI-Augmented Engineering: more of the work done by the agent, with the judgement still yours.
+
+![At every stage the agent proposes and you decide: approving the draft, spec and plan; picking what to implement; approving the commit grouping and every push; approving the PR; picking which review feedback to address](docs/human-in-the-loop.svg)
+
+## Install
+
+```
+/plugin marketplace add joebew42/aido
+/plugin install aido@aido
+```
+
+Every skill is then available as `/aido:<skill>`. Start with `/aido:1-plan`.
+
+## Your first feature
+
+1. `/aido:1-plan` — drafts the specification in `SPEC.md.draft` (from a GitHub issue, one you
+   write, or a conversation with you), refines it with you until you approve it as `SPEC.md`, plans
+   the work, creates the branch, and offers to move on to implementation. When the change looks
+   small and clear, it proposes a lighter route: a brief specification and plan that you approve
+   once, without the enabling refactoring analysis
+2. `/aido:2-implement` — builds the feature
+3. `/aido:3-organize-commits` — cleans up the commit history, and asks whether to revert `SPEC.md`
+   (the default) or keep it in the repository's docs
+4. `/aido:4-create-pr` — creates the pull request
+5. `/aido:5-handle-review` — handles the review feedback
+
+## Recommended user settings
+
+The guidelines ask for commits and PRs without AI attribution and for no auto-memory. A plugin
+can't set these, so add them to your `~/.claude/settings.json`:
+
+```json
+{
+  "autoMemoryEnabled": false,
+  "attribution": { "commit": "", "pr": "" }
+}
+```
+
+The plugin's hooks also block commit messages with `Co-Authored-By` trailers and writes to Claude's
+memory directory.
 
 ## What is an AI-Augmented Engineer?
 
@@ -62,101 +105,63 @@ just what the plan lists:
 The agent does the work, but it stops before every decision that matters: it does not approve the
 specification, choose a refactoring that reaches into another module, rewrite history or push
 without you. The only way past these checkpoints is to deliberately run the workflow fully
-unsupervised.
+unsupervised. The diagram at the top of this page shows where it stops at each stage.
 
-![At every stage the agent proposes and you decide: approving the draft, spec and plan; picking what to implement; approving the commit grouping and every push; approving the PR; picking which review feedback to address](docs/human-in-the-loop.svg)
-
-For example, when you run `/aiae:1-plan`, it stops to ask where the specification comes from: a
+For example, when you run `/aido:1-plan`, it stops to ask where the specification comes from: a
 GitHub issue it turns into a draft, a draft you write yourself, or a conversation in which it
 interviews you and writes the draft.
 
-![/aiae:1-plan waiting for an answer: it asks whether to start from a GitHub issue, a SPEC.md.draft you write yourself, or a conversation](docs/plan-asks-for-the-spec.png)
-
-## Install
-
-```
-/plugin marketplace add joebew42/ai-augmented-engineer
-/plugin install aiae@ai-augmented-engineer
-```
-
-Every skill is then available as `/aiae:<skill>`.
-
-### Recommended user settings
-
-The guidelines ask for commits and PRs without AI attribution and for no auto-memory. A plugin
-can't set these, so add them to your `~/.claude/settings.json`:
-
-```json
-{
-  "autoMemoryEnabled": false,
-  "attribution": { "commit": "", "pr": "" }
-}
-```
-
-The plugin's hooks also block commit messages with `Co-Authored-By` trailers and writes to Claude's
-memory directory.
+![/aido:1-plan waiting for an answer: it asks whether to start from a GitHub issue, a SPEC.md.draft you write yourself, or a conversation](docs/plan-asks-for-the-spec.png)
 
 ## Skills
 
 ### Single-phase feature
 
-- `/aiae:1-plan` — draft, refine and plan a feature into `SPEC.md`
-- `/aiae:2-implement` — implement the feature with TDD
-- `/aiae:3-organize-commits` — organize the commit history
-- `/aiae:4-create-pr` — create a pull request
-- `/aiae:5-handle-review` — handle PR review feedback
+- `/aido:1-plan` — draft, refine and plan a feature into `SPEC.md`
+- `/aido:2-implement` — implement the feature with TDD
+- `/aido:3-organize-commits` — organize the commit history
+- `/aido:4-create-pr` — create a pull request
+- `/aido:5-handle-review` — handle PR review feedback
 
 ### Multi-phase feature
 
-- `/aiae:multi-phase-spec-pr` — create the specification tracking PR
-- `/aiae:multi-phase-switch` — switch to the main plan branch
-- `/aiae:multi-phase-sync` — sync the main plan with progress
+- `/aido:multi-phase-spec-pr` — create the specification tracking PR
+- `/aido:multi-phase-switch` — switch to the main plan branch
+- `/aido:multi-phase-sync` — sync the main plan with progress
 
 ### Utilities
 
-- `/aiae:resolve-migration-conflict` — resolve database migration conflicts after a rebase, with any migration tool
-- `/aiae:pr-review` — review a PR from a reviewer's perspective (summary, focus areas, safety assessment)
-- `/aiae:stabilize` — take over a PR, remote branch, or local changes made outside this workflow
-- `/aiae:map-architecture` — build or update a slim index of the repo's domain areas and their building blocks
-- `/aiae:assess-architecture` — assess the architecture area by area and open GitHub issues for the refactorings you pick
+- `/aido:resolve-migration-conflict` — resolve database migration conflicts after a rebase, with any migration tool
+- `/aido:pr-review` — review a PR from a reviewer's perspective (summary, focus areas, safety assessment)
+- `/aido:stabilize` — take over a PR, remote branch, or local changes made outside this workflow
+- `/aido:map-architecture` — build or update a slim index of the repo's domain areas and their building blocks
+- `/aido:assess-architecture` — assess the architecture area by area and open GitHub issues for the refactorings you pick
 
-## Quick start
-
-### A simple feature
-
-1. `/aiae:1-plan` — drafts the specification in `SPEC.md.draft` (from a GitHub issue, one you
-   write, or a conversation with you), refines it with you until you approve it as `SPEC.md`, plans
-   the work, creates the branch, and offers to move on to implementation. When the change looks
-   small and clear, it proposes a lighter route: a brief specification and plan that you approve
-   once, without the enabling refactoring analysis
-2. `/aiae:2-implement` — builds the feature
-3. `/aiae:3-organize-commits` — cleans up the commit history, and asks whether to revert `SPEC.md`
-   (the default) or keep it in the repository's docs
-4. `/aiae:4-create-pr` — creates the pull request
+## Other ways to use it
 
 ### A multi-phase feature
 
 1. Write the overall feature specification in `SPEC.md.draft`
-2. `/aiae:multi-phase-spec-pr` — creates the main tracking PR
+2. `/aido:multi-phase-spec-pr` — creates the main tracking PR
 3. For each phase (or set of parallel phases):
-   - `/aiae:1-plan` — plans the phase, and offers parallel worktrees for independent phases
-   - `/aiae:2-implement`, `/aiae:3-organize-commits`, `/aiae:4-create-pr`
-   - `/aiae:multi-phase-sync` — updates the main plan and starts the next phase
+   - `/aido:1-plan` — plans the phase, and offers parallel worktrees for independent phases
+   - `/aido:2-implement`, `/aido:3-organize-commits`, `/aido:4-create-pr`
+   - `/aido:multi-phase-sync` — updates the main plan and starts the next phase
 
 ### Taking over someone else's work
 
-1. `/aiae:stabilize`, pointed at the PR, remote branch, or local changes
+1. `/aido:stabilize`, pointed at the PR, remote branch, or local changes
 2. Choose whether to reimplement from scratch or carry the original changes over and adjust them
 3. Approve the plan it writes into `SPEC.md`
-4. Continue with `/aiae:2-implement`, `/aiae:3-organize-commits` and `/aiae:4-create-pr`
+4. Continue with `/aido:2-implement`, `/aido:3-organize-commits` and `/aido:4-create-pr`
 
 ### A migration conflict after a rebase
 
-Run `/aiae:resolve-migration-conflict` when another PR's migration was merged while yours was open.
+Run `/aido:resolve-migration-conflict` when another PR's migration was merged while yours was open.
 
 ## Guidelines
 
-The skills load these from `plugins/aiae/guidelines/`:
+The skills load these from `plugins/aido/guidelines/`:
 
 - `git-workflow.md` — commit conventions, the per-commit gate, branching strategy, GitHub CLI usage
 - `code-standards.md` — design principles, code quality, comments, interaction style

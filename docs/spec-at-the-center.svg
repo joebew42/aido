@@ -45,11 +45,11 @@
     <text x="120" y="194">5 · Handle review</text>
   </g>
   <g font-size="12" fill="#57606a" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">
-    <text x="480" y="80">/aiae:1-plan</text>
-    <text x="840" y="214">/aiae:2-implement</text>
-    <text x="756" y="500">/aiae:3-organize-commits</text>
-    <text x="204" y="500">/aiae:4-create-pr</text>
-    <text x="120" y="214">/aiae:5-handle-review</text>
+    <text x="480" y="80">/aido:1-plan</text>
+    <text x="840" y="214">/aido:2-implement</text>
+    <text x="756" y="500">/aido:3-organize-commits</text>
+    <text x="204" y="500">/aido:4-create-pr</text>
+    <text x="120" y="214">/aido:5-handle-review</text>
   </g>
 
   <!-- input -->
