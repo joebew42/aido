@@ -112,36 +112,26 @@ implements `TaskReminders` on a job queue.
 ```
 # Infrastructure, calling in — translate input, delegate, map the outcome
 endpoint CompleteTaskEndpoint(id, session):
-    if not session.logged_in:
-        return LoginRequired
-
-    outcome = complete_task.call(user_id: session.user_id, id: id)
-
-    match outcome:
-        Completed        -> return OperationSucceeded
-        NotFound         -> return TaskNotFound
+    if not session.logged_in: return LoginRequired
+    match complete_task.call(user_id: session.user_id, id: id):
+        Completed -> return OperationSucceeded
+        NotFound  -> return TaskNotFound
         AlreadyCompleted -> return TaskAlreadyCompleted
 
 # Application service — one business action, typed outcomes, no API or session in sight
 service CompleteTask(tasks: TaskRepository, reminders: TaskReminders):
     call(user_id, id):
         task = tasks.find_for(user_id, id)
-        if task is missing:
-            return NotFound
-
-        if task.complete() is Rejected:
-            return AlreadyCompleted
-
+        if task is missing: return NotFound
+        if task.complete() is Rejected: return AlreadyCompleted
         reminders.cancel_for(task)
         tasks.save(task)
-
         return Completed
 
 # Entity — has an identity, enforces its own invariant
 entity Task(id, due_date: DueDate, completed_at):
     complete():
-        if completed_at is set:
-            return Rejected
+        if completed_at is set: return Rejected
         completed_at = now
 
 # Value object — no identity, compared by value
@@ -173,14 +163,11 @@ complete_task = CompleteTask(tasks: PostgresqlTaskRepository(), reminders: Queue
   search the relevant domain directory for an existing one that already
   covers the need; prefer reusing or extending it over a parallel implementation
 - **don't invent domain vocabulary — use the language the project already speaks**: before coining
-  a term for a concept (a collective noun for two sibling models, a name for an intermediate
-  value), find out what the project already calls it. Check a glossary or domain-language doc if
-  the repo has one; otherwise read the vocabulary the code, its tests and its PR descriptions
-  already use. If a name exists, use it. If none does, treat that as information rather than a gap
-  to fill — some domains deliberately leave a concept unnamed — so name the thing for the concepts
-  the domain *does* have, or ask the team. Inventing a plausible-sounding term (`work item`,
-  `entity`, `record`) adds vocabulary nobody agreed to and that reads as domain language to the
-  next person.
+  a term for a concept, check a glossary or domain-language doc if the repo has one, then the
+  vocabulary its code, tests and PR descriptions use. If a name exists, use it. If none does, some
+  domains deliberately leave a concept unnamed, so name the thing for the concepts the domain *does*
+  have, or ask the team. A plausible-sounding term (`work item`, `entity`, `record`) reads as domain
+  language to the next person, though nobody agreed to it.
 - **consistent multi-line formatting**: when a set of similar one-line definitions (constants,
   constructor calls, etc.) needs to wrap, format them all multi-line the same way — don't leave
   only the single over-long line wrapped while the rest stay on one line
@@ -188,81 +175,43 @@ complete_task = CompleteTask(tasks: PostgresqlTaskRepository(), reminders: Queue
 ### Treat Third-Party Libraries as Black Boxes
 
 Use dependencies through their **documented public contract** — don't read a library's (or
-framework's, or lint rule's) internal source to explain *why* it behaves the way it does. The
-explanation rarely changes what you need to do, and it burns time and context. When a tool reports
-something (a linter offense, a test-matcher failure, a library raising), **fix it against the
-observable contract and re-run to verify** rather than diving into vendored source.
+framework's, or lint rule's) internal source to explain *why* it behaves the way it does. When a tool
+reports something, **fix it against the observable contract and re-run to verify**.
 
-If you genuinely feel you must inspect a third-party's internals — a suspected bug in the library,
-or undocumented behavior that is actually blocking you — **stop and ask the user first with
-`AskUserQuestion`**, stating why you think it's necessary. Reading dependency source should be a
-deliberate, approved step, never an idle reflex.
+If you must inspect a third-party's internals — a suspected bug in the library, or undocumented
+behavior that is actually blocking you — **stop and ask the user first with `AskUserQuestion`**,
+stating why.
 
 ### Comments
 
-**The default is no comment.** Well-named methods, constants and tests are the documentation. A
-comment is an exception that has to earn its place, not a courtesy you add while writing code.
-
+**The default is no comment.** Well-named methods, constants and tests are the documentation.
 Before writing one, ask: *would a competent reader of this codebase be wrong or stuck without it?*
-If the answer is no, delete it. If the answer is "they'd be slightly slower", also delete it — and
-consider whether a better name would have removed the question entirely.
+If not, delete it, and consider whether a better name would have removed the question.
 
-#### Machine-required comments are always fine
+**Machine-required comments are always fine**, because they are instructions a tool executes:
+linter, formatter, compiler and type-checker directives, file-level pragmas, and annotations a tool
+parses such as `TODO(#123)`. A directive that suppresses a rule says which rule and why in the same
+line.
 
-Some comments are not prose for a reader — they are **instructions a tool executes**. These are
-code, they are never optional, and nothing below applies to them:
+**Everything else** earns its place only when it carries knowledge that is **external to this
+codebase and unrecoverable by reading it**: a constraint imposed by another system, a non-obvious
+consequence of removing or changing the line, or a workaround whose reason is invisible locally.
+**Complex logic never qualifies**: extract a named method, introduce a domain term, or add a test
+that demonstrates the case. A warranted comment is one or two lines.
 
-- linter and formatter directives that disable or enable a rule
-- compiler and type-checker directives that suppress or annotate a check
-- file-level pragmas, such as encoding or strict-mode declarations
-- structured annotations a tool parses — `TODO(#123)` where the tracker scans for it
+**The bar applies to your diff when editing existing code:**
 
-A machine directive that suppresses a rule should say which rule and why in the same line, because
-the *suppression* is the non-obvious part.
+- do **not** add a comment to a line or method that did not have one
+- never leave a comment that describes **your own change** — git history records that
+- when you edit a line that carries a comment, update it if it is still earned, and delete it if
+  your change made it false or redundant
 
-#### Everything else must clear a much higher bar
-
-A discretionary comment earns its place only when it carries knowledge that is **external to this
-codebase and unrecoverable by reading it**. Both halves are required: if a sufficiently patient
-reader could recover the fact by following the code, a test, or a type, the comment fails the bar.
-
-- a constraint imposed by another system (an external schema that rejects a value, an API that
-  swallows errors)
-- a non-obvious consequence of removing or changing the line (why a validation is deliberately
-  *absent*; why insert order matters)
-- a workaround whose reason is invisible locally (a SQL `COALESCE` needed to treat `NULL` as blank)
-
-**Complex logic is not on that list, and never qualifies.** Difficulty is recoverable by reading —
-it is a signal to extract a named method, introduce a domain term, or add a test that demonstrates
-the case. Explaining a tangle in prose leaves the tangle in place and adds a second thing to keep
-in sync. Untangle it instead.
-
-#### Code you are editing
-
-When changing existing code, the comment bar applies to your diff, not just to new files:
-
-- do **not** add a comment to a line or method that did not have one — if it managed without,
-  your change does not license one
-- never leave a comment that describes **your own change** — `# changed to use the new API`,
-  `# added for the X feature`, `# was previously empty` — git history already records this, and the
-  note rots the moment the next change lands
-- when you edit a line that carries an existing comment, re-check it: update it if it is still
-  earned, delete it if your change made it false or redundant
-
-These are the recurring failure modes — all of them are noise, delete on sight:
+These are noise, delete on sight:
 
 ```
 # ❌ Restates the line below it
 # The reminder time comes from the user's settings, not the task
 remind_at = user.settings.reminder_time
-
-# ❌ Paraphrases the class name
-# Reminds a user that one of their tasks is due.
-class RemindUserOfDueTask
-
-# ❌ Repeats, in a test, a comment that already sits on the code under test
-# The export format declares priority as a strict enum, so a bad value must fail loudly
-test "raises for a priority the export format does not accept"
 
 # ❌ Narrates a well-named test
 # A list with no tasks must not show a progress bar
@@ -276,9 +225,6 @@ for task in batched(tasks):
 # Loop the lists, skip the archived ones, and take the newest task per list
 latest = group_by_list(reject_archived(tasks)).map(newest_task)
 ```
-
-Prefer a clearer name, a smaller method, or a test that documents the behaviour over any comment.
-When a comment is genuinely warranted, keep it to one or two lines.
 
 ### Implementation Guidelines
 - **API Design**: Consistent parameter ordering (context before specifics)
