@@ -9,7 +9,9 @@ install it.
 - `plugins/aido/.claude-plugin/plugin.json` — the `aido` plugin manifest
 - `plugins/aido/skills/<name>/SKILL.md` — the skills, invoked as `/aido:<name>`
 - `plugins/aido/guidelines/` — the guidelines the skills load
-- `plugins/aido/hooks/hooks.json` — the plugin's hooks
+- `plugins/aido/.claude-plugin/icon.png` — the plugin's marketplace icon
+- `plugins/aido/hooks/hooks.json` — the plugin's hooks, each running a script next to it
+- `tests/` — checks for the hook scripts; run `tests/hooks.sh`, which needs `jq`
 - `docs/` — the diagrams in the README
 
 ## Conventions for changes
@@ -26,4 +28,6 @@ install it.
 - every PR that changes the plugin bumps `version` in
   `plugins/aido/.claude-plugin/plugin.json`, following semantic versioning
 - after every change, run `claude plugin validate .` and `claude plugin validate ./plugins/aido`
+- hook scripts use no shell variables or substitutions, reading stdin with `grep` alone, so that
+  the marketplace validator can follow them and hosts need nothing installed
 - try changes locally with `claude --plugin-dir ./plugins/aido`
