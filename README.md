@@ -47,14 +47,14 @@ can't set these, so add them to your `~/.claude/settings.json`:
 The plugin's hooks also block commit messages with `Co-Authored-By` trailers and writes to Claude's
 memory directory.
 
-## What is an AI-Augmented Engineer?
+## Why aido: AI-Augmented Engineering
 
 An AI-augmented engineer uses an AI agent to do more of the work, without handing over the
 judgement. The agent explores the code, drafts the specification, writes the tests and the code,
 and shapes the commits and the pull request. The engineer decides what gets built, approves every
 step that matters, and stays accountable for the result.
 
-The workflow is built around that split:
+aido is a workflow for working that way, and each of its practices keeps that split in place:
 
 - **The engineer decides, the agent proposes.** Each stage ends with an explicit approval — the
   specification, the plan, the commit structure, the pull request — and the agent asks instead of
@@ -66,7 +66,7 @@ The workflow is built around that split:
   is easy to follow and to stop.
 - **Good engineering practices by default.** Clean architecture, deliberate refactoring, focused
   tests and a clean commit history are part of every step, not an afterthought.
-- **Your repository's rules come first.** The workflow brings practices, not conventions. How to
+- **Your repository's rules come first.** aido brings practices, not conventions. How to
   test, lint, name or structure code comes from your repository — first from its `CLAUDE.md` and
   `AGENTS.md`, then from the code itself.
 
