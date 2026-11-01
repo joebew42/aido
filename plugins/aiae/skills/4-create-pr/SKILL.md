@@ -7,13 +7,12 @@ disable-model-invocation: false
 
 Create or update a draft pull request for the current feature.
 
-`SPEC.md` and `SPEC.md.draft` stand for the spec file and its draft, resolved as "The
-Specification File" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md` describes —
-resolve it before reading or writing either.
+`SPEC.md` and `SPEC.md.draft` stand for the spec file and its draft: resolve them first, per "The
+Specification File" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`.
 
 ## Step 0: Load Guidelines
 
-Load `${CLAUDE_PLUGIN_ROOT}/guidelines/git-workflow.md` — the source of truth for the **pushing** and **branch** conventions used below — and check the host repository's agent instruction files (see `project-conventions.md`) for any PR conventions of its own.
+Load `${CLAUDE_PLUGIN_ROOT}/guidelines/git-workflow.md` — the source of truth for the **pushing** and **branch** conventions used below — and `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`, and check the host repository's agent instruction files (see `project-conventions.md`) for any PR conventions of its own.
 
 ### Read the specification
 

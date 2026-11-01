@@ -7,9 +7,8 @@ disable-model-invocation: false
 
 Plan and implement changes based on PR review and comments.
 
-`SPEC.md` and `SPEC.md.draft` stand for the spec file and its draft, resolved as "The
-Specification File" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md` describes —
-resolve it before reading or writing either.
+`SPEC.md` and `SPEC.md.draft` stand for the spec file and its draft: resolve them first, per "The
+Specification File" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`.
 
 ## Step 0: Load Context
 

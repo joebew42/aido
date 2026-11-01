@@ -7,9 +7,10 @@ disable-model-invocation: false
 
 Create a draft PR that serves as the main specification and tracking document for a multi-phase feature.
 
-`SPEC.md` and `SPEC.md.draft` stand for the spec file and its draft, resolved as "The
-Specification File" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md` describes —
-resolve it before reading or writing either.
+`SPEC.md` and `SPEC.md.draft` stand for the spec file and its draft: resolve them first, per "The
+Specification File" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`.
+
+Load `${CLAUDE_PLUGIN_ROOT}/guidelines/git-workflow.md`, `${CLAUDE_PLUGIN_ROOT}/guidelines/pr-roadmap.md` and `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`.
 
 ## Purpose
 
@@ -69,15 +70,6 @@ The user may request changes to the plan (e.g., merge phases, split a phase, reo
 
 Branch naming pattern: `issue-NUMBER-main-plan-FEATURE_NAME`, or `main-plan-FEATURE_NAME` when there is no issue (see **Branch Naming** in `${CLAUDE_PLUGIN_ROOT}/guidelines/git-workflow.md`)
 
-**Examples:**
-```
-issue-42-main-plan-recurring-tasks
-main-plan-shared-todo-lists
-main-plan-task-reminders
-```
-
-This naming convention helps distinguish the main specification PR from individual phase implementation PRs.
-
 ### Add the GitHub Issue to Feature Spec
 
 If there is a GitHub issue, add it at the top of `SPEC.md`:
@@ -93,30 +85,8 @@ GitHub Issue: [github repository link]/#42
 
 ## Step 1: Commit the Feature Specification
 
-**BEFORE creating the PR, commit the `SPEC.md` file with proper conventions.**
-
-### Commit Checklist (MANDATORY)
-- [ ] commit the `SPEC.md` file as a `docs` commit
-- [ ] use exact commit message: `docs: feature specification`
-- [ ] subject line only (no body)
-- [ ] **NEVER include Claude Code references**
-- [ ] **NEVER include phrases like "Generated with Claude Code" or "Co-Authored-By: Claude"**
-
-**Correct commit:**
-```
-docs: feature specification
-```
-
-**INCORRECT commits (DO NOT DO THIS):**
-```
-docs: Feature Specification         ← Wrong: not lowercase
-docs: add feature specification     ← Wrong: different wording
-Docs: feature specification         ← Wrong: not lowercase
-docs: feature specification
-
-🤖 Generated with Claude Code        ← NEVER DO THIS
-Co-Authored-By: Claude <...>         ← NEVER DO THIS
-```
+Commit it as a `docs` commit with the exact message `docs: feature specification`, per
+`git-workflow.md`.
 
 ## Step 2: Push Changes
 
@@ -136,7 +106,7 @@ Create a draft PR with these sections:
   - Keep items high-level and outcome-focused
   - Avoid implementation details (refactoring, backfilling, specific classes)
   - Focus on what changes, not how it changes
-  - Follow roadmap format rules in `${CLAUDE_PLUGIN_ROOT}/guidelines/pr-roadmap.md`
+  - Follow the format rules in `pr-roadmap.md`
   - Example: ✅ "Let tasks repeat daily, weekly or monthly"
   - Example: ❌ "Let tasks repeat daily, weekly or monthly, refactor TaskFinder to use a request object, and backfill a recurrence rule on existing tasks"
 - **Link to `SPEC.md`**: add a link to the feature specification file at the end of the PR description

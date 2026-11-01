@@ -8,9 +8,8 @@ disable-model-invocation: false
 Take over a change that was started outside this workflow and set it up so `/aiae:2-implement`,
 `/aiae:3-organize-commits` and `/aiae:4-create-pr` can carry it to a clean PR.
 
-`SPEC.md` and `SPEC.md.draft` stand for the spec file and its draft, resolved as "The
-Specification File" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md` describes —
-resolve it before reading or writing either.
+`SPEC.md` and `SPEC.md.draft` stand for the spec file and its draft: resolve them first, per "The
+Specification File" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`.
 
 This skill **reads** the original work and **prepares** a new branch and `SPEC.md`. It
 does not implement anything, and it never pushes to, rewrites, comments on or closes the original
@@ -20,7 +19,7 @@ PR or branch.
 
 - run `git fetch origin`
 - load `${CLAUDE_PLUGIN_ROOT}/guidelines/code-standards.md`, `${CLAUDE_PLUGIN_ROOT}/guidelines/git-workflow.md`,
-  `${CLAUDE_PLUGIN_ROOT}/guidelines/testing-principles.md` and `${CLAUDE_PLUGIN_ROOT}/guidelines/project-conventions.md`
+  `${CLAUDE_PLUGIN_ROOT}/guidelines/testing-principles.md`, `${CLAUDE_PLUGIN_ROOT}/guidelines/project-conventions.md` and `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`
 - gather the host repository's conventions as `${CLAUDE_PLUGIN_ROOT}/guidelines/project-conventions.md` describes
 - if `SPEC.md` or `SPEC.md.draft` already exists in the working directory, stop and tell the
   user — this skill creates a new one

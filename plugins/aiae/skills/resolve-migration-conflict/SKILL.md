@@ -118,8 +118,7 @@ Put your migration after every migration that landed on main.
 
 - [ ] stage the moved migration file(s)
 - [ ] stage the regenerated schema snapshot, if the project commits one
-- [ ] commit per the conventions in `git-workflow.md` (lowercase, semantic prefix, subject only, no
-      Claude references or Co-Authored-By trailers)
+- [ ] commit per the conventions in `git-workflow.md`
 
 **Commit message:**
 
