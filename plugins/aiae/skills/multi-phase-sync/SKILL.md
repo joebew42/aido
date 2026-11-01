@@ -7,6 +7,8 @@ disable-model-invocation: false
 
 Update the main plan PR based on the status of individual phase PRs.
 
+Load `${CLAUDE_PLUGIN_ROOT}/guidelines/git-workflow.md`.
+
 ## Process
 
 1. switch to the branch with the main plan of the feature
@@ -35,4 +37,4 @@ After syncing the main plan, follow the process in `${CLAUDE_PLUGIN_ROOT}/guidel
 
 ## Templates
 
-When updating the roadmap, follow the format rules in `${CLAUDE_PLUGIN_ROOT}/guidelines/git-workflow.md` (PR Roadmap Format section).
+When updating the roadmap, follow the format rules in `${CLAUDE_PLUGIN_ROOT}/guidelines/pr-roadmap.md`.

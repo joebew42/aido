@@ -136,7 +136,7 @@ The format rules (narrative vs. bullets, Context style) apply to the Default Sec
 
 ### Roadmap Section (Multi-Phase Features Only)
 
-When including a Roadmap section in a PR that is part of a multi-phase feature, follow the format rules in `${CLAUDE_PLUGIN_ROOT}/guidelines/git-workflow.md` (PR Roadmap Format section).
+For a PR that is part of a multi-phase feature, follow `${CLAUDE_PLUGIN_ROOT}/guidelines/pr-roadmap.md`: its rule for the Context section, and the format of the Roadmap section.
 
 **Process:**
 1. Reference the main feature specification or tracking PR for phase descriptions

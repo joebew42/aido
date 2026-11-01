@@ -136,7 +136,7 @@ Create a draft PR with these sections:
   - Keep items high-level and outcome-focused
   - Avoid implementation details (refactoring, backfilling, specific classes)
   - Focus on what changes, not how it changes
-  - Follow roadmap format rules in `${CLAUDE_PLUGIN_ROOT}/guidelines/git-workflow.md` (PR Roadmap Format section)
+  - Follow roadmap format rules in `${CLAUDE_PLUGIN_ROOT}/guidelines/pr-roadmap.md`
   - Example: ✅ "Let tasks repeat daily, weekly or monthly"
   - Example: ❌ "Let tasks repeat daily, weekly or monthly, refactor TaskFinder to use a request object, and backfill a recurrence rule on existing tasks"
 - **Link to `SPEC.md`**: add a link to the feature specification file at the end of the PR description
