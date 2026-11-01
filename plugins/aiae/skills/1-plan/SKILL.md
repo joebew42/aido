@@ -117,6 +117,9 @@ in Step 7.
 4. **Write the phase draft** into `SPEC.md.draft`:
    - extract the relevant portion for THIS phase from the overall specification
    - focus only on what needs to be implemented in this phase
+   - carry over only the acceptance criteria this phase delivers — the phase names them in the
+     overall plan — keeping their original IDs, as "The Specification Structure" in
+     `${CLAUDE_PLUGIN_ROOT}/guidelines/project-conventions.md` describes
    - include the GitHub Issue ID, if one was provided
 
 ### Standalone Project Flow
@@ -159,35 +162,25 @@ Work through the draft and fix what you find, in `SPEC.md.draft` itself:
   vocabulary" in `${CLAUDE_PLUGIN_ROOT}/guidelines/code-standards.md`); acceptance criteria that
   can be tested
 
-The specification describes **what** and **why**, not how — implementation belongs to the plan in
-Step 6.
-
 **Ask, don't guess.** Whenever a decision belongs to the user — a behaviour the draft leaves open,
 a scope choice, a conflict between the draft and the code — ask with `AskUserQuestion`, offering
 the plausible answers as options. Group related questions into one call. Use free text only for
 genuinely open-ended input.
 
-A refined specification usually reads:
+### Rewrite it into the specification structure
 
-```markdown
-# <descriptive title>
+The refined draft always follows "The Specification Structure" in
+`${CLAUDE_PLUGIN_ROOT}/guidelines/project-conventions.md`: Context, Intent, Out of scope and
+Acceptance criteria, in that order. It states what and why; how belongs to `## Plan`, in Step 6.
 
-GitHub Issue: <repo link>/#<NUMBER>   (or omit)
-
-## Context
-<why this change is needed>
-
-## Goals
-<what the change must achieve>
-
-## Out of scope
-<what it deliberately does not do>
-
-## Acceptance criteria
-- <one testable statement per line>
-```
-
-Keep the user's own structure where it already works.
+- carry the draft's content into the matching section, in the user's own words where they work
+- when part of the draft fits no section — a design idea, a task list, a question — raise it with
+  `AskUserQuestion`: move it to the plan, turn it into an acceptance criterion, or drop it
+- **acceptance criteria are required.** When the draft has none, or they leave part of the Intent
+  unchecked, propose them yourself from the Intent and the code you read
+- write them as "Acceptance Criteria" in that same section describes
+- show the proposed criteria to the user and ask about any you are unsure of; the list is part of
+  what the user approves below
 
 ### Approve the specification
 
@@ -198,6 +191,9 @@ repeat this step).
 On approval:
 
 - [ ] no open questions remain in the draft — resolve any with the user first
+- [ ] the draft has Context, Intent, Out of scope and Acceptance criteria, in that order
+- [ ] every acceptance criterion is numbered, specific, checkable, and marked `(manual)` when only
+      a person can confirm it — fix any that are not, and ask again
 - [ ] move it: `mv SPEC.md.draft SPEC.md`
 - [ ] confirm `SPEC.md.draft` no longer exists
 
@@ -258,6 +254,12 @@ would add a plan item.
   domain → application → delivery
 - put the **enabling** refactorings from Step 5 first, each as its own `refactor:` item, before
   the feature work; deferred findings are not planned, only listed in the Design notes
+- name the acceptance criteria each plan item serves, as "Plan Items" in "The Specification
+  Structure" (`${CLAUDE_PLUGIN_ROOT}/guidelines/project-conventions.md`) describes
+- before asking for approval, check that every acceptance criterion is served by at least one plan
+  item; add an item for any that is not, or — if the criterion itself is wrong — raise it as below
+- a `SPEC.md` without numbered acceptance criteria (see "Specifications Without Acceptance
+  Criteria" in the same guideline) is planned without this tracing
 - add a `## Plan` section and, when the analysis ran, a `## Design notes` section to `SPEC.md`,
   the notes answering with file and symbol references — `/aiae:2-implement` checks them against what was actually built:
 
@@ -288,6 +290,7 @@ Only proceed here when all of these hold:
 - [ ] `SPEC.md` holds the approved specification, the `## Plan` and the `## Design notes` — or,
       when the enabling refactoring analysis was skipped, the line saying so — with no open
       questions left that block implementation
+- [ ] every acceptance criterion is served by at least one plan item
 - [ ] `SPEC.md.draft` does not exist
 
 ### Branch Creation Checklist
