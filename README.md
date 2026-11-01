@@ -17,7 +17,8 @@ The workflow is built around that split:
   specification, the plan, the commit structure, the pull request — and the agent asks instead of
   guessing whenever a choice is yours.
 - **Specification before code.** Every feature starts as a draft that is refined with you into
-  `SPEC.md`, then planned. Implementation only starts from an approved plan.
+  `SPEC.md`, then planned. A small, clear change can take a lighter route, with the specification
+  and the plan approved together. Implementation only starts from an approved plan.
 - **Small, reviewable steps.** Code grows test by test with test-driven development, so each change
   is easy to follow and to stop.
 - **Good engineering practices by default.** Clean architecture, deliberate refactoring, focused
@@ -66,7 +67,8 @@ unsupervised.
 ![At every stage the agent proposes and you decide: approving the draft, spec and plan; picking what to implement; approving the commit grouping and every push; approving the PR; picking which review feedback to address](docs/human-in-the-loop.svg)
 
 For example, when you run `/aiae:1-plan`, it stops to ask where the specification comes from: a
-GitHub issue it turns into a draft, or a draft you write yourself.
+GitHub issue it turns into a draft, a draft you write yourself, or a conversation in which it
+interviews you and writes the draft.
 
 ![/aiae:1-plan waiting for an answer: after syncing with main and finding no SPEC.md, it asks whether to start from a GitHub issue or from a SPEC.md.draft you write yourself](docs/plan-asks-for-the-spec.png)
 
@@ -122,9 +124,11 @@ memory directory.
 
 ### A simple feature
 
-1. `/aiae:1-plan` — drafts the specification in `SPEC.md.draft` (from a GitHub issue, or one you
-   write), refines it with you until you approve it as `SPEC.md`, plans the work, creates the
-   branch, and offers to move on to implementation
+1. `/aiae:1-plan` — drafts the specification in `SPEC.md.draft` (from a GitHub issue, one you
+   write, or a conversation with you), refines it with you until you approve it as `SPEC.md`, plans
+   the work, creates the branch, and offers to move on to implementation. When the change looks
+   small and clear, it proposes a lighter route: a brief specification and plan that you approve
+   once, without the enabling refactoring analysis
 2. `/aiae:2-implement` — builds the feature
 3. `/aiae:3-organize-commits` — cleans up the commit history, and asks whether to revert `SPEC.md`
    (the default) or keep it in the repository's docs
