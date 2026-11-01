@@ -56,7 +56,7 @@ chore: update dependencies
 - commit **stand-alone** refactoring separately with a `refactor:` prefix — that is any refactoring of code that existed before the feature, even when the feature motivated it (an enabling refactoring planned up front, or a systemic one found while implementing); it lands before the feature commits that depend on it. Refactoring the feature's own new code stays inside that feature's commit
 
 ### Special Cases
-- the feature specification — `SPEC.md`, or the file named per "The Specification File" in `project-conventions.md` — is committed as `docs: feature specification`, and that commit should always be the **first** in history
+- the feature specification — `SPEC.md`, or the file named per "The Specification File" in `specification.md` — is committed as `docs: feature specification`, and that commit should always be the **first** in history
 - squash later `SPEC.md` edits into that original docs commit **only while history is unpushed**; once it is pushed, add a new `docs: update feature specification` commit instead
 - the very last commit settles what happens to `SPEC.md`: by default a `revert: docs: feature specification` that removes it, or — when the user chooses to keep it — a `docs: move feature specification to <path>` that moves it into the repository's documentation
 - if commits are already pushed, add new commits instead (do not alter commit history)

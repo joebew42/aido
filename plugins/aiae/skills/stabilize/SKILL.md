@@ -9,7 +9,7 @@ Take over a change that was started outside this workflow and set it up so `/aia
 `/aiae:3-organize-commits` and `/aiae:4-create-pr` can carry it to a clean PR.
 
 `SPEC.md` and `SPEC.md.draft` stand for the spec file and its draft, resolved as "The
-Specification File" in `${CLAUDE_PLUGIN_ROOT}/guidelines/project-conventions.md` describes —
+Specification File" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md` describes —
 resolve it before reading or writing either.
 
 This skill **reads** the original work and **prepares** a new branch and `SPEC.md`. It
@@ -106,7 +106,7 @@ sound code with a messy history → carry over.
 ## Step 5: Write and Approve the Specification
 
 Write the first version into `SPEC.md.draft`, which is never committed. It follows "The
-Specification Structure" in `${CLAUDE_PLUGIN_ROOT}/guidelines/project-conventions.md`, with this
+Specification Structure" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`, with this
 skill's own lines and sections added:
 
 ```markdown

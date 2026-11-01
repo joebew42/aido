@@ -8,7 +8,7 @@ disable-model-invocation: false
 Create or update a draft pull request for the current feature.
 
 `SPEC.md` and `SPEC.md.draft` stand for the spec file and its draft, resolved as "The
-Specification File" in `${CLAUDE_PLUGIN_ROOT}/guidelines/project-conventions.md` describes —
+Specification File" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md` describes —
 resolve it before reading or writing either.
 
 ## Step 0: Load Guidelines
@@ -26,7 +26,7 @@ it from wherever it is now:
   `revert: docs: feature specification` commit — `git show <revert-sha>^:<spec-file>`
 
 Note whether it has numbered acceptance criteria (see "The Specification Structure" in
-`${CLAUDE_PLUGIN_ROOT}/guidelines/project-conventions.md`). Without them, skip every
+`${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`). Without them, skip every
 acceptance-criteria step below.
 
 ## Step 1: Push Changes

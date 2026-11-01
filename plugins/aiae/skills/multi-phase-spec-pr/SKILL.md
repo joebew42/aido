@@ -8,7 +8,7 @@ disable-model-invocation: false
 Create a draft PR that serves as the main specification and tracking document for a multi-phase feature.
 
 `SPEC.md` and `SPEC.md.draft` stand for the spec file and its draft, resolved as "The
-Specification File" in `${CLAUDE_PLUGIN_ROOT}/guidelines/project-conventions.md` describes —
+Specification File" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md` describes —
 resolve it before reading or writing either.
 
 ## Purpose
@@ -27,7 +27,7 @@ committed. The two never exist together:
 - **both exist** → delete `SPEC.md.draft` and tell the user
 - **only `SPEC.md.draft` exists** → approve and refine it with the user as `/aiae:1-plan` Step 2
   (**Approve the draft**) and Step 3 do — rewriting it into "The Specification Structure" in
-  `${CLAUDE_PLUGIN_ROOT}/guidelines/project-conventions.md`, with numbered acceptance criteria for
+  `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`, with numbered acceptance criteria for
   the whole feature — then move it with `mv SPEC.md.draft SPEC.md`
 - **neither exists** → ask the user to write `SPEC.md.draft`, then continue as above
 

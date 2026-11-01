@@ -20,7 +20,7 @@ Planning moves through two files at the repository root:
   the first commit of the feature branch and is what every later skill reads
 
 Some repositories already have a `SPEC.md` of their own, so the actual file name is resolved in
-Step 1 by "The Specification File" in `${CLAUDE_PLUGIN_ROOT}/guidelines/project-conventions.md`.
+Step 1 by "The Specification File" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`.
 Below, `SPEC.md` and `SPEC.md.draft` stand for the resolved spec file and its draft.
 
 **Never leave both.** Whenever `SPEC.md` exists, `SPEC.md.draft` must not: when you find both, or
@@ -57,7 +57,7 @@ Before starting any planning work:
 
 Resolve the spec file first: read the host repository's `CLAUDE.md` and `AGENTS.md` for a named
 location, then apply the rule in "The Specification File" in
-`${CLAUDE_PLUGIN_ROOT}/guidelines/project-conventions.md`. On a clash, ask where the spec should go
+`${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`. On a clash, ask where the spec should go
 as that rule describes, and remember whether the user wants the choice recorded — it is committed
 in Step 7.
 
@@ -119,7 +119,7 @@ in Step 7.
    - focus only on what needs to be implemented in this phase
    - carry over only the acceptance criteria this phase delivers — the phase names them in the
      overall plan — keeping their original IDs, as "The Specification Structure" in
-     `${CLAUDE_PLUGIN_ROOT}/guidelines/project-conventions.md` describes
+     `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md` describes
    - include the GitHub Issue ID, if one was provided
 
 ### Standalone Project Flow
@@ -170,7 +170,7 @@ genuinely open-ended input.
 ### Rewrite it into the specification structure
 
 The refined draft always follows "The Specification Structure" in
-`${CLAUDE_PLUGIN_ROOT}/guidelines/project-conventions.md`: Context, Intent, Out of scope and
+`${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`: Context, Intent, Out of scope and
 Acceptance criteria, in that order. It states what and why; how belongs to `## Plan`, in Step 6.
 
 - carry the draft's content into the matching section, in the user's own words where they work
@@ -256,7 +256,7 @@ would add a plan item.
 - put the **enabling** refactorings from Step 5 first, each as its own `refactor:` item, before
   the feature work; deferred findings are not planned, only listed in the Design notes
 - name the acceptance criteria each plan item serves, as "Plan Items" in "The Specification
-  Structure" (`${CLAUDE_PLUGIN_ROOT}/guidelines/project-conventions.md`) describes
+  Structure" (`${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`) describes
 - before asking for approval, check that every acceptance criterion is served by at least one plan
   item; add an item for any that is not, or — if the criterion itself is wrong — raise it as below
 - a `SPEC.md` without numbered acceptance criteria (see "Specifications Without Acceptance

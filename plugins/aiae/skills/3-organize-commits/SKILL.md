@@ -8,7 +8,7 @@ disable-model-invocation: false
 Organize commits into a clean, logical history following project conventions.
 
 `SPEC.md` and `SPEC.md.draft` stand for the spec file and its draft, resolved as "The
-Specification File" in `${CLAUDE_PLUGIN_ROOT}/guidelines/project-conventions.md` describes —
+Specification File" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md` describes —
 resolve it before reading or writing either.
 
 ## Step 0: Load Guidelines

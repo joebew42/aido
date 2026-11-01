@@ -9,7 +9,7 @@ Incrementally implement the feature based on specifications using **strict, incr
 test-driven development — one test at a time**.
 
 `SPEC.md` and `SPEC.md.draft` stand for the spec file and its draft, resolved as "The
-Specification File" in `${CLAUDE_PLUGIN_ROOT}/guidelines/project-conventions.md` describes —
+Specification File" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md` describes —
 resolve it before reading or writing either.
 
 This is *test-driven*, not *test-first*. Do NOT write a whole test file up front and then satisfy
@@ -32,7 +32,7 @@ Before any implementation work:
   `SPEC.md` is the only specification
 - read `SPEC.md` to understand the full scope
 - note whether it has numbered acceptance criteria (`AC1`, `AC2`, …) as "The Specification
-  Structure" in `${CLAUDE_PLUGIN_ROOT}/guidelines/project-conventions.md` describes. If it has
+  Structure" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md` describes. If it has
   none, skip everything below about acceptance criteria — goal posts, the Acceptance Criteria Check
   and their Progress lines — and do not ask about them
 
@@ -44,6 +44,7 @@ Load these once — they apply regardless of stack:
 - `${CLAUDE_PLUGIN_ROOT}/guidelines/git-workflow.md`
 - `${CLAUDE_PLUGIN_ROOT}/guidelines/testing-principles.md`
 - `${CLAUDE_PLUGIN_ROOT}/guidelines/project-conventions.md`
+- `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`
 
 ### Project conventions
 
