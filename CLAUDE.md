@@ -11,7 +11,7 @@ install it.
 - `plugins/aido/guidelines/` — the guidelines the skills load
 - `plugins/aido/.claude-plugin/icon.png` — the plugin's marketplace icon
 - `plugins/aido/hooks/hooks.json` — the plugin's hooks, each running a script next to it
-- `tests/` — checks for the hook scripts and the icon; run `tests/hooks.sh` and `tests/icon.sh`
+- `tests/` — checks for the hook scripts; run `tests/hooks.sh`
 - `docs/` — the diagrams in the README
 
 ## Conventions for changes
