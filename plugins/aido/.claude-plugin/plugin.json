@@ -1,7 +1,7 @@
 {
-  "name": "aiae",
-  "version": "1.3.0",
-  "displayName": "AI-Augmented Engineer",
+  "name": "aido",
+  "version": "2.0.0",
+  "displayName": "AI-Augmented Engineering",
   "description": "A stack-agnostic, test-driven engineering workflow: plan, implement, organize commits, open and review PRs, multi-phase features, and architecture assessment",
   "author": {
     "name": "Joe Bew"
