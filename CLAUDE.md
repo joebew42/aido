@@ -23,5 +23,7 @@ install it.
 - refer to skills by their full name, `/aiae:<name>`
 - a `CLAUDE.md` inside the plugin is not loaded; anything the skills need must be in a skill or a
   guideline they load
+- every PR that changes the plugin bumps `version` in
+  `plugins/aiae/.claude-plugin/plugin.json`, following semantic versioning
 - after every change, run `claude plugin validate .` and `claude plugin validate ./plugins/aiae`
 - try changes locally with `claude --plugin-dir ./plugins/aiae`

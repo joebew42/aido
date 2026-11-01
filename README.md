@@ -36,6 +36,26 @@ request description is written from it, and review feedback is checked against i
 
 ![SPEC.md at the center: planning writes it, implementation reads and updates it, organizing commits reverts it or moves it into the docs, the PR is written from it, and review reads it without changing it](docs/spec-at-the-center.svg)
 
+Every specification has the same shape. **Context** says why the change is needed, **Intent** what
+it must achieve, **Out of scope** what it leaves out, and **Acceptance criteria** — numbered `AC1`,
+`AC2`, … — how you will know it is done. The specification says what and why; how belongs to the
+plan that planning adds below it, followed by the progress that implementation records.
+
+### Acceptance criteria are checked at every stage
+
+The acceptance criteria are what verifies that the change does what the specification asks, not
+just what the plan lists:
+
+- **planning** proposes them when the draft has none, and every plan item names the criteria it
+  serves — none is left without one
+- **implementation** writes each criterion's acceptance test first and keeps it red as the goal
+  post while the code behind it is built test-driven. Before it calls the feature done, it checks
+  every criterion: a test that covers it, or — for criteria only a person can judge, marked
+  `(manual)` — your confirmation. When one is not met, you choose to implement it, change it, or
+  defer it
+- **the pull request** pre-flight review checks the diff against the criteria, and any deferred
+  criterion is named in the description
+
 ### You stay in the loop
 
 The agent does the work, but it stops before every decision that matters: it does not approve the

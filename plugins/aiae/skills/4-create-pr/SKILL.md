@@ -15,6 +15,20 @@ resolve it before reading or writing either.
 
 Load `${CLAUDE_PLUGIN_ROOT}/guidelines/git-workflow.md` — the source of truth for the **pushing** and **branch** conventions used below — and check the host repository's agent instruction files (see `project-conventions.md`) for any PR conventions of its own.
 
+### Read the specification
+
+`/aiae:3-organize-commits` may already have reverted `SPEC.md` or moved it into the docs, so read
+it from wherever it is now:
+
+- the spec file in the working tree, or the path it was moved to (the
+  `docs: move feature specification to <path>` commit)
+- otherwise, from the branch history: the content just before the
+  `revert: docs: feature specification` commit — `git show <revert-sha>^:<spec-file>`
+
+Note whether it has numbered acceptance criteria (see "The Specification Structure" in
+`${CLAUDE_PLUGIN_ROOT}/guidelines/project-conventions.md`). Without them, skip every
+acceptance-criteria step below.
+
 ## Step 1: Push Changes
 
 A PR needs the branch on origin first. Per `git-workflow.md`, **never push automatically** — confirm with `AskUserQuestion`:
@@ -97,6 +111,7 @@ When a template is chosen:
 - **Database Migration**: if the PR includes database migrations — the output and timing of applying the migration and of rolling it back, using the project's migration tool. Ask the user to run the commands, or run them yourself only if the project documents them for a local database
 - **API Examples**: if the PR changes a public API — a representative request and response. For a **breaking** change (renamed or removed field, endpoint or type, changed nullability, reshaped response), show the schema fragment and a representative request **before and after**, clearly labelled, so reviewers and client teams can see exactly what breaks
 - **Usage Examples**: if the PR adds or changes a script, task or CLI command meant to be run by hand — the complete command for each case, each with a one-line description
+- **Not Included**: if `## Progress` records an acceptance criterion as `deferred` — each deferred criterion in plain words, with the reason, so reviewers know what the PR deliberately leaves out. With a project template, add it at the end if the template has no place for it
 
 ### PR Description Checklist (MANDATORY)
 
@@ -114,6 +129,7 @@ The format rules (narrative vs. bullets, Context style) apply to the Default Sec
 - [ ] use paragraph/narrative style, not bullet lists
 - [ ] if follow-up PR: mention previous PR in Context section
 - [ ] if follow-up PR: include updated Roadmap section
+- [ ] if `## Progress` records a **deferred acceptance criterion**: it is named in a **Not Included** section
 - [ ] if a **GitHub Issue ID** is present in `SPEC.md`: add `Closes #NUMBER` at the bottom of the PR description to auto-close the issue when merged into the default branch
 
 ## PR Templates
@@ -156,6 +172,7 @@ If the user says **yes**:
 
 1. Run the `/aiae:pr-review` skill against the current branch changes
    - **Adaptation**: since no PR exists yet, use `git diff <base-branch>...HEAD` and `git log <base-branch>..HEAD` instead of `gh pr` commands for Step 1 of `/aiae:pr-review`. Skip Step 2 (already on the branch). Run all other steps as normal.
+   - **Acceptance criteria**: when the specification has numbered acceptance criteria, also check the diff against each one that `## Progress` does not record as deferred. Add an **Acceptance criteria** section to the review brief listing every criterion the change does not appear to meet, with what is missing and where you looked — or one line saying all appear met. Judge from the diff and the tests in it, not from what `## Progress` claims
 2. After the review brief is presented, use `AskUserQuestion` to ask:
    > "Based on this review, how would you like to proceed?"
    - **Proceed** — create the PR as-is

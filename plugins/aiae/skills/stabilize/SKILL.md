@@ -105,7 +105,9 @@ sound code with a messy history → carry over.
 
 ## Step 5: Write and Approve the Specification
 
-Write the first version into `SPEC.md.draft`, which is never committed:
+Write the first version into `SPEC.md.draft`, which is never committed. It follows "The
+Specification Structure" in `${CLAUDE_PLUGIN_ROOT}/guidelines/project-conventions.md`, with this
+skill's own lines and sections added:
 
 ```markdown
 # <descriptive title>
@@ -114,17 +116,27 @@ GitHub Issue: <repo link>/#<NUMBER>   (or omit)
 Original work: <PR #N (url) | branch origin/<name> | local changes, stash "stabilize: original work">
 Strategy: <reimplement from scratch | carry over and adjust>
 
-## Intent
-<from Step 2>
-
 ## What the original does
 <short summary of the behaviour it introduces, per layer>
 
 ## Gaps against the guidelines
 <from Step 2>
 
+## Context
+<why the change is needed>
+
+## Intent
+<from Step 2 — what the change must achieve, not how>
+
+## Out of scope
+<what it deliberately does not do>
+
+## Acceptance criteria
+- AC1: <one checkable statement — the behaviour the original work was meant to deliver>
+
 ## Plan
-<the changes, each tagged with its layer, ordered inside-out: domain → application → delivery>
+<the changes, each tagged with its layer and the criteria it serves, ordered inside-out:
+domain → application → delivery>
 ```
 
 - refine it with the user as `/aiae:1-plan` Step 3 does — fill gaps, remove ambiguity, reword,

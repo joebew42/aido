@@ -31,6 +31,10 @@ Before any implementation work:
 - if `SPEC.md.draft` exists next to `SPEC.md`, delete it and tell the user — the approved
   `SPEC.md` is the only specification
 - read `SPEC.md` to understand the full scope
+- note whether it has numbered acceptance criteria (`AC1`, `AC2`, …) as "The Specification
+  Structure" in `${CLAUDE_PLUGIN_ROOT}/guidelines/project-conventions.md` describes. If it has
+  none, skip everything below about acceptance criteria — goal posts, the Acceptance Criteria Check
+  and their Progress lines — and do not ask about them
 
 ### Global guidelines (always load)
 
@@ -55,11 +59,31 @@ the linter in this project. If you can't determine one of them, ask the user.
 
 ## Step 1: Confirm Implementation Scope
 
-After loading context, use `AskUserQuestion` to present the list of plan items from `SPEC.md` and ask:
+After loading context, use `AskUserQuestion` to present the list of plan items from `SPEC.md`,
+each with the acceptance criteria it serves, and ask:
 
 > "Here are the planned items. Which ones would you like to tackle in this session? (all / specific items / let me pick the next logical one)"
 
 Wait for the user's response before starting implementation.
+
+## Acceptance Criteria as Goal Posts
+
+The specification's acceptance criteria are the outer loop of the double loop described in "Test-First
+vs. Strict TDD" (`code-standards.md`). Before growing the units of a plan item:
+
+- [ ] for each **automatable** criterion the item serves and that no test covers yet, write its
+      outer acceptance test **test-first**, at the boundary where the behaviour is observable
+- [ ] run it and confirm it fails for the **right reason** — the behaviour is missing, not the test
+      broken
+- [ ] keep it red as the goal post while the units behind it are grown with strict TDD,
+      inside-out; it does not count against "one failing test at a time" in the inner loop
+- [ ] it stays **uncommitted** while red, and the per-commit gate does not cover it: the units
+      committed meanwhile need their own tests and the existing suite green, not the goal post
+- [ ] it is committed once green, last, as `git-workflow.md` says for acceptance tests
+- [ ] criteria marked `(manual)` get no test; they are confirmed in the Acceptance Criteria Check
+
+When the item's criterion is already covered by a test that predates this feature, name it and move
+on — do not write a duplicate.
 
 ## MANDATORY: Strict, Incremental TDD — One Test at a Time
 
@@ -148,7 +172,8 @@ Run it inline, on green, scoped to the evidence the cycle surfaced:
 
 ### Before completion — `fable` subagent
 
-Once every plan item is implemented — not at the end of a partial session — the checkpoint is due
+Run it after the Acceptance Criteria Check below, so it reviews the code that the check may have
+added. Once every plan item is implemented — not at the end of a partial session — the checkpoint is due
 over the whole feature. It can take long and is not always needed, so ask first —
 `AskUserQuestion`: "Should I run the final Systemic Design Checkpoint over the whole feature?" —
 options **Run the checkpoint** / **Skip it**:
@@ -187,6 +212,37 @@ Then, in this session:
 
 Follow the stand-alone refactoring rule in `git-workflow.md`, loaded in Step 0.
 
+## Acceptance Criteria Check
+
+Before ending the session — and before the final Systemic Design Checkpoint when the last plan
+items are done — check the acceptance criteria. This is what verifies the specification's intent,
+not only the plan.
+
+**Which criteria:**
+
+- every plan item is implemented → every criterion in `SPEC.md`
+- a partial session → only the criteria whose plan items are all done; the rest are recorded as
+  `unchecked`
+
+**For each criterion:**
+
+- **automatable** → name the green test that covers it, and run it if it has not run since the last
+  change. A test that only covers part of the criterion does not meet it
+- **manual** → show the user the evidence from the change (the file, the output, what a person
+  would see) and ask with `AskUserQuestion` — options **Confirmed** / **Not met**
+
+**For each criterion that is not met**, ask with `AskUserQuestion`, showing what is missing —
+options:
+
+- **Implement it now** — add what is missing with a new goal post and TDD cycles, then check it
+  again
+- **Change the criterion** — agree the new wording with the user, update it in `SPEC.md`'s
+  `## Acceptance criteria` (keeping its ID), and check it again against the new wording
+- **Defer it** — leave it unmet, with the reason
+
+Note each result for the `## Progress` handoff. Never record a criterion as met without its
+evidence.
+
 ## Quality Checks (BEFORE EVERY COMMIT)
 
 Apply the per-commit gate from `git-workflow.md` / `code-standards.md` (loaded in Step 0): linting clean, all relevant tests green, no regressions. Do not commit otherwise. See the **Red Flags** below for the mistakes that block a commit.
@@ -220,15 +276,22 @@ If you catch yourself doing any of these, STOP immediately:
 - ❌ Running a broad codebase scan after every cycle
 - ❌ Declaring the feature done without running the final Systemic Design Checkpoint or asking
   whether to skip it
+- ❌ Growing a plan item's units before its automatable criteria have a red goal post
+- ❌ Ending the session without the Acceptance Criteria Check, or recording a criterion as met
+  without its evidence
+- ❌ Changing an acceptance criterion without the user's agreement
 
 ## STOP — Skill Complete
 
-When all units of work are implemented and committed — and, if this session finished the last plan
-items, the final Systemic Design Checkpoint has run or the user chose to skip it:
+When all units of work are implemented and committed, the Acceptance Criteria Check is done — and,
+if this session finished the last plan items, the final Systemic Design Checkpoint has run or the
+user chose to skip it:
 
 1. **Update `SPEC.md`** with a `## Progress` section at the bottom:
    - list each implemented unit of work (checked off)
    - note any units remaining (if session ended early)
+   - record each result of the Acceptance Criteria Check, as "Acceptance in Progress" in "The
+     Specification Structure" describes
    - record any key decisions made during implementation (e.g., design choices, deviations from spec)
    - list **Deferred refactorings**, each with its evidence (`path` — `Symbol`) and why it was
      deferred
