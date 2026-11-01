@@ -187,4 +187,4 @@ After creating the PR:
 
 ## Step 5: Suggest Repository Conventions
 
-After creating the PR, follow the "Evolving Guidelines" process in `${CLAUDE_PLUGIN_ROOT}/guidelines/code-standards.md`. It only proposes additions to this repository's `CLAUDE.md` or `AGENTS.md`, chosen by the user through `AskUserQuestion`.
+After creating the PR, follow the process in `${CLAUDE_PLUGIN_ROOT}/guidelines/evolving-guidelines.md`. It only proposes additions to this repository's `CLAUDE.md` or `AGENTS.md`, chosen by the user through `AskUserQuestion`.

@@ -60,7 +60,7 @@ Before any implementation work:
 
 ## Suggest Repository Conventions
 
-After pushing, follow the "Evolving Guidelines" process in `${CLAUDE_PLUGIN_ROOT}/guidelines/code-standards.md`. It only proposes additions to this repository's `CLAUDE.md` or `AGENTS.md`, chosen by the user through `AskUserQuestion`.
+After pushing, follow the process in `${CLAUDE_PLUGIN_ROOT}/guidelines/evolving-guidelines.md`. It only proposes additions to this repository's `CLAUDE.md` or `AGENTS.md`, chosen by the user through `AskUserQuestion`.
 
 Review comments can reveal conventions the codebase holds but hasn't written down. They can also be one reviewer's take on one file — the two look alike at the moment you read them, so run every candidate through the **generality test** in that process before presenting anything. Most review feedback is about *this* code and produces no convention; expect to propose nothing.
 

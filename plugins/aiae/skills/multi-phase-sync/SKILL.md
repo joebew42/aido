@@ -31,7 +31,7 @@ Update the main plan PR based on the status of individual phase PRs.
 
 ## Step 2: Suggest Repository Conventions
 
-After syncing the main plan, follow the "Evolving Guidelines" process in `${CLAUDE_PLUGIN_ROOT}/guidelines/code-standards.md`. It only proposes additions to this repository's `CLAUDE.md` or `AGENTS.md`, chosen by the user through `AskUserQuestion`.
+After syncing the main plan, follow the process in `${CLAUDE_PLUGIN_ROOT}/guidelines/evolving-guidelines.md`. It only proposes additions to this repository's `CLAUDE.md` or `AGENTS.md`, chosen by the user through `AskUserQuestion`.
 
 ## Templates
 
