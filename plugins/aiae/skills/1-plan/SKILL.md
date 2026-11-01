@@ -132,6 +132,16 @@ in Step 7.
     (`GitHub Issue: [github repository link]/#NUMBER`)
   - **Write it myself** — ask the user to create `SPEC.md.draft` with the feature specification,
     and wait until they say it is ready
+  - **Start from a conversation** — interview the user, as "Interview the user" below describes,
+    and write `SPEC.md.draft` yourself
+
+#### Interview the user
+
+1. Ask openly, in free text, what they want to change and why
+2. Ask follow-up questions in groups with `AskUserQuestion`, offering the plausible answers as
+   options. When the code can answer a question, read the code instead of asking
+3. Stop when nothing blocks writing the draft; refining it comes later. Write what you learned into
+   `SPEC.md.draft`, in the user's own words where they work, then continue as for the other options
 
 ### Approve the draft
 
