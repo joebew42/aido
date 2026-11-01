@@ -125,7 +125,6 @@ The format rules (narrative vs. bullets, Context style) apply to the Default Sec
 - [ ] **DO NOT hard-wrap prose** — in PR/issue bodies GitHub renders a single newline as a line break, so fixed-column wrapping makes the rendered text choppy and stops it reflowing. One line per paragraph. (Code blocks and lists exempt.)
 - [ ] **Use less verbose and less convoluted language** — a reader should get the context and the purpose of the PR quickly, without unpacking long or complicated sentences
 - [ ] keep tone descriptive and concise
-- [ ] use paragraph/narrative style, not bullet lists
 - [ ] if follow-up PR: mention previous PR in Context section
 - [ ] if follow-up PR: include updated Roadmap section
 - [ ] if `## Progress` records a **deferred acceptance criterion**: it is named in a **Not Included** section
