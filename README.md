@@ -156,5 +156,5 @@ The skills load these from `plugins/aiae/guidelines/`:
 
 - `git-workflow.md` — commit conventions, branching strategy, GitHub CLI usage
 - `code-standards.md` — test-driven development, design principles, quality checks, interaction style
-- `testing-principles.md` — test structure, boundary collaboration, pre-commit suite scope, flaky-test prevention
+- `testing-principles.md` — test structure, collaboration tests, pre-commit suite scope, flaky-test prevention
 - `project-conventions.md` — how the skills find the host repository's own conventions in its `CLAUDE.md` and `AGENTS.md`
