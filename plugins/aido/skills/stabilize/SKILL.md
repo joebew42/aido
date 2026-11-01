@@ -1,12 +1,12 @@
 ---
-description: Takes over work done outside this workflow — an existing PR, a remote branch, or local changes — and sets up a fresh branch and feature spec to bring it in line with the guidelines. Invoked when the user wants to stabilize, take over, adopt or rework someone else's PR or branch, or runs /aiae:stabilize.
+description: Takes over work done outside this workflow — an existing PR, a remote branch, or local changes — and sets up a fresh branch and feature spec to bring it in line with the guidelines. Invoked when the user wants to stabilize, take over, adopt or rework someone else's PR or branch, or runs /aido:stabilize.
 disable-model-invocation: false
 ---
 
 # Stabilize Existing Work
 
-Take over a change that was started outside this workflow and set it up so `/aiae:2-implement`,
-`/aiae:3-organize-commits` and `/aiae:4-create-pr` can carry it to a clean PR.
+Take over a change that was started outside this workflow and set it up so `/aido:2-implement`,
+`/aido:3-organize-commits` and `/aido:4-create-pr` can carry it to a clean PR.
 
 `SPEC.md` and `SPEC.md.draft` stand for the spec file and its draft: resolve them first, per "The
 Specification File" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`.
@@ -77,7 +77,7 @@ Use `AskUserQuestion`:
   - **Reimplement from scratch** — new branch from main; the original stays untouched as a
     reference and every behaviour is regrown with TDD
   - **Carry over and adjust** — new branch from main with the original changes applied as
-    uncommitted work; `/aiae:2-implement` then adjusts them and commits in small increments
+    uncommitted work; `/aido:2-implement` then adjusts them and commits in small increments
   - **Cancel** — stop here
 
 Recommend the option that fits the gap list: many layering or test gaps → reimplement; mostly
@@ -138,26 +138,26 @@ Strategy: <reimplement from scratch | carry over and adjust>
 domain → application → infrastructure, with what inner code calls out to before what calls in>
 ```
 
-- refine it with the user as `/aiae:1-plan` Step 3 does — fill gaps, remove ambiguity, reword,
+- refine it with the user as `/aido:1-plan` Step 3 does — fill gaps, remove ambiguity, reword,
   and ask with `AskUserQuestion` wherever a decision belongs to the user
-- propose the plan and **wait for explicit user approval**, as `/aiae:1-plan` Step 6 does;
+- propose the plan and **wait for explicit user approval**, as `/aido:1-plan` Step 6 does;
   update the draft with any changes the user asks for
 - once approved, move it with `mv SPEC.md.draft SPEC.md` and confirm `SPEC.md.draft` is gone —
   the two files never exist together
 - commit **only** `SPEC.md` with the exact message
   `docs: feature specification` — in carry-over mode the original changes stay uncommitted for
-  `/aiae:2-implement` to commit incrementally
+  `/aido:2-implement` to commit incrementally
 
 ## Step 6: Hand Off
 
 Tell the user the branch is ready and the next steps:
 
-1. run `/aiae:2-implement` — it works through the plan in small commits; in carry-over mode it
+1. run `/aido:2-implement` — it works through the plan in small commits; in carry-over mode it
    adjusts and commits the applied original changes rather than writing them anew
-2. run `/aiae:3-organize-commits` to shape the final history
-3. run `/aiae:4-create-pr` when they decide it is time to open the PR
+2. run `/aido:3-organize-commits` to shape the final history
+3. run `/aido:4-create-pr` when they decide it is time to open the PR
 
-Use `AskUserQuestion` to ask whether they want a worktree for this branch, as `/aiae:1-plan`
+Use `AskUserQuestion` to ask whether they want a worktree for this branch, as `/aido:1-plan`
 Step 8 does — **not available in carry-over mode**, because the uncommitted original changes live
 in this working directory.
 

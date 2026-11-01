@@ -8,7 +8,7 @@ repositories already have a `SPEC.md` of their own, so every skill resolves the 
 this rule, and the first match wins:
 
 1. **The host repository names it** — its `CLAUDE.md` or `AGENTS.md` says where the workflow's
-   feature specification goes (e.g. "the aiae feature specification lives in `FEATURE-SPEC.md`").
+   feature specification goes (e.g. "the aido feature specification lives in `FEATURE-SPEC.md`").
    Use that path
 2. **The branch already has one** — on a feature branch whose history has a
    `docs: feature specification` commit, the spec file is the file that commit added:
@@ -16,7 +16,7 @@ this rule, and the first match wins:
    `git show --name-only --format= <sha>`
 3. **No clash** — `SPEC.md` does not exist on the default branch
    (`git cat-file -e origin/<default-branch>:SPEC.md` fails). Use `SPEC.md`. This workflow never
-   leaves its own spec on the default branch — `/aiae:3-organize-commits` reverts it or moves it
+   leaves its own spec on the default branch — `/aido:3-organize-commits` reverts it or moves it
    into the docs — so a `SPEC.md` there belongs to the repository
 4. **Clash** — `SPEC.md` is the repository's own. Ask with `AskUserQuestion`: "This repository
    already has its own `SPEC.md`. Where should the feature specification go?" — options

@@ -1,5 +1,5 @@
 ---
-description: Builds or refreshes a slim architecture index of the current repository — its domain areas and the building blocks in each (infrastructure, application services, collaborators, aggregates, value objects, domain services) — stored locally under ~/.claude/repos/. Invoked when the user wants to map the architecture, warm up or update the architecture index, or runs /aiae:map-architecture.
+description: Builds or refreshes a slim architecture index of the current repository — its domain areas and the building blocks in each (infrastructure, application services, collaborators, aggregates, value objects, domain services) — stored locally under ~/.claude/repos/. Invoked when the user wants to map the architecture, warm up or update the architecture index, or runs /aido:map-architecture.
 disable-model-invocation: false
 ---
 
@@ -46,7 +46,7 @@ so the index is cheaper to search than to read. Skills that use it for a design 
    — matches across areas are exactly the related rules worth checking
 3. open a whole `areas/<area-slug>.md` only for an area at the centre of the change, or when the
    matches leave its structure unclear
-4. never read the `.extra.md` files for a design check — only `/aiae:assess-architecture` needs them
+4. never read the `.extra.md` files for a design check — only `/aido:assess-architecture` needs them
 
 The index is a map: verify anything it says against the code before relying on it.
 
@@ -215,7 +215,7 @@ Tell the user, briefly:
   hold
 - which steps fell back from the planned model to the session model, if any
 
-Mention that `/aiae:assess-architecture` can turn the index into reviewed refactoring findings.
+Mention that `/aido:assess-architecture` can turn the index into reviewed refactoring findings.
 
 ## STOP — Skill Complete
 

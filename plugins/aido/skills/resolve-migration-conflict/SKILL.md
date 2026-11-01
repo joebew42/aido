@@ -1,5 +1,5 @@
 ---
-description: Resolves database migration conflicts after rebasing with main/master, for any migration tool. Invoked when the user has a schema or migration conflict after rebase, two migrations claiming the same position, or runs /aiae:resolve-migration-conflict.
+description: Resolves database migration conflicts after rebasing with main/master, for any migration tool. Invoked when the user has a schema or migration conflict after rebase, two migrations claiming the same position, or runs /aido:resolve-migration-conflict.
 disable-model-invocation: false
 ---
 
@@ -145,7 +145,7 @@ chore: rename migration after rebase with main
 
 Once all quality checks pass:
 
-1. Run `/aiae:3-organize-commits` to reorganize the commit history
+1. Run `/aido:3-organize-commits` to reorganize the commit history
 2. Once commits are organized, use `AskUserQuestion` to confirm a force push:
    - Question: "Force push the rewritten history to `origin/<branch-name>`?"
    - Options: **Force push** / **Cancel**

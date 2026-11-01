@@ -1,12 +1,12 @@
 ---
-description: Plans a feature or phase — drafts and refines its specification with the user, from a GitHub issue, their own draft or a conversation, then plans the work into SPEC.md, with a lighter route for a small, clear change. Invoked when the user wants to plan a feature, write or refine a spec, start planning, create a feature branch, or runs /aiae:1-plan.
+description: Plans a feature or phase — drafts and refines its specification with the user, from a GitHub issue, their own draft or a conversation, then plans the work into SPEC.md, with a lighter route for a small, clear change. Invoked when the user wants to plan a feature, write or refine a spec, start planning, create a feature branch, or runs /aido:1-plan.
 disable-model-invocation: false
 ---
 
 # Plan
 
 Turn a feature or phase into an approved specification and plan in `SPEC.md`, then hand off to
-`/aiae:2-implement`.
+`/aido:2-implement`.
 
 Branch-naming and spec-commit conventions are defined in `${CLAUDE_PLUGIN_ROOT}/guidelines/git-workflow.md` — load it before Step 7.
 
@@ -34,7 +34,7 @@ The stages are strictly in order, and each one ends with the user's approval:
    until the user approves it; it then moves to `SPEC.md`
 3. **Plan** — you propose the plan into `SPEC.md`, and the user approves it
 4. **Hand off** — only with an approved plan and a well-written `SPEC.md`, you offer to move to
-   `/aiae:2-implement`
+   `/aido:2-implement`
 
 A small, clear change can take "Small-Change Route" in Step 2 instead, where one approval covers
 the Draft, Refine and Plan stages.
@@ -107,9 +107,9 @@ in Step 7.
      - use `AskUserQuestion` with question: "These phases appear independent and could be worked in parallel. Would you like to set up parallel worktrees for them?" and options **Yes — set up worktrees** / **No — plan one phase**
      - if YES: for each independent phase, create a git worktree:
        - run `git worktree add ../<repo-name>-<phase-slug> main` (use a short slug from the phase name)
-       - inform the user that each worktree is an isolated copy where a separate Claude session can run `/aiae:1-plan` independently
+       - inform the user that each worktree is an isolated copy where a separate Claude session can run `/aido:1-plan` independently
        - list the worktree paths so the user can open them
-       - **STOP** — do not proceed to plan a single phase; the user will run `/aiae:1-plan` in each worktree session
+       - **STOP** — do not proceed to plan a single phase; the user will run `/aido:1-plan` in each worktree session
      - if NO: continue to plan the next logical phase as a single unit (proceed to step 3)
    - if only one phase is pending or no parallelism is possible: skip this step and proceed to step 3
 
@@ -279,12 +279,12 @@ The index is defined in **Index Location and Shape** in
 - **`.skip-map-architecture` exists** → skip this step silently
 - **no index** → `AskUserQuestion`: "This repo has no architecture index. It helps me find
   existing abstractions and rules before planning." — options:
-  - **Build it now** — run `/aiae:map-architecture`, then continue here
+  - **Build it now** — run `/aido:map-architecture`, then continue here
   - **Continue without** — plan without it this time
   - **Never ask for this repo** — create an empty `~/.claude/repos/<repo-name>/.skip-map-architecture`
 - **index stale** (see **Staleness** in that same section) →
   `AskUserQuestion`: "The architecture index is `<n>` commits behind `main`." — options **Update it
-  now** (run `/aiae:map-architecture` in update mode) / **Use it as is**
+  now** (run `/aido:map-architecture` in update mode) / **Use it as is**
 
 ## Step 5: Look for Enabling Refactorings — `fable` subagent
 
@@ -327,7 +327,7 @@ would add a plan item.
 - a `SPEC.md` without numbered acceptance criteria (see "Specifications Without Acceptance
   Criteria" in the same guideline) is planned without this tracing
 - add a `## Plan` section and, when the analysis ran, a `## Design notes` section to `SPEC.md`,
-  the notes answering with file and symbol references — `/aiae:2-implement` checks them against what was actually built:
+  the notes answering with file and symbol references — `/aido:2-implement` checks them against what was actually built:
 
   ```markdown
   ## Design notes
@@ -380,18 +380,18 @@ After the branch is created and the specification is committed, use `AskUserQues
 - If **YES**:
   1. Create a worktree from the current feature branch: `git worktree add ../<repo-name>-<branch-slug> <branch-name>`
   2. Inform the user of the worktree path
-  3. Instruct them to open that directory and run `/aiae:2-implement` there, then stop
+  3. Instruct them to open that directory and run `/aido:2-implement` there, then stop
 - If **NO**: continue to Step 9
 
 ## Step 9: Hand Off
 
 `AskUserQuestion`: "The plan is approved and `SPEC.md` is committed. Move on to implementation?" —
-options **Start /aiae:2-implement now** / **Stop here** (tell the user they can run
-`/aiae:2-implement` whenever they are ready).
+options **Start /aido:2-implement now** / **Stop here** (tell the user they can run
+`/aido:2-implement` whenever they are ready).
 
-On **Start**, invoke the `/aiae:2-implement` skill.
+On **Start**, invoke the `/aido:2-implement` skill.
 
 ## STOP — Skill Complete
 
 **Do NOT implement anything in this skill.** Do NOT write any code — implementation happens only in
-`/aiae:2-implement`.
+`/aido:2-implement`.

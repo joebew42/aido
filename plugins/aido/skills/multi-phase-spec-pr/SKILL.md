@@ -1,5 +1,5 @@
 ---
-description: Creates the main specification and tracking draft PR for a multi-phase feature. Invoked when the user wants to create a spec PR, create the main tracking PR, set up a multi-phase feature, or runs /aiae:multi-phase-spec-pr.
+description: Creates the main specification and tracking draft PR for a multi-phase feature. Invoked when the user wants to create a spec PR, create the main tracking PR, set up a multi-phase feature, or runs /aido:multi-phase-spec-pr.
 disable-model-invocation: false
 ---
 
@@ -26,7 +26,7 @@ The specification lives in `SPEC.md`; its working draft is `SPEC.md.draft`, whic
 committed. The two never exist together:
 
 - **both exist** → delete `SPEC.md.draft` and tell the user
-- **only `SPEC.md.draft` exists** → approve and refine it with the user as `/aiae:1-plan` Step 2
+- **only `SPEC.md.draft` exists** → approve and refine it with the user as `/aido:1-plan` Step 2
   (**Approve the draft**) and Step 3 do — rewriting it into "The Specification Structure" in
   `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`, with numbered acceptance criteria for
   the whole feature — then move it with `mv SPEC.md.draft SPEC.md`
@@ -59,7 +59,7 @@ Steps:
 
 **Wait for explicit user approval of the plan before proceeding.** Once approved, write the phases
 into `SPEC.md` as its `## Plan`, each naming the criteria it delivers (see "Plan Items" in "The
-Specification Structure") — `/aiae:1-plan` reads them to carry each phase's criteria into its
+Specification Structure") — `/aido:1-plan` reads them to carry each phase's criteria into its
 phase draft.
 
 The user may request changes to the plan (e.g., merge phases, split a phase, reorder). Iterate until approved.

@@ -1,5 +1,5 @@
 ---
-description: Creates or updates a pull request for the current feature. Invoked when the user wants to create a pull request, open a PR, update the draft PR, or runs /aiae:4-create-pr.
+description: Creates or updates a pull request for the current feature. Invoked when the user wants to create a pull request, open a PR, update the draft PR, or runs /aido:4-create-pr.
 disable-model-invocation: false
 ---
 
@@ -16,7 +16,7 @@ Load `${CLAUDE_PLUGIN_ROOT}/guidelines/git-workflow.md` — the source of truth 
 
 ### Read the specification
 
-`/aiae:3-organize-commits` may already have reverted `SPEC.md` or moved it into the docs, so read
+`/aido:3-organize-commits` may already have reverted `SPEC.md` or moved it into the docs, so read
 it from wherever it is now:
 
 - the spec file in the working tree, or the path it was moved to (the
@@ -163,18 +163,18 @@ Before creating the PR, use `AskUserQuestion` to ask:
 > "Would you like me to run a pre-flight review on the changes before creating the PR?"
 
 Options:
-- **Yes** — run `/aiae:pr-review` on the current branch changes to flag concerns before the PR is created
+- **Yes** — run `/aido:pr-review` on the current branch changes to flag concerns before the PR is created
 - **No** — skip and proceed to create the PR
 
 If the user says **yes**:
 
-1. Run the `/aiae:pr-review` skill against the current branch changes
-   - **Adaptation**: since no PR exists yet, use `git diff <base-branch>...HEAD` and `git log <base-branch>..HEAD` instead of `gh pr` commands for Step 1 of `/aiae:pr-review`. Skip Step 2 (already on the branch). Run all other steps as normal.
+1. Run the `/aido:pr-review` skill against the current branch changes
+   - **Adaptation**: since no PR exists yet, use `git diff <base-branch>...HEAD` and `git log <base-branch>..HEAD` instead of `gh pr` commands for Step 1 of `/aido:pr-review`. Skip Step 2 (already on the branch). Run all other steps as normal.
    - **Acceptance criteria**: when the specification has numbered acceptance criteria, also check the diff against each one that `## Progress` does not record as deferred. Add an **Acceptance criteria** section to the review brief listing every criterion the change does not appear to meet, with what is missing and where you looked — or one line saying all appear met. Judge from the diff and the tests in it, not from what `## Progress` claims
 2. After the review brief is presented, use `AskUserQuestion` to ask:
    > "Based on this review, how would you like to proceed?"
    - **Proceed** — create the PR as-is
-   - **Address findings** — stop here and let the user make changes (they can re-run `/aiae:4-create-pr` when ready)
+   - **Address findings** — stop here and let the user make changes (they can re-run `/aido:4-create-pr` when ready)
 
 ## Step 4: Assign PR
 

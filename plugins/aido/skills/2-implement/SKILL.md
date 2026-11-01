@@ -1,5 +1,5 @@
 ---
-description: Implements the feature using TDD. Invoked when the user wants to implement the feature, start TDD, begin red-green-refactor, or runs /aiae:2-implement.
+description: Implements the feature using TDD. Invoked when the user wants to implement the feature, start TDD, begin red-green-refactor, or runs /aido:2-implement.
 disable-model-invocation: false
 ---
 
@@ -20,7 +20,7 @@ TDD, inside-out. See "Test-First vs. Strict TDD" in `${CLAUDE_PLUGIN_ROOT}/guide
 Before any implementation work:
 
 - check for the presence of the `SPEC.md` file — if not present, stop; if only `SPEC.md.draft`
-  exists, tell the user the specification isn't approved yet and to run `/aiae:1-plan`
+  exists, tell the user the specification isn't approved yet and to run `/aido:1-plan`
 - if `SPEC.md.draft` exists next to `SPEC.md`, delete it and tell the user
 - read `SPEC.md` to understand the full scope
 - note whether it has numbered acceptance criteria (`AC1`, `AC2`, …) as "The Specification
@@ -109,7 +109,7 @@ as a broad scan after every cycle.
 
 ### Starting context
 
-- the spec's `## Design notes`, if `/aiae:1-plan` wrote them
+- the spec's `## Design notes`, if `/aido:1-plan` wrote them
 - the architecture index, if there is one, read as described in **Reading the Index** in
   `${CLAUDE_PLUGIN_ROOT}/skills/map-architecture/SKILL.md` — search it, don't load it. Never offer to build or
   update it here; that belongs to planning
@@ -207,7 +207,7 @@ Apply "Before Every Commit" in `git-workflow.md` before every commit. Do not com
 
 Follow `git-workflow.md`. Commit each completed unit as it lands, inside-out: an **atomic,
 per-class/module commit** with its tests. **Final history shaping** is not done here —
-`/aiae:3-organize-commits` owns it.
+`/aido:3-organize-commits` owns it.
 
 ## Red Flags to Watch For
 
@@ -246,4 +246,4 @@ user chose to skip it:
    - squash or amend into the existing `docs: feature specification` commit if history is not yet pushed
    - if already pushed, add a new `docs: update feature specification` commit
 
-3. Inform the user that implementation is complete and they can run `/aiae:3-organize-commits` when ready.
+3. Inform the user that implementation is complete and they can run `/aido:3-organize-commits` when ready.

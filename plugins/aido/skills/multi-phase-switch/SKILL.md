@@ -1,5 +1,5 @@
 ---
-description: Switches to the main plan branch for a multi-phase feature. Invoked when the user wants to switch to the main plan branch, go to the plan branch, or runs /aiae:multi-phase-switch.
+description: Switches to the main plan branch for a multi-phase feature. Invoked when the user wants to switch to the main plan branch, go to the plan branch, or runs /aido:multi-phase-switch.
 disable-model-invocation: false
 ---
 
@@ -16,7 +16,7 @@ Switch to the main plan branch for a multi-phase feature.
 2. **If no main plan branch is found:**
    - inform the user that no main plan branch was detected
    - use `AskUserQuestion` with question: "No main plan branch was detected. Would you like to create one?" and options:
-     - **Yes — run `/aiae:multi-phase-spec-pr`**
+     - **Yes — run `/aido:multi-phase-spec-pr`**
      - **No — stop**
    - stop after the user responds
 

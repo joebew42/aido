@@ -1,5 +1,5 @@
 ---
-description: Syncs the main plan PR with current progress from phase PRs. Invoked when the user wants to sync the main plan, update the main plan PR, update the roadmap, or runs /aiae:multi-phase-sync.
+description: Syncs the main plan PR with current progress from phase PRs. Invoked when the user wants to sync the main plan, update the main plan PR, update the roadmap, or runs /aido:multi-phase-sync.
 disable-model-invocation: false
 ---
 

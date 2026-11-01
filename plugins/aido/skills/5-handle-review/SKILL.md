@@ -1,5 +1,5 @@
 ---
-description: Handles PR review feedback by planning and implementing changes. Invoked when the user wants to handle PR review, address review comments, implement review feedback, or runs /aiae:5-handle-review.
+description: Handles PR review feedback by planning and implementing changes. Invoked when the user wants to handle PR review, address review comments, implement review feedback, or runs /aido:5-handle-review.
 disable-model-invocation: false
 ---
 

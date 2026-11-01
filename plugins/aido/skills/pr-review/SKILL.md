@@ -1,5 +1,5 @@
 ---
-description: Reviews a pull request from a reviewer's perspective, providing a summary, highlighting important changes, flagging concerns, and assessing safety. Invoked when the user wants to review a PR, understand what a PR changes, or runs /aiae:pr-review.
+description: Reviews a pull request from a reviewer's perspective, providing a summary, highlighting important changes, flagging concerns, and assessing safety. Invoked when the user wants to review a PR, understand what a PR changes, or runs /aido:pr-review.
 disable-model-invocation: false
 ---
 

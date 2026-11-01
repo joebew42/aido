@@ -1,5 +1,5 @@
 ---
-description: Organizes the commit history into a clean, logical structure. Invoked when the user wants to organize commits, clean up commit history, reorder commits, or runs /aiae:3-organize-commits.
+description: Organizes the commit history into a clean, logical structure. Invoked when the user wants to organize commits, clean up commit history, reorder commits, or runs /aido:3-organize-commits.
 disable-model-invocation: false
 ---
 
@@ -60,7 +60,7 @@ The chosen outcome becomes the **last** commit of the proposed structure below:
 
 All commit-organization rules are defined in `git-workflow.md` (loaded above); this skill **applies** them to an existing working tree / history. Its "Before Every Commit" gate applies to every commit made here. The very last commit is the `SPEC.md` outcome chosen in Step 1.
 
-This skill owns **final history shaping** (reordering, splitting, the `SPEC.md` outcome); `/aiae:2-implement` produced the per-unit working commits.
+This skill owns **final history shaping** (reordering, splitting, the `SPEC.md` outcome); `/aido:2-implement` produced the per-unit working commits.
 
 ## History Management
 

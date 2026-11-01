@@ -1,5 +1,5 @@
 ---
-description: Assesses the current repository's architecture area by area for evidence-backed systemic refactorings (duplicated knowledge, misplaced ownership, reinvented abstractions, crossed boundaries) and, for the findings the user picks, opens deduplicated GitHub issues. Invoked when the user wants to assess the architecture, find refactoring opportunities across the codebase, open refactoring issues, or runs /aiae:assess-architecture.
+description: Assesses the current repository's architecture area by area for evidence-backed systemic refactorings (duplicated knowledge, misplaced ownership, reinvented abstractions, crossed boundaries) and, for the findings the user picks, opens deduplicated GitHub issues. Invoked when the user wants to assess the architecture, find refactoring opportunities across the codebase, open refactoring issues, or runs /aido:assess-architecture.
 disable-model-invocation: false
 ---
 
@@ -22,7 +22,7 @@ commenting on) issues the user explicitly chose.
 - run `git fetch origin`, and check `gh repo view` works for this repository — if it does not,
   stop and tell the user why
 - **no index** → `AskUserQuestion`: "This repo has no architecture index yet. The assessment needs
-  one." — options **Run /aiae:map-architecture first** / **Cancel**. On the first, run that skill, then
+  one." — options **Run /aido:map-architecture first** / **Cancel**. On the first, run that skill, then
   continue here
 - **index stale** (see **Staleness** under **Index Location and Shape**) →
   `AskUserQuestion`: "The index was built `<n>` commits ago." — options **Update it first
@@ -107,7 +107,7 @@ same problem." — options **Skip** / **Comment the evidence on #<n>** / **Open 
   `gh issue create --title "<title>" --body-file <file> [--label "<label>"]`
 - body: the **Observation**, **Evidence**, **Impact**, **Recommendation** and **Risk** sections,
   ending with one line: "Found while assessing the architecture at `<short SHA>`."
-- follow the PR description rules in `/aiae:4-create-pr` that apply to any GitHub body: plain, concise
+- follow the PR description rules in `/aido:4-create-pr` that apply to any GitHub body: plain, concise
   language; no hard-wrapped prose; no reference to Claude Code
 
 ## Step 7: Report
