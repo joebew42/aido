@@ -70,7 +70,7 @@ For example, when you run `/aiae:1-plan`, it stops to ask where the specificatio
 GitHub issue it turns into a draft, a draft you write yourself, or a conversation in which it
 interviews you and writes the draft.
 
-![/aiae:1-plan waiting for an answer: after syncing with main and finding no SPEC.md, it asks whether to start from a GitHub issue or from a SPEC.md.draft you write yourself](docs/plan-asks-for-the-spec.png)
+![/aiae:1-plan waiting for an answer: it asks whether to start from a GitHub issue, a SPEC.md.draft you write yourself, or a conversation](docs/plan-asks-for-the-spec.png)
 
 ## Install
 
