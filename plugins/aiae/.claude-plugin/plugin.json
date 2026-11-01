@@ -1,6 +1,6 @@
 {
   "name": "aiae",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "displayName": "AI-Augmented Engineer",
   "description": "A stack-agnostic, test-driven engineering workflow: plan, implement, organize commits, open and review PRs, multi-phase features, and architecture assessment",
   "author": {
