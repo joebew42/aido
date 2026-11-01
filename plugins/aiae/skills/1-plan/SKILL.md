@@ -1,5 +1,5 @@
 ---
-description: Plans a feature or phase — drafts and refines its specification with the user, then plans the work into SPEC.md. Invoked when the user wants to plan a feature, write or refine a spec, start planning, create a feature branch, or runs /aiae:1-plan.
+description: Plans a feature or phase — drafts and refines its specification with the user, from a GitHub issue, their own draft or a conversation, then plans the work into SPEC.md, with a lighter route for a small, clear change. Invoked when the user wants to plan a feature, write or refine a spec, start planning, create a feature branch, or runs /aiae:1-plan.
 disable-model-invocation: false
 ---
 
@@ -36,6 +36,9 @@ The stages are strictly in order, and each one ends with the user's approval:
 4. **Hand off** — only with an approved plan and a well-written `SPEC.md`, you offer to move to
    `/aiae:2-implement`
 
+A small, clear change can take "Small-Change Route" in Step 2 instead, where one approval covers
+the Draft, Refine and Plan stages.
+
 ## Step 0: Sync with Main Branch
 
 Before starting any planning work:
@@ -64,8 +67,9 @@ in Step 7.
 - **`SPEC.md` exists** → the specification is already approved. Delete `SPEC.md.draft` if it is
   there, read `SPEC.md`, and continue at Step 4
 - **only `SPEC.md.draft` exists** → `AskUserQuestion`: "There is a `SPEC.md.draft` from an earlier
-  session. What would you like to do?" — options **Resume refining it** (continue at Step 3) /
-  **Start over** (delete it and continue at Step 2)
+  session. What would you like to do?" — options **Resume refining it** (use "Determine the work
+  type" in Step 2: a phase of a multi-phase project continues at Step 3, standalone work at "Choose
+  the route") / **Start over** (delete it and continue at Step 2)
 - **neither exists** → continue at Step 2
 
 ## Step 2: Write the Draft
@@ -142,6 +146,57 @@ in Step 7.
    options. When the code can answer a question, read the code instead of asking
 3. Stop when nothing blocks writing the draft; refining it comes later. Write what you learned into
    `SPEC.md.draft`, in the user's own words where they work, then continue as for the other options
+
+### Choose the route
+
+Only for standalone work: a phase of a multi-phase project skips this section and "Small-Change
+Route", and goes to "Approve the draft".
+
+Load the context as in Step 3 — **Load the context**. Then judge the draft: a change is **small and
+clear** only when all of these hold:
+
+- it has no open decision
+- it touches one module or area
+- it introduces no new domain concept or abstraction
+
+`AskUserQuestion`: say whether the change looks small and clear, and why, then ask "Which route
+should this change take?" — options **Small-change route** / **Full route**, with the one you
+propose marked as recommended. The user's choice stands, whatever you propose:
+
+- **Small-change route** → continue at "Small-Change Route"
+- **Full route** → continue at "Approve the draft", or at Step 3 for a draft resumed in Step 1
+
+### Small-Change Route
+
+The specification and the plan are written together and approved once. Steps 3 to 6 do not run, so
+do not ask about the enabling refactoring analysis.
+
+1. Rewrite `SPEC.md.draft` into "The Specification Structure" in
+   `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`, keeping every section brief. Propose the
+   acceptance criteria yourself when the draft has none
+2. Add a `## Plan` whose items follow Step 6: in order, each naming the criteria it serves, with
+   every criterion served by at least one item. After it, add this line:
+   `The enabling refactoring analysis was skipped.`
+3. Show the draft, then `AskUserQuestion`: "Are this specification and plan approved? This is the
+   only approval on this route." — options:
+   - **Approve — move it to SPEC.md** — continue with the checks below
+   - **Change it** — ask what to change, update the draft, and ask again
+   - **Move to the full route** — see below
+
+On approval:
+
+- [ ] no open questions remain in the draft
+- [ ] the draft has Context, Intent, Out of scope and Acceptance criteria, in that order, then the
+      plan
+- [ ] every acceptance criterion is numbered, specific, checkable, and marked `(manual)` when only
+      a person can confirm it
+- [ ] move it: `mv SPEC.md.draft SPEC.md`
+- [ ] confirm `SPEC.md.draft` no longer exists, and continue at Step 7
+
+**Moving to the full route.** When an open decision appears, tell the user why the change is no
+longer small; when the user chooses the option above, no explanation is needed. Remove `## Plan` and
+the skipped-analysis line from `SPEC.md.draft`, keep the rest, and continue at Step 3. This counts
+as approving the draft as the starting point.
 
 ### Approve the draft
 
