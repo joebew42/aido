@@ -47,6 +47,36 @@ check_script_is_followable() {
   check "$script computes nothing and runs no launcher" "" "$computed"
 }
 
+output_with_only_grep_on_path() {
+  local script="$1" input="$2"
+
+  local bin
+  bin="$(mktemp -d)"
+  ln -s "$(command -v grep)" "$bin/grep"
+  printf '%s' "$input" | env -i PATH="$bin" "$hooks/$script" 2>&1
+  rm -rf "$bin"
+}
+
+check "commit hook denies with only grep on the path" "$commit_denial" \
+  "$(output_with_only_grep_on_path deny-commit-attribution.sh \
+    '{"session_id":"abc","tool_name":"Bash","tool_input":{"command":"git commit -m \"noreply@anthropic.com\"","description":"Commit"}}')"
+check "memory hook denies with only grep on the path" "$memory_denial" \
+  "$(output_with_only_grep_on_path deny-memory-writes.sh \
+    '{"session_id":"abc","tool_name":"Write","tool_input":{"file_path":"/home/me/.claude/projects/todo-app/memory/notes.md","content":"x"}}')"
+
+check "commit hook ignores a trailer in another field" "" \
+  "$(echo '{"tool_input":{"command":"git commit -m \"feat: add lists\"","description":"git commit without noreply@anthropic.com"}}' \
+    | "$hooks/deny-commit-attribution.sh")"
+check "commit hook ignores a command named inside another field" "" \
+  "$(echo '{"tool_input":{"command":"ls","description":"\"command\":\"git commit noreply@anthropic.com\""}}' \
+    | "$hooks/deny-commit-attribution.sh")"
+check "commit hook denies a tab between git and commit" "$commit_denial" \
+  "$(echo '{"tool_input":{"command":"git\tcommit -m \"noreply@anthropic.com\""}}' \
+    | "$hooks/deny-commit-attribution.sh")"
+check "memory hook ignores a memory path in another field" "" \
+  "$(echo '{"tool_input":{"file_path":"/tmp/notes.md","content":"\"file_path\":\"/home/me/.claude/projects/todo-app/memory/notes.md\""}}' \
+    | "$hooks/deny-memory-writes.sh")"
+
 check "commit hook denies a Co-Authored-By trailer" "$commit_denial" \
   "$(commit_hook_output 'git commit -m "feat: add lists
 

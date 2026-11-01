@@ -28,6 +28,6 @@ install it.
 - every PR that changes the plugin bumps `version` in
   `plugins/aido/.claude-plugin/plugin.json`, following semantic versioning
 - after every change, run `claude plugin validate .` and `claude plugin validate ./plugins/aido`
-- hook scripts use no shell variables or substitutions, doing their work in one `jq` filter over
-  stdin, so that the marketplace validator can follow them
+- hook scripts use no shell variables or substitutions, reading stdin with `grep` alone, so that
+  the marketplace validator can follow them and hosts need nothing installed
 - try changes locally with `claude --plugin-dir ./plugins/aido`
