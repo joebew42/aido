@@ -90,9 +90,10 @@ Commit it as a `docs` commit with the exact message `docs: feature specification
 
 ## Step 2: Push Changes
 
-**Checklist:**
-- [ ] push changes to remote
-- [ ] explicitly set origin and branch name: `git push origin BRANCH_NAME`
+Per `git-workflow.md`, confirm with `AskUserQuestion`: "Ready to push `BRANCH_NAME` to origin so I can open the PR?" — options **Push** / **Cancel**.
+
+- on **Push**: run `git push origin BRANCH_NAME`
+- on **Cancel**: stop — the PR needs the branch on origin
 
 ## Step 3: Create Draft PR
 
