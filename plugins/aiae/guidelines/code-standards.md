@@ -90,8 +90,8 @@ discover behaviour, the systemic check decides how widely to look before settlin
 - **misplaced ownership** — the behaviour belongs to an object or module that already owns the
   concept → "aggregates and entities hold the behaviour" and "domain services" under Architecture
 - **reinvented abstraction** — a pattern, collaborator or term that already exists → "don't invent
-  domain vocabulary" under Code Quality, "use existing infrastructure" under Implementation
-  Guidelines
+  domain vocabulary" under Code Quality, "Existing organization" and "Existing tooling" under
+  Implementation Guidelines
 - **crossed boundary** — an outward dependency or unwanted coupling → "The Dependency Rule"
 
 **Evidence before action:**
@@ -372,7 +372,11 @@ When a comment is genuinely warranted, keep it to one or two lines.
 ### Implementation Guidelines
 - **API Design**: Consistent parameter ordering (context before specifics)
 - **Code Structure**: Extract parameter objects to avoid data clumps when too many arguments are passed into a function signature
-- **Implementation Approach**: Use existing infrastructure (project scripts, tasks, admin tooling) over new code
+- **Existing organization**: follow how the code around the change is already organized, even when
+  it differs from "Architecture", over introducing a new way of organizing it. Moving it to that
+  model is a separate refactoring the user decides on. This covers where things live, not bad
+  habits: new job handlers and endpoints still stay thin, even when their neighbours are not
+- **Existing tooling**: use project scripts, tasks and admin tooling over new code
 
 ## Evolving Guidelines
 
