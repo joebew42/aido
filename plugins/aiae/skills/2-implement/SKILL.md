@@ -20,7 +20,7 @@ review.
 Strict TDD is the default here, but it is not the only valid mode: match step size to how much
 design you must *discover* vs. *conform to*. Outer acceptance/contract tests are written test-first
 (and committed last); the units they drive are grown with strict TDD, inside-out. See the
-"Test-First vs. Strict TDD" heuristic in `${CLAUDE_PLUGIN_ROOT}/guidelines/code-standards.md`.
+"Test-First vs. Strict TDD" heuristic in `${CLAUDE_PLUGIN_ROOT}/guidelines/tdd.md`.
 
 ## Step 0: Load Context
 
@@ -41,6 +41,7 @@ Before any implementation work:
 Load these once — they apply regardless of stack:
 
 - `${CLAUDE_PLUGIN_ROOT}/guidelines/code-standards.md`
+- `${CLAUDE_PLUGIN_ROOT}/guidelines/tdd.md`
 - `${CLAUDE_PLUGIN_ROOT}/guidelines/git-workflow.md`
 - `${CLAUDE_PLUGIN_ROOT}/guidelines/testing-principles.md`
 - `${CLAUDE_PLUGIN_ROOT}/guidelines/project-conventions.md`
@@ -70,7 +71,7 @@ Wait for the user's response before starting implementation.
 ## Acceptance Criteria as Goal Posts
 
 The specification's acceptance criteria are the outer loop of the double loop described in "Test-First
-vs. Strict TDD" (`code-standards.md`). Before growing the units of a plan item:
+vs. Strict TDD" (`tdd.md`). Before growing the units of a plan item:
 
 - [ ] for each **automatable** criterion the item serves and that no test covers yet, write its
       outer acceptance test **test-first**, at the boundary where the behaviour is observable

@@ -17,6 +17,7 @@ Before any implementation work:
 
 - load the global guideline files once:
   - `${CLAUDE_PLUGIN_ROOT}/guidelines/code-standards.md`
+  - `${CLAUDE_PLUGIN_ROOT}/guidelines/tdd.md`
   - `${CLAUDE_PLUGIN_ROOT}/guidelines/git-workflow.md`
   - `${CLAUDE_PLUGIN_ROOT}/guidelines/project-conventions.md`
   - `${CLAUDE_PLUGIN_ROOT}/guidelines/testing-principles.md`, if testing patterns are relevant
