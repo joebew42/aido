@@ -26,7 +26,9 @@ committed. The two never exist together:
 
 - **both exist** → delete `SPEC.md.draft` and tell the user
 - **only `SPEC.md.draft` exists** → approve and refine it with the user as `/aiae:1-plan` Step 2
-  (**Approve the draft**) and Step 3 do, then move it with `mv SPEC.md.draft SPEC.md`
+  (**Approve the draft**) and Step 3 do — rewriting it into "The Specification Structure" in
+  `${CLAUDE_PLUGIN_ROOT}/guidelines/project-conventions.md`, with numbered acceptance criteria for
+  the whole feature — then move it with `mv SPEC.md.draft SPEC.md`
 - **neither exists** → ask the user to write `SPEC.md.draft`, then continue as above
 
 **BEFORE creating the multi-phase PR, review and finalize the `SPEC.md` file.**
@@ -51,9 +53,13 @@ Steps:
 3. Propose a phased implementation plan that includes:
    - A brief summary of the feature and its goals
    - A breakdown of the phases (each phase = one PR), described as high-level outcomes (not implementation details)
+   - The acceptance criteria each phase delivers, by ID — every criterion is delivered by at least one phase
    - Any risks, dependencies, or open questions worth flagging
 
-**Wait for explicit user approval of the plan before proceeding.**
+**Wait for explicit user approval of the plan before proceeding.** Once approved, write the phases
+into `SPEC.md` as its `## Plan`, each naming the criteria it delivers (see "Plan Items" in "The
+Specification Structure") — `/aiae:1-plan` reads them to carry each phase's criteria into its
+phase draft.
 
 The user may request changes to the plan (e.g., merge phases, split a phase, reorder). Iterate until approved.
 
@@ -77,9 +83,9 @@ This naming convention helps distinguish the main specification PR from individu
 If there is a GitHub issue, add it at the top of `SPEC.md`:
 
 ```markdown
-# Feature: [Feature Name]
+# <descriptive title>
 
-**GitHub Issue**: [github repository link]/#42
+GitHub Issue: [github repository link]/#42
 
 ## Context
 ...
