@@ -140,8 +140,7 @@ chore: rename migration after rebase with main
 
 - [ ] roll back your migration, then apply it again — both succeed
 - [ ] the test database is prepared the way the project documents
-- [ ] all relevant tests pass
-- [ ] no linting errors
+- [ ] "Before Every Commit" in `git-workflow.md` holds
 
 ## Wrap Up
 

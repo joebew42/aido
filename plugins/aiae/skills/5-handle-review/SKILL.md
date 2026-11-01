@@ -36,13 +36,9 @@ Before any implementation work:
 4. implement each approved change, run quality checks, then commit separately
 5. do NOT add comments to the PR - the user will handle communication with reviewers
 
-## Quality Checks (BEFORE EVERY COMMIT)
+## Quality Checks
 
-**Checklist - ALL must pass:**
-- [ ] run the full relevant test suite (not just the directly modified file)
-- [ ] run linting and fix any issues
-- [ ] verify no regressions introduced
-- [ ] verify no failing tests remain
+Apply "Before Every Commit" in `git-workflow.md` before every commit.
 
 ## Important Conventions
 

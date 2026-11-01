@@ -136,25 +136,6 @@ describe ListShared:
 they were the only place that behaviour existed. Once the extraction lands, collapse them: the
 extraction is not finished while the old assertions remain.
 
-## Scope the Pre-Commit Suite to What the Change Touches
-
-`code-standards.md` requires running "the full relevant test suite, not just the test for the file
-directly modified". **Relevant** has an upper bound as well as a lower one: the unit's own tests,
-the tests of its collaborators, and the tests of every file the change actually edited. It does
-**not** mean the enclosing directory.
-
-Reaching for a whole directory (all request tests, all model tests) is not extra safety — it is a worse signal. It sweeps in tests the change cannot affect, so any failure among
-them has to be disproved before the commit can proceed, and a genuinely broken pre-existing test
-looks identical to a regression you just introduced. The targeted set runs in seconds and fails
-for reasons you can act on.
-
-Derive the list mechanically from the diff rather than by directory:
-
-```sh
-git diff --name-only main...HEAD          # what changed
-# → run each changed test, the test for each changed source file, and their collaborators' tests
-```
-
 ## Assert Literal Expected Values, Not Recomputed Ones
 
 In request/response and serialization tests, assert the **literal** expected output — not a value

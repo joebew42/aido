@@ -65,7 +65,7 @@ All commit-organization rules are defined in `git-workflow.md` (loaded above) â€
 - keep API-layer commits separate from application code; put implementations of collaborators in their own commit, after application code and before API-layer commits; keep database migrations and any generated schema snapshot in their own commit, separate from model code
 - refactoring of pre-existing code in its own `refactor:` commit, before the feature commits that depend on it; refactoring of the feature's own new code stays inside the feature commit
 - the `docs: feature specification` commit stays **first**; squash `SPEC.md` edits into it only while unpushed, otherwise add `docs: update feature specification`; the very last commit is the `SPEC.md` outcome chosen in Step 1
-- before committing: linting clean and all tests green
+- before committing: "Before Every Commit" in `git-workflow.md`
 
 This skill owns **final history shaping** (reordering, splitting, the `SPEC.md` outcome); `/aiae:2-implement` produced the per-unit working commits.
 

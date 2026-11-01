@@ -245,9 +245,9 @@ options:
 Note each result for the `## Progress` handoff. Never record a criterion as met without its
 evidence.
 
-## Quality Checks (BEFORE EVERY COMMIT)
+## Quality Checks
 
-Apply the per-commit gate from `git-workflow.md` / `code-standards.md` (loaded in Step 0): linting clean, all relevant tests green, no regressions. Do not commit otherwise. See the **Red Flags** below for the mistakes that block a commit.
+Apply "Before Every Commit" in `git-workflow.md` before every commit. Do not commit otherwise.
 
 ## Commit Messages
 

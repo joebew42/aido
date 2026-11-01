@@ -2,9 +2,14 @@
 
 ## Commits
 
-### Before Committing
-- ensure no linting issues are present
-- ensure all relevant tests pass
+### Before Every Commit
+
+This is the per-commit gate, including for review fixes. It also applies before marking a task complete.
+
+- linting is clean
+- the relevant tests pass with no regressions. Relevant means the unit's own tests, its collaborators' tests, and the tests of every file the change edited (`git diff --name-only main...HEAD`), not only the file directly modified and not the enclosing directory, whose unrelated failures can't be told from a regression
+- when a value, constant, flag or API is changed or removed, search for all references to the old form, including comments and documentation, and update them in the same change
+- read the diff and delete every comment it introduces that "Comments" in `code-standards.md` doesn't allow
 
 ### Commit Message Format
 - use always lower case

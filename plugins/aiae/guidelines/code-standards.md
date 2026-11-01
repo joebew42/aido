@@ -289,23 +289,6 @@ When a comment is genuinely warranted, keep it to one or two lines.
   habits: new job handlers and endpoints still stay thin, even when their neighbours are not
 - **Existing tooling**: use project scripts, tasks and admin tooling over new code
 
-## Quality Checks
-
-### Before Every Commit (Including Review Fixes)
-- after implementing any change — especially review feedback — run the **full relevant test suite**, not just the test for the file directly modified — and see "Scope the Pre-Commit Suite to What the Change Touches" in `testing-principles.md` for the upper bound on *relevant*: the unit's own tests, its collaborators' tests, and the tests for every file the change edited, **not** the enclosing directory
-- when a value, constant, flag, or API is changed **or removed**, search the codebase for **all** references to the old form — including **comments and documentation**, not just tests — and update them in the same change; removing a flag while leaving a comment that still describes it produces stale, misleading docs
-- read the diff you are about to commit and delete every comment it introduces that is not
-  machine-required or a justified exception under "Comments" above — review the diff itself, not
-  the finished file, because a comment that felt reasonable while writing the line is the one most
-  likely to be restating it
-- check for any linting issues and fix them
-- ensure all tests pass before committing
-
-### Before Marking Tasks Complete
-- check that no potential regressions are present in the code
-- check for any linting issues and fix them
-- ensure all tests pass
-
 ## Interaction Style
 
 - when a question is ambiguous or several approaches are valid, present the options with
