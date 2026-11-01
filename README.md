@@ -71,6 +71,10 @@ aido is a workflow for working that way, and each of its practices keeps that sp
   test, lint, name or structure code comes from your repository — first from its `CLAUDE.md` and
   `AGENTS.md`, then from the code itself.
 
+To learn more about the wider field, see
+[AI-Augmented Software Engineering](https://www.sei.cmu.edu/ai-augmented-software-engineering/) at
+Carnegie Mellon's Software Engineering Institute.
+
 ## How the workflow works
 
 ### The specification is at the center
