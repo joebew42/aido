@@ -5,6 +5,7 @@ hooks="$root/plugins/aido/hooks"
 failures=0
 
 commit_denial='{"hookSpecificOutput":{"hookEventName":"PreToolUse","permissionDecision":"deny","permissionDecisionReason":"No Co-Authored-By/Claude references in commit messages (git-workflow.md). Use a subject-line-only message."}}'
+memory_denial='{"hookSpecificOutput":{"hookEventName":"PreToolUse","permissionDecision":"deny","permissionDecisionReason":"Writing to Claude memory is forbidden here (evolving-guidelines.md: do not use auto-memory). Propose a guideline edit instead."}}'
 
 check() {
   local name="$1" expected="$2" actual="$3"
@@ -21,6 +22,10 @@ check() {
 
 commit_hook_output() {
   jq -n --arg command "$1" '{tool_input: {command: $command}}' | "$hooks/deny-commit-attribution.sh"
+}
+
+memory_hook_output() {
+  jq -n --arg file_path "$1" '{tool_input: {file_path: $file_path}}' | "$hooks/deny-memory-writes.sh"
 }
 
 check_command_is_a_plugin_script() {
@@ -60,6 +65,17 @@ check "commit hook allows input without a command" "" \
   "$(echo '{"tool_input":{}}' | "$hooks/deny-commit-attribution.sh")"
 check_command_is_a_plugin_script "Bash" "deny-commit-attribution.sh"
 check_script_is_followable "deny-commit-attribution.sh"
+
+check "memory hook denies a write under a project's memory directory" "$memory_denial" \
+  "$(memory_hook_output '/home/me/.claude/projects/todo-app/memory/notes.md')"
+check "memory hook allows a write to a project's other files" "" \
+  "$(memory_hook_output '/home/me/.claude/projects/todo-app/notes.md')"
+check "memory hook allows a memory directory outside Claude's projects" "" \
+  "$(memory_hook_output '/home/me/todo-app/memory/notes.md')"
+check "memory hook allows input without a file path" "" \
+  "$(echo '{"tool_input":{}}' | "$hooks/deny-memory-writes.sh")"
+check_command_is_a_plugin_script "Write|Edit|MultiEdit" "deny-memory-writes.sh"
+check_script_is_followable "deny-memory-writes.sh"
 
 if [ "$failures" -gt 0 ]; then
   echo "$failures failed"
