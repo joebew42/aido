@@ -51,6 +51,7 @@ chore: update dependencies
 - use inside-out strategy: commit most internal parts first, end with outer parts
 - request or acceptance tests should be committed last
 - keep API-layer changes in their own commit, separate from application code (models, services) — if the project defines API scopes, the API commit carries one (see "Conventional-commit scopes" above)
+- implementations of collaborators (e.g. `PostgresqlTaskRepository`; see "Collaborators and their implementations" in `code-standards.md`) go in their own commit, after application code and before API-layer commits
 - database migrations and any generated schema snapshot go in their own commit, separate from model and application code — even when a migration and its model are created together, split them
 - commit **stand-alone** refactoring separately with a `refactor:` prefix — that is any refactoring of code that existed before the feature, even when the feature motivated it (an enabling refactoring planned up front, or a systemic one found while implementing); it lands before the feature commits that depend on it. Refactoring the feature's own new code stays inside that feature's commit
 

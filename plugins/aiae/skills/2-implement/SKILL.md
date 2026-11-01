@@ -131,9 +131,8 @@ supervise step by step. Do not race ahead to the finished implementation.
   - code smells (magic numbers, duplication, etc.)
   - Single Level of Abstraction principle
   - SOLID principles and separation of concerns
-  - the Dependency Rule — no outward dependency introduced (application or domain code naming a
-    controller, endpoint, job, session or framework type), and no decision-making left in a
-    delivery mechanism
+  - the Dependency Rule — no outward dependency introduced (application or domain code naming
+    anything in infrastructure), and no decision-making left in infrastructure
   - conformance to the guidelines loaded in Step 0 (do not re-read them)
 - [ ] refactor in small steps, re-running tests after each step (stay green)
 - [ ] commit stand-alone refactoring separately with a `refactor:` prefix

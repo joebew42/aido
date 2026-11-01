@@ -162,7 +162,7 @@ After printing Summary, any optional one-liners, What to review carefully, and R
 Use these three options (in this order; mark the second as Recommended):
 
 - **Critical only** — only things that could cause real issues if merged: potential bugs, missing tests for non-trivial paths, performance regressions, breaking changes, security concerns, operational/rollout risks.
-- **Critical + standards** (Recommended) — the above, plus convention violations, structural concerns (including Dependency Rule violations and domain logic living in a delivery mechanism — see "Architecture" in `code-standards.md`), dead/unused code, and inconsistencies that will cause confusion later.
+- **Critical + standards** (Recommended) — the above, plus convention violations, structural concerns (including Dependency Rule violations and domain logic living in infrastructure — see "Architecture" in `code-standards.md`), dead/unused code, and inconsistencies that will cause confusion later.
 - **Everything** — also includes style nitpicks: naming, comment quality, formatting suggestions, micro-refactors.
 
 Include every verified finding that fits the chosen category — no numeric cap. The category itself is the filter; do not pad to a target count, and do not drop a legitimate finding because there are "already enough" comments.

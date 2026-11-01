@@ -90,8 +90,8 @@ discover behaviour, the systemic check decides how widely to look before settlin
 - **misplaced ownership** — the behaviour belongs to an object or module that already owns the
   concept → "aggregates and entities hold the behaviour" and "domain services" under Architecture
 - **reinvented abstraction** — a pattern, collaborator or term that already exists → "don't invent
-  domain vocabulary" under Code Quality, "use existing infrastructure" under Implementation
-  Guidelines
+  domain vocabulary" under Code Quality, "Existing organization" and "Existing tooling" under
+  Implementation Guidelines
 - **crossed boundary** — an outward dependency or unwanted coupling → "The Dependency Rule"
 
 **Evidence before action:**
@@ -147,105 +147,137 @@ When implementing features that modify business logic, use the appropriate test 
 
 ### Architecture
 
-Design follows Clean Architecture, Hexagonal Architecture, Crafted Design (Sandro Mancuso) and
-Domain-Driven Design, with SOLID at the class level. Code is split into two areas — **delivery
-mechanisms** on the outside, **application / domain code** on the inside — held together by the
-Dependency Rule.
+Clean Architecture, Hexagonal Architecture, Crafted Design and Domain-Driven Design all make the
+same point; these rules state it once, in Domain-Driven Design language, with SOLID at the class
+level.
+
+Code is split into two areas, held together by the Dependency Rule: **infrastructure** communicates
+with the outside world, and **application / domain code** holds what the system does.
 
 #### The Dependency Rule
 
-Source code dependencies point **inward only**: delivery → application → domain. Inner code never
-names anything outer — no controller, endpoint, job, session, API type, HTTP client or other
-framework concept appears in an application service or a domain object. When inner code needs the
-outside world (sending an email, calling another system), it depends on a collaborator named in
-its own business terms, and the outer layer supplies the implementation.
+Source code dependencies point **inward only**: infrastructure → application → domain. Application
+and domain code never name anything in infrastructure — no controller, endpoint, job, session, API
+type, HTTP client, database or other framework concept. When inner code needs the outside world
+(storing a task, cancelling a reminder), it depends on a **collaborator** named in its own business
+terms. It does not choose the implementation: that is supplied from outside it.
 
-**Smell test**: if a use case would have to change because the API, the queue or the UI changed,
-a dependency points the wrong way.
+**Smell test**: if a use case would have to change because the API, the queue, the UI or the
+database changed, a dependency points the wrong way.
 
-#### 1. Delivery mechanisms
+#### Collaborators and their implementations
 
-The outermost layer: web controllers, views, API endpoints, background jobs,
-scheduled tasks, CLIs, queue consumers. Each handles the communication between the
-outside world and the application, and nothing more:
+By default, inner code depends on a collaborator and its implementation lives in infrastructure,
+**even when there is only one implementation**. This separation is a design boundary, not
+speculative generalization; no further implementation is added until a test needs it. The
+collaborator's name follows the vocabulary the host repository already uses — `TaskRepository` or
+`Tasks` (see "don't invent domain vocabulary" under Code Quality).
 
-1. translate the external input (params, arguments, session) into a use-case request
-2. call the application service
-3. map its response back to the outside (HTTP status, API type, exit code)
+The default applies only when these leave the question open, in this order:
 
-Delivery-only concerns — "is there a logged-in user?", serialisation, retries — stay here.
+1. **the host repository's instruction files** can choose otherwise, for example ORM models as
+   their own repositories (see `project-conventions.md`)
+2. **the code around the change**: see "Existing organization" under Implementation Guidelines
+3. **the framework's conventions**: where the framework has its own way, such as ORM models that
+   are their own repositories, follow it and do not bend it to this model
 
-- **keep delivery mechanisms thin — they delegate, they don't decide**: a background job,
-  controller action, scheduled task or CLI command unpacks its arguments and calls an application
-  service; the logic belongs in that service, where it can be tested and reused without a queue or a
-  request. A job handler that loads records, branches on a feature flag, writes to the database or
-  builds a payload is doing domain work in an infrastructure class.
-  ```
-  # Instead of:
-  job SendTaskReminderJob(user_id, task_id):
-      task = database.find_task(task_id)
-      # ...loading, guarding, recording, sending...
+#### 1. Infrastructure
 
-  # Use:
-  job SendTaskReminderJob(user_id, task_id):
-      RemindUserOfDueTask.call(user_id, task_id)
-  ```
-  The job's test then documents only the delegation, and the service's test documents the behaviour.
+The outermost area, at the boundaries of the system. It comes in two kinds, and neither decides
+anything about the business.
+
+**What calls in** — web controllers, views, HTTP and GraphQL endpoints, CLIs, background job
+handlers, scheduled tasks, queue consumers. Each translates the external input into a use-case
+request, calls the application service, and maps its response back to the outside (HTTP status, API
+type, exit code). Concerns of the outside world — "is there a logged-in user?", serialisation,
+retries — stay here.
+
+**Keep it thin — it delegates, it doesn't decide.** A job handler that loads records, branches on a
+feature flag, writes to the database or builds a payload is doing domain work in an infrastructure
+class: `SendTaskReminderJob` only unpacks its arguments and calls `RemindUserOfDueTask`. Its test
+then documents the delegation, and the service's test documents the behaviour.
+
+**What inner code calls out to** — repository implementations, email senders, clients of other
+systems, queue publishers. Each implements a collaborator's contract and translates between business
+terms and the outside world. A collaborator may have several implementations, one for each way of
+communicating: `PostgresqlTaskRepository` talks to a PostgreSQL database, and `QueueTaskReminders`
+implements `TaskReminders` on a job queue.
 
 #### 2. Application / domain code
-
-Application Services → Repositories → Domain Aggregates / Entities (or Domain Services)
 
 - **application services (use cases)** are the entry points to the domain. Each maps **one**
   business rule and is named as an imperative verb-noun in business terms (`CompleteTask`,
   `ShareList` — not `TaskManager`, `ListProcessor`). It loads what it needs, orchestrates the
   domain objects, saves the changes, and returns a response the caller can branch on — typed
-  outcomes (`Completed`, `NotFound`) rather than delivery-specific values. Group them by domain
-  area (e.g. a `tasks/` directory), so the directory tree reads as what the system does.
-- **repositories** are collection-like persistence collaborators (`find`, `save`) that keep
-  storage details out of the use case. How this maps onto a framework — e.g. whether ORM models
-  double as repositories — is the host repo's call (see `project-conventions.md`).
-- **aggregates and entities hold the behaviour — put it on the object that owns the data (avoid
-  feature envy / anemic models)**: before adding a method to a service or endpoint that reaches
-  into another object's columns, foreign keys, or associations to answer a question *about that
-  object*, put the method on the object itself. "Is this user the owner of this TODO list?" / "is
-  this user a collaborator on it?" is knowledge the aggregate already holds — expose it as
-  `owned_by(user)` / `has_collaborator(user)` on the list, not as a `UserInvolvement` service that
-  reads `owner_id` and queries the collaborators table. It
-  is a **default, not an absolute** — the rule is scoped to "a question about that one object".
-  **Smell test**: if a new class's methods mostly read another object's internals, that's feature
-  envy — move them onto that object.
+  outcomes (`Completed`, `NotFound`) rather than values tied to one way of calling it. Group them by
+  domain area (e.g. a `tasks/` directory), so the directory tree reads as what the system does.
+- **collaborators** are the contracts inner code talks to. **Repositories** are the collection-like
+  ones (`find`, `save`) that keep storage details out of the use case; every other need of the
+  outside world, such as `TaskReminders`, works the same way.
+- **aggregates and entities hold the behaviour — the business logic and invariants, on the object
+  that owns the data (avoid feature envy / anemic models)**. An entity has an identity. "Is this
+  user the owner of this TODO list?" is knowledge the aggregate already holds — expose it as
+  `owned_by(user)` on the list, not as a `UserInvolvement` service that reads `owner_id`. This is a
+  **default, not an absolute**, scoped to "a question about that one object". **Smell test**: if a
+  new class's methods mostly read another object's internals, that's feature envy — move them onto
+  that object.
+- **value objects** have no identity and are compared by value: two `DueDate`s for the same day are
+  the same due date.
 - **domain services** hold domain logic that genuinely spans aggregates and belongs to none of
   them. Reach for one only after the aggregate has been ruled out.
 
 #### Worked example
 
-"Complete a task", in pseudocode. The endpoint owns the session concern and the API mapping;
-the use case knows nothing about either; the aggregate owns its own behaviour.
+"Complete a task", in pseudocode, through every role.
 
 ```
-# Delivery — translate input, delegate, nothing else
-endpoint CompleteTask(id, session):
+# Infrastructure, calling in — translate input, delegate, map the outcome
+endpoint CompleteTaskEndpoint(id, session):
     if not session.logged_in:
         return LoginRequired
 
-    outcome = CompleteTaskService.call(user_id: session.user_id, id: id)
+    outcome = complete_task.call(user_id: session.user_id, id: id)
 
     match outcome:
-        Completed -> return OperationSucceeded
-        NotFound  -> return TaskNotFound
+        Completed        -> return OperationSucceeded
+        NotFound         -> return TaskNotFound
+        AlreadyCompleted -> return TaskAlreadyCompleted
 
 # Application service — one business action, typed outcomes, no API or session in sight
-service CompleteTaskService(user_id, id):
-    task = tasks.find_for(user_id, id)
-    if task is missing:
-        return NotFound
+service CompleteTask(tasks: TaskRepository, reminders: TaskReminders):
+    call(user_id, id):
+        task = tasks.find_for(user_id, id)
+        if task is missing:
+            return NotFound
 
-    in transaction:
-        cancel_pending_reminder(task)
-        task.complete()
+        if task.complete() is Rejected:
+            return AlreadyCompleted
 
-    return Completed
+        reminders.cancel_for(task)
+        tasks.save(task)
+
+        return Completed
+
+# Entity — has an identity, enforces its own invariant
+entity Task(id, due_date: DueDate, completed_at):
+    complete():
+        if completed_at is set:
+            return Rejected
+        completed_at = now
+
+# Value object — no identity, compared by value
+value DueDate(day)
+
+# Collaborators — contracts in business terms
+collaborator TaskRepository: find_for(user_id, id), save(task)
+collaborator TaskReminders: cancel_for(task)
+
+# Infrastructure, called by inner code — implements a contract, talks to the outside world
+PostgresqlTaskRepository implements TaskRepository
+QueueTaskReminders implements TaskReminders
+
+# Infrastructure — supplies the implementations
+complete_task = CompleteTask(tasks: PostgresqlTaskRepository(), reminders: QueueTaskReminders())
 ```
 
 ### Code Quality
@@ -372,7 +404,11 @@ When a comment is genuinely warranted, keep it to one or two lines.
 ### Implementation Guidelines
 - **API Design**: Consistent parameter ordering (context before specifics)
 - **Code Structure**: Extract parameter objects to avoid data clumps when too many arguments are passed into a function signature
-- **Implementation Approach**: Use existing infrastructure (project scripts, tasks, admin tooling) over new code
+- **Existing organization**: follow how the code around the change is already organized, even when
+  it differs from "Architecture", over introducing a new way of organizing it. Moving it to that
+  model is a separate refactoring the user decides on. This covers where things live, not bad
+  habits: new job handlers and endpoints still stay thin, even when their neighbours are not
+- **Existing tooling**: use project scripts, tasks and admin tooling over new code
 
 ## Evolving Guidelines
 

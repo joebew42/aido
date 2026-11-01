@@ -62,7 +62,7 @@ All commit-organization rules are defined in `git-workflow.md` (loaded above) â€
 
 - semantic, lowercase, subject-only messages (`feat:`, `test:`, `refactor:`, `chore:`, `style:`, `docs:`); test-only changes use `test:`; no Claude reference
 - group per class/module (tests with their code); inside-out ordering; request/acceptance tests committed last
-- keep API-layer commits separate from application code; keep database migrations and any generated schema snapshot in their own commit, separate from model code
+- keep API-layer commits separate from application code; put implementations of collaborators in their own commit, after application code and before API-layer commits; keep database migrations and any generated schema snapshot in their own commit, separate from model code
 - refactoring of pre-existing code in its own `refactor:` commit, before the feature commits that depend on it; refactoring of the feature's own new code stays inside the feature commit
 - the `docs: feature specification` commit stays **first**; squash `SPEC.md` edits into it only while unpushed, otherwise add `docs: update feature specification`; the very last commit is the `SPEC.md` outcome chosen in Step 1
 - before committing: linting clean and all tests green
@@ -102,6 +102,7 @@ After organizing commits, verify ALL of the following:
 - [ ] Database migrations and any generated schema snapshot are in their own commit, separate from model code
 - [ ] Tests and implementation are grouped per class/module
 - [ ] API changes are separate from application code changes
+- [ ] Implementations of collaborators are in their own commit, after application code and before API-layer commits
 - [ ] Inside-out strategy followed (internal â†’ outer)
 - [ ] Request, integration or acceptance tests are last (if present)
 - [ ] No Claude Code references in any commit message

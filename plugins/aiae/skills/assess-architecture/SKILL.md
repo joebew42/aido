@@ -38,7 +38,7 @@ assess?" — options **All areas** / **Specific areas** (the user names them).
 Launch one `Agent` per area with `model: "fable"`, in parallel. Brief each with:
 
 - the area's two file paths (`<area-slug>.md` and `<area-slug>.extra.md` — the second holds the
-  delivery mechanisms, misfits and observations this assessment needs), the `README.md` path, and
+  infrastructure, misfits and observations this assessment needs), the `README.md` path, and
   the repository root
 - to look across the area boundary by searching the other areas' files for this area's rules and
   terms, as in **Reading the Index** in `${CLAUDE_PLUGIN_ROOT}/skills/map-architecture/SKILL.md` — not by

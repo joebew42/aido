@@ -1,5 +1,5 @@
 ---
-description: Builds or refreshes a slim architecture index of the current repository — its domain areas and the building blocks in each (delivery mechanisms, application services, repositories, aggregates, value objects, domain services) — stored locally under ~/.claude/repos/. Invoked when the user wants to map the architecture, warm up or update the architecture index, or runs /aiae:map-architecture.
+description: Builds or refreshes a slim architecture index of the current repository — its domain areas and the building blocks in each (infrastructure, application services, collaborators, aggregates, value objects, domain services) — stored locally under ~/.claude/repos/. Invoked when the user wants to map the architecture, warm up or update the architecture index, or runs /aiae:map-architecture.
 disable-model-invocation: false
 ---
 
@@ -19,7 +19,7 @@ This skill only reads the repository. It writes nothing inside it.
   architecture/
     README.md                    # always read: build commit, one line per area
     areas/<area-slug>.md         # where the business rules live — searched, opened when central
-    areas/<area-slug>.extra.md   # delivery mechanisms, misfits, observations — assessment only
+    areas/<area-slug>.extra.md   # infrastructure, misfits, observations — assessment only
 ```
 
 - `<repo-name>` is the last path segment of the `origin` remote URL without `.git` (e.g.
@@ -77,28 +77,35 @@ TODO lists a user shares and the collaborators who can edit them.
 ## Application services
 - `ShareListService` — `src/sharing/share_list_service.ext` — gives a collaborator edit access to a list and sends them an invitation
 
+## Collaborators
+- `InvitationSender` — `src/sharing/invitation_sender.ext`
+
 ## Aggregates / entities
 - `TodoList` — `src/lists/todo_list.ext` — a list of tasks owned by one user; decides who may edit it; also its own repository (ORM model)
 ```
 
 ```markdown
-# Sharing — delivery and notes
+# Sharing — infrastructure and notes
 
-## Delivery mechanisms
+## Infrastructure
 - `ShareListEndpoint` — `src/api/sharing/share_list_endpoint.ext`
+- `SmtpInvitationSender` — `src/sharing/smtp_invitation_sender.ext`
 - `src/api/sharing/serializers/` — 14 serializers
 
 ## Doesn't fit
 - `SharingHelpers` — `src/sharing/helpers.ext` — mixes query building and formatting
 
 ## Observations
-- `InvitationJob` loads records and branches on a feature flag — decision-making in a delivery mechanism
+- `InvitationJob` loads records and branches on a feature flag — decision-making in infrastructure that calls in
 ```
 
 - **sections**, in this order, omitting empty ones:
-  - `<area-slug>.md`: Application services, Repositories, Aggregates / entities, Value objects,
+  - `<area-slug>.md`: Application services, Collaborators, Aggregates / entities, Value objects,
     Domain services
-  - `<area-slug>.extra.md`: Delivery mechanisms, Doesn't fit, Observations
+  - `<area-slug>.extra.md`: Infrastructure, Doesn't fit, Observations
+
+  Collaborators are the contracts inner code talks to, repositories included; their implementations
+  go under Infrastructure.
 
   The roles are the layers in "Architecture" in `${CLAUDE_PLUGIN_ROOT}/guidelines/code-standards.md`; where the
   host repository's `CLAUDE.md` or `AGENTS.md` maps them onto its own code, use that mapping
@@ -112,7 +119,7 @@ TODO lists a user shares and the collaborators who can edit them.
   - **every other role** — name and path only; add a description only when the name does not
     already say what the thing does, the same bar as the Comments guideline
 - **collapse volume, not meaning**: list application services, aggregates, value objects and
-  domain services one by one; collapse a directory of more than ~10 delivery mechanisms, types or
+  domain services one by one; collapse a directory of more than ~10 infrastructure entries, types or
   serializers into one line with a count
 - **map the code as it is.** Something that does not fit one role cleanly goes under **Doesn't
   fit** with a few words on why — never force it into a role. Boundary violations noticed along the

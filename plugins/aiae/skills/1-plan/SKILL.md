@@ -249,9 +249,9 @@ would add a plan item.
 ## Step 6: Propose the Plan
 
 - go through the specification and propose a plan of the changes
-- name the layer each planned change lives in — delivery mechanism, application service, or domain
+- name the layer each planned change lives in — domain, application service, or infrastructure
   (see "Architecture" in `${CLAUDE_PLUGIN_ROOT}/guidelines/code-standards.md`) — and order the plan inside-out:
-  domain → application → delivery
+  domain → application → infrastructure, with what inner code calls out to before what calls in
 - put the **enabling** refactorings from Step 5 first, each as its own `refactor:` item, before
   the feature work; deferred findings are not planned, only listed in the Design notes
 - name the acceptance criteria each plan item serves, as "Plan Items" in "The Specification

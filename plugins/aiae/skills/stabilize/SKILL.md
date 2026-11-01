@@ -60,8 +60,8 @@ Present to the user, briefly:
 2. **Intent** — what the change is for, in plain language, from the user's or product's point of
    view; use the PR description and commit messages, but trust the code where they disagree
 3. **Gaps against the guidelines** — only concrete, verified ones, each with the file it lives in:
-   - layering and the Dependency Rule — logic in delivery mechanisms, inner code naming outer
-     concepts, behaviour that belongs on an aggregate (see "Architecture" in `code-standards.md`)
+   - layering and the Dependency Rule — logic in infrastructure, inner code naming anything
+     in infrastructure, behaviour that belongs on an aggregate (see "Architecture" in `code-standards.md`)
    - tests — missing behaviour coverage, wrong test level, mocked internals
    - commit shape — mixed concerns, vague or non-semantic messages, out-of-order history
    - anything else from the loaded guidelines that the change violates
@@ -136,7 +136,7 @@ Strategy: <reimplement from scratch | carry over and adjust>
 
 ## Plan
 <the changes, each tagged with its layer and the criteria it serves, ordered inside-out:
-domain → application → delivery>
+domain → application → infrastructure, with what inner code calls out to before what calls in>
 ```
 
 - refine it with the user as `/aiae:1-plan` Step 3 does — fill gaps, remove ambiguity, reword,
