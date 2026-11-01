@@ -1,6 +1,6 @@
 {
   "name": "aido",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "displayName": "AI-Augmented Engineering",
   "description": "A stack-agnostic, test-driven engineering workflow: plan, implement, organize commits, open and review PRs, multi-phase features, and architecture assessment",
   "author": {
