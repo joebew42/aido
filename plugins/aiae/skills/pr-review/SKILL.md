@@ -195,14 +195,7 @@ For each candidate:
 
 Within each group, comments use the same `> **\`path\` (line N)**` block format. Do not add per-comment priority labels — the group header is the label.
 
-**Before presenting any comment, verify it.** For each candidate comment:
-
-1. **Read the actual source file** at the referenced lines (the branch is already checked out from Step 2).
-2. **Confirm the issue exists in the current code** — if the code doesn't match what you assumed from the diff, discard the comment.
-3. **Confirm the issue is part of the diff** — only comment on lines that were added or modified in this PR, not on pre-existing code that was merely included as diff context.
-4. **Confirm the suggestion is a valid improvement** — verify the suggested change would actually work (e.g., the method/class/variable you reference exists, the alternative approach is compatible with the surrounding code).
-
-Discard any comment that fails verification. Do not mention discarded comments to the user.
+**Before presenting any comment, verify it** against the source, as for the cards above: the issue exists in the current code, it is on lines this PR added or modified, and the suggested change would actually work with the surrounding code. Discard any comment that fails. Do not mention discarded comments to the user.
 
 Format each verified comment as:
 
@@ -229,11 +222,3 @@ gh api repos/<owner>/<repo>/pulls/<number>/comments \
 To find the correct `position` for each comment, parse the PR diff (from `gh pr diff`) and count lines from the start of each file's diff hunk — position 1 is the first `@@` line, and increments by 1 for every line after that (including context lines, added lines, and removed lines, but not the `diff --git`, `---`, or `+++` header lines). The `commit_id` is the PR's head SHA (from `gh api repos/<owner>/<repo>/pulls/<number> --jq '.head.sha'`).
 
 Never use `gh pr review --comment` for suggested review comments — that posts to the general PR comment thread, not inline on the code.
-
----
-
-## Output Format
-
-Present the brief as clean markdown with section headers. Keep each section concise — the goal is to save the reviewer time, not to exhaustively describe every line. Use bullet points where a list reads more clearly than prose.
-
-After the full brief, present the suggested comments and wait for the user to decide what to post.
