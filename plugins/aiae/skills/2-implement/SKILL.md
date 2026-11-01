@@ -146,9 +146,10 @@ the unit (see commit strategy), then move to the next unit.
 ## Systemic Design Checkpoint
 
 The REFACTOR step looks at the code just written; this checkpoint looks beyond it. The rules —
-what to look for, the evidence rule, the four outcomes, the boundaries and when to stop — are
-"Systemic Refactoring" in `code-standards.md`, loaded in Step 0. It runs in test-first and
-strict-TDD mode alike, and **never** as a broad scan after every cycle.
+what to look for, the evidence rule, the four outcomes, the boundaries and when to stop — are in
+`${CLAUDE_PLUGIN_ROOT}/guidelines/systemic-refactoring.md`. Read it the first time a checkpoint runs; this is the one guideline
+read allowed during implementation. It runs in test-first and strict-TDD mode alike, and **never**
+as a broad scan after every cycle.
 
 ### Starting context
 
@@ -191,7 +192,7 @@ On **Run the checkpoint**, launch one `Agent` with `model: "fable"`. Brief it wi
   was actually built and to call out where they no longer hold
 - if there is an index, its directory and the **Reading the Index** steps from
   `${CLAUDE_PLUGIN_ROOT}/skills/map-architecture/SKILL.md`, copied in full
-- the "Systemic Refactoring" section and the rules it points to, copied from `code-standards.md`
+- `systemic-refactoring.md` and the rules it points to in `code-standards.md`, copied
   — the subagent has not loaded the guidelines
 - never to edit files
 - to return only findings, each with **Observation**, **Evidence** (`path` — `Symbol`),

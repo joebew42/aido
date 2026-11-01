@@ -15,9 +15,9 @@ commenting on) issues the user explicitly chose.
 
 - identify `<repo-name>` and the index directory as defined in **Index Location and Shape** in
   `${CLAUDE_PLUGIN_ROOT}/skills/map-architecture/SKILL.md`
-- load `${CLAUDE_PLUGIN_ROOT}/guidelines/code-standards.md` — "Systemic Refactoring" defines what to look
-  for and the evidence rule; "Architecture" and "Code Quality" hold the rules each finding is
-  judged by — and `${CLAUDE_PLUGIN_ROOT}/guidelines/project-conventions.md`, then gather the host repository's
+- load `${CLAUDE_PLUGIN_ROOT}/guidelines/systemic-refactoring.md`, which defines what to look for and the
+  evidence rule, `${CLAUDE_PLUGIN_ROOT}/guidelines/code-standards.md`, whose "Architecture" and "Code Quality" hold the
+  rules each finding is judged by, and `${CLAUDE_PLUGIN_ROOT}/guidelines/project-conventions.md`, then gather the host repository's
   conventions as it describes
 - run `git fetch origin`, and check `gh repo view` works for this repository — if it does not,
   stop and tell the user why
@@ -43,7 +43,7 @@ Launch one `Agent` per area with `model: "fable"`, in parallel. Brief each with:
 - to look across the area boundary by searching the other areas' files for this area's rules and
   terms, as in **Reading the Index** in `${CLAUDE_PLUGIN_ROOT}/skills/map-architecture/SKILL.md` — not by
   reading them whole
-- the "Systemic Refactoring" section and the rules it points to, copied from `code-standards.md`
+- `systemic-refactoring.md` and the rules it points to in `code-standards.md`, copied
   — the subagent has not loaded the guidelines
 - to apply it inside the area **and** across its boundary with other areas (e.g. the same rule
   enforced in this area and another)
