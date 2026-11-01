@@ -110,14 +110,13 @@ Create a draft PR with these sections:
   - Follow the format rules in `pr-roadmap.md`
   - Example: ✅ "Let tasks repeat daily, weekly or monthly"
   - Example: ❌ "Let tasks repeat daily, weekly or monthly, refactor TaskFinder to use a request object, and backfill a recurrence rule on existing tasks"
-- **Link to `SPEC.md`**: add a link to the feature specification file at the end of the PR description
+- **Link to `SPEC.md`**: add a link to the feature specification file at the top of the PR description
 
 ### PR Guidelines Checklist
 - [ ] do not add any reference to Claude
 - [ ] do not use any prefix in the title (e.g., no issue number or semantic commit)
 - [ ] use a descriptive title instead
 - [ ] create as draft PR (not ready for review)
-- [ ] **MUST include link to `SPEC.md` file in PR description**
 
 ## Templates
 
