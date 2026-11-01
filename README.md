@@ -1,4 +1,4 @@
-# aido
+# aido 🥋
 
 **AI does, you decide.**
 
