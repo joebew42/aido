@@ -17,8 +17,9 @@ commenting on) issues the user explicitly chose.
   `${CLAUDE_PLUGIN_ROOT}/skills/map-architecture/SKILL.md`
 - load `${CLAUDE_PLUGIN_ROOT}/guidelines/systemic-refactoring.md`, which defines what to look for and the
   evidence rule, `${CLAUDE_PLUGIN_ROOT}/guidelines/code-standards.md`, whose "Architecture" and "Code Quality" hold the
-  rules each finding is judged by, and `${CLAUDE_PLUGIN_ROOT}/guidelines/project-conventions.md`, then gather the host repository's
-  conventions as it describes
+  rules each finding is judged by, `${CLAUDE_PLUGIN_ROOT}/guidelines/github-issues.md`, which defines how picked findings become
+  issues, and `${CLAUDE_PLUGIN_ROOT}/guidelines/project-conventions.md`, then gather the host repository's conventions as it
+  describes
 - run `git fetch origin`, and check `gh repo view` works for this repository — if it does not,
   stop and tell the user why
 - **no index** → `AskUserQuestion`: "This repo has no architecture index yet. The assessment needs
@@ -77,40 +78,16 @@ had no findings.
 
 If nothing was found, say so and stop — that is a valid result.
 
-## Step 4: Pick the Issues
+## Step 4: Open the Issues
 
-Nothing is opened in bulk without this choice.
+Follow `${CLAUDE_PLUGIN_ROOT}/guidelines/github-issues.md` for the candidates shown in Step 3, with:
 
-- **4 candidates or fewer** → multi-select `AskUserQuestion`: "Which of these should become GitHub
-  issues?" — one option per candidate title
-- **more than 4** → `AskUserQuestion`: "Which of these should become GitHub issues?" — options
-  **All** / **None** / **By number** (the user types the numbers)
-
-On none, stop.
-
-## Step 5: Check for Duplicates
-
-For each picked candidate, search open issues by its key terms and main symbols:
-
-```sh
-gh issue list --state open --search "<terms> in:title,body" --limit 5
-```
-
-If one looks like the same problem, show it and `AskUserQuestion`: "#<n> `<title>` looks like the
-same problem." — options **Skip** / **Comment the evidence on #<n>** / **Open a new issue anyway**.
-
-## Step 6: Open the Issues
-
-- labels: `gh label list --search refactor`. If the repo has a refactoring label, apply it; never
-  create a label without asking
-- write the body to a temporary file in the scratchpad and run
-  `gh issue create --title "<title>" --body-file <file> [--label "<label>"]`
-- body: the **Observation**, **Evidence**, **Impact**, **Recommendation** and **Risk** sections,
+- **title:** the candidate's title
+- **body:** the **Observation**, **Evidence**, **Impact**, **Recommendation** and **Risk** sections,
   ending with one line: "Found while assessing the architecture at `<short SHA>`."
-- follow the PR description rules in `/aido:4-create-pr` that apply to any GitHub body: plain, concise
-  language; no hard-wrapped prose; no reference to Claude Code
+- **label:** `refactor`
 
-## Step 7: Report
+## Step 5: Report
 
 List each issue opened or commented on with its URL, each skipped candidate with the reason, and
 any step that fell back from `fable` to the session model.
