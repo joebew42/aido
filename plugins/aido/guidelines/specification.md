@@ -69,6 +69,10 @@ GitHub Issue: <repo link>/#<NUMBER>   (or omit)
 - AC1: <one checkable statement>
 - AC2 (manual): <one statement only a person can confirm>
 
+## Alignment decisions
+
+<added only when the engineer proceeds despite a significant misalignment>
+
 ## Plan
 
 <added by planning>
@@ -98,6 +102,13 @@ example, where the original work came from), but the required sections keep thei
 - group them under short plain-text labels when the list is long; the numbering stays continuous
 - a specification split into phases keeps the overall IDs in every phase: a phase carries only the
   criteria it delivers, with their original IDs
+
+### Alignment Decisions
+
+`## Alignment decisions` records each significant misalignment (see `repository-alignment.md`) the
+engineer chose to proceed with, one line each, so that later checks do not raise it again:
+
+- `<the conflict, with the file that shows it> — proceeding because <the engineer's reason>`
 
 ### Plan Items
 
