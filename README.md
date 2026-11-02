@@ -2,36 +2,38 @@
 
 **AI does, you decide.**
 
-A Claude Code plugin for a spec-driven, test-driven workflow: the agent writes the spec, the code
-and the PRs, you approve each step, and it works with any stack.
-
-`aido` stands for "AI do" and echoes `sudo`: the agent does the work, on your say-so. It serves
-[AI-Augmented Engineering](#why-aido-ai-augmented-engineering): more of the work done by the agent,
-with the judgement still yours.
-
-![At every stage the agent proposes and you decide: approving the draft, spec and plan; picking what to implement; approving the commit grouping and every push; approving the PR; picking which review feedback to address](docs/human-in-the-loop.svg)
-
-## Install
+Hand Claude Code the whole feature: the spec, the tests, the code, the commits and the pull request.
+aido stops at every decision that matters and asks you, so what gets built stays your call. It works
+with any stack.
 
 ```
 /plugin marketplace add joebew42/aido
 /plugin install aido@aido
+/aido:1-plan
 ```
 
-Every skill is then available as `/aido:<skill>`. Start with `/aido:1-plan`.
+Every skill is available as `/aido:<skill>`.
+
+![At every stage the agent proposes and you decide: approving the draft, spec and plan; picking what to implement; approving the commit grouping and every push; approving the PR; picking which review feedback to address](docs/human-in-the-loop.svg)
+
+![/aido:1-plan waiting for an answer: it asks whether to start from a GitHub issue, a SPEC.md.draft you write yourself, or a conversation](docs/plan-asks-for-the-spec.png)
 
 ## Your first feature
 
-1. `/aido:1-plan` — drafts the specification in `SPEC.md.draft` (from a GitHub issue, one you
-   write, or a conversation with you), refines it with you until you approve it as `SPEC.md`, plans
-   the work, creates the branch, and offers to move on to implementation. When the change looks
-   small and clear, it proposes a lighter route: a brief specification and plan that you approve
-   once, without the enabling refactoring analysis
-2. `/aido:2-implement` — builds the feature
-3. `/aido:3-organize-commits` — cleans up the commit history, and asks whether to revert `SPEC.md`
-   (the default) or keep it in the repository's docs
-4. `/aido:4-create-pr` — creates the pull request
-5. `/aido:5-handle-review` — handles the review feedback
+| Step | Skill | What it does |
+| --- | --- | --- |
+| 1 | `/aido:1-plan` | Specifies and plans the feature in `SPEC.md` |
+| 2 | `/aido:2-implement` | Builds the feature |
+| 3 | `/aido:3-organize-commits` | Cleans up the commit history |
+| 4 | `/aido:4-create-pr` | Creates the pull request |
+| 5 | `/aido:5-handle-review` | Handles the review feedback |
+
+`/aido:1-plan` drafts the specification in `SPEC.md.draft` (from a GitHub issue, one you write, or a
+conversation with you), refines it with you until you approve it as `SPEC.md`, plans the work,
+creates the branch, and offers to move on to implementation. When the change looks small and clear,
+it proposes a lighter route: a brief specification and plan that you approve once, without the
+enabling refactoring analysis. `/aido:3-organize-commits` asks whether to revert `SPEC.md` (the
+default) or keep it in the repository's docs.
 
 ## Recommended user settings
 
@@ -55,7 +57,8 @@ judgement. The agent explores the code, drafts the specification, writes the tes
 and shapes the commits and the pull request. The engineer decides what gets built, approves every
 step that matters, and stays accountable for the result.
 
-aido is a workflow for working that way, and each of its practices keeps that split in place:
+`aido` stands for "AI do" and echoes `sudo`: the agent does the work, on your say-so. It is a
+workflow for working that way, and each of its practices keeps that split in place:
 
 - **The engineer decides, the agent proposes.** Each stage ends with an explicit approval — the
   specification, the plan, the commit structure, the pull request — and the agent asks instead of
@@ -114,33 +117,37 @@ unsupervised. The diagram at the top of this page shows where it stops at each s
 
 For example, when you run `/aido:1-plan`, it stops to ask where the specification comes from: a
 GitHub issue it turns into a draft, a draft you write yourself, or a conversation in which it
-interviews you and writes the draft.
-
-![/aido:1-plan waiting for an answer: it asks whether to start from a GitHub issue, a SPEC.md.draft you write yourself, or a conversation](docs/plan-asks-for-the-spec.png)
+interviews you and writes the draft. The screenshot at the top of this page shows that question.
 
 ## Skills
 
 ### Single-phase feature
 
-- `/aido:1-plan` — draft, refine and plan a feature into `SPEC.md`
-- `/aido:2-implement` — implement the feature with TDD
-- `/aido:3-organize-commits` — organize the commit history
-- `/aido:4-create-pr` — create a pull request
-- `/aido:5-handle-review` — handle PR review feedback
+| Skill | What it does |
+| --- | --- |
+| `/aido:1-plan` | draft, refine and plan a feature into `SPEC.md` |
+| `/aido:2-implement` | implement the feature with TDD |
+| `/aido:3-organize-commits` | organize the commit history |
+| `/aido:4-create-pr` | create a pull request |
+| `/aido:5-handle-review` | handle PR review feedback |
 
 ### Multi-phase feature
 
-- `/aido:multi-phase-spec-pr` — create the specification tracking PR
-- `/aido:multi-phase-switch` — switch to the main plan branch
-- `/aido:multi-phase-sync` — sync the main plan with progress
+| Skill | What it does |
+| --- | --- |
+| `/aido:multi-phase-spec-pr` | create the specification tracking PR |
+| `/aido:multi-phase-switch` | switch to the main plan branch |
+| `/aido:multi-phase-sync` | sync the main plan with progress |
 
 ### Utilities
 
-- `/aido:resolve-migration-conflict` — resolve database migration conflicts after a rebase, with any migration tool
-- `/aido:pr-review` — review a PR from a reviewer's perspective (summary, focus areas, safety assessment)
-- `/aido:stabilize` — take over a PR, remote branch, or local changes made outside this workflow
-- `/aido:map-architecture` — build or update a slim index of the repo's domain areas and their building blocks
-- `/aido:assess-architecture` — assess the architecture area by area and open GitHub issues for the refactorings you pick
+| Skill | What it does |
+| --- | --- |
+| `/aido:resolve-migration-conflict` | resolve database migration conflicts after a rebase, with any migration tool |
+| `/aido:pr-review` | review a PR from a reviewer's perspective (summary, focus areas, safety assessment) |
+| `/aido:stabilize` | take over a PR, remote branch, or local changes made outside this workflow |
+| `/aido:map-architecture` | build or update a slim index of the repo's domain areas and their building blocks |
+| `/aido:assess-architecture` | assess the architecture area by area and open GitHub issues for the refactorings you pick |
 
 ## Other ways to use it
 
@@ -168,12 +175,14 @@ Run `/aido:resolve-migration-conflict` when another PR's migration was merged wh
 
 The skills load these from `plugins/aido/guidelines/`:
 
-- `git-workflow.md` — commit conventions, the per-commit gate, branching strategy, GitHub CLI usage
-- `code-standards.md` — design principles, code quality, comments, interaction style
-- `tdd.md` — the red-green-refactor cycle and how to match step size to uncertainty
-- `testing-principles.md` — test structure, collaboration tests, flaky-test prevention
-- `project-conventions.md` — how the skills find the host repository's own conventions in its `CLAUDE.md` and `AGENTS.md`
-- `specification.md` — the specification file and its structure, including acceptance criteria
-- `systemic-refactoring.md` — when and how to look beyond the changed lines, read when a design check runs
-- `evolving-guidelines.md` — how to propose conventions to the host repository, read after a PR or phase
-- `pr-roadmap.md` — the roadmap format for multi-phase PRs, read when one is written
+| Guideline | What it covers |
+| --- | --- |
+| `git-workflow.md` | commit conventions, the per-commit gate, branching strategy, GitHub CLI usage |
+| `code-standards.md` | design principles, code quality, comments, interaction style |
+| `tdd.md` | the red-green-refactor cycle and how to match step size to uncertainty |
+| `testing-principles.md` | test structure, collaboration tests, flaky-test prevention |
+| `project-conventions.md` | how the skills find the host repository's own conventions in its `CLAUDE.md` and `AGENTS.md` |
+| `specification.md` | the specification file and its structure, including acceptance criteria |
+| `systemic-refactoring.md` | when and how to look beyond the changed lines, read when a design check runs |
+| `evolving-guidelines.md` | how to propose conventions to the host repository, read after a PR or phase |
+| `pr-roadmap.md` | the roadmap format for multi-phase PRs, read when one is written |
