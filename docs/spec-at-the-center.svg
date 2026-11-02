@@ -52,6 +52,11 @@
     <text x="120" y="214">/aido:5-handle-review</text>
   </g>
 
+  <!-- optional check against the specification -->
+  <rect x="226" y="280" width="130" height="56" rx="10" fill="#f6f8fa" stroke="#d0d7de" stroke-dasharray="5 4"/>
+  <text x="291" y="304" text-anchor="middle" font-size="15" font-weight="600" fill="#1f2328">Verify</text>
+  <text x="291" y="324" text-anchor="middle" font-size="12" fill="#57606a" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">/aido:verify</text>
+
   <!-- input -->
   <text x="356" y="58" text-anchor="end" font-size="13" fill="#57606a">GitHub issue</text>
   <text x="356" y="76" text-anchor="end" font-size="13" fill="#57606a">or your idea →</text>
@@ -63,6 +68,7 @@
     <path d="M690,456 L574,372" marker-end="url(#arrow)"/>
     <path d="M386,372 L270,456" marker-end="url(#arrow)"/>
     <path d="M386,246 L230,214" marker-end="url(#arrow)"/>
+    <path d="M386,308 L358,308" marker-end="url(#arrow)"/>
   </g>
   <g font-size="13" fill="#0a3069">
     <text x="494" y="130">drafts, refines</text>
@@ -75,5 +81,7 @@
     <text x="308" y="416" text-anchor="end">PR description</text>
     <text x="308" y="186" text-anchor="middle">reads it,</text>
     <text x="308" y="204" text-anchor="middle">never edits it</text>
+    <text x="291" y="354" text-anchor="middle">checks the code</text>
+    <text x="291" y="372" text-anchor="middle">against it</text>
   </g>
 </svg>
