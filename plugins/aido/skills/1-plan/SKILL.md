@@ -155,7 +155,8 @@ Route", and goes to "Approve the draft".
 Load the context as in Step 3 — **Load the context**. Then judge the draft: a change is **small and
 clear** only when all of these hold:
 
-- it has no open decision
+- it has no open decision, and a significant misalignment with the repository (see "What Counts as
+  Significant" in `${CLAUDE_PLUGIN_ROOT}/guidelines/repository-alignment.md`) is an open decision
 - it touches one module or area
 - it introduces no new domain concept or abstraction
 
@@ -174,10 +175,13 @@ do not ask about the enabling refactoring analysis.
 1. Rewrite `SPEC.md.draft` into "The Specification Structure" in
    `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`, keeping every section brief. Propose the
    acceptance criteria yourself when the draft has none
-2. Add a `## Plan` whose items follow Step 6: in order, each naming the criteria it serves, with
+2. Check the rewritten draft against the repository, as "What the Check Looks At" in
+   `${CLAUDE_PLUGIN_ROOT}/guidelines/repository-alignment.md` describes. A significant misalignment
+   is an open decision: continue at "Moving to the full route", where Step 3 raises it
+3. Add a `## Plan` whose items follow Step 6: in order, each naming the criteria it serves, with
    every criterion served by at least one item. After it, add this line:
    `The enabling refactoring analysis was skipped.`
-3. Show the draft, then `AskUserQuestion`: "Are this specification and plan approved? This is the
+4. Show the draft, then `AskUserQuestion`: "Are this specification and plan approved? This is the
    only approval on this route." — options:
    - **Approve — move it to SPEC.md** — continue with the checks below
    - **Change it** — ask what to change, update the draft, and ask again
@@ -221,7 +225,9 @@ Work through the draft and fix what you find, in `SPEC.md.draft` itself:
 
 - **gaps** — missing behaviour, edge cases, error cases, or acceptance criteria
 - **ambiguity** — statements two readers could implement differently
-- **contradictions** — within the draft, or with how the code works today
+- **contradictions** — within the draft, or with how the code works today. A significant one (see
+  "What Counts as Significant" in `${CLAUDE_PLUGIN_ROOT}/guidelines/repository-alignment.md`) goes to
+  "Check the alignment with the repository" below; a lesser one stays here
 - **scope** — what is in, and what is explicitly out
 - **wording** — plain, concise language in the project's own vocabulary (see "don't invent domain
   vocabulary" in `${CLAUDE_PLUGIN_ROOT}/guidelines/code-standards.md`); acceptance criteria that
@@ -247,6 +253,14 @@ Acceptance criteria, in that order. It states what and why; how belongs to `## P
 - show the proposed criteria to the user and ask about any you are unsure of; the list is part of
   what the user approves below
 
+### Check the alignment with the repository
+
+Run the alignment check on the rewritten draft, as
+`${CLAUDE_PLUGIN_ROOT}/guidelines/repository-alignment.md` describes, using the context already
+loaded. When a significant misalignment comes up, the draft is the specification it talks about:
+**Revise** updates the draft, **Reject** stops here and leaves the draft in place, and **Proceed
+anyway** records the decision in the draft. Do not ask for approval below until this is settled.
+
 ### Approve the specification
 
 Summarise what you changed and why, then `AskUserQuestion`: "Is `SPEC.md.draft` ready to become
@@ -256,6 +270,7 @@ repeat this step).
 On approval:
 
 - [ ] no open questions remain in the draft — resolve any with the user first
+- [ ] the alignment check ran, and each significant misalignment was revised or recorded
 - [ ] the draft has Context, Intent, Out of scope and Acceptance criteria, in that order
 - [ ] every acceptance criterion is numbered, specific, checkable, and marked `(manual)` when only
       a person can confirm it — fix any that are not, and ask again
