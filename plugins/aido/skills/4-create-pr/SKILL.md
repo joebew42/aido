@@ -16,13 +16,9 @@ Load `${CLAUDE_PLUGIN_ROOT}/guidelines/git-workflow.md` — the source of truth 
 
 ### Read the specification
 
-`/aido:3-organize-commits` may already have reverted `SPEC.md` or moved it into the docs, so read
-it from wherever it is now:
-
-- the spec file in the working tree, or the path it was moved to (the
-  `docs: move feature specification to <path>` commit)
-- otherwise, from the branch history: the content just before the
-  `revert: docs: feature specification` commit — `git show <revert-sha>^:<spec-file>`
+Read it as "Reading the Approved Specification" in
+`${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md` describes: `/aido:3-organize-commits` may
+already have reverted it or moved it into the docs.
 
 Note whether it has numbered acceptance criteria (see "The Specification Structure" in
 `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`). Without them, skip every

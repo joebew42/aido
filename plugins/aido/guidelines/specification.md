@@ -32,6 +32,16 @@ Skills write **`SPEC.md`** and **`SPEC.md.draft`** for readability; read them as
 file and its draft. Resolve once per skill run. Never keep a draft next to its spec file: when you find both, delete the
 draft and tell the user.
 
+### Reading the Approved Specification
+
+Once the commits are organized, the spec file may already be reverted or moved into the docs, so
+read it from wherever it is now:
+
+- the spec file in the working tree, or the path it was moved to (the
+  `docs: move feature specification to <path>` commit)
+- otherwise, from the branch history: the content just before the
+  `revert: docs: feature specification` commit — `git show <revert-sha>^:<spec-file>`
+
 ## The Specification Structure
 
 Every skill that writes a specification uses this structure, and every skill that reads one relies
