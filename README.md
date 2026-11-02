@@ -2,23 +2,21 @@
 
 **AI does, you decide.**
 
-A Claude Code plugin for a spec-driven, test-driven workflow: the agent writes the spec, the code
-and the PRs, you approve each step, and it works with any stack.
-
-`aido` stands for "AI do" and echoes `sudo`: the agent does the work, on your say-so. It serves
-[AI-Augmented Engineering](#why-aido-ai-augmented-engineering): more of the work done by the agent,
-with the judgement still yours.
-
-![At every stage the agent proposes and you decide: approving the draft, spec and plan; picking what to implement; approving the commit grouping and every push; approving the PR; picking which review feedback to address](docs/human-in-the-loop.svg)
-
-## Install
+Hand Claude Code the whole feature: the spec, the tests, the code, the commits and the pull request.
+aido stops at every decision that matters and asks you, so what gets built stays your call. It works
+with any stack.
 
 ```
 /plugin marketplace add joebew42/aido
 /plugin install aido@aido
+/aido:1-plan
 ```
 
-Every skill is then available as `/aido:<skill>`. Start with `/aido:1-plan`.
+Every skill is available as `/aido:<skill>`.
+
+![At every stage the agent proposes and you decide: approving the draft, spec and plan; picking what to implement; approving the commit grouping and every push; approving the PR; picking which review feedback to address](docs/human-in-the-loop.svg)
+
+![/aido:1-plan waiting for an answer: it asks whether to start from a GitHub issue, a SPEC.md.draft you write yourself, or a conversation](docs/plan-asks-for-the-spec.png)
 
 ## Your first feature
 
@@ -59,7 +57,8 @@ judgement. The agent explores the code, drafts the specification, writes the tes
 and shapes the commits and the pull request. The engineer decides what gets built, approves every
 step that matters, and stays accountable for the result.
 
-aido is a workflow for working that way, and each of its practices keeps that split in place:
+`aido` stands for "AI do" and echoes `sudo`: the agent does the work, on your say-so. It is a
+workflow for working that way, and each of its practices keeps that split in place:
 
 - **The engineer decides, the agent proposes.** Each stage ends with an explicit approval — the
   specification, the plan, the commit structure, the pull request — and the agent asks instead of
@@ -118,9 +117,7 @@ unsupervised. The diagram at the top of this page shows where it stops at each s
 
 For example, when you run `/aido:1-plan`, it stops to ask where the specification comes from: a
 GitHub issue it turns into a draft, a draft you write yourself, or a conversation in which it
-interviews you and writes the draft.
-
-![/aido:1-plan waiting for an answer: it asks whether to start from a GitHub issue, a SPEC.md.draft you write yourself, or a conversation](docs/plan-asks-for-the-spec.png)
+interviews you and writes the draft. The screenshot at the top of this page shows that question.
 
 ## Skills
 
