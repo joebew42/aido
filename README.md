@@ -34,7 +34,8 @@ it as `SPEC.md`, plans the work, creates the branch, and offers to move on to im
 the change looks small and clear, it proposes a lighter route: a brief specification and plan that
 you approve once, without the enabling refactoring analysis. `/aido:3-organize-commits` asks whether
 to revert `SPEC.md` (the default) or keep it in the repository's docs. `/aido:4-create-pr` offers to
-verify the implementation against the specification before pushing.
+verify the implementation against the specification before pushing and, once the PR exists, to open
+issues for the deferred points you pick, so they outlive the specification.
 
 ## Recommended user settings
 
@@ -108,7 +109,7 @@ just what the plan lists:
   `(manual)` — your confirmation. When one is not met, you choose to implement it, change it, or
   defer it
 - **verification** checks them again from a fresh context, and any deferred criterion is named in
-  the pull request description
+  the pull request description, and offered as a GitHub issue once the pull request exists
 
 ### The specification is checked against your repository
 
@@ -222,3 +223,4 @@ The skills load these from `plugins/aido/guidelines/`:
 | `systemic-refactoring.md` | when and how to look beyond the changed lines, read when a design check runs |
 | `evolving-guidelines.md` | how to propose conventions to the host repository, read after a PR or phase |
 | `pr-roadmap.md` | the roadmap format for multi-phase PRs, read when one is written |
+| `github-issues.md` | how the points you pick become GitHub issues, without duplicating open ones |
