@@ -178,12 +178,14 @@ Run `/aido:resolve-migration-conflict` when another PR's migration was merged wh
 
 The skills load these from `plugins/aido/guidelines/`:
 
-- `git-workflow.md` — commit conventions, the per-commit gate, branching strategy, GitHub CLI usage
-- `code-standards.md` — design principles, code quality, comments, interaction style
-- `tdd.md` — the red-green-refactor cycle and how to match step size to uncertainty
-- `testing-principles.md` — test structure, collaboration tests, flaky-test prevention
-- `project-conventions.md` — how the skills find the host repository's own conventions in its `CLAUDE.md` and `AGENTS.md`
-- `specification.md` — the specification file and its structure, including acceptance criteria
-- `systemic-refactoring.md` — when and how to look beyond the changed lines, read when a design check runs
-- `evolving-guidelines.md` — how to propose conventions to the host repository, read after a PR or phase
-- `pr-roadmap.md` — the roadmap format for multi-phase PRs, read when one is written
+| Guideline | What it covers |
+| --- | --- |
+| `git-workflow.md` | commit conventions, the per-commit gate, branching strategy, GitHub CLI usage |
+| `code-standards.md` | design principles, code quality, comments, interaction style |
+| `tdd.md` | the red-green-refactor cycle and how to match step size to uncertainty |
+| `testing-principles.md` | test structure, collaboration tests, flaky-test prevention |
+| `project-conventions.md` | how the skills find the host repository's own conventions in its `CLAUDE.md` and `AGENTS.md` |
+| `specification.md` | the specification file and its structure, including acceptance criteria |
+| `systemic-refactoring.md` | when and how to look beyond the changed lines, read when a design check runs |
+| `evolving-guidelines.md` | how to propose conventions to the host repository, read after a PR or phase |
+| `pr-roadmap.md` | the roadmap format for multi-phase PRs, read when one is written |
