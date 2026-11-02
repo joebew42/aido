@@ -22,16 +22,20 @@ Every skill is then available as `/aido:<skill>`. Start with `/aido:1-plan`.
 
 ## Your first feature
 
-1. `/aido:1-plan` — drafts the specification in `SPEC.md.draft` (from a GitHub issue, one you
-   write, or a conversation with you), refines it with you until you approve it as `SPEC.md`, plans
-   the work, creates the branch, and offers to move on to implementation. When the change looks
-   small and clear, it proposes a lighter route: a brief specification and plan that you approve
-   once, without the enabling refactoring analysis
-2. `/aido:2-implement` — builds the feature
-3. `/aido:3-organize-commits` — cleans up the commit history, and asks whether to revert `SPEC.md`
-   (the default) or keep it in the repository's docs
-4. `/aido:4-create-pr` — creates the pull request
-5. `/aido:5-handle-review` — handles the review feedback
+| Step | Skill | What it does |
+| --- | --- | --- |
+| 1 | `/aido:1-plan` | Specifies and plans the feature in `SPEC.md` |
+| 2 | `/aido:2-implement` | Builds the feature |
+| 3 | `/aido:3-organize-commits` | Cleans up the commit history |
+| 4 | `/aido:4-create-pr` | Creates the pull request |
+| 5 | `/aido:5-handle-review` | Handles the review feedback |
+
+`/aido:1-plan` drafts the specification in `SPEC.md.draft` (from a GitHub issue, one you write, or a
+conversation with you), refines it with you until you approve it as `SPEC.md`, plans the work,
+creates the branch, and offers to move on to implementation. When the change looks small and clear,
+it proposes a lighter route: a brief specification and plan that you approve once, without the
+enabling refactoring analysis. `/aido:3-organize-commits` asks whether to revert `SPEC.md` (the
+default) or keep it in the repository's docs.
 
 ## Recommended user settings
 
