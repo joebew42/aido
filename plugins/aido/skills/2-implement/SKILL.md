@@ -48,6 +48,26 @@ the linter in this project. If you can't determine one of them, ask the user.
 
 - do NOT re-read guideline files during implementation — they are already loaded
 
+## Step 0.5: Check the Alignment with the Repository
+
+The default branch may have moved since the specification was approved. Check this at the start of
+every session, before anything else is decided:
+
+1. run `git fetch origin`, then list what the default branch has and this branch does not:
+   `git log --name-only --format='%h %s' HEAD..origin/<default-branch>`. If the fetch fails, say
+   the check could not run and continue at Step 1
+2. those commits are **relevant** when they touch a file the specification names, in any section,
+   or an agent instruction file (`CLAUDE.md`, `AGENTS.md`)
+3. **nothing relevant** → report it in one line and continue at Step 1. Launch no subagent and read
+   no further code
+4. **something relevant** → read those changes against the specification and its plan, following
+   `${CLAUDE_PLUGIN_ROOT}/guidelines/repository-alignment.md`:
+   - a significant misalignment, including a constraint planning missed, pauses implementation until
+     the user chooses. **Revise** and **Proceed anyway** change `SPEC.md`: commit it per the `SPEC.md`
+     rule in `git-workflow.md` Special Cases. **Reject** stops the skill
+   - a lesser mismatch does not stop the session: mention it, and handle it when its plan item comes
+     up
+
 ## Step 1: Confirm Implementation Scope
 
 After loading context, use `AskUserQuestion` to present the list of plan items from `SPEC.md`,
@@ -224,6 +244,7 @@ If you catch yourself doing any of these, STOP immediately:
 - ❌ Ending the session without the Acceptance Criteria Check, or recording a criterion as met
   without its evidence
 - ❌ Changing an acceptance criterion without the user's agreement
+- ❌ Implementing past a significant misalignment the user has not decided on
 
 ## STOP — Skill Complete
 

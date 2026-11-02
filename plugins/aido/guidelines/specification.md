@@ -32,6 +32,16 @@ Skills write **`SPEC.md`** and **`SPEC.md.draft`** for readability; read them as
 file and its draft. Resolve once per skill run. Never keep a draft next to its spec file: when you find both, delete the
 draft and tell the user.
 
+### Reading the Approved Specification
+
+Once the commits are organized, the spec file may already be reverted or moved into the docs, so
+read it from wherever it is now:
+
+- the spec file in the working tree, or the path it was moved to (the
+  `docs: move feature specification to <path>` commit)
+- otherwise, from the branch history: the content just before the
+  `revert: docs: feature specification` commit — `git show <revert-sha>^:<spec-file>`
+
 ## The Specification Structure
 
 Every skill that writes a specification uses this structure, and every skill that reads one relies
@@ -58,6 +68,10 @@ GitHub Issue: <repo link>/#<NUMBER>   (or omit)
 
 - AC1: <one checkable statement>
 - AC2 (manual): <one statement only a person can confirm>
+
+## Alignment decisions
+
+<added only when the engineer proceeds despite a significant misalignment>
 
 ## Plan
 
@@ -88,6 +102,13 @@ example, where the original work came from), but the required sections keep thei
 - group them under short plain-text labels when the list is long; the numbering stays continuous
 - a specification split into phases keeps the overall IDs in every phase: a phase carries only the
   criteria it delivers, with their original IDs
+
+### Alignment Decisions
+
+`## Alignment decisions` records each significant misalignment (see `repository-alignment.md`) the
+engineer chose to proceed with, one line each, so that later checks do not raise it again:
+
+- `<the conflict, with the file that shows it> — proceeding because <the engineer's reason>`
 
 ### Plan Items
 

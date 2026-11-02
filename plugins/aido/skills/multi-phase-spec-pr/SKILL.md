@@ -29,7 +29,9 @@ committed. The two never exist together:
 - **only `SPEC.md.draft` exists** → approve and refine it with the user as `/aido:1-plan` Step 2
   (**Approve the draft**) and Step 3 do — rewriting it into "The Specification Structure" in
   `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`, with numbered acceptance criteria for
-  the whole feature — then move it with `mv SPEC.md.draft SPEC.md`
+  the whole feature, and running the alignment check in
+  `${CLAUDE_PLUGIN_ROOT}/guidelines/repository-alignment.md` — then move it with
+  `mv SPEC.md.draft SPEC.md`
 - **neither exists** → ask the user to write `SPEC.md.draft`, then continue as above
 
 **BEFORE creating the multi-phase PR, review and finalize the `SPEC.md` file.**

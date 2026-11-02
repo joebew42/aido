@@ -139,7 +139,8 @@ domain → application → infrastructure, with what inner code calls out to bef
 ```
 
 - refine it with the user as `/aido:1-plan` Step 3 does — fill gaps, remove ambiguity, reword,
-  and ask with `AskUserQuestion` wherever a decision belongs to the user
+  and ask with `AskUserQuestion` wherever a decision belongs to the user — and run the alignment
+  check in `${CLAUDE_PLUGIN_ROOT}/guidelines/repository-alignment.md` on it, as that step does
 - propose the plan and **wait for explicit user approval**, as `/aido:1-plan` Step 6 does;
   update the draft with any changes the user asks for
 - once approved, move it with `mv SPEC.md.draft SPEC.md` and confirm `SPEC.md.draft` is gone —

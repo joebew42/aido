@@ -14,7 +14,7 @@ with any stack.
 
 Every skill is available as `/aido:<skill>`.
 
-![At every stage the agent proposes and you decide: approving the draft, spec and plan; picking what to implement; approving the commit grouping and every push; approving the PR; picking which review feedback to address](docs/human-in-the-loop.svg)
+![At every stage the agent proposes and you decide: approving the draft, spec and plan; deciding on misalignments with your repository; picking what to implement; approving the commit grouping and every push; verifying and approving the PR; picking which review feedback to address](docs/human-in-the-loop.svg)
 
 ![/aido:1-plan waiting for an answer: it asks whether to start from a GitHub issue, a SPEC.md.draft you write yourself, or a conversation](docs/plan-asks-for-the-spec.png)
 
@@ -29,11 +29,12 @@ Every skill is available as `/aido:<skill>`.
 | 5 | `/aido:5-handle-review` | Handles the review feedback |
 
 `/aido:1-plan` drafts the specification in `SPEC.md.draft` (from a GitHub issue, one you write, or a
-conversation with you), refines it with you until you approve it as `SPEC.md`, plans the work,
-creates the branch, and offers to move on to implementation. When the change looks small and clear,
-it proposes a lighter route: a brief specification and plan that you approve once, without the
-enabling refactoring analysis. `/aido:3-organize-commits` asks whether to revert `SPEC.md` (the
-default) or keep it in the repository's docs.
+conversation with you), checks it against your repository and refines it with you until you approve
+it as `SPEC.md`, plans the work, creates the branch, and offers to move on to implementation. When
+the change looks small and clear, it proposes a lighter route: a brief specification and plan that
+you approve once, without the enabling refactoring analysis. `/aido:3-organize-commits` asks whether
+to revert `SPEC.md` (the default) or keep it in the repository's docs. `/aido:4-create-pr` offers to
+verify the implementation against the specification before pushing.
 
 ## Recommended user settings
 
@@ -84,9 +85,10 @@ Carnegie Mellon's Software Engineering Institute.
 
 Every stage works from one file, `SPEC.md`. Planning writes the specification, the plan and the
 design notes into it. Implementation reads the plan and records its progress there. The pull
-request description is written from it, and review feedback is checked against it.
+request description is written from it, and review feedback is checked against it. `/aido:verify`
+checks the code against it.
 
-![SPEC.md at the center: planning writes it, implementation reads and updates it, organizing commits reverts it or moves it into the docs, the PR is written from it, and review reads it without changing it](docs/spec-at-the-center.svg)
+![SPEC.md at the center: planning writes it, implementation reads and updates it, organizing commits reverts it or moves it into the docs, the PR is written from it, review reads it without changing it, and verification checks the code against it](docs/spec-at-the-center.svg)
 
 Every specification has the same shape. **Context** says why the change is needed, **Intent** what
 it must achieve, **Out of scope** what it leaves out, and **Acceptance criteria** — numbered `AC1`,
@@ -105,8 +107,36 @@ just what the plan lists:
   every criterion: a test that covers it, or — for criteria only a person can judge, marked
   `(manual)` — your confirmation. When one is not met, you choose to implement it, change it, or
   defer it
-- **the pull request** pre-flight review checks the diff against the criteria, and any deferred
-  criterion is named in the description
+- **verification** checks them again from a fresh context, and any deferred criterion is named in
+  the pull request description
+
+### The specification is checked against your repository
+
+A specification can be clear and still conflict with the repository it is meant for. `/aido:1-plan`
+checks for that before you approve it, and `/aido:2-implement` checks again at the start of every
+session, in case the default branch has moved. When nothing relevant changed, that costs one line.
+
+A misalignment is significant when the specification contradicts your `CLAUDE.md` or `AGENTS.md`,
+crosses an architectural boundary, or changes behaviour other code relies on. The agent then explains
+the conflict, cites the files that show it, and recommends revising or rejecting the specification.
+You can still proceed, since intentional architectural changes are sometimes the point, and the
+decision and your reason are recorded in the specification.
+
+### Verifying that you built what you agreed
+
+`/aido:verify` asks one question of the current branch or any PR: does the implementation satisfy
+what was agreed? `/aido:4-create-pr` offers to run it before pushing, and you can run it at any time.
+It always runs from a fresh context, so the agent that built the change is not the one judging it,
+and it changes nothing.
+
+Its report sorts every requirement as **verified**, **insufficient evidence** or **unmet**, and lists
+**deviations** from what was agreed separately. A requirement is verified only by a test that passed
+during the verification, or by your recorded confirmation; claims in the specification's progress
+notes do not count. On a PR with no specification, it uses the description and linked issues, and
+says that this is weaker.
+
+It complements Claude Code's `/code-review` rather than replacing it. `/aido:verify` asks whether you
+built what you agreed to build, and `/code-review` asks whether the code has defects.
 
 ### You stay in the loop
 
@@ -144,7 +174,7 @@ interviews you and writes the draft. The screenshot at the top of this page show
 | Skill | What it does |
 | --- | --- |
 | `/aido:resolve-migration-conflict` | resolve database migration conflicts after a rebase, with any migration tool |
-| `/aido:pr-review` | review a PR from a reviewer's perspective (summary, focus areas, safety assessment) |
+| `/aido:verify` | check the current branch or a PR against what was agreed, from a fresh context |
 | `/aido:stabilize` | take over a PR, remote branch, or local changes made outside this workflow |
 | `/aido:map-architecture` | build or update a slim index of the repo's domain areas and their building blocks |
 | `/aido:assess-architecture` | assess the architecture area by area and open GitHub issues for the refactorings you pick |
@@ -167,6 +197,11 @@ interviews you and writes the draft. The screenshot at the top of this page show
 3. Approve the plan it writes into `SPEC.md`
 4. Continue with `/aido:2-implement`, `/aido:3-organize-commits` and `/aido:4-create-pr`
 
+### Reviewing someone else's PR
+
+Run `/aido:verify <PR number>` to check it against what was agreed, and `/code-review` to look for
+defects.
+
 ### A migration conflict after a rebase
 
 Run `/aido:resolve-migration-conflict` when another PR's migration was merged while yours was open.
@@ -183,6 +218,7 @@ The skills load these from `plugins/aido/guidelines/`:
 | `testing-principles.md` | test structure, collaboration tests, flaky-test prevention |
 | `project-conventions.md` | how the skills find the host repository's own conventions in its `CLAUDE.md` and `AGENTS.md` |
 | `specification.md` | the specification file and its structure, including acceptance criteria |
+| `repository-alignment.md` | how to check a specification against the repository, and when to stop for a conflict |
 | `systemic-refactoring.md` | when and how to look beyond the changed lines, read when a design check runs |
 | `evolving-guidelines.md` | how to propose conventions to the host repository, read after a PR or phase |
 | `pr-roadmap.md` | the roadmap format for multi-phase PRs, read when one is written |

@@ -18,12 +18,14 @@
   <path d="M216,87 L232,87" stroke="#0969da" stroke-width="2" marker-end="url(#flow)"/>
   <path d="M122.0,116 L122.0,150" stroke="#1a7f37" stroke-width="2" stroke-dasharray="4 4"/>
   <rect x="30" y="150" width="184" height="186" rx="10" fill="#dafbe1" stroke="#4ac26b"/>
-  <use href="#you" x="48" y="178"/>
-  <text x="62" y="182" font-size="13" fill="#1f2328">approve the draft</text>
-  <use href="#you" x="48" y="218"/>
-  <text x="62" y="222" font-size="13" fill="#1f2328">approve the spec</text>
-  <use href="#you" x="48" y="258"/>
-  <text x="62" y="262" font-size="13" fill="#1f2328">approve the plan</text>
+  <use href="#you" x="48" y="174"/>
+  <text x="62" y="178" font-size="13" fill="#1f2328">approve the draft</text>
+  <use href="#you" x="48" y="205"/>
+  <text x="62" y="209" font-size="13" fill="#1f2328">decide on misalignments</text>
+  <use href="#you" x="48" y="236"/>
+  <text x="62" y="240" font-size="13" fill="#1f2328">approve the spec</text>
+  <use href="#you" x="48" y="267"/>
+  <text x="62" y="271" font-size="13" fill="#1f2328">approve the plan</text>
   <use href="#you" x="48" y="298"/>
   <text x="62" y="302" font-size="13" fill="#1f2328">start implementing</text>
   <rect x="234" y="58" width="184" height="58" rx="10" fill="#ddf4ff" stroke="#54aeff"/>
@@ -32,12 +34,14 @@
   <path d="M420,87 L436,87" stroke="#0969da" stroke-width="2" marker-end="url(#flow)"/>
   <path d="M326.0,116 L326.0,150" stroke="#1a7f37" stroke-width="2" stroke-dasharray="4 4"/>
   <rect x="234" y="150" width="184" height="186" rx="10" fill="#dafbe1" stroke="#4ac26b"/>
-  <use href="#you" x="252" y="178"/>
-  <text x="266" y="182" font-size="13" fill="#1f2328">pick the plan items</text>
-  <use href="#you" x="252" y="218"/>
-  <text x="266" y="222" font-size="13" fill="#1f2328">follow each TDD cycle</text>
-  <use href="#you" x="252" y="258"/>
-  <text x="266" y="262" font-size="13" fill="#1f2328">approve wider refactors</text>
+  <use href="#you" x="252" y="174"/>
+  <text x="266" y="178" font-size="13" fill="#1f2328">decide on misalignments</text>
+  <use href="#you" x="252" y="205"/>
+  <text x="266" y="209" font-size="13" fill="#1f2328">pick the plan items</text>
+  <use href="#you" x="252" y="236"/>
+  <text x="266" y="240" font-size="13" fill="#1f2328">follow each TDD cycle</text>
+  <use href="#you" x="252" y="267"/>
+  <text x="266" y="271" font-size="13" fill="#1f2328">approve wider refactors</text>
   <use href="#you" x="252" y="298"/>
   <text x="266" y="302" font-size="13" fill="#1f2328">run the final check</text>
   <rect x="438" y="58" width="184" height="58" rx="10" fill="#ddf4ff" stroke="#54aeff"/>
@@ -59,11 +63,11 @@
   <path d="M734.0,116 L734.0,150" stroke="#1a7f37" stroke-width="2" stroke-dasharray="4 4"/>
   <rect x="642" y="150" width="184" height="186" rx="10" fill="#dafbe1" stroke="#4ac26b"/>
   <use href="#you" x="660" y="178"/>
-  <text x="674" y="182" font-size="13" fill="#1f2328">push the branch</text>
+  <text x="674" y="182" font-size="13" fill="#1f2328">verify against the spec</text>
   <use href="#you" x="660" y="218"/>
-  <text x="674" y="222" font-size="13" fill="#1f2328">approve title and body</text>
+  <text x="674" y="222" font-size="13" fill="#1f2328">push the branch</text>
   <use href="#you" x="660" y="258"/>
-  <text x="674" y="262" font-size="13" fill="#1f2328">run a pre-flight review</text>
+  <text x="674" y="262" font-size="13" fill="#1f2328">approve title and body</text>
   <use href="#you" x="660" y="298"/>
   <text x="674" y="302" font-size="13" fill="#1f2328">adopt new conventions</text>
   <rect x="846" y="58" width="184" height="58" rx="10" fill="#ddf4ff" stroke="#54aeff"/>

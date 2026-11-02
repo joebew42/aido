@@ -16,17 +16,30 @@ Load `${CLAUDE_PLUGIN_ROOT}/guidelines/git-workflow.md` — the source of truth 
 
 ### Read the specification
 
-`/aido:3-organize-commits` may already have reverted `SPEC.md` or moved it into the docs, so read
-it from wherever it is now:
-
-- the spec file in the working tree, or the path it was moved to (the
-  `docs: move feature specification to <path>` commit)
-- otherwise, from the branch history: the content just before the
-  `revert: docs: feature specification` commit — `git show <revert-sha>^:<spec-file>`
+Read it as "Reading the Approved Specification" in
+`${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md` describes: `/aido:3-organize-commits` may
+already have reverted it or moved it into the docs.
 
 Note whether it has numbered acceptance criteria (see "The Specification Structure" in
 `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`). Without them, skip every
 acceptance-criteria step below.
+
+## Step 0.5: Offer Verification
+
+Before anything leaves this machine, use `AskUserQuestion` to ask:
+
+> "Would you like to verify the implementation against the specification before pushing? `/aido:verify` runs from a fresh context and changes nothing."
+
+Options:
+- **Verify** — run `/aido:verify` on the current branch
+- **Skip** — continue at Step 1
+
+After **Verify**, once the report is shown, use `AskUserQuestion` to ask:
+
+> "Based on this report, how would you like to proceed?"
+
+- **Proceed** — continue at Step 1. Every item the report lists under its deviations, other than deferred criteria, counts as acknowledged: keep them for the **Deviations** section of the description
+- **Address findings** — stop here, before anything is pushed, and let the user make changes (they can re-run `/aido:4-create-pr` when ready)
 
 ## Step 1: Push Changes
 
@@ -111,6 +124,7 @@ When a template is chosen:
 - **API Examples**: if the PR changes a public API — a representative request and response. For a **breaking** change (renamed or removed field, endpoint or type, changed nullability, reshaped response), show the schema fragment and a representative request **before and after**, clearly labelled, so reviewers and client teams can see exactly what breaks
 - **Usage Examples**: if the PR adds or changes a script, task or CLI command meant to be run by hand — the complete command for each case, each with a one-line description
 - **Not Included**: if `## Progress` records an acceptance criterion as `deferred` — each deferred criterion in plain words, with the reason, so reviewers know what the PR deliberately leaves out. With a project template, add it at the end if the template has no place for it
+- **Deviations**: if the user proceeded past deviations in Step 0.5 — each one in plain words, so reviewers know where the PR departs from what was agreed. With a project template, add it at the end if the template has no place for it
 
 ### PR Description Checklist (MANDATORY)
 
@@ -128,6 +142,7 @@ The format rules (narrative vs. bullets, Context style) apply to the Default Sec
 - [ ] if follow-up PR: mention previous PR in Context section
 - [ ] if follow-up PR: include updated Roadmap section
 - [ ] if `## Progress` records a **deferred acceptance criterion**: it is named in a **Not Included** section
+- [ ] if the user **acknowledged deviations** in Step 0.5: each is named in a **Deviations** section
 - [ ] if a **GitHub Issue ID** is present in `SPEC.md`: add `Closes #NUMBER` at the bottom of the PR description to auto-close the issue when merged into the default branch
 
 ## PR Templates
@@ -155,26 +170,6 @@ Before creating the PR, use `AskUserQuestion` to present the draft title and des
 > Would you like to adjust anything before I create it? Also, should this be a **draft** or **ready for review**?"
 
 **Wait for the user's response before creating the PR.**
-
-## Step 3.7: Pre-Flight Review (Optional)
-
-Before creating the PR, use `AskUserQuestion` to ask:
-
-> "Would you like me to run a pre-flight review on the changes before creating the PR?"
-
-Options:
-- **Yes** — run `/aido:pr-review` on the current branch changes to flag concerns before the PR is created
-- **No** — skip and proceed to create the PR
-
-If the user says **yes**:
-
-1. Run the `/aido:pr-review` skill against the current branch changes
-   - **Adaptation**: since no PR exists yet, use `git diff <base-branch>...HEAD` and `git log <base-branch>..HEAD` instead of `gh pr` commands for Step 1 of `/aido:pr-review`. Skip Step 2 (already on the branch). Run all other steps as normal.
-   - **Acceptance criteria**: when the specification has numbered acceptance criteria, also check the diff against each one that `## Progress` does not record as deferred. Add an **Acceptance criteria** section to the review brief listing every criterion the change does not appear to meet, with what is missing and where you looked — or one line saying all appear met. Judge from the diff and the tests in it, not from what `## Progress` claims
-2. After the review brief is presented, use `AskUserQuestion` to ask:
-   > "Based on this review, how would you like to proceed?"
-   - **Proceed** — create the PR as-is
-   - **Address findings** — stop here and let the user make changes (they can re-run `/aido:4-create-pr` when ready)
 
 ## Step 4: Assign PR
 
