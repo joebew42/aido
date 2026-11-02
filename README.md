@@ -126,25 +126,31 @@ interviews you and writes the draft.
 
 ### Single-phase feature
 
-- `/aido:1-plan` — draft, refine and plan a feature into `SPEC.md`
-- `/aido:2-implement` — implement the feature with TDD
-- `/aido:3-organize-commits` — organize the commit history
-- `/aido:4-create-pr` — create a pull request
-- `/aido:5-handle-review` — handle PR review feedback
+| Skill | What it does |
+| --- | --- |
+| `/aido:1-plan` | draft, refine and plan a feature into `SPEC.md` |
+| `/aido:2-implement` | implement the feature with TDD |
+| `/aido:3-organize-commits` | organize the commit history |
+| `/aido:4-create-pr` | create a pull request |
+| `/aido:5-handle-review` | handle PR review feedback |
 
 ### Multi-phase feature
 
-- `/aido:multi-phase-spec-pr` — create the specification tracking PR
-- `/aido:multi-phase-switch` — switch to the main plan branch
-- `/aido:multi-phase-sync` — sync the main plan with progress
+| Skill | What it does |
+| --- | --- |
+| `/aido:multi-phase-spec-pr` | create the specification tracking PR |
+| `/aido:multi-phase-switch` | switch to the main plan branch |
+| `/aido:multi-phase-sync` | sync the main plan with progress |
 
 ### Utilities
 
-- `/aido:resolve-migration-conflict` — resolve database migration conflicts after a rebase, with any migration tool
-- `/aido:pr-review` — review a PR from a reviewer's perspective (summary, focus areas, safety assessment)
-- `/aido:stabilize` — take over a PR, remote branch, or local changes made outside this workflow
-- `/aido:map-architecture` — build or update a slim index of the repo's domain areas and their building blocks
-- `/aido:assess-architecture` — assess the architecture area by area and open GitHub issues for the refactorings you pick
+| Skill | What it does |
+| --- | --- |
+| `/aido:resolve-migration-conflict` | resolve database migration conflicts after a rebase, with any migration tool |
+| `/aido:pr-review` | review a PR from a reviewer's perspective (summary, focus areas, safety assessment) |
+| `/aido:stabilize` | take over a PR, remote branch, or local changes made outside this workflow |
+| `/aido:map-architecture` | build or update a slim index of the repo's domain areas and their building blocks |
+| `/aido:assess-architecture` | assess the architecture area by area and open GitHub issues for the refactorings you pick |
 
 ## Other ways to use it
 
