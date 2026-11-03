@@ -16,8 +16,8 @@ install it.
 
 ## Conventions for changes
 
-- skills and guidelines stay stack-agnostic and free of company references; examples use a TODO
-  app
+- skills and guidelines stay stack-agnostic and free of references to third-party companies or
+  projects, except the tools the workflow depends on, such as GitHub; examples use a TODO app
 - inside a `SKILL.md`, refer to bundled files as `${CLAUDE_PLUGIN_ROOT}/guidelines/...` or
   `${CLAUDE_PLUGIN_ROOT}/skills/...` — Claude Code substitutes the path when it loads the skill.
   Guidelines are read as plain files, where no substitution happens, so they refer to each other
