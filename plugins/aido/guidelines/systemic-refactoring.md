@@ -34,6 +34,8 @@ discover behaviour, the systemic check decides how widely to look before settlin
 - similar-looking code is not proof — confirm the two pieces encode the same business meaning
   before merging them; two look-alikes are often two different domain concepts
 - "nothing to refactor" is a normal, valid outcome
+- a session that receives a finding from a subagent opens the cited files and confirms the finding
+  against the current code before relying on it; each skill says which findings this covers
 
 **What every finding states:**
 

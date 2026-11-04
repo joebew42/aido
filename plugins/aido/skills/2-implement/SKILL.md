@@ -181,7 +181,8 @@ say so.
 
 Then, in this session:
 
-1. open the cited files and confirm each finding before acting on it
+1. confirm each finding before acting on it, as **Evidence before action** in
+   `systemic-refactoring.md` describes
 2. present the findings; ask with `AskUserQuestion` before any that touch another module
 3. apply the accepted ones on green, in small steps, re-running the relevant tests after each
 4. record the deferred ones for the `## Progress` handoff

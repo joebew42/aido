@@ -69,8 +69,9 @@ say so in the presentation.
 
 ## Step 3: Confirm and Present the Findings
 
-Open the cited files and confirm each finding against the current code before presenting it. A
-finding the code does not support is dropped, and is not offered as an issue.
+Confirm each finding before presenting it, as **Evidence before action** in
+`systemic-refactoring.md` describes. A finding the code does not support is dropped, and is not
+offered as an issue.
 
 Number every confirmed candidate across all areas and show them grouped by area: title, category,
 size and evidence count, then the full detail of each. Close with the dropped findings, each with

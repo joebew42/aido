@@ -325,8 +325,8 @@ Launch one `Agent` with `model: "fable"`. Brief it with:
 If `fable` is unavailable or the call is denied, run the same brief with the session's model and
 say so when presenting the plan.
 
-Check the returned evidence before relying on it: open the files it cites for any finding that
-would add a plan item.
+Confirm any finding that would add a plan item, as **Evidence before action** in
+`systemic-refactoring.md` describes.
 
 ## Step 6: Propose the Plan
 
