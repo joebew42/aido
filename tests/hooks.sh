@@ -28,6 +28,18 @@ memory_hook_output() {
   jq -n --arg file_path "$1" '{tool_input: {file_path: $file_path}}' | "$hooks/deny-memory-writes.sh"
 }
 
+in_repo_with_config() {
+  local key="$1" value="$2" hook="$3" input="$4"
+
+  local repo
+  repo="$(mktemp -d)"
+  git -C "$repo" init -q
+  [ -n "$key" ] && git -C "$repo" config "$key" "$value"
+  mkdir "$repo/nested"
+  (cd "$repo/nested" && printf '%s' "$input" | "$hooks/$hook" 2>&1)
+  rm -rf "$repo"
+}
+
 check_command_is_a_plugin_script() {
   local matcher="$1" script="$2"
 
@@ -106,6 +118,16 @@ check "memory hook allows input without a file path" "" \
   "$(echo '{"tool_input":{}}' | "$hooks/deny-memory-writes.sh")"
 check_command_is_a_plugin_script "Write|Edit|MultiEdit" "deny-memory-writes.sh"
 check_script_is_followable "deny-memory-writes.sh"
+
+commit_with_trailer='{"tool_input":{"command":"git commit -m \"noreply@anthropic.com\""}}'
+check "commit hook still denies in a repository that has not opted out" "$commit_denial" \
+  "$(in_repo_with_config "" "" deny-commit-attribution.sh "$commit_with_trailer")"
+check "commit hook allows attribution in a repository that opted out" "" \
+  "$(in_repo_with_config aido.allowCommitAttribution true deny-commit-attribution.sh "$commit_with_trailer")"
+check "commit hook still denies when the opt-out is false" "$commit_denial" \
+  "$(in_repo_with_config aido.allowCommitAttribution false deny-commit-attribution.sh "$commit_with_trailer")"
+check "commit hook still denies when the opt-out is not a boolean" "$commit_denial" \
+  "$(in_repo_with_config aido.allowCommitAttribution maybe deny-commit-attribution.sh "$commit_with_trailer")"
 
 if [ "$failures" -gt 0 ]; then
   echo "$failures failed"

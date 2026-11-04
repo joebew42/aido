@@ -30,5 +30,6 @@ install it.
   `plugins/aido/.claude-plugin/plugin.json`, following semantic versioning
 - after every change, run `claude plugin validate .` and `claude plugin validate ./plugins/aido`
 - hook scripts use no shell variables or substitutions, reading stdin with `grep` alone, so that
-  the marketplace validator can follow them and hosts need nothing installed
+  the marketplace validator can follow them and hosts need nothing installed. A hook's opt-out may
+  read `git config`, and the hook enforces its rule when `git` is missing
 - try changes locally with `claude --plugin-dir ./plugins/aido`

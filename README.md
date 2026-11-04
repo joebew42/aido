@@ -79,8 +79,15 @@ set those preferences itself, so add the following to `~/.claude/settings.json`:
 }
 ```
 
-The plugin's hooks also block commit messages containing `Co-Authored-By` trailers and writes to
-Claude's memory directory.
+### What the plugin's hooks enforce
+
+| Hook | Default | Turn it off |
+| --- | --- | --- |
+| Block commit messages containing `Co-Authored-By` trailers | on | `git config aido.allowCommitAttribution true` |
+| Block writes to Claude's memory directory | on | not available |
+
+Each opt-out applies to the current repository; add `--global` to apply it everywhere. These are
+your settings to make: the skills never set them.
 
 ---
 

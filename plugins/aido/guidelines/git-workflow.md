@@ -17,7 +17,7 @@ This is the per-commit gate, including for review fixes. It also applies before 
 - changes that touch test files only should be prefixed as "test"
 - use commit subject line only (no body copy)
 - do not add any reference to Claude Code
-- do not add Co-Authored-By trailers
+- do not add Co-Authored-By trailers, unless the host repository requires them
 
 #### Conventional-commit scopes
 
