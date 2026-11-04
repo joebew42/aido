@@ -5,8 +5,8 @@ disable-model-invocation: false
 
 # Implement the Feature
 
-Incrementally implement the feature based on specifications using **strict, incremental
-test-driven development — one test at a time**.
+Incrementally implement the feature based on specifications using **test-driven development, one
+test at a time**, in the mode each plan item names.
 
 `SPEC.md` and `SPEC.md.draft` stand for the spec file and its draft: resolve them first, per "The
 Specification File" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`.
@@ -78,6 +78,14 @@ each with the acceptance criteria it serves, and ask:
 > "Here are the planned items. Which ones would you like to tackle in this session? (all / specific items / let me pick the next logical one)"
 
 Wait for the user's response before starting implementation.
+
+## Work in the Item's Mode
+
+Each feature item names its mode, as "The Modes" in `tdd.md` defines them. Work the item in that mode:
+
+- **`outside-in`** — take the slices the item lists, in order. Connect the first slice through the real
+  entry point before writing any edge case: the entry point calls the feature while the only
+  behaviour it reaches is the first slice's
 
 ## Acceptance Criteria as Goal Posts
 
@@ -252,6 +260,8 @@ If you catch yourself doing any of these, STOP immediately:
 - ❌ Declaring the feature done without running the final Systemic Design Checkpoint or asking
   whether to skip it
 - ❌ Growing a plan item's units before its automatable criteria have a red goal post
+- ❌ Writing an edge case of an outside-in item before its first slice is connected through the entry
+  point
 - ❌ Ending the session without the Acceptance Criteria Check, or recording a criterion as met
   without its evidence
 - ❌ Changing an acceptance criterion without the user's agreement

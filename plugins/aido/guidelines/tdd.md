@@ -53,13 +53,51 @@ Fast proxies (heuristics, not laws — anchor on *uncertainty*, not on layer):
 - domain/application services and complex domain logic, or when you feel the urge to over-engineer
   → lean **strict TDD**
 
-**They compose (outside-in double loop):** write the acceptance/contract test **test-first** at the
-boundary (it stays red as the goal post; `git-workflow.md` says when it is committed), then grow the
-units it requires with **strict TDD, inside-out**. It is test-first at the boundary, strict TDD in
-the middle — not one or the other.
-
 The failure modes are symmetric, and each is a smell that you picked the wrong step size:
 
 - test-first on genuinely complex logic → the red→green gap is huge, debugging is hard, and you
   over-build
 - strict TDD on a fixed contract → triangulation theater, ceremony with no design discovered
+
+## The Modes — Let Uncertainty Choose Step Size and Direction
+
+Uncertainty decides both how small the steps are and which way the work grows, part by part. Planning
+gives every feature item in a plan a mode, where the user can review it (see "Plan Items" in
+`specification.md`), and implementation honours it.
+
+| What's unknown | Mode | Approach |
+| --- | --- | --- |
+| Nothing: the part conforms to existing code or a known contract | `inside-out` | Test-first, layer by layer |
+| How the parts fit, or what an interface should be | `outside-in` | Strict TDD, in tracer bullet slices |
+| Logic within one unit | `in-unit` | Strict TDD in that unit, with no direction to choose |
+
+**Inside-out is the default, and it has to be earned.** A part is inside-out only if the plan can cite
+the existing code or contract it conforms to. Otherwise the plan names the unknown. Prefer outside-in
+when the plan rests on something nobody has run: mocks written from the plan agree with it even when
+it is wrong, so a bad assumption would surface only at the end, after the other layers were built on
+it.
+
+In every mode, an automatable criterion gets an acceptance test at the boundary, written first. It
+stays red as the goal post while the units behind it are grown, and `git-workflow.md` says when it is
+committed.
+
+### `inside-out`
+
+Grow the units layer by layer: domain → application → infrastructure. Each unit still goes one failing
+test at a time, but with the real implementation straight away: you already know the shape, so faking
+and triangulating would be ceremony.
+
+### `outside-in`
+
+Work through the item's slices in order. A **slice** is one behaviour, connected from the real entry
+point to the real effect. Connecting comes first, so the first slice is the thinnest path that works,
+and edge cases wait for the later slices.
+
+1. write the slice's acceptance test at the entry point, and watch it fail
+2. let it say what is missing: start at the entry point and go inward, one unit at a time
+3. grow each unit with strict TDD
+4. finish the slice before starting the next
+
+### `in-unit`
+
+Grow the one unit with strict TDD. There is no direction to choose.
