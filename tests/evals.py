@@ -259,6 +259,14 @@ def watch_order(watch, stop, interval=0.2):
     watch.tick()
 
 
+def shell_checks(case):
+    """A case's shell checks by the name its results show: `checks/<name>.sh`, and `acceptance.sh`."""
+    checks = {path.stem: path for path in sorted((case / "checks").glob("*.sh"))}
+    if (case / "acceptance.sh").is_file():
+        checks["behaves-as-specified"] = case / "acceptance.sh"
+    return checks
+
+
 def passes_acceptance(script, workspace):
     """Runs a case's own checks on the agent's finished work, which the agent could not have seen."""
     try:
@@ -317,8 +325,8 @@ def run_case(case, arm, index, model, output_dir):
         graders = {path.stem: grade(path, run) for path in sorted((case / "graders").glob("*.md"))} if not found else {}
         if watch and not found:
             graders[watch.spec["name"]] = watch.passed()
-        if (case / "acceptance.sh").is_file() and not found:
-            graders["behaves-as-specified"] = passes_acceptance(case / "acceptance.sh", workspace)
+        if not found:
+            graders.update({name: passes_acceptance(script, workspace) for name, script in shell_checks(case).items()})
         return {
             "case": case.name, "arm": arm, "valid": not found, "problems": found, "graders": graders,
             "score": sum(graders.values()) / len(graders) if graders else None,

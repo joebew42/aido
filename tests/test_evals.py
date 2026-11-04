@@ -162,6 +162,25 @@ class Acceptance(unittest.TestCase):
             self.assertTrue(evals.passes_acceptance(good, workspace))
             self.assertFalse(evals.passes_acceptance(bad, workspace))
 
+    def test_a_case_names_its_checks_after_their_files(self):
+        with tempfile.TemporaryDirectory() as directory:
+            case = Path(directory)
+            (case / "acceptance.sh").write_text("exit 0\n")
+            (case / "checks").mkdir()
+            (case / "checks" / "history-is-slice-shaped.sh").write_text("exit 0\n")
+
+            self.assertEqual(
+                evals.shell_checks(case),
+                {
+                    "behaves-as-specified": case / "acceptance.sh",
+                    "history-is-slice-shaped": case / "checks" / "history-is-slice-shaped.sh",
+                },
+            )
+
+    def test_a_case_without_checks_has_none(self):
+        with tempfile.TemporaryDirectory() as directory:
+            self.assertEqual(evals.shell_checks(Path(directory)), {})
+
 
 def case_entry(with_score=0.5, without_score=0.5, graders="1/2", runs=3):
     arm = lambda score: {"valid_runs": runs, "invalid_runs": 0, "score": score, "graders": {"check": graders}, "mean_cost": 1.0, "mean_turns": 10}
