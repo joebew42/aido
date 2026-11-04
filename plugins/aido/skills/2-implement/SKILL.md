@@ -280,6 +280,8 @@ user chose to skip it:
 
 1. **Update `SPEC.md`** with a `## Progress` section at the bottom:
    - list each implemented unit of work (checked off)
+   - record the slices built for each outside-in item, as "Slices in Progress" in "The Specification
+     Structure" describes
    - note any units remaining (if session ended early)
    - record each result of the Acceptance Criteria Check, as "Acceptance in Progress" in "The
      Specification Structure" describes
