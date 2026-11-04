@@ -43,11 +43,11 @@ Gather the change:
   ```
 - **remote branch**:
   ```
-  git log --oneline origin/main..origin/<branch>
-  git diff origin/main...origin/<branch>
+  git log --oneline origin/<default-branch>..origin/<branch>
+  git diff origin/<default-branch>...origin/<branch>
   ```
-- **local changes**: `git status`, `git diff`, `git diff --staged`, and any commits not yet on main
-  (`git log --oneline origin/main..HEAD`)
+- **local changes**: `git status`, `git diff`, `git diff --staged`, and any commits not yet on the default branch
+  (`git log --oneline origin/<default-branch>..HEAD`)
 
 Read the touched files in full where the diff alone doesn't show how the change fits in.
 
@@ -74,9 +74,9 @@ Use `AskUserQuestion`:
 
 - Question: "How would you like to stabilize this work on a new branch?"
 - Options:
-  - **Reimplement from scratch** — new branch from main; the original stays untouched as a
+  - **Reimplement from scratch** — new branch from the default branch; the original stays untouched as a
     reference and every behaviour is regrown with TDD
-  - **Carry over and adjust** — new branch from main with the original changes applied as
+  - **Carry over and adjust** — new branch from the default branch with the original changes applied as
     uncommitted work; `/aido:2-implement` then adjusts them and commits in small increments
   - **Cancel** — stop here
 
@@ -89,16 +89,16 @@ sound code with a messy history → carry over.
    name already references an issue, offer it as the default
 2. Name the branch per **Branch Naming** in `git-workflow.md`; it must differ from the original
    branch name
-3. Create it from an up-to-date main:
+3. Create it from an up-to-date default branch:
    - **reimplement**:
      - local changes → first `git stash push -u -m "stabilize: original work"` so they are kept
-       aside, then `git checkout -b <branch> origin/main`
-     - PR or remote branch → `git checkout -b <branch> origin/main`
+       aside, then `git checkout -b <branch> origin/<default-branch>`
+     - PR or remote branch → `git checkout -b <branch> origin/<default-branch>`
    - **carry over**:
      - local changes → `git stash push -u -m "stabilize: original work"`,
-       `git checkout -b <branch> origin/main`, then `git stash apply` (keep the stash as a backup)
-     - PR or remote branch → `git checkout -b <branch> origin/main`, then
-       `git diff origin/main...origin/<original-branch> | git apply`
+       `git checkout -b <branch> origin/<default-branch>`, then `git stash apply` (keep the stash as a backup)
+     - PR or remote branch → `git checkout -b <branch> origin/<default-branch>`, then
+       `git diff origin/<default-branch>...origin/<original-branch> | git apply`
    - if `git apply` or `git stash apply` hits conflicts, stop and show them to the user rather than
      resolving them silently
 
@@ -138,11 +138,13 @@ Strategy: <reimplement from scratch | carry over and adjust>
 domain → application → infrastructure, with what inner code calls out to before what calls in>
 ```
 
-- refine it with the user as `/aido:1-plan` Step 3 does — fill gaps, remove ambiguity, reword,
-  and ask with `AskUserQuestion` wherever a decision belongs to the user — and run the alignment
-  check in `${CLAUDE_PLUGIN_ROOT}/guidelines/repository-alignment.md` on it, as that step does
-- propose the plan and **wait for explicit user approval**, as `/aido:1-plan` Step 6 does;
-  update the draft with any changes the user asks for
+- refine it with the user as `/aido:1-plan` Step 3 does, without the question about the enabling
+  refactoring analysis — fill gaps, remove ambiguity, reword, and ask with `AskUserQuestion`
+  wherever a decision belongs to the user — and run the alignment check in
+  `${CLAUDE_PLUGIN_ROOT}/guidelines/repository-alignment.md` on it, as that step does
+- propose the plan and **wait for explicit user approval**, as "Approve the plan" in
+  `/aido:1-plan` Step 6 does, without its question on how to continue; update the draft with any
+  changes the user asks for
 - once approved, move it with `mv SPEC.md.draft SPEC.md` and confirm `SPEC.md.draft` is gone —
   the two files never exist together
 - commit **only** `SPEC.md` with the exact message
@@ -158,9 +160,9 @@ Tell the user the branch is ready and the next steps:
 2. run `/aido:3-organize-commits` to shape the final history
 3. run `/aido:4-create-pr` when they decide it is time to open the PR
 
-Use `AskUserQuestion` to ask whether they want a worktree for this branch, as `/aido:1-plan`
-Step 8 does — **not available in carry-over mode**, because the uncommitted original changes live
-in this working directory.
+Use `AskUserQuestion` to ask whether they want a worktree for this branch, and create it as
+`/aido:1-plan` Step 8 does — **not available in carry-over mode**, because the uncommitted original
+changes live in this working directory.
 
 ## STOP — Skill Complete
 

@@ -7,7 +7,7 @@
 This is the per-commit gate, including for review fixes. It also applies before marking a task complete.
 
 - linting is clean
-- the relevant tests pass with no regressions. Relevant means the unit's own tests, its collaborators' tests, and the tests of every file the change edited (`git diff --name-only main...HEAD`), not only the file directly modified and not the enclosing directory, whose unrelated failures can't be told from a regression
+- the relevant tests pass with no regressions. Relevant means the unit's own tests, its collaborators' tests, and the tests of every file the change edited (`git diff --name-only origin/<default-branch>...HEAD`), not only the file directly modified and not the enclosing directory, whose unrelated failures can't be told from a regression
 - when a value, constant, flag or API is changed or removed, search for all references to the old form, including comments and documentation, and update them in the same change
 - read the diff and delete every comment it introduces that "Comments" in `code-standards.md` doesn't allow
 
@@ -17,7 +17,7 @@ This is the per-commit gate, including for review fixes. It also applies before 
 - changes that touch test files only should be prefixed as "test"
 - use commit subject line only (no body copy)
 - do not add any reference to Claude Code
-- do not add Co-Authored-By trailers
+- do not add Co-Authored-By trailers, unless the host repository requires them
 
 #### Conventional-commit scopes
 
@@ -38,10 +38,21 @@ test: add coverage for edge cases in task model
 chore: update dependencies
 ```
 
+## The Default Branch
+
+`<default-branch>` stands for the repository's default branch, which may not be called `main`.
+Resolve it once per skill run with `git symbolic-ref --short refs/remotes/origin/HEAD`, dropping the
+`origin/` prefix. If that fails, use the `HEAD branch` line of `git remote show origin`.
+
 ## Pushing Changes
-- always ask the user before pushing
+- every push needs the user's approval, and a hook asks for it when the push runs. Do not also ask
+  with `AskUserQuestion`: run the push, and the permission prompt is the question
+- if the user declines, do not retry the push or try another way of pushing. Stop and say what is
+  left unpushed
 - always set the origin and the branch name explicitly
 - example: `git push origin feature-branch-name`
+- never set `aido.allowCommitAttribution` or `aido.allowMemoryWrites`: those opt-outs are the user's
+  to set
 
 ## Using GitHub CLI
 - use the github command line when interacting with GitHub

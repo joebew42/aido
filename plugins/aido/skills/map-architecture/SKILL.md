@@ -31,8 +31,8 @@ This skill only reads the repository. It writes nothing inside it.
 
 ### Staleness
 
-An index is **stale** when more than 50 commits on `main` landed after the commit it was built
-from: `git rev-list --count <recorded SHA>..origin/main`, after `git fetch origin`. Skills that
+An index is **stale** when more than 50 commits on the default branch landed after the commit it was built
+from: `git rev-list --count <recorded SHA>..origin/<default-branch>`, after `git fetch origin`. Skills that
 read the index offer an update past this threshold, and stay quiet below it.
 
 ### Reading the Index
@@ -135,7 +135,7 @@ TODO lists a user shares and the collaborators who can edit them.
   `${CLAUDE_PLUGIN_ROOT}/guidelines/project-conventions.md`, then gather the host repository's conventions as it
   describes — they may say how the roles map onto this codebase
 - run `git fetch origin`. If the current branch is not the default branch, or is behind it, use
-  `AskUserQuestion`: "The index should describe `main`. You're on `<branch>`." — options
+  `AskUserQuestion`: "The index should describe the default branch, `<default-branch>`. You're on `<branch>`." — options
   **Map the current checkout** / **Cancel**. The index records whichever commit it was built from
 - if `.skip-map-architecture` exists, delete it — running this skill explicitly overrides
   "never ask"

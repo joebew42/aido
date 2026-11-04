@@ -12,11 +12,12 @@ these cycles, not a single big one.
 0. **PRE-RED**: Before the first test of a unit, run the relevant existing tests to confirm they start GREEN
 1. **RED**: Write **one** failing test for the next smallest behavior — nothing more, and no second
    test while red. Watch it fail for the right reason before writing any implementation.
-2. **GREEN**: Write the **minimum** code to make that one test pass. Prefer, in order:
-   - **Fake it** — return a constant when one test can't yet justify real logic; an embarrassing
+2. **GREEN**: Write the **minimum** code to make that one test pass, in the step your uncertainty
+   calls for (see "Test-First vs. Strict TDD" below):
+   - **Obvious implementation** — when you already know what to type, write the real thing directly
+   - **Fake it** — when you don't yet see the real logic, return a constant; an embarrassing
      hardcoded value is fine if that is all the current tests demand
    - **Triangulate** — let the next test force you to generalize the fake
-   - **Obvious implementation** — write the real thing directly only when it is trivial
 
    Do not implement behavior that no current test demands (no speculative generalization). Run all
    relevant tests to confirm green with no regressions, and do not refactor yet.

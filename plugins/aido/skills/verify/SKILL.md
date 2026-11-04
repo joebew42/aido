@@ -9,7 +9,8 @@ Answer one question: **did we build what we agreed to build?** The target is the
 PR; no PR needs to exist.
 
 This skill changes nothing: it edits no files, makes no commits, pushes nothing and posts nothing.
-Checking out a PR's branch is the one exception. It reports, and the engineer decides.
+Checking out a PR's branch is the one exception, and its only edits happen in a throwaway worktree
+that it removes. It reports, and the engineer decides.
 
 It is not a code review. General defect discovery belongs to `/code-review`, so this skill does not
 look for bugs, style or design problems unless they make a requirement unmet.
@@ -73,7 +74,8 @@ model and say so. If no subagent can run at all, follow the brief in this sessio
 
 ### The Verification Brief
 
-Evaluate the change against what was agreed, reading the code and running tests. Never edit files.
+Evaluate the change against what was agreed, reading the code and running tests. Never edit files,
+except in the throwaway worktree under "Check that each test can fail".
 
 **Evaluate:**
 
@@ -89,13 +91,32 @@ it makes a requirement unmet.
 
 **Sort every requirement as exactly one of:**
 
-- **verified** — for an automatable requirement, a named test that covers all of it, and that you ran
-  and saw pass during this verification. For one marked `(manual)`, a confirmation by the user
-  recorded in `## Progress`, which you cite
+- **verified** — for an automatable requirement, a named test that covers all of it, that you ran and
+  saw pass during this verification, and that passed "Check that each test can fail". For one marked
+  `(manual)`, a confirmation by the user recorded in `## Progress`, which you cite
 - **insufficient evidence** — it may be met, but you cannot show it: no test covers it, a test covers
-  only part of it, a test could not be run, or a `(manual)` requirement has no recorded confirmation.
-  Any uncertainty you cannot resolve goes here
+  only part of it, a test could not be run, a test still passes with the behaviour removed, or a
+  `(manual)` requirement has no recorded confirmation. Any uncertainty you cannot resolve goes here
 - **unmet** — the code shows the behaviour missing or different, or its test fails
+
+**Check that each test can fail.** The tests were probably written by the agent that wrote the code,
+so a passing test proves little until it has been seen to fail. For each test you would cite as
+evidence, once per requirement:
+
+1. create a throwaway worktree outside the repository, so the user's checkout stays untouched:
+   `git worktree add --detach <temp-dir> HEAD`
+2. in it, remove the behaviour the requirement describes: restore the implementation files it depends
+   on (`git checkout origin/<base-branch> -- <files>`), or, when that stops the code loading, make the
+   smallest edit that takes the behaviour out. Leave the test itself alone
+3. run the test there. It must fail on its assertion about the missing behaviour. A failure because
+   the code does not load shows nothing, so make a smaller edit and run it again
+4. remove the worktree, whatever the result: `git worktree remove --force <temp-dir>`
+
+- **it fails** → the test counts as evidence
+- **it still passes** → the requirement is **insufficient evidence**: name the test and say it passes
+  without the behaviour
+- **the check cannot run**, for example because the worktree lacks dependencies or a service → the test
+  can still support **verified**, but say `not shown to fail` and why
 
 **How to read the specification:**
 
@@ -123,7 +144,7 @@ Not verified: <uncommitted changes, by file> (omit if there are none)
 
 ## Verified
 
-- AC1: <the test and the command that ran it, or the recorded confirmation>
+- AC1: <the test and the command that ran it, and what removing the behaviour did to it (or `not shown to fail`, and why); or the recorded confirmation>
 
 ## Insufficient evidence
 

@@ -1,0 +1,6 @@
+schema_version: "1.1"
+name: implement-writes-the-test-first
+description: Given an approved plan, the test changes before the code does, and the suite ends green
+tags: [implement]
+context:
+  scaffold_script: fixture.sh

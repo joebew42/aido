@@ -1,0 +1,6 @@
+schema_version: "1.1"
+name: verify-catches-a-test-that-cannot-fail
+description: AC1's test passes through a test-only branch, so it would pass with the real logic removed
+tags: [verify]
+context:
+  scaffold_script: fixture.sh

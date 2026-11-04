@@ -59,9 +59,11 @@ and drafts the specification.
 </div>
 
 `/aido:1-plan` checks the draft against your repository, refines it with you, and only turns it into
-`SPEC.md` after approval. It then plans the work, creates a branch, and offers to move into
-implementation. For a small, clear change, it can propose a lighter route: a brief specification and
-plan approved together, without the enabling-refactoring analysis.
+`SPEC.md` after approval. It then plans the work, creates a branch, and moves into implementation if
+you chose to. A full plan stops for three approvals, of the draft, the specification and the plan,
+each settling the choice that follows it, on top of any questions about what to build. For a small,
+clear change, it can propose a lighter route: a brief specification and plan approved together,
+without the enabling-refactoring analysis.
 
 Later, `/aido:3-organize-commits` asks whether to revert `SPEC.md` (the default) or keep it in the
 repository docs. `/aido:4-create-pr` offers verification before pushing and can open GitHub issues
@@ -79,8 +81,16 @@ set those preferences itself, so add the following to `~/.claude/settings.json`:
 }
 ```
 
-The plugin's hooks also block commit messages containing `Co-Authored-By` trailers and writes to
-Claude's memory directory.
+### What the plugin's hooks enforce
+
+| Hook | Default | Turn it off |
+| --- | --- | --- |
+| Ask for your approval before every `git push` | on | not available |
+| Block commit messages containing `Co-Authored-By` trailers | on | `git config aido.allowCommitAttribution true` |
+| Block writes to Claude's memory directory | on | `git config aido.allowMemoryWrites true` |
+
+Each opt-out applies to the current repository; add `--global` to apply it everywhere. These are
+your settings to make: the skills never set them.
 
 ---
 
@@ -156,7 +166,8 @@ requirement as **verified**, **insufficient evidence**, or **unmet**, with devia
 separately.
 
 Verification requires a test that actually passed during the check or a recorded human confirmation;
-progress-note claims are not enough. For a PR without a specification, verification falls back to
+progress-note claims are not enough. It also removes the behaviour in a throwaway worktree to confirm
+the test fails without it, since the same agent probably wrote both. For a PR without a specification, verification falls back to
 the PR description and linked issues and explicitly notes that the evidence is weaker.
 
 `/aido:verify` complements Claude Code's `/code-review`:
@@ -252,6 +263,13 @@ Skills load their guidance from [`plugins/aido/guidelines/`](plugins/aido/guidel
 | `evolving-guidelines.md` | Proposing conventions back to the host repository after a PR or phase. |
 | `pr-roadmap.md` | Roadmap format for multi-phase PRs. |
 | `github-issues.md` | Turning selected follow-ups into issues without duplicating open ones. |
+
+---
+
+## Measuring it
+
+Eval cases compare what agents do with and without aido, so a change to a skill can be measured rather
+than judged by feel. See [how to run and read them, and the current results](docs/evals.md).
 
 ---
 

@@ -13,7 +13,7 @@ attention forever: a weak rule does not merely sit there, it dilutes the strong 
 Treat "nothing to add" as success and say so in one line, rather than reaching for something to
 fill a quota.
 
-**Do not use auto-memory.** Never write to `~/.claude/projects/*/memory/MEMORY.md`. Any insight worth preserving belongs in the host repository's `CLAUDE.md` or `AGENTS.md` — propose it through the process below.
+**Do not use auto-memory for this.** Any insight worth preserving belongs in the host repository's `CLAUDE.md` or `AGENTS.md` — propose it through the process below.
 
 ## Process
 

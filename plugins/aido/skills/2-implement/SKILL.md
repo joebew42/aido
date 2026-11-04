@@ -46,7 +46,10 @@ Gather the host repository's conventions as `project-conventions.md` describes.
 Before writing the first test, make sure you know how to run a single test, the relevant suite, and
 the linter in this project. If you can't determine one of them, ask the user.
 
-- do NOT re-read guideline files during implementation — they are already loaded
+- do NOT re-read guideline files during implementation while they are still loaded. After the
+  conversation is compacted they may not be: read them again, and when this skill is invoked again
+  with work in progress, skip Steps 0.5 and 1 and continue from the next unit, using `git log` and
+  `SPEC.md` to see where the work stands
 
 ## Step 0.5: Check the Alignment with the Repository
 
@@ -124,8 +127,7 @@ the unit, then move to the next unit.
 The REFACTOR step looks at the code just written; this checkpoint looks beyond it. The rules —
 what to look for, the evidence rule, what every finding states, the four outcomes, the boundaries
 and when to stop — are in
-`${CLAUDE_PLUGIN_ROOT}/guidelines/systemic-refactoring.md`. Read it the first time a checkpoint runs; this is the one guideline
-read allowed during implementation. It runs in test-first and strict-TDD mode alike, and **never**
+`${CLAUDE_PLUGIN_ROOT}/guidelines/systemic-refactoring.md`. Read it the first time a checkpoint runs. It runs in test-first and strict-TDD mode alike, and **never**
 as a broad scan after every cycle.
 
 ### Starting context
@@ -157,7 +159,7 @@ over the whole feature. It can take long and is not always needed, so ask first 
 `AskUserQuestion`: "Should I run the final Systemic Design Checkpoint over the whole feature?" —
 options **Run the checkpoint** / **Skip it**:
 
-- mark **Run the checkpoint** as recommended when the diff against main touches more than one
+- mark **Run the checkpoint** as recommended when the diff against the default branch touches more than one
   module or area, or introduces a new domain concept or abstraction; otherwise mark **Skip it** as
   recommended. Diff size alone does not count
 - in the question, say briefly why the recommended option is recommended
@@ -166,7 +168,7 @@ options **Run the checkpoint** / **Skip it**:
 
 On **Run the checkpoint**, launch one `Agent` with `model: "fable"`. Brief it with:
 
-- the repository root and the diff range (`git diff main...HEAD`)
+- the repository root and the diff range (`git diff origin/<default-branch>...HEAD`)
 - the `SPEC.md` path; when it has `## Design notes`, ask the subagent to check them against what
   was actually built and to call out where they no longer hold
 - if there is an index, its directory and the **Reading the Index** steps from
@@ -240,8 +242,10 @@ per-class/module commit** with its tests. **Final history shaping** is not done 
 ## Red Flags to Watch For
 
 If you catch yourself doing any of these, STOP immediately:
-- ❌ Breaking the cycle in `tdd.md`: code before its failing test, more than one failing test, logic
-  no test demands, or skipping a fake-it / triangulate step that was available
+- ❌ Breaking the cycle in `tdd.md`: code before its failing test, more than one failing test, or
+  logic no test demands
+- ❌ Taking a step that doesn't match your uncertainty: jumping ahead when you don't yet see the
+  design, or faking and triangulating when you already know what to type
 - ❌ Committing without the per-commit gate, or against the commit message rules
 - ❌ Merging two pieces of code because they look alike, without confirming they share a business meaning
 - ❌ Cleaning up unrelated modules during a systemic checkpoint

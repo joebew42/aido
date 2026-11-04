@@ -73,7 +73,7 @@ this step, or rebuild the commits with `git reset` and fresh commits while histo
 **Checklist:**
 
 - [ ] fetch the latest changes: `git fetch origin`
-- [ ] rebase on top of the latest main: `git rebase origin/main`
+- [ ] rebase on top of the latest default branch: `git rebase origin/<default-branch>`
 - [ ] resolve conflicts in application code
 - [ ] if the schema snapshot still conflicts, take main's version — it is regenerated in Step 5
 
@@ -146,10 +146,9 @@ chore: rename migration after rebase with main
 Once all quality checks pass:
 
 1. Run `/aido:3-organize-commits` to reorganize the commit history
-2. Once commits are organized, use `AskUserQuestion` to confirm a force push:
-   - Question: "Force push the rewritten history to `origin/<branch-name>`?"
-   - Options: **Force push** / **Cancel**
-   - On **Force push**: run `git push --force origin <branch-name>`
+2. Once commits are organized, say that this rewrites the history of `origin/<branch-name>`, then run
+   `git push --force origin <branch-name>`; per "Pushing Changes" in `git-workflow.md`, the
+   permission prompt asks for the user's approval
 
 ## Common Issues
 

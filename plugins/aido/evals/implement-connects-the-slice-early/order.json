@@ -1,0 +1,5 @@
+{
+  "name": "connects-before-the-edge-cases",
+  "before": { "paths": ["bin/todo"], "contains": "complete" },
+  "after": { "paths": ["bin/todo", "lib/*"], "contains": "already|not.found" }
+}

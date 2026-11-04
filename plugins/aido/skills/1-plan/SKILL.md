@@ -26,18 +26,23 @@ Below, `SPEC.md` and `SPEC.md.draft` stand for the resolved spec file and its dr
 **Never leave both.** Whenever `SPEC.md` exists, `SPEC.md.draft` must not: when you find both, or
 right after you create `SPEC.md`, delete `SPEC.md.draft` and tell the user you did.
 
-The stages are strictly in order, and each one ends with the user's approval:
+The stages are strictly in order. Each approval also settles the choice that follows it, in the same
+`AskUserQuestion` call, so the user is interrupted once per stage:
 
-1. **Draft** — the first version lands in `SPEC.md.draft`, and the user approves it as the starting
-   point
-2. **Refine** — you analyse, refine and reword the draft, asking the user for input where needed,
-   until the user approves it; it then moves to `SPEC.md`
-3. **Plan** — you propose the plan into `SPEC.md`, and the user approves it
-4. **Hand off** — only with an approved plan and a well-written `SPEC.md`, you offer to move to
-   `/aido:2-implement`
+1. **Draft** — the first version lands in `SPEC.md.draft`; the user approves it as the starting
+   point and chooses the route
+2. **Refine** — you analyse, refine and reword the draft, asking the user for input where needed;
+   the user approves it and chooses whether to run the enabling refactoring analysis, and it moves
+   to `SPEC.md`
+3. **Plan** — you propose the plan into `SPEC.md`; the user approves it and chooses how to continue
+4. **Hand off** — you commit `SPEC.md` and continue as the user chose, which needs no further
+   question
 
 A small, clear change can take "Small-Change Route" in Step 2 instead, where one approval covers
 the Draft, Refine and Plan stages.
+
+Questions about what the specification should say are not approvals: ask them whenever a decision
+belongs to the user. Do not add confirmations beyond those this skill names.
 
 ## Step 0: Sync with Main Branch
 
@@ -46,12 +51,12 @@ Before starting any planning work:
 1. **Fetch latest changes:**
    - run `git fetch origin`
 
-2. **Check if on main branch:**
-   - if currently on main/master branch:
-     - run `git pull origin main` (or `git pull origin master`)
+2. **Check if on the default branch:**
+   - if currently on the default branch:
+     - run `git pull origin <default-branch>`
      - confirm you're up to date with remote
    - if on a different branch:
-     - inform user they're not on main
+     - inform user they're not on the default branch
      - confirm current branch is intentional before proceeding
 
 3. **Only proceed after confirming sync is complete**
@@ -68,8 +73,8 @@ in Step 7.
   there, read `SPEC.md`, and continue at Step 4
 - **only `SPEC.md.draft` exists** → `AskUserQuestion`: "There is a `SPEC.md.draft` from an earlier
   session. What would you like to do?" — options **Resume refining it** (use "Determine the work
-  type" in Step 2: a phase of a multi-phase project continues at Step 3, standalone work at "Choose
-  the route") / **Start over** (delete it and continue at Step 2)
+  type" in Step 2: a phase of a multi-phase project continues at Step 3, standalone work at "Approve
+  the draft and choose the route") / **Start over** (delete it and continue at Step 2)
 - **neither exists** → continue at Step 2
 
 ## Step 2: Write the Draft
@@ -106,7 +111,7 @@ in Step 7.
      - present the dependency analysis clearly to the user
      - use `AskUserQuestion` with question: "These phases appear independent and could be worked in parallel. Would you like to set up parallel worktrees for them?" and options **Yes — set up worktrees** / **No — plan one phase**
      - if YES: for each independent phase, create a git worktree:
-       - run `git worktree add ../<repo-name>-<phase-slug> main` (use a short slug from the phase name)
+       - run `git worktree add ../<repo-name>-<phase-slug> <default-branch>` (use a short slug from the phase name)
        - inform the user that each worktree is an isolated copy where a separate Claude session can run `/aido:1-plan` independently
        - list the worktree paths so the user can open them
        - **STOP** — do not proceed to plan a single phase; the user will run `/aido:1-plan` in each worktree session
@@ -147,25 +152,31 @@ in Step 7.
 3. Stop when nothing blocks writing the draft; refining it comes later. Write what you learned into
    `SPEC.md.draft`, in the user's own words where they work, then continue as for the other options
 
-### Choose the route
+### Approve the draft
 
-Only for standalone work: a phase of a multi-phase project skips this section and "Small-Change
-Route", and goes to "Approve the draft".
+A phase of a multi-phase project has no route to choose. Show the draft, then `AskUserQuestion`: "Is
+this draft the right starting point? Once you approve it, I'll analyse and refine it with you." —
+options **Approve the draft** (continue at Step 3) / **I'll edit it first** (wait for the user, then
+ask again) / **Cancel** (stop, leaving the draft in place).
 
-Load the context as in Step 3 — **Load the context**. Then judge the draft: a change is **small and
-clear** only when all of these hold:
+### Approve the draft and choose the route
+
+For standalone work. Load the context as in Step 3 — **Load the context**. Then judge the draft: a
+change is **small and clear** only when all of these hold:
 
 - it has no open decision, and a significant misalignment with the repository (see "What Counts as
   Significant" in `${CLAUDE_PLUGIN_ROOT}/guidelines/repository-alignment.md`) is an open decision
 - it touches one module or area
 - it introduces no new domain concept or abstraction
 
-`AskUserQuestion`: say whether the change looks small and clear, and why, then ask "Which route
-should this change take?" — options **Small-change route** / **Full route**, with the one you
-propose marked as recommended. The user's choice stands, whatever you propose:
+Show the draft, say whether the change looks small and clear, and why, then `AskUserQuestion`: "Is
+this draft the right starting point, and which route should it take?" — with the route you propose
+marked as recommended. The user's choice stands, whatever you propose:
 
 - **Small-change route** → continue at "Small-Change Route"
-- **Full route** → continue at "Approve the draft", or at Step 3 for a draft resumed in Step 1
+- **Full route** → continue at Step 3
+- **I'll edit it first** → wait for the user, then ask again
+- **Cancel** → stop, leaving the draft in place
 
 ### Small-Change Route
 
@@ -182,11 +193,13 @@ apart from Step 5.5, so do not ask about the enabling refactoring analysis.
 4. Add a `## Plan` whose items follow Step 6: in order, each naming the criteria it serves, with
    every criterion served by at least one item, and any opportunity pulled in first. After it, add
    this line: `The enabling refactoring analysis was skipped.`
-5. Show the draft, then `AskUserQuestion`: "Are this specification and plan approved? This is the
-   only approval on this route." — options:
-   - **Approve — move it to SPEC.md** — continue with the checks below
-   - **Change it** — ask what to change, update the draft, and ask again
-   - **Move to the full route** — see below
+5. Show the draft, then ask two questions in one `AskUserQuestion` call:
+   - "Are this specification and plan approved? This is the only approval on this route." — options:
+     - **Approve — move it to SPEC.md** — continue with the checks below
+     - **Change it** — ask what to change, update the draft, and ask again
+     - **Move to the full route** — see below
+   - the question on how to continue from "Choose how to continue" in Step 6, whose answer counts
+     only on approval
 
 On approval:
 
@@ -202,12 +215,6 @@ On approval:
 longer small; when the user chooses the option above, no explanation is needed. Remove `## Plan` and
 the skipped-analysis line from `SPEC.md.draft`, keep the rest, and continue at Step 3. This counts
 as approving the draft as the starting point.
-
-### Approve the draft
-
-Show the draft, then `AskUserQuestion`: "Is this draft the right starting point? Once you approve
-it, I'll analyse and refine it with you." — options **Approve the draft** / **I'll edit it first**
-(wait for the user, then ask again) / **Cancel** (stop, leaving the draft in place).
 
 ## Step 3: Refine the Draft
 
@@ -264,9 +271,13 @@ anyway** records the decision in the draft. Do not ask for approval below until 
 
 ### Approve the specification
 
-Summarise what you changed and why, then `AskUserQuestion`: "Is `SPEC.md.draft` ready to become
-`SPEC.md`?" — options **Approve — move it to SPEC.md** / **Keep refining** (ask what to change, and
-repeat this step).
+Summarise what you changed and why, then ask two questions in one `AskUserQuestion` call:
+
+- "Is `SPEC.md.draft` ready to become `SPEC.md`?" — options **Approve — move it to SPEC.md** /
+  **Keep refining** (ask what to change, and repeat this step)
+- "Once it is approved, should I run the enabling refactoring analysis? It looks for refactorings
+  that would make this feature easier, and can take a while." — options **Run the analysis** /
+  **Skip it**. Mark neither as recommended. The answer counts only on approval, and Step 4 acts on it
 
 On approval:
 
@@ -281,13 +292,10 @@ On approval:
 ## Step 4: Check the Architecture Index
 
 If you entered at Step 4 with an existing `SPEC.md`, first load the context as in Step 3 —
-**Load the context**.
+**Load the context** — then ask the analysis question from "Approve the specification" on its own.
 
-The architecture index feeds the enabling refactoring analysis in Step 5, which can take long and
-is not always needed. Ask first — `AskUserQuestion`: "Should I run the enabling refactoring
-analysis? It looks for refactorings that would make this feature easier, and can take a while." —
-options **Run the analysis** (continue below) / **Skip it** (skip the rest of this step and Step 5,
-and continue at Step 5.5). Mark neither as recommended.
+The architecture index feeds the enabling refactoring analysis in Step 5. When the user chose to
+skip the analysis, skip the rest of this step and Step 5, and continue at Step 5.5.
 
 The index is defined in **Index Location and Shape** in
 `${CLAUDE_PLUGIN_ROOT}/skills/map-architecture/SKILL.md`. Identify `<repo-name>` as described there, then:
@@ -299,7 +307,7 @@ The index is defined in **Index Location and Shape** in
   - **Continue without** — plan without it this time
   - **Never ask for this repo** — create an empty `~/.claude/repos/<repo-name>/.skip-map-architecture`
 - **index stale** (see **Staleness** in that same section) →
-  `AskUserQuestion`: "The architecture index is `<n>` commits behind `main`." — options **Update it
+  `AskUserQuestion`: "The architecture index is `<n>` commits behind `<default-branch>`." — options **Update it
   now** (run `/aido:map-architecture` in update mode) / **Use it as is**
 
 ## Step 5: Look for Enabling Refactorings — `fable` subagent
@@ -391,10 +399,27 @@ Each one pulled in becomes an **enabling** plan item that names its file. The re
   `The enabling refactoring analysis was skipped.`
 - if planning shows the specification itself is wrong or incomplete, raise it with
   `AskUserQuestion` and update `SPEC.md` only with the user's agreement
-- `AskUserQuestion`: "Is the plan approved?" — options **Approve the plan** / **Change it** (ask
-  what to change, update `SPEC.md`, and ask again). Do NOT move to Step 7 without approval
+- ask for approval as "Approve the plan" below describes. Do NOT move to Step 7 without approval
 - once the plan is approved, park each deferred finding, as **Parking an opportunity** in
   `systemic-refactoring.md` describes
+
+### Approve the plan
+
+Ask two questions in one `AskUserQuestion` call:
+
+- "Is the plan approved?" — options **Approve the plan** / **Change it** (ask what to change, update
+  `SPEC.md`, and ask again)
+- the question below, whose answer counts only on approval
+
+### Choose how to continue
+
+"Once it is approved, how should we continue?" — options:
+
+- **Implement here** (recommended) — start `/aido:2-implement` in this directory
+- **Implement in a worktree** — a separate working copy, so this directory stays clean for other work
+- **Stop here** — commit the specification and go no further
+
+Step 8 acts on the answer.
 
 ## Step 7: Prepare the Feature Branch
 
@@ -409,7 +434,7 @@ Only proceed here when all of these hold:
 
 ### Branch Creation Checklist
 
-- [ ] branch out to a new branch from main/master
+- [ ] branch out to a new branch from the default branch
 - [ ] name it per the **Branch Naming** rules in `git-workflow.md` — GitHub Issue → `issue-NUMBER-feat-...`, no issue → `feat-...`; include `feat` only for new features
 
 ### Commit the Specification
@@ -419,25 +444,19 @@ Only proceed here when all of these hold:
       repository's `CLAUDE.md` (or `AGENTS.md`) and commit it next as
       `docs: name the feature specification file`
 
-## Step 8: Offer Worktree Isolation
+## Step 8: Hand Off
 
-After the branch is created and the specification is committed, use `AskUserQuestion` to ask:
+The branch is created and the specification is committed. Continue as the user chose in "Choose how
+to continue", without asking again:
 
-> "Would you like to work in isolation via a worktree? This creates a separate working copy so your main directory stays clean for other work."
-
-- If **YES**:
-  1. Create a worktree from the current feature branch: `git worktree add ../<repo-name>-<branch-slug> <branch-name>`
-  2. Inform the user of the worktree path
-  3. Instruct them to open that directory and run `/aido:2-implement` there, then stop
-- If **NO**: continue to Step 9
-
-## Step 9: Hand Off
-
-`AskUserQuestion`: "The plan is approved and `SPEC.md` is committed. Move on to implementation?" —
-options **Start /aido:2-implement now** / **Stop here** (tell the user they can run
-`/aido:2-implement` whenever they are ready).
-
-On **Start**, invoke the `/aido:2-implement` skill.
+- **Implement here** → invoke the `/aido:2-implement` skill
+- **Implement in a worktree**:
+  1. A branch can be checked out in only one place, so return this directory to the default branch:
+     `git switch <default-branch>`
+  2. Create a worktree from the feature branch: `git worktree add ../<repo-name>-<branch-slug> <branch-name>`
+  3. Inform the user of the worktree path
+  4. Instruct them to open that directory and run `/aido:2-implement` there, then stop
+- **Stop here** → tell the user they can run `/aido:2-implement` whenever they are ready
 
 ## STOP — Skill Complete
 

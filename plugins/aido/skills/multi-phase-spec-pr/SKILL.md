@@ -27,7 +27,8 @@ committed. The two never exist together:
 
 - **both exist** → delete `SPEC.md.draft` and tell the user
 - **only `SPEC.md.draft` exists** → approve and refine it with the user as `/aido:1-plan` Step 2
-  (**Approve the draft**) and Step 3 do — rewriting it into "The Specification Structure" in
+  (**Approve the draft**) and Step 3 do, without the question about the enabling refactoring
+  analysis — rewriting it into "The Specification Structure" in
   `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`, with numbered acceptance criteria for
   the whole feature, and running the alignment check in
   `${CLAUDE_PLUGIN_ROOT}/guidelines/repository-alignment.md` — then move it with
@@ -92,10 +93,9 @@ Commit it as a `docs` commit with the exact message `docs: feature specification
 
 ## Step 2: Push Changes
 
-Per `git-workflow.md`, confirm with `AskUserQuestion`: "Ready to push `BRANCH_NAME` to origin so I can open the PR?" — options **Push** / **Cancel**.
+Run `git push origin BRANCH_NAME`; per "Pushing Changes" in `git-workflow.md`, the permission prompt asks for the user's approval.
 
-- on **Push**: run `git push origin BRANCH_NAME`
-- on **Cancel**: stop — the PR needs the branch on origin
+- if the user declines: stop — the PR needs the branch on origin
 
 ## Step 3: Create Draft PR
 

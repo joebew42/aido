@@ -50,9 +50,9 @@ Apply "Before Every Commit" in `git-workflow.md` before every commit.
 
 ## After Implementing Changes
 
-- **WAIT for user confirmation before pushing** - the user may want to make additional changes
-- Show a summary of changes made and confirm before pushing
-- Never push automatically after addressing review feedback
+- Show a summary of changes made, then push; per "Pushing Changes" in `git-workflow.md`, the
+  permission prompt asks for the user's approval
+- If the user declines, they may want to make additional changes: wait for them
 
 ## Suggest Repository Conventions
 

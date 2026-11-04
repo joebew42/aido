@@ -12,9 +12,9 @@ Load `${CLAUDE_PLUGIN_ROOT}/guidelines/git-workflow.md`.
 ## Process
 
 1. switch to the branch with the main plan of the feature
-2. rebase the main plan branch onto `origin/main`:
+2. rebase the main plan branch onto `origin/<default-branch>`:
    - run `git fetch origin`
-   - run `git rebase origin/main`
+   - run `git rebase origin/<default-branch>`
 3. check the status of all phase PRs:
    - read the current main plan PR description with `gh pr view --json body`
    - extract all PR numbers already referenced in the roadmap (e.g. `(#41)`)
