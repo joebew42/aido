@@ -28,9 +28,8 @@ gh issue list --state open --search "<terms> in:title,body" --limit 5
 ```
 
 If one looks like the same problem, show it and `AskUserQuestion`: "#<n> `<title>` looks like the
-same problem." — options **Skip** / **Comment on #<n>** (posting the point's **Evidence**,
-**Competing explanations**, **Confidence** and **What would change it**, those it has, or its body
-when it has none of them) / **Open a new issue anyway**.
+same problem." — options **Skip** / **Comment on #<n>** (posting the point's body) /
+**Open a new issue anyway**.
 
 ## Open the Issues
 

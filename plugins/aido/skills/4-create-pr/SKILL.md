@@ -182,7 +182,7 @@ After creating the PR:
 
 Offer to turn the deferred acceptance criteria worth keeping into issues, so they outlive the specification. These are the criteria `## Progress` records as `deferred`.
 
-Deferred refactorings are not offered: a refactoring is made as part of a working feature, so deferring one gives up the opportunity.
+Deferred refactorings are not offered: a refactoring is made as part of a working feature, so they were parked as refactoring opportunities for a later plan to pull in.
 
 With no deferred criteria, including when the specification has no numbered criteria, skip this step without asking anything.
 
