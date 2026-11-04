@@ -1,0 +1,6 @@
+schema_version: "1.1"
+name: implement-connects-the-slice-early
+description: A feature across layers, where the entry point can be connected first or last
+tags: [implement, tracer-bullet]
+context:
+  scaffold_script: fixture.sh

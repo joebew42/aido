@@ -1,0 +1,5 @@
+{
+  "name": "test-before-code",
+  "before": { "paths": ["test_todo.sh"], "contains": "complete" },
+  "after": { "paths": ["todo.sh"], "contains": "complete" }
+}

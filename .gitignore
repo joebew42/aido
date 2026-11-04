@@ -1,1 +1,6 @@
 .DS_Store
+
+# Eval results, which hold full transcripts
+plugins/aido/evals/results/
+
+__pycache__/

@@ -12,6 +12,12 @@ install it.
 - `plugins/aido/.claude-plugin/icon.png` — the plugin's marketplace icon
 - `plugins/aido/hooks/hooks.json` — the plugin's hooks, each running a script next to it
 - `tests/` — checks for the hook scripts; run `tests/hooks.sh`, which needs `jq`
+- `plugins/aido/evals/` — eval cases that measure the skills' behaviour against plain Claude Code.
+  Run them with `python3 tests/evals.py --case <glob>`, which spends real tokens and gives agents
+  unrestricted Bash, so run it inside a sandbox or on a disposable machine. `tests/test_evals.py`
+  checks the runner for free. `order.json` and `acceptance.sh` are understood only by this runner, not
+  by `claude plugin eval`
+- `docs/evals/` — recorded baselines to compare eval runs against
 - `docs/readme/` — the images the README displays
 - `docs/assets/` — source images, such as the original mascot
 

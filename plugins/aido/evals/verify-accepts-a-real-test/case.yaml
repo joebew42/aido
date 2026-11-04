@@ -1,0 +1,6 @@
+schema_version: "1.1"
+name: verify-accepts-a-real-test
+description: Control for the case above, with honest tests, on a default branch not named main
+tags: [verify]
+context:
+  scaffold_script: fixture.sh

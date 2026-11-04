@@ -1,0 +1,6 @@
+schema_version: "1.1"
+name: plan-stops-before-code
+description: Asked to plan a feature, the agent asks and writes no code or approved spec, with nobody answering
+tags: [plan]
+context:
+  scaffold_script: fixture.sh
