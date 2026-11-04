@@ -1,0 +1,10 @@
+---
+max_turns: 40
+timeout_seconds: 600
+allowed_tools: [Read, Glob, Grep, Skill, Agent, Bash, Write, Edit]
+---
+
+Organize the commits on this branch, using `/aido:3-organize-commits` if it is available. Nobody is
+available to answer questions: if there is a `SPEC.md`, revert it in the last commit, and go ahead with
+the structure you would propose. The history is not pushed, and do not push it. The tests run with
+`./test_todo.sh`.
