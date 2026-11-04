@@ -57,11 +57,8 @@ Launch one `Agent` per area with `model: "fable"`, in parallel. Brief each with:
   ### <issue title, plain language, no prefix>
   - **Category:** duplicated knowledge | misplaced ownership | reinvented abstraction | crossed boundary
   - **Size:** S | M | L
-  - **Observation:** what looks wrong
-  - **Evidence:** `path` — `Symbol` (one line each)
   - **Impact:** why it matters for the design
-  - **Recommendation:** the smallest useful refactoring
-  - **Risk:** behaviour or consumers that could be affected
+  - every field under **What every finding states** in `systemic-refactoring.md`
   ```
 
   followed by one line listing hypotheses it checked and rejected, so the user can see what was

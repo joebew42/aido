@@ -171,8 +171,8 @@ On **Run the checkpoint**, launch one `Agent` with `model: "fable"`. Brief it wi
 - `systemic-refactoring.md` and the rules it points to in `code-standards.md`, copied
   — the subagent has not loaded the guidelines
 - never to edit files
-- to return only findings, each with **Observation**, **Evidence** (`path` — `Symbol`),
-  **Classification**, **Recommendation** and **Risk** — or one line saying none were found
+- to return only findings, each with its **Classification** and every field under **What every
+  finding states** in `systemic-refactoring.md` — or one line saying none were found
 
 If `fable` is unavailable or the call is denied, run the same brief with the session's model and
 say so.

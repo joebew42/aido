@@ -35,6 +35,13 @@ discover behaviour, the systemic check decides how widely to look before settlin
   before merging them; two look-alikes are often two different domain concepts
 - "nothing to refactor" is a normal, valid outcome
 
+**What every finding states:**
+
+- **Observation** — what looks wrong
+- **Evidence** — `path` — `Symbol`, one line each
+- **Recommendation** — the smallest useful refactoring
+- **Risk** — behaviour or consumers that could be affected
+
 **Classify every finding:**
 
 - **fix now** — a design problem this change introduced
