@@ -129,6 +129,14 @@ check "commit hook still denies when the opt-out is false" "$commit_denial" \
 check "commit hook still denies when the opt-out is not a boolean" "$commit_denial" \
   "$(in_repo_with_config aido.allowCommitAttribution maybe deny-commit-attribution.sh "$commit_with_trailer")"
 
+memory_write='{"tool_input":{"file_path":"/home/me/.claude/projects/todo-app/memory/notes.md"}}'
+check "memory hook still denies in a repository that has not opted out" "$memory_denial" \
+  "$(in_repo_with_config "" "" deny-memory-writes.sh "$memory_write")"
+check "memory hook allows writes in a repository that opted out" "" \
+  "$(in_repo_with_config aido.allowMemoryWrites true deny-memory-writes.sh "$memory_write")"
+check "an opt-out covers only its own hook" "$memory_denial" \
+  "$(in_repo_with_config aido.allowCommitAttribution true deny-memory-writes.sh "$memory_write")"
+
 if [ "$failures" -gt 0 ]; then
   echo "$failures failed"
   exit 1

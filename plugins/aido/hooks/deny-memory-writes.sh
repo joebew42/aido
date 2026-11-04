@@ -1,4 +1,8 @@
 #!/bin/sh
+if git config --type=bool --get aido.allowMemoryWrites 2>/dev/null | grep -qx true
+then
+  exit 0
+fi
 if grep -oE '"file_path"[[:space:]]*:[[:space:]]*"([^"\\]|\\.)*"' \
   | grep -q '/\.claude/projects/.*/memory/'
 then

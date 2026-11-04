@@ -84,7 +84,7 @@ set those preferences itself, so add the following to `~/.claude/settings.json`:
 | Hook | Default | Turn it off |
 | --- | --- | --- |
 | Block commit messages containing `Co-Authored-By` trailers | on | `git config aido.allowCommitAttribution true` |
-| Block writes to Claude's memory directory | on | not available |
+| Block writes to Claude's memory directory | on | `git config aido.allowMemoryWrites true` |
 
 Each opt-out applies to the current repository; add `--global` to apply it everywhere. These are
 your settings to make: the skills never set them.

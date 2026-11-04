@@ -48,6 +48,8 @@ Resolve it once per skill run with `git symbolic-ref --short refs/remotes/origin
 - always ask the user before pushing
 - always set the origin and the branch name explicitly
 - example: `git push origin feature-branch-name`
+- never set `aido.allowCommitAttribution` or `aido.allowMemoryWrites`: those opt-outs are the user's
+  to set
 
 ## Using GitHub CLI
 - use the github command line when interacting with GitHub
