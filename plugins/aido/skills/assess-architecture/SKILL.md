@@ -67,17 +67,22 @@ Launch one `Agent` per area with `model: "fable"`, in parallel. Brief each with:
 If `fable` is unavailable or the call is denied, run the same brief with the session's model and
 say so in the presentation.
 
-## Step 3: Present the Findings
+## Step 3: Confirm and Present the Findings
 
-Number every candidate across all areas and show them grouped by area: title, category, size and
-evidence count, then the full detail of each. Close with the rejected hypotheses and which areas
-had no findings.
+Open the cited files and confirm each finding against the current code before presenting it. A
+finding the code does not support is dropped, and is not offered as an issue.
 
-If nothing was found, say so and stop — that is a valid result.
+Number every confirmed candidate across all areas and show them grouped by area: title, category,
+size and evidence count, then the full detail of each. Close with the dropped findings, each with
+the reason it was dropped and outside the numbering, the rejected hypotheses, and which areas had no
+findings.
+
+If no finding was found or confirmed, say so, list any dropped findings, and stop — that is a valid
+result.
 
 ## Step 4: Open the Issues
 
-Follow `${CLAUDE_PLUGIN_ROOT}/guidelines/github-issues.md` for the candidates shown in Step 3, with:
+Follow `${CLAUDE_PLUGIN_ROOT}/guidelines/github-issues.md` for the numbered candidates shown in Step 3, with:
 
 - **title:** the candidate's title
 - **body:** the **Observation**, **Evidence**, **Competing explanations**, **Confidence**, **What
@@ -87,8 +92,8 @@ Follow `${CLAUDE_PLUGIN_ROOT}/guidelines/github-issues.md` for the candidates sh
 
 ## Step 5: Report
 
-List each issue opened or commented on with its URL, each skipped candidate with the reason, and
-any step that fell back from `fable` to the session model.
+List each issue opened or commented on with its URL, each skipped candidate with the reason, each
+dropped finding with the reason, and any step that fell back from `fable` to the session model.
 
 ## STOP — Skill Complete
 
