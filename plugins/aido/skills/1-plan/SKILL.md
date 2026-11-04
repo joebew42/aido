@@ -365,16 +365,12 @@ Each one pulled in becomes an **enabling** plan item that names its file. The re
 
 ## Step 6: Propose the Plan
 
-- go through the specification and propose a plan of the changes
-- name the layer each planned change lives in — domain, application service, or infrastructure
-  (see "Architecture" in `${CLAUDE_PLUGIN_ROOT}/guidelines/code-standards.md`) — and order the plan inside-out:
-  domain → application → infrastructure, with what inner code calls out to before what calls in
-- put the **enabling** refactorings from Step 5 and the opportunities pulled in at Step 5.5 first,
-  each as its own `refactor:` item, before the feature work; deferred findings are not planned, only
-  listed in the Design notes, each with every field under **What every finding states** in
-  `systemic-refactoring.md`
-- name the acceptance criteria each plan item serves, as "Plan Items" in "The Specification
-  Structure" (`${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`) describes
+- go through the specification and propose a plan of the changes, with items written and ordered as
+  "Plan Items" in "The Specification Structure" (`${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`)
+  describes
+- the **enabling** refactorings are those from Step 5 and the opportunities pulled in at Step 5.5;
+  deferred findings are not planned, only listed in the Design notes, each with every field under
+  **What every finding states** in `systemic-refactoring.md`
 - before asking for approval, check that every acceptance criterion is served by at least one plan
   item; add an item for any that is not, or — if the criterion itself is wrong — raise it as below
 - a `SPEC.md` without numbered acceptance criteria (see "Specifications Without Acceptance

@@ -134,8 +134,7 @@ Strategy: <reimplement from scratch | carry over and adjust>
 - AC1: <one checkable statement — the behaviour the original work was meant to deliver>
 
 ## Plan
-<the changes, each tagged with its layer and the criteria it serves, ordered inside-out:
-domain → application → infrastructure, with what inner code calls out to before what calls in>
+<the changes, written and ordered as "Plan Items" in "The Specification Structure" describes>
 ```
 
 - refine it with the user as `/aido:1-plan` Step 3 does, without the question about the enabling

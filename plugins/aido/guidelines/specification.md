@@ -116,6 +116,15 @@ Each item in `## Plan` names the criteria it serves, in parentheses after its ti
 `1. **domain — let a list be shared** (AC1, AC3)`. Every criterion is served by at least one item.
 An item that serves none (an enabling refactoring) says so: `(enabling)`.
 
+The plan of a feature or a phase also follows these rules. The phases of a main plan, written by
+`/aido:multi-phase-spec-pr`, do not: they only name the criteria they deliver.
+
+- each item names the layer it lives in — domain, application service, or infrastructure (see
+  "Architecture" in `code-standards.md`)
+- enabling refactorings come first, each as its own `refactor:` item
+- the rest is ordered inside-out: domain → application → infrastructure, with what inner code calls
+  out to before what calls in
+
 ### Acceptance in Progress
 
 `## Progress` records each criterion that has been checked, one line each:
