@@ -13,6 +13,7 @@ install it.
 - `plugins/aido/hooks/hooks.json` — the plugin's hooks, each running a script next to it
 - `tests/` — checks for the hook scripts; run `tests/hooks.sh`, which needs `jq`
 - `docs/readme/` — the images the README displays
+- `docs/assets/` — source images, such as the original mascot
 
 ## Conventions for changes
 
