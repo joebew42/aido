@@ -146,10 +146,9 @@ chore: rename migration after rebase with main
 Once all quality checks pass:
 
 1. Run `/aido:3-organize-commits` to reorganize the commit history
-2. Once commits are organized, use `AskUserQuestion` to confirm a force push:
-   - Question: "Force push the rewritten history to `origin/<branch-name>`?"
-   - Options: **Force push** / **Cancel**
-   - On **Force push**: run `git push --force origin <branch-name>`
+2. Once commits are organized, say that this rewrites the history of `origin/<branch-name>`, then run
+   `git push --force origin <branch-name>`; per "Pushing Changes" in `git-workflow.md`, the
+   permission prompt asks for the user's approval
 
 ## Common Issues
 

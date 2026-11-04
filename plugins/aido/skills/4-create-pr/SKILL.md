@@ -43,14 +43,9 @@ After **Verify**, once the report is shown, use `AskUserQuestion` to ask:
 
 ## Step 1: Push Changes
 
-A PR needs the branch on origin first. Per `git-workflow.md`, **never push automatically** — confirm with `AskUserQuestion`:
+A PR needs the branch on origin first. Run `git push origin BRANCH_NAME` (set origin and branch explicitly); per "Pushing Changes" in `git-workflow.md`, the permission prompt asks for the user's approval.
 
-> "Ready to push `BRANCH_NAME` to origin so I can open the PR?"
->
-> Options: **Push** / **Cancel**
-
-- on **Push**: run `git push origin BRANCH_NAME` (set origin and branch explicitly)
-- on **Cancel**: stop — the PR can't be created until the branch is pushed
+- if the user declines: stop — the PR can't be created until the branch is pushed
 
 ## Step 2: Write PR Title
 

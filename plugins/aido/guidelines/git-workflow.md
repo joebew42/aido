@@ -45,7 +45,10 @@ Resolve it once per skill run with `git symbolic-ref --short refs/remotes/origin
 `origin/` prefix. If that fails, use the `HEAD branch` line of `git remote show origin`.
 
 ## Pushing Changes
-- always ask the user before pushing
+- every push needs the user's approval, and a hook asks for it when the push runs. Do not also ask
+  with `AskUserQuestion`: run the push, and the permission prompt is the question
+- if the user declines, do not retry the push or try another way of pushing. Stop and say what is
+  left unpushed
 - always set the origin and the branch name explicitly
 - example: `git push origin feature-branch-name`
 - never set `aido.allowCommitAttribution` or `aido.allowMemoryWrites`: those opt-outs are the user's

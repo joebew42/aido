@@ -83,6 +83,7 @@ set those preferences itself, so add the following to `~/.claude/settings.json`:
 
 | Hook | Default | Turn it off |
 | --- | --- | --- |
+| Ask for your approval before every `git push` | on | not available |
 | Block commit messages containing `Co-Authored-By` trailers | on | `git config aido.allowCommitAttribution true` |
 | Block writes to Claude's memory directory | on | `git config aido.allowMemoryWrites true` |
 

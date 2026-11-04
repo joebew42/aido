@@ -5,6 +5,7 @@ hooks="$root/plugins/aido/hooks"
 failures=0
 
 commit_denial='{"hookSpecificOutput":{"hookEventName":"PreToolUse","permissionDecision":"deny","permissionDecisionReason":"No Co-Authored-By/Claude references in commit messages (git-workflow.md). Use a subject-line-only message."}}'
+push_approval='{"hookSpecificOutput":{"hookEventName":"PreToolUse","permissionDecision":"ask","permissionDecisionReason":"aido asks for your approval before every push (git-workflow.md)."}}'
 memory_denial='{"hookSpecificOutput":{"hookEventName":"PreToolUse","permissionDecision":"deny","permissionDecisionReason":"Writing to Claude memory is forbidden here (evolving-guidelines.md: do not use auto-memory). Propose a guideline edit instead."}}'
 
 check() {
@@ -28,6 +29,10 @@ memory_hook_output() {
   jq -n --arg file_path "$1" '{tool_input: {file_path: $file_path}}' | "$hooks/deny-memory-writes.sh"
 }
 
+push_hook_output() {
+  jq -n --arg command "$1" '{tool_input: {command: $command}}' | "$hooks/ask-before-push.sh"
+}
+
 in_repo_with_config() {
   local key="$1" value="$2" hook="$3" input="$4"
 
@@ -43,11 +48,14 @@ in_repo_with_config() {
 check_command_is_a_plugin_script() {
   local matcher="$1" script="$2"
 
+  local expected="\"\${CLAUDE_PLUGIN_ROOT}/hooks/$script\""
+
   local command
   command="$(jq -r --arg matcher "$matcher" \
-    '.hooks.PreToolUse[] | select(.matcher == $matcher) | .hooks[].command' "$hooks/hooks.json")"
+    '.hooks.PreToolUse[] | select(.matcher == $matcher) | .hooks[].command' "$hooks/hooks.json" \
+    | grep -Fx "$expected")"
 
-  check "$matcher hook runs $script by its literal path" "\"\${CLAUDE_PLUGIN_ROOT}/hooks/$script\"" "$command"
+  check "$matcher hook runs $script by its literal path" "$expected" "$command"
 }
 
 check_script_is_followable() {
@@ -136,6 +144,32 @@ check "memory hook allows writes in a repository that opted out" "" \
   "$(in_repo_with_config aido.allowMemoryWrites true deny-memory-writes.sh "$memory_write")"
 check "an opt-out covers only its own hook" "$memory_denial" \
   "$(in_repo_with_config aido.allowCommitAttribution true deny-memory-writes.sh "$memory_write")"
+
+check "push hook asks with only grep on the path" "$push_approval" \
+  "$(output_with_only_grep_on_path ask-before-push.sh \
+    '{"session_id":"abc","tool_name":"Bash","tool_input":{"command":"git push origin main","description":"Push"}}')"
+check "push hook asks for a plain push" "$push_approval" "$(push_hook_output 'git push origin main')"
+check "push hook asks for a force push" "$push_approval" "$(push_hook_output 'git push --force origin main')"
+check "push hook asks for a bare push" "$push_approval" "$(push_hook_output 'git push')"
+check "push hook asks for a push after other commands" "$push_approval" \
+  "$(push_hook_output 'git add . && git commit -m "feat: add lists" && git push origin main')"
+check "push hook asks on a later line" "$push_approval" "$(push_hook_output $'git status\ngit push origin main')"
+check "push hook asks with a directory option" "$push_approval" "$(push_hook_output 'git -C ../todo-app push origin main')"
+check "push hook asks with a quoted directory option" "$push_approval" \
+  "$(push_hook_output 'git -C "../todo app" push origin main')"
+check "push hook asks with a config option" "$push_approval" "$(push_hook_output 'git -c push.default=current push')"
+check "push hook asks with a flag option" "$push_approval" "$(push_hook_output 'git --no-pager push origin main')"
+check "push hook asks before a shell separator" "$push_approval" "$(push_hook_output 'git push; echo done')"
+check "push hook ignores git stash push" "" "$(push_hook_output 'git stash push -m wip')"
+check "push hook ignores a commit" "" "$(push_hook_output 'git commit -m "feat: add lists"')"
+check "push hook ignores a longer subcommand" "" "$(push_hook_output 'git pushed')"
+check "push hook ignores a push in another field" "" \
+  "$(echo '{"tool_input":{"command":"ls","description":"before git push origin main"}}' | "$hooks/ask-before-push.sh")"
+check "push hook allows input without a command" "" "$(echo '{"tool_input":{}}' | "$hooks/ask-before-push.sh")"
+check "push hook cannot be opted out of" "$push_approval" \
+  "$(in_repo_with_config aido.allowPush true ask-before-push.sh '{"tool_input":{"command":"git push"}}')"
+check_command_is_a_plugin_script "Bash" "ask-before-push.sh"
+check_script_is_followable "ask-before-push.sh"
 
 if [ "$failures" -gt 0 ]; then
   echo "$failures failed"

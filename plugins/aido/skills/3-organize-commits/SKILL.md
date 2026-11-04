@@ -66,7 +66,7 @@ This skill owns **final history shaping** (reordering, splitting, the `SPEC.md` 
 
 - if some commits are already pushed, **add** new commits instead of rewriting history
 - if history is not pushed, you may reset/reorganize the existing commits
-- **always ask before pushing or force pushing** — never push automatically; use `AskUserQuestion` with options **Push** / **Cancel** (or **Force push** / **Cancel** when history was rewritten)
+- **pushing or force pushing needs the user's approval**, which the permission prompt asks for, per "Pushing Changes" in `git-workflow.md`; say first when the push would rewrite history
 
 ## Step 2: Propose Commit Structure Before Reorganizing
 
