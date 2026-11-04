@@ -122,7 +122,8 @@ the unit, then move to the next unit.
 ## Systemic Design Checkpoint
 
 The REFACTOR step looks at the code just written; this checkpoint looks beyond it. The rules —
-what to look for, the evidence rule, the four outcomes, the boundaries and when to stop — are in
+what to look for, the evidence rule, what every finding states, the four outcomes, the boundaries
+and when to stop — are in
 `${CLAUDE_PLUGIN_ROOT}/guidelines/systemic-refactoring.md`. Read it the first time a checkpoint runs; this is the one guideline
 read allowed during implementation. It runs in test-first and strict-TDD mode alike, and **never**
 as a broad scan after every cycle.
@@ -143,8 +144,9 @@ Run it inline, on green, scoped to the evidence the cycle surfaced:
 2. classify it: **fix now**, **refactor now**, **defer** or **no action**
 3. apply fix-now and refactor-now changes in small steps, re-running the relevant tests after each
 4. before a refactoring that touches another module, ask with `AskUserQuestion`, showing the
-   finding and its evidence — options **Refactor now** / **Defer** / **No action**
-5. note deferred findings for the `## Progress` handoff, then return to RED
+   finding with every field under **What every finding states** in `systemic-refactoring.md` —
+   options **Refactor now** / **Defer** / **No action**
+5. note deferred findings for the `## Progress` handoff, with those same fields, then return to RED
 
 ### Before completion — `fable` subagent
 
@@ -258,8 +260,8 @@ user chose to skip it:
    - record each result of the Acceptance Criteria Check, as "Acceptance in Progress" in "The
      Specification Structure" describes
    - record any key decisions made during implementation (e.g., design choices, deviations from spec)
-   - list **Deferred refactorings**, each with its evidence (`path` — `Symbol`) and why it was
-     deferred
+   - list **Deferred refactorings**, each with every field under **What every finding states** in
+     `systemic-refactoring.md`, its evidence as `path` — `Symbol`, and why it was deferred
    - if the user skipped the final Systemic Design Checkpoint, say so
    - keep it brief — this is a handoff note for the next session
 
