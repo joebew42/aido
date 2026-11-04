@@ -46,12 +46,12 @@ Before starting any planning work:
 1. **Fetch latest changes:**
    - run `git fetch origin`
 
-2. **Check if on main branch:**
-   - if currently on main/master branch:
-     - run `git pull origin main` (or `git pull origin master`)
+2. **Check if on the default branch:**
+   - if currently on the default branch:
+     - run `git pull origin <default-branch>`
      - confirm you're up to date with remote
    - if on a different branch:
-     - inform user they're not on main
+     - inform user they're not on the default branch
      - confirm current branch is intentional before proceeding
 
 3. **Only proceed after confirming sync is complete**
@@ -106,7 +106,7 @@ in Step 7.
      - present the dependency analysis clearly to the user
      - use `AskUserQuestion` with question: "These phases appear independent and could be worked in parallel. Would you like to set up parallel worktrees for them?" and options **Yes — set up worktrees** / **No — plan one phase**
      - if YES: for each independent phase, create a git worktree:
-       - run `git worktree add ../<repo-name>-<phase-slug> main` (use a short slug from the phase name)
+       - run `git worktree add ../<repo-name>-<phase-slug> <default-branch>` (use a short slug from the phase name)
        - inform the user that each worktree is an isolated copy where a separate Claude session can run `/aido:1-plan` independently
        - list the worktree paths so the user can open them
        - **STOP** — do not proceed to plan a single phase; the user will run `/aido:1-plan` in each worktree session
@@ -299,7 +299,7 @@ The index is defined in **Index Location and Shape** in
   - **Continue without** — plan without it this time
   - **Never ask for this repo** — create an empty `~/.claude/repos/<repo-name>/.skip-map-architecture`
 - **index stale** (see **Staleness** in that same section) →
-  `AskUserQuestion`: "The architecture index is `<n>` commits behind `main`." — options **Update it
+  `AskUserQuestion`: "The architecture index is `<n>` commits behind `<default-branch>`." — options **Update it
   now** (run `/aido:map-architecture` in update mode) / **Use it as is**
 
 ## Step 5: Look for Enabling Refactorings — `fable` subagent
@@ -409,7 +409,7 @@ Only proceed here when all of these hold:
 
 ### Branch Creation Checklist
 
-- [ ] branch out to a new branch from main/master
+- [ ] branch out to a new branch from the default branch
 - [ ] name it per the **Branch Naming** rules in `git-workflow.md` — GitHub Issue → `issue-NUMBER-feat-...`, no issue → `feat-...`; include `feat` only for new features
 
 ### Commit the Specification

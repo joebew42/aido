@@ -157,7 +157,7 @@ over the whole feature. It can take long and is not always needed, so ask first 
 `AskUserQuestion`: "Should I run the final Systemic Design Checkpoint over the whole feature?" —
 options **Run the checkpoint** / **Skip it**:
 
-- mark **Run the checkpoint** as recommended when the diff against main touches more than one
+- mark **Run the checkpoint** as recommended when the diff against the default branch touches more than one
   module or area, or introduces a new domain concept or abstraction; otherwise mark **Skip it** as
   recommended. Diff size alone does not count
 - in the question, say briefly why the recommended option is recommended
@@ -166,7 +166,7 @@ options **Run the checkpoint** / **Skip it**:
 
 On **Run the checkpoint**, launch one `Agent` with `model: "fable"`. Brief it with:
 
-- the repository root and the diff range (`git diff main...HEAD`)
+- the repository root and the diff range (`git diff origin/<default-branch>...HEAD`)
 - the `SPEC.md` path; when it has `## Design notes`, ask the subagent to check them against what
   was actually built and to call out where they no longer hold
 - if there is an index, its directory and the **Reading the Index** steps from

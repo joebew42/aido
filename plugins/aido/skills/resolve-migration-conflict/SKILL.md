@@ -73,7 +73,7 @@ this step, or rebuild the commits with `git reset` and fresh commits while histo
 **Checklist:**
 
 - [ ] fetch the latest changes: `git fetch origin`
-- [ ] rebase on top of the latest main: `git rebase origin/main`
+- [ ] rebase on top of the latest default branch: `git rebase origin/<default-branch>`
 - [ ] resolve conflicts in application code
 - [ ] if the schema snapshot still conflicts, take main's version — it is regenerated in Step 5
 

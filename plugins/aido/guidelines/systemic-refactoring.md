@@ -9,7 +9,7 @@ never a broad scan after every cycle:
   it is built ("make the change easy, then make the easy change")
 - **during implementation, on evidence** — when a cycle reveals a possibly shared concept, a
   duplicated business rule or a boundary crossing
-- **before the feature is done** — once, over the whole diff against main
+- **before the feature is done** — once, over the whole diff against the default branch
 
 The planning and before-done checks can take long and are not always needed, so they are offered
 to the user rather than run unconditionally; the on-evidence check is part of the cycle.
