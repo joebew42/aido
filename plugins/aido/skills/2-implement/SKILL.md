@@ -11,8 +11,8 @@ test at a time**, in the mode each plan item names.
 `SPEC.md` and `SPEC.md.draft` stand for the spec file and its draft: resolve them first, per "The
 Specification File" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`.
 
-Match step size to how much design you must *discover* vs. *conform to*, as "Test-First vs. Strict
-TDD" in `${CLAUDE_PLUGIN_ROOT}/guidelines/tdd.md` describes.
+Match step size to how much design you must *discover* vs. *conform to*, as "Step Size" in
+`${CLAUDE_PLUGIN_ROOT}/guidelines/tdd.md` describes.
 
 ## Step 0: Load Context
 
