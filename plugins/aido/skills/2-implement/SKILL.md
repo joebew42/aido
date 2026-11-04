@@ -240,8 +240,10 @@ per-class/module commit** with its tests. **Final history shaping** is not done 
 ## Red Flags to Watch For
 
 If you catch yourself doing any of these, STOP immediately:
-- ❌ Breaking the cycle in `tdd.md`: code before its failing test, more than one failing test, logic
-  no test demands, or skipping a fake-it / triangulate step that was available
+- ❌ Breaking the cycle in `tdd.md`: code before its failing test, more than one failing test, or
+  logic no test demands
+- ❌ Taking a step that doesn't match your uncertainty: jumping ahead when you don't yet see the
+  design, or faking and triangulating when you already know what to type
 - ❌ Committing without the per-commit gate, or against the commit message rules
 - ❌ Merging two pieces of code because they look alike, without confirming they share a business meaning
 - ❌ Cleaning up unrelated modules during a systemic checkpoint
