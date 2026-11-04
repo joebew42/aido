@@ -266,6 +266,13 @@ Skills load their guidance from [`plugins/aido/guidelines/`](plugins/aido/guidel
 
 ---
 
+## Measuring it
+
+Eval cases compare what agents do with and without aido, so a change to a skill can be measured rather
+than judged by feel. See [how to run and read them, and the current results](docs/evals.md).
+
+---
+
 <div align="center">
 
 **aido 🥋**
