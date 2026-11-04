@@ -319,7 +319,8 @@ Launch one `Agent` with `model: "fable"`. Brief it with:
   related rules or abstractions, and which boundaries apply — widening only on evidence
 - never to edit files
 - to return only the **Design notes** below, plus each finding classified as **enabling** (makes
-  this feature easier or keeps it from duplicating existing knowledge), **defer** or **no action**
+  this feature easier or keeps it from duplicating existing knowledge), **defer** or **no action**,
+  with every field under **What every finding states** in `systemic-refactoring.md`
 
 If `fable` is unavailable or the call is denied, run the same brief with the session's model and
 say so when presenting the plan.
@@ -334,7 +335,8 @@ would add a plan item.
   (see "Architecture" in `${CLAUDE_PLUGIN_ROOT}/guidelines/code-standards.md`) — and order the plan inside-out:
   domain → application → infrastructure, with what inner code calls out to before what calls in
 - put the **enabling** refactorings from Step 5 first, each as its own `refactor:` item, before
-  the feature work; deferred findings are not planned, only listed in the Design notes
+  the feature work; deferred findings are not planned, only listed in the Design notes, each with
+  every field under **What every finding states** in `systemic-refactoring.md`
 - name the acceptance criteria each plan item serves, as "Plan Items" in "The Specification
   Structure" (`${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`) describes
 - before asking for approval, check that every acceptance criterion is served by at least one plan
