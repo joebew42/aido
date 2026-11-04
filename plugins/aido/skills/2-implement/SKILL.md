@@ -11,9 +11,8 @@ test-driven development — one test at a time**.
 `SPEC.md` and `SPEC.md.draft` stand for the spec file and its draft: resolve them first, per "The
 Specification File" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`.
 
-Match step size to how much design you must *discover* vs. *conform to*: outer acceptance/contract
-tests are written test-first (and committed last), and the units they drive are grown with strict
-TDD, inside-out. See "Test-First vs. Strict TDD" in `${CLAUDE_PLUGIN_ROOT}/guidelines/tdd.md`.
+Match step size to how much design you must *discover* vs. *conform to*, as "Test-First vs. Strict
+TDD" in `${CLAUDE_PLUGIN_ROOT}/guidelines/tdd.md` describes.
 
 ## Step 0: Load Context
 

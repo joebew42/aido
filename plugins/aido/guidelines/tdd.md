@@ -1,6 +1,6 @@
 # Test-Driven Methodology (Red-Green-Refactor, one test at a time)
-- this is *test-driven*, not *test-first*: grow tests and implementation together, one small
-  behavior per cycle — never write a whole test file up front and satisfy it all at once
+- grow tests and implementation together, one small behavior per cycle — never write a whole test
+  file up front and satisfy it all at once
 - add or change existing tests for each change made
 - add only the most valuable and relevant tests
 - run tests every time a change is added
@@ -54,7 +54,7 @@ Fast proxies (heuristics, not laws — anchor on *uncertainty*, not on layer):
   → lean **strict TDD**
 
 **They compose (outside-in double loop):** write the acceptance/contract test **test-first** at the
-boundary (it stays red as the goal post, and is committed last — see git-workflow), then grow the
+boundary (it stays red as the goal post; `git-workflow.md` says when it is committed), then grow the
 units it requires with **strict TDD, inside-out**. It is test-first at the boundary, strict TDD in
 the middle — not one or the other.
 
