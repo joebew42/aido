@@ -98,6 +98,11 @@ and edge cases wait for the later slices.
 3. grow each unit with strict TDD
 4. finish the slice before starting the next
 
+A slice is **finished** only when its acceptance test is green against real code and every unit it
+added has its own tests. A thin slice tempts you to hardcode your way to one green acceptance test, or
+to skip the unit tests once it is green; the acceptance test stands in for neither. Any guard, such as
+authorization, belongs in the first slice, so the behaviour never exists without it.
+
 ### `in-unit`
 
 Grow the one unit with strict TDD. There is no direction to choose.

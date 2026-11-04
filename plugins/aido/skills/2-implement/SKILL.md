@@ -85,31 +85,33 @@ Each feature item names its mode, as "The Modes" in `tdd.md` defines them. Work 
 
 - **`outside-in`** — take the slices the item lists, in order. Connect the first slice through the real
   entry point before writing any edge case: the entry point calls the feature while the only
-  behaviour it reaches is the first slice's
+  behaviour it reaches is the first slice's. Grow its units with strict TDD, and finish each slice, as
+  `tdd.md` defines it, before the next
 
 ## Acceptance Criteria as Goal Posts
 
-The specification's acceptance criteria are the outer loop of the double loop described in "Test-First
-vs. Strict TDD" (`tdd.md`). Before growing the units of a plan item:
+The specification's acceptance criteria are the outer loop, as "The Modes" in `tdd.md` describes. An
+outside-in item has one goal post per slice. Before growing the units of a plan item or slice:
 
 - [ ] for each **automatable** criterion the item serves and that no test covers yet, write its
       outer acceptance test **test-first**, at the boundary where the behaviour is observable
 - [ ] run it and confirm it fails for the **right reason** — the behaviour is missing, not the test
       broken
-- [ ] keep it red as the goal post while the units behind it are grown with strict TDD,
-      inside-out; it does not count against "one failing test at a time" in the inner loop
+- [ ] keep it red as the goal post while the units behind it are grown in the item's mode; it does
+      not count against "one failing test at a time" in the inner loop
 - [ ] it stays **uncommitted** while red, and the per-commit gate does not cover it: the units
       committed meanwhile need their own tests and the existing suite green, not the goal post
-- [ ] it is committed once green, last, as `git-workflow.md` says for acceptance tests
+- [ ] it is committed once green, where "Shape by Mode" in `git-workflow.md` says: with its slice for
+      an outside-in item, last otherwise
 - [ ] criteria marked `(manual)` get no test; they are confirmed in the Acceptance Criteria Check
 
 When the item's criterion is already covered by a test that predates this feature, name it and move
 on — do not write a duplicate.
 
-## MANDATORY: Strict, Incremental TDD — One Test at a Time
+## MANDATORY: One Test at a Time
 
-Grow each unit through the cycle in `tdd.md`, one behavior per micro-cycle, until it is fully
-specified:
+Grow each unit through the cycle in `tdd.md`, one behavior per micro-cycle and at the step size its
+mode calls for, until it is fully specified:
 
 ```
 RED (one test) → GREEN (minimum code) → REFACTOR (on green) → next test
@@ -243,8 +245,9 @@ Apply "Before Every Commit" in `git-workflow.md` before every commit. Do not com
 ## Commits
 
 Follow `git-workflow.md`. Commit each completed unit as it lands, inside-out: an **atomic,
-per-class/module commit** with its tests. **Final history shaping** is not done here —
-`/aido:3-organize-commits` owns it.
+per-class/module commit** with its tests. An outside-in slice grows from the entry point inward, so
+commit it when it is finished: its units inside-out, then its acceptance test. **Final history
+shaping** is not done here — `/aido:3-organize-commits` owns it.
 
 ## Red Flags to Watch For
 
@@ -262,6 +265,8 @@ If you catch yourself doing any of these, STOP immediately:
 - ❌ Growing a plan item's units before its automatable criteria have a red goal post
 - ❌ Writing an edge case of an outside-in item before its first slice is connected through the entry
   point
+- ❌ Calling a slice finished with a hardcoded value behind its acceptance test, or with a unit that has
+  no tests of its own
 - ❌ Ending the session without the Acceptance Criteria Check, or recording a criterion as met
   without its evidence
 - ❌ Changing an acceptance criterion without the user's agreement
