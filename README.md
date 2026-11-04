@@ -141,11 +141,26 @@ plan describes how; progress notes record what happened.
 
 - **Planning** proposes missing criteria and links every plan item to the criteria it serves.
 - **Implementation** writes acceptance tests first, keeps them red while developing the supporting
-  code with TDD, and checks every criterion before completion. Criteria requiring human judgement
+  code with TDD in the mode the plan gives each part, and checks every criterion before completion.
+  Criteria requiring human judgement
   are marked `(manual)` and require your confirmation. When a criterion is not met, you choose to
   implement it, change it, or defer it.
 - **Verification** checks the criteria again in a fresh context. Deferred criteria appear in the PR
   and can become GitHub issues.
+
+### Uncertainty chooses how each part is built
+
+Every feature item in a plan names its mode and why, so you can challenge the choice before any code
+exists. Implementation and commit organization then follow it.
+
+| What's unknown | Mode | How it is built | History |
+| --- | --- | --- | --- |
+| Nothing: it follows existing code or a known contract | `inside-out` | Test-first, layer by layer | Inside-out, acceptance tests last |
+| How the parts fit, or what an interface should be | `outside-in` | Strict TDD, in tracer bullet slices | One group of commits per slice |
+| Logic within one unit | `in-unit` | Strict TDD in that unit | As inside-out |
+
+A part is inside-out only if the plan can cite what it conforms to. When the plan proves wrong,
+implementation changes the mode, tells you, and records it.
 
 ### The repository is part of the conversation
 
@@ -254,7 +269,7 @@ Skills load their guidance from [`plugins/aido/guidelines/`](plugins/aido/guidel
 | --- | --- |
 | `git-workflow.md` | Commit conventions, per-commit gates, branching, and GitHub CLI usage. |
 | `code-standards.md` | Design principles, code quality, comments, and interaction style. |
-| `tdd.md` | Red–green–refactor and adjusting step size to uncertainty. |
+| `tdd.md` | Red–green–refactor, and the modes that let uncertainty choose step size and direction. |
 | `testing-principles.md` | Test structure, collaboration tests, and flaky-test prevention. |
 | `project-conventions.md` | Discovering host repository conventions in `CLAUDE.md` and `AGENTS.md`. |
 | `specification.md` | Specification structure and acceptance criteria. |
