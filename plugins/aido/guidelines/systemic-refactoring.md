@@ -68,8 +68,7 @@ the user or recorded as deferred, so routine cycles stay light.
 - **fix now** — a design problem this change introduced
 - **refactor now** — directly related to the change, bounded, and covered by tests
 - **defer** — worthwhile but broader or riskier than this change justifies; record it with its
-  evidence. A refactoring is made as part of a working feature, so no issue tracks it and deferring
-  gives up the opportunity
+  evidence and park it, as **Parking an opportunity** describes
 - **no action** — an intentional difference, or a hypothesis the evidence did not support
 
 When planning, nothing has been built yet, so fix now and refactor now collapse into one outcome:
@@ -77,6 +76,38 @@ When planning, nothing has been built yet, so fix now and refactor now collapse 
 
 A low-confidence finding is classified only as **defer** or **no action**, and names the evidence
 still missing.
+
+**Parking an opportunity:** a refactoring is made as part of a working feature, so it is never
+tracked as an issue. The session parks one worth keeping, until a planned change can pull it in:
+
+- each opportunity has its own file,
+  `~/.claude/repos/<repo-name>/refactoring-opportunities/YYYY-MM-DD-<refactoring-title>.md`, named
+  with the day it was parked and its title in lower case with hyphens. `<repo-name>` is as
+  `/aido:map-architecture` defines it
+- the file holds the nature of the refactoring, the design smell it solves and why that matters, then
+  the rest of the finding:
+
+  ```markdown
+  # <title>
+
+  Parked at `<short SHA>`.
+
+  ## Refactoring
+  <the Recommendation: what would change>
+
+  ## Design smell
+  <what kind of problem it is, and the Observation>
+
+  ## Why it matters
+  <why it is important to resolve>
+
+  ## Finding
+  <Evidence, Competing explanations, Assumptions, Confidence, What would change it and Risk>
+  ```
+- before parking, look for a file with the same evidence, and do not add a second one
+- `/aido:1-plan` offers the opportunities that fit a planned change, and the file is removed once the
+  refactoring is committed, or when the code no longer shows the problem
+- the folder lives outside the repository, on this machine: it is not shared, and cannot be rebuilt
 
 **Boundaries:** behaviour and public contracts are preserved and tests stay green; no cleanup of
 unrelated modules, no abstraction for superficial duplication, no style rewrites; a refactoring
