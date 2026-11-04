@@ -172,15 +172,15 @@ complete_task = CompleteTask(tasks: PostgresqlTaskRepository(), reminders: Queue
   constructor calls, etc.) needs to wrap, format them all multi-line the same way — don't leave
   only the single over-long line wrapped while the rest stay on one line
 
-### Treat Third-Party Libraries as Black Boxes
+### Depend on Third-Party Contracts, Not Internals
 
-Use dependencies through their **documented public contract** — don't read a library's (or
-framework's, or lint rule's) internal source to explain *why* it behaves the way it does. When a tool
-reports something, **fix it against the observable contract and re-run to verify**.
+**Your code** uses a dependency (a library, framework or lint rule) through its documented public
+contract. Do not call its private APIs or rely on undocumented behaviour, because an upgrade can
+change them without notice.
 
-If you must inspect a third-party's internals — a suspected bug in the library, or undocumented
-behavior that is actually blocking you — **stop and ask the user first with `AskUserQuestion`**,
-stating why.
+**Your understanding** can come from anywhere. When the documentation doesn't explain what you see,
+read the source of the version the project has installed. Check what you learn by running the code,
+and fix the problem against the public contract.
 
 ### Comments
 
