@@ -80,8 +80,9 @@ If nothing was found, say so and stop — that is a valid result.
 Follow `${CLAUDE_PLUGIN_ROOT}/guidelines/github-issues.md` for the candidates shown in Step 3, with:
 
 - **title:** the candidate's title
-- **body:** the **Observation**, **Evidence**, **Impact**, **Recommendation** and **Risk** sections,
-  ending with one line: "Found while assessing the architecture at `<short SHA>`."
+- **body:** the **Observation**, **Evidence**, **Competing explanations**, **Confidence**, **What
+  would change it**, **Impact**, **Recommendation** and **Risk** sections, ending with one line:
+  "Found while assessing the architecture at `<short SHA>`."
 - **label:** `refactor`
 
 ## Step 5: Report
