@@ -138,11 +138,13 @@ Strategy: <reimplement from scratch | carry over and adjust>
 domain → application → infrastructure, with what inner code calls out to before what calls in>
 ```
 
-- refine it with the user as `/aido:1-plan` Step 3 does — fill gaps, remove ambiguity, reword,
-  and ask with `AskUserQuestion` wherever a decision belongs to the user — and run the alignment
-  check in `${CLAUDE_PLUGIN_ROOT}/guidelines/repository-alignment.md` on it, as that step does
-- propose the plan and **wait for explicit user approval**, as `/aido:1-plan` Step 6 does;
-  update the draft with any changes the user asks for
+- refine it with the user as `/aido:1-plan` Step 3 does, without the question about the enabling
+  refactoring analysis — fill gaps, remove ambiguity, reword, and ask with `AskUserQuestion`
+  wherever a decision belongs to the user — and run the alignment check in
+  `${CLAUDE_PLUGIN_ROOT}/guidelines/repository-alignment.md` on it, as that step does
+- propose the plan and **wait for explicit user approval**, as "Approve the plan" in
+  `/aido:1-plan` Step 6 does, without its question on how to continue; update the draft with any
+  changes the user asks for
 - once approved, move it with `mv SPEC.md.draft SPEC.md` and confirm `SPEC.md.draft` is gone —
   the two files never exist together
 - commit **only** `SPEC.md` with the exact message
@@ -158,9 +160,9 @@ Tell the user the branch is ready and the next steps:
 2. run `/aido:3-organize-commits` to shape the final history
 3. run `/aido:4-create-pr` when they decide it is time to open the PR
 
-Use `AskUserQuestion` to ask whether they want a worktree for this branch, as `/aido:1-plan`
-Step 8 does — **not available in carry-over mode**, because the uncommitted original changes live
-in this working directory.
+Use `AskUserQuestion` to ask whether they want a worktree for this branch, and create it as
+`/aido:1-plan` Step 8 does — **not available in carry-over mode**, because the uncommitted original
+changes live in this working directory.
 
 ## STOP — Skill Complete
 

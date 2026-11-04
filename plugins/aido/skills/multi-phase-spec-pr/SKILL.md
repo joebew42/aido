@@ -27,7 +27,8 @@ committed. The two never exist together:
 
 - **both exist** → delete `SPEC.md.draft` and tell the user
 - **only `SPEC.md.draft` exists** → approve and refine it with the user as `/aido:1-plan` Step 2
-  (**Approve the draft**) and Step 3 do — rewriting it into "The Specification Structure" in
+  (**Approve the draft**) and Step 3 do, without the question about the enabling refactoring
+  analysis — rewriting it into "The Specification Structure" in
   `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`, with numbered acceptance criteria for
   the whole feature, and running the alignment check in
   `${CLAUDE_PLUGIN_ROOT}/guidelines/repository-alignment.md` — then move it with

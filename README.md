@@ -59,9 +59,11 @@ and drafts the specification.
 </div>
 
 `/aido:1-plan` checks the draft against your repository, refines it with you, and only turns it into
-`SPEC.md` after approval. It then plans the work, creates a branch, and offers to move into
-implementation. For a small, clear change, it can propose a lighter route: a brief specification and
-plan approved together, without the enabling-refactoring analysis.
+`SPEC.md` after approval. It then plans the work, creates a branch, and moves into implementation if
+you chose to. A full plan stops for three approvals, of the draft, the specification and the plan,
+each settling the choice that follows it, on top of any questions about what to build. For a small,
+clear change, it can propose a lighter route: a brief specification and plan approved together,
+without the enabling-refactoring analysis.
 
 Later, `/aido:3-organize-commits` asks whether to revert `SPEC.md` (the default) or keep it in the
 repository docs. `/aido:4-create-pr` offers verification before pushing and can open GitHub issues
