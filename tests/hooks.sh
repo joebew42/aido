@@ -171,6 +171,13 @@ check "push hook cannot be opted out of" "$push_approval" \
 check_command_is_a_plugin_script "Bash" "ask-before-push.sh"
 check_script_is_followable "ask-before-push.sh"
 
+check "compaction hook runs by its literal path, only after a compaction" \
+  "\"\${CLAUDE_PLUGIN_ROOT}/hooks/remind-after-compaction.sh\"" \
+  "$(jq -r '.hooks.SessionStart[] | select(.matcher == "compact") | .hooks[].command' "$hooks/hooks.json")"
+check "compaction hook tells the agent to reload the skill" "1" \
+  "$("$hooks/remind-after-compaction.sh" | grep -c 'invoke that skill again')"
+check_script_is_followable "remind-after-compaction.sh"
+
 if [ "$failures" -gt 0 ]; then
   echo "$failures failed"
   exit 1

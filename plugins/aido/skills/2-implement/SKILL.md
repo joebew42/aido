@@ -46,7 +46,10 @@ Gather the host repository's conventions as `project-conventions.md` describes.
 Before writing the first test, make sure you know how to run a single test, the relevant suite, and
 the linter in this project. If you can't determine one of them, ask the user.
 
-- do NOT re-read guideline files during implementation — they are already loaded
+- do NOT re-read guideline files during implementation while they are still loaded. After the
+  conversation is compacted they may not be: read them again, and when this skill is invoked again
+  with work in progress, skip Steps 0.5 and 1 and continue from the next unit, using `git log` and
+  `SPEC.md` to see where the work stands
 
 ## Step 0.5: Check the Alignment with the Repository
 
@@ -124,8 +127,7 @@ the unit, then move to the next unit.
 The REFACTOR step looks at the code just written; this checkpoint looks beyond it. The rules —
 what to look for, the evidence rule, what every finding states, the four outcomes, the boundaries
 and when to stop — are in
-`${CLAUDE_PLUGIN_ROOT}/guidelines/systemic-refactoring.md`. Read it the first time a checkpoint runs; this is the one guideline
-read allowed during implementation. It runs in test-first and strict-TDD mode alike, and **never**
+`${CLAUDE_PLUGIN_ROOT}/guidelines/systemic-refactoring.md`. Read it the first time a checkpoint runs. It runs in test-first and strict-TDD mode alike, and **never**
 as a broad scan after every cycle.
 
 ### Starting context
