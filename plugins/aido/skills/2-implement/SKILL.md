@@ -122,7 +122,8 @@ the unit, then move to the next unit.
 ## Systemic Design Checkpoint
 
 The REFACTOR step looks at the code just written; this checkpoint looks beyond it. The rules —
-what to look for, the evidence rule, the four outcomes, the boundaries and when to stop — are in
+what to look for, the evidence rule, what every finding states, the four outcomes, the boundaries
+and when to stop — are in
 `${CLAUDE_PLUGIN_ROOT}/guidelines/systemic-refactoring.md`. Read it the first time a checkpoint runs; this is the one guideline
 read allowed during implementation. It runs in test-first and strict-TDD mode alike, and **never**
 as a broad scan after every cycle.
@@ -143,8 +144,10 @@ Run it inline, on green, scoped to the evidence the cycle surfaced:
 2. classify it: **fix now**, **refactor now**, **defer** or **no action**
 3. apply fix-now and refactor-now changes in small steps, re-running the relevant tests after each
 4. before a refactoring that touches another module, ask with `AskUserQuestion`, showing the
-   finding and its evidence — options **Refactor now** / **Defer** / **No action**
-5. note deferred findings for the `## Progress` handoff, then return to RED
+   finding with every field under **What every finding states** in `systemic-refactoring.md` —
+   options **Refactor now** / **Defer** / **No action**
+5. note deferred findings for the `## Progress` handoff, with those same fields, and park them as
+   **Parking an opportunity** in `systemic-refactoring.md` describes, then return to RED
 
 ### Before completion — `fable` subagent
 
@@ -171,22 +174,27 @@ On **Run the checkpoint**, launch one `Agent` with `model: "fable"`. Brief it wi
 - `systemic-refactoring.md` and the rules it points to in `code-standards.md`, copied
   — the subagent has not loaded the guidelines
 - never to edit files
-- to return only findings, each with **Observation**, **Evidence** (`path` — `Symbol`),
-  **Classification**, **Recommendation** and **Risk** — or one line saying none were found
+- to return only findings, each with its **Classification** and every field under **What every
+  finding states** in `systemic-refactoring.md` — or one line saying none were found
 
 If `fable` is unavailable or the call is denied, run the same brief with the session's model and
 say so.
 
 Then, in this session:
 
-1. open the cited files and confirm each finding before acting on it
+1. confirm each finding before acting on it, as **Evidence before action** in
+   `systemic-refactoring.md` describes
 2. present the findings; ask with `AskUserQuestion` before any that touch another module
 3. apply the accepted ones on green, in small steps, re-running the relevant tests after each
-4. record the deferred ones for the `## Progress` handoff
+4. record the deferred ones for the `## Progress` handoff, and park them as **Parking an
+   opportunity** in `systemic-refactoring.md` describes
 
 ### Committing systemic refactorings
 
 Follow the stand-alone refactoring rule in `git-workflow.md`, loaded in Step 0.
+
+When a plan item names a parked refactoring opportunity, remove its file once the refactoring is
+committed, and tell the user.
 
 ## Acceptance Criteria Check
 
@@ -258,8 +266,8 @@ user chose to skip it:
    - record each result of the Acceptance Criteria Check, as "Acceptance in Progress" in "The
      Specification Structure" describes
    - record any key decisions made during implementation (e.g., design choices, deviations from spec)
-   - list **Deferred refactorings**, each with its evidence (`path` — `Symbol`) and why it was
-     deferred
+   - list **Deferred refactorings**, each with every field under **What every finding states** in
+     `systemic-refactoring.md`, its evidence as `path` — `Symbol`, and why it was deferred
    - if the user skipped the final Systemic Design Checkpoint, say so
    - keep it brief — this is a handoff note for the next session
 

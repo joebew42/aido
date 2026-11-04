@@ -65,7 +65,7 @@ plan approved together, without the enabling-refactoring analysis.
 
 Later, `/aido:3-organize-commits` asks whether to revert `SPEC.md` (the default) or keep it in the
 repository docs. `/aido:4-create-pr` offers verification before pushing and can open GitHub issues
-for deferred points you select.
+for deferred acceptance criteria you select.
 
 ### Recommended Claude Code settings
 
@@ -201,7 +201,7 @@ deliberately run the workflow fully unsupervised.
 | `/aido:verify` | Check a branch or PR against the agreed requirements from a fresh context. |
 | `/aido:stabilize` | Take over a PR, remote branch, or local changes created outside this workflow. |
 | `/aido:map-architecture` | Build or update a slim index of domain areas and building blocks. |
-| `/aido:assess-architecture` | Assess architecture area by area and open selected refactoring issues. |
+| `/aido:assess-architecture` | Assess architecture area by area and park selected refactoring opportunities, which `/aido:1-plan` offers when a planned change fits them. |
 | `/aido:resolve-migration-conflict` | Resolve migration conflicts after a rebase, with any migration tool. |
 
 ---

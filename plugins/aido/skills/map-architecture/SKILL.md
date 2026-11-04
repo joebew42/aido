@@ -20,6 +20,7 @@ This skill only reads the repository. It writes nothing inside it.
     README.md                    # always read: build commit, one line per area
     areas/<area-slug>.md         # where the business rules live — searched, opened when central
     areas/<area-slug>.extra.md   # infrastructure, misfits, observations — assessment only
+  refactoring-opportunities/     # not part of the index: see systemic-refactoring.md
 ```
 
 - `<repo-name>` is the last path segment of the `origin` remote URL without `.git` (e.g.

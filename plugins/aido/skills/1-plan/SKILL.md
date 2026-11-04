@@ -169,8 +169,8 @@ propose marked as recommended. The user's choice stands, whatever you propose:
 
 ### Small-Change Route
 
-The specification and the plan are written together and approved once. Steps 3 to 6 do not run, so
-do not ask about the enabling refactoring analysis.
+The specification and the plan are written together and approved once. Steps 3 to 6 do not run,
+apart from Step 5.5, so do not ask about the enabling refactoring analysis.
 
 1. Rewrite `SPEC.md.draft` into "The Specification Structure" in
    `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`, keeping every section brief. Propose the
@@ -178,10 +178,11 @@ do not ask about the enabling refactoring analysis.
 2. Check the rewritten draft against the repository, as "What the Check Looks At" in
    `${CLAUDE_PLUGIN_ROOT}/guidelines/repository-alignment.md` describes. A significant misalignment
    is an open decision: continue at "Moving to the full route", where Step 3 raises it
-3. Add a `## Plan` whose items follow Step 6: in order, each naming the criteria it serves, with
-   every criterion served by at least one item. After it, add this line:
-   `The enabling refactoring analysis was skipped.`
-4. Show the draft, then `AskUserQuestion`: "Are this specification and plan approved? This is the
+3. Run Step 5.5 against the draft
+4. Add a `## Plan` whose items follow Step 6: in order, each naming the criteria it serves, with
+   every criterion served by at least one item, and any opportunity pulled in first. After it, add
+   this line: `The enabling refactoring analysis was skipped.`
+5. Show the draft, then `AskUserQuestion`: "Are this specification and plan approved? This is the
    only approval on this route." — options:
    - **Approve — move it to SPEC.md** — continue with the checks below
    - **Change it** — ask what to change, update the draft, and ask again
@@ -286,7 +287,7 @@ The architecture index feeds the enabling refactoring analysis in Step 5, which 
 is not always needed. Ask first — `AskUserQuestion`: "Should I run the enabling refactoring
 analysis? It looks for refactorings that would make this feature easier, and can take a while." —
 options **Run the analysis** (continue below) / **Skip it** (skip the rest of this step and Step 5,
-and continue at Step 6). Mark neither as recommended.
+and continue at Step 5.5). Mark neither as recommended.
 
 The index is defined in **Index Location and Shape** in
 `${CLAUDE_PLUGIN_ROOT}/skills/map-architecture/SKILL.md`. Identify `<repo-name>` as described there, then:
@@ -319,13 +320,40 @@ Launch one `Agent` with `model: "fable"`. Brief it with:
   related rules or abstractions, and which boundaries apply — widening only on evidence
 - never to edit files
 - to return only the **Design notes** below, plus each finding classified as **enabling** (makes
-  this feature easier or keeps it from duplicating existing knowledge), **defer** or **no action**
+  this feature easier or keeps it from duplicating existing knowledge), **defer** or **no action**,
+  with every field under **What every finding states** in `systemic-refactoring.md`
 
 If `fable` is unavailable or the call is denied, run the same brief with the session's model and
 say so when presenting the plan.
 
-Check the returned evidence before relying on it: open the files it cites for any finding that
-would add a plan item.
+Confirm any finding that would add a plan item, as **Evidence before action** in
+`systemic-refactoring.md` describes.
+
+## Step 5.5: Pull In Parked Refactoring Opportunities
+
+Every plan checks whether a parked refactoring can be made as part of this work, even when the
+analysis above was skipped.
+
+Identify `<repo-name>` as defined in **Index Location and Shape** in
+`${CLAUDE_PLUGIN_ROOT}/skills/map-architecture/SKILL.md`, and list
+`~/.claude/repos/<repo-name>/refactoring-opportunities/`. With no folder or no files, continue
+without saying anything.
+
+Otherwise, read the files and `${CLAUDE_PLUGIN_ROOT}/guidelines/systemic-refactoring.md`, if it is not loaded yet.
+An opportunity **fits** when this specification changes the code it cites, or when making it first
+would make this work easier. For each one that fits, open the cited files and confirm it against the
+current code:
+
+- **the code no longer shows the problem** → remove the file and tell the user
+- **no opportunity fits** → say so in one line and continue
+- **some still hold** → show each one's refactoring, design smell and why it matters, then ask which
+  to pull in:
+  - **4 or fewer** → multi-select `AskUserQuestion`: "These parked refactoring opportunities fit this
+    work. Which should I pull in?" — one option per title
+  - **more than 4** → the same question, with options **All** / **None** / **By number** (the user
+    types the numbers)
+
+Each one pulled in becomes an **enabling** plan item that names its file. The rest stay parked.
 
 ## Step 6: Propose the Plan
 
@@ -333,8 +361,10 @@ would add a plan item.
 - name the layer each planned change lives in — domain, application service, or infrastructure
   (see "Architecture" in `${CLAUDE_PLUGIN_ROOT}/guidelines/code-standards.md`) — and order the plan inside-out:
   domain → application → infrastructure, with what inner code calls out to before what calls in
-- put the **enabling** refactorings from Step 5 first, each as its own `refactor:` item, before
-  the feature work; deferred findings are not planned, only listed in the Design notes
+- put the **enabling** refactorings from Step 5 and the opportunities pulled in at Step 5.5 first,
+  each as its own `refactor:` item, before the feature work; deferred findings are not planned, only
+  listed in the Design notes, each with every field under **What every finding states** in
+  `systemic-refactoring.md`
 - name the acceptance criteria each plan item serves, as "Plan Items" in "The Specification
   Structure" (`${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`) describes
 - before asking for approval, check that every acceptance criterion is served by at least one plan
@@ -355,13 +385,16 @@ would add a plan item.
   - **Deferred:** …
   - **Open questions:** …
   ```
-- if the user skipped the enabling refactoring analysis in Step 4, there are no enabling
-  refactorings to plan and no `## Design notes` section; instead, add this line after `## Plan`:
+- if the user skipped the enabling refactoring analysis in Step 4, the only enabling refactorings to
+  plan are those pulled in at Step 5.5, and there is no `## Design notes` section; instead, add this
+  line after `## Plan`:
   `The enabling refactoring analysis was skipped.`
 - if planning shows the specification itself is wrong or incomplete, raise it with
   `AskUserQuestion` and update `SPEC.md` only with the user's agreement
 - `AskUserQuestion`: "Is the plan approved?" — options **Approve the plan** / **Change it** (ask
   what to change, update `SPEC.md`, and ask again). Do NOT move to Step 7 without approval
+- once the plan is approved, park each deferred finding, as **Parking an opportunity** in
+  `systemic-refactoring.md` describes
 
 ## Step 7: Prepare the Feature Branch
 
