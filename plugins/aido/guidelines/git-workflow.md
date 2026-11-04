@@ -82,6 +82,13 @@ Each part of a plan has a mode (see "The Modes" in `tdd.md`), which shapes its c
   and closed by the slice's acceptance test, committed once it is green. The history is slice-shaped
   rather than literally outside-in, because an outer commit calling code from a later commit would
   fail the per-commit gate
+- **no plan, specification or mode** — inside-out, which also covers older specifications
+
+Thin slices can produce several schema changes. While they are unpushed, squash a part's schema
+changes into one migration commit, in the first slice that needs it.
+
+A phase merges only as a complete set of slices: merged partway, an outside-in phase could ship
+without what its later slices add.
 
 ### Special Cases
 - the feature specification — `SPEC.md`, or the file named per "The Specification File" in `specification.md` — is committed as `docs: feature specification`, and that commit should always be the **first** in history

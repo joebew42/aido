@@ -62,6 +62,17 @@ All commit-organization rules are defined in `git-workflow.md` (loaded above); t
 
 This skill owns **final history shaping** (reordering, splitting, the `SPEC.md` outcome); `/aido:2-implement` produced the per-unit working commits.
 
+### Follow What Was Actually Built
+
+"Shape by Mode" in `git-workflow.md` shapes each part by its mode. Take the mode from the first of
+these that has one, reading the specification as "Reading the Approved Specification" in
+`specification.md` describes:
+
+1. `## Progress` — a mode change and the slices built, as "Modes and Slices in Progress" in
+   `specification.md` describes
+2. the plan — the mode the item names, and its slices
+3. otherwise inside-out — a branch with no plan, specification or mode
+
 ## History Management
 
 - if some commits are already pushed, **add** new commits instead of rewriting history
@@ -75,7 +86,8 @@ Before performing any rebase or history rewrite, analyze the current commits and
 > "Here's how I plan to reorganize the commits:
 > 1. `docs: feature specification` (first)
 > 2. `feat: ...` (grouped by class/module with tests)
-> 3. ...
+> 3. for an outside-in part, each slice in turn: its commits inside-out, then its acceptance test
+> 4. ...
 > N. `revert: docs: feature specification` or `docs: move feature specification to <path>` (last, as chosen in Step 1)
 >
 > Does this look right, or would you like to adjust the grouping?"
@@ -91,6 +103,7 @@ After organizing commits, verify ALL of the following:
 - [ ] No `SPEC.md.draft` is left in the working tree
 - [ ] Docs commit is the FIRST commit in history (if docs present)
 - [ ] Every commit message follows "Commit Message Format" in `git-workflow.md`
-- [ ] The order and grouping follow "Commit Organization Strategy" in `git-workflow.md`
+- [ ] The order and grouping follow "Commit Organization Strategy" in `git-workflow.md`, with each part
+      shaped by the mode "Follow What Was Actually Built" gives it
 - [ ] "Before Every Commit" in `git-workflow.md` holds
 - [ ] All tests pass
