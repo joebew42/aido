@@ -37,10 +37,29 @@ discover behaviour, the systemic check decides how widely to look before settlin
 
 **What every finding states:**
 
-- **Observation** — what looks wrong
+- **Observation** — what the code shows, leaving out anything inferred
 - **Evidence** — `path` — `Symbol`, one line each
+- **Competing explanations** — the other explanations considered and what settled each, always
+  including that no change is needed
+- **Assumptions** — what the finding takes to be true that the code does not show, or `none`
+- **Confidence** — high, medium or low, as defined below
+- **What would change it** — the evidence that would change the conclusion
 - **Recommendation** — the smallest useful refactoring
 - **Risk** — behaviour or consumers that could be affected
+
+**Confidence** rests on the strength of the evidence, not on how plausible the finding sounds:
+
+- **high** — the evidence is checked against the current code, it settles every competing
+  explanation, and no assumption could change the conclusion
+- **medium** — the evidence is checked against the current code, but a competing explanation or an
+  assumption could still change the conclusion
+- **low** — the finding rests mainly on assumptions or on similar-looking code
+
+A finding carries no numeric scores, weightings or probabilities: they suggest a precision the
+evidence does not have.
+
+The on-evidence check during implementation writes this reasoning out only for a finding shown to
+the user or recorded as deferred, so routine cycles stay light.
 
 **Classify every finding:**
 
@@ -52,6 +71,9 @@ discover behaviour, the systemic check decides how widely to look before settlin
 
 When planning, nothing has been built yet, so fix now and refactor now collapse into one outcome:
 **enabling** — a refactoring that makes this feature easier and is planned before it.
+
+A low-confidence finding is classified only as **defer** or **no action**, and names the evidence
+still missing.
 
 **Boundaries:** behaviour and public contracts are preserved and tests stay green; no cleanup of
 unrelated modules, no abstraction for superficial duplication, no style rewrites; a refactoring
