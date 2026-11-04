@@ -166,7 +166,8 @@ requirement as **verified**, **insufficient evidence**, or **unmet**, with devia
 separately.
 
 Verification requires a test that actually passed during the check or a recorded human confirmation;
-progress-note claims are not enough. For a PR without a specification, verification falls back to
+progress-note claims are not enough. It also removes the behaviour in a throwaway worktree to confirm
+the test fails without it, since the same agent probably wrote both. For a PR without a specification, verification falls back to
 the PR description and linked issues and explicitly notes that the evidence is weaker.
 
 `/aido:verify` complements Claude Code's `/code-review`:
