@@ -48,9 +48,8 @@ when the plan rests on something nobody has run: mocks written from the plan agr
 it is wrong, so a bad assumption would surface only at the end, after the other layers were built on
 it.
 
-In every mode, an automatable criterion gets an acceptance test at the boundary, written first. It
-stays red as the goal post while the units behind it are grown, and `git-workflow.md` says when it is
-committed.
+In every mode, an automatable criterion gets an acceptance test at the boundary, written first, which
+stays red as the goal post while the units behind it are grown.
 
 ### Step Size
 
