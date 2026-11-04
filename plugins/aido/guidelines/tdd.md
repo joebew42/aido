@@ -13,8 +13,9 @@ these cycles, not a single big one.
 1. **RED**: Write **one** failing test for the next smallest behavior — nothing more, and no second
    test while red. Watch it fail for the right reason before writing any implementation.
 2. **GREEN**: Write the **minimum** code to make that one test pass, in the step your uncertainty
-   calls for (see "Test-First vs. Strict TDD" below):
-   - **Obvious implementation** — when you already know what to type, write the real thing directly
+   calls for (see "Step Size" in "The Modes" below):
+   - **Obvious implementation** — strict TDD's own escape hatch: when you already know what to type,
+     write the real thing directly, and the cycle collapses to "one test, write the real thing"
    - **Fake it** — when you don't yet see the real logic, return a constant; an embarrassing
      hardcoded value is fine if that is all the current tests demand
    - **Triangulate** — let the next test force you to generalize the fake
@@ -28,36 +29,6 @@ these cycles, not a single big one.
    - commit stand-alone refactoring separately with a `refactor:` prefix
 
    Then return to RED for the next behavior.
-
-## Test-First vs. Strict TDD — Match Step Size to Uncertainty
-
-Strict TDD (one test at a time, fake-it → triangulate) and test-first are **not mutually
-exclusive** — they are points on one spectrum of *step size*, and step size should track how much
-design you still have to **discover** versus **conform to**. The deciding question is: *what is
-this test for?*
-
-- **conforming to a known shape** (external contract, legacy behavior, trivial mapping) →
-  **test-first**: the test is a specification you satisfy, so write it, then write the code
-- **discovering an unknown shape** (emergent design, branchy edge cases, expensive-to-undo
-  abstraction) → **strict TDD**: the test is a design instrument, so take the smallest step and let
-  the next test force the next bit
-- note "**obvious implementation**" is strict TDD's own escape hatch — when you already know what
-  to type, type it; the cycle simply collapses to "one test, write the real thing"
-
-Fast proxies (heuristics, not laws — anchor on *uncertainty*, not on layer):
-
-- API request/acceptance tests, schema/protocol conformance, characterization of legacy behavior,
-  pure DTO/mapping/plumbing → lean **test-first**
-- helpers and small services whose whole implementation fits in your head → **obvious
-  implementation** (≈ test-first)
-- domain/application services and complex domain logic, or when you feel the urge to over-engineer
-  → lean **strict TDD**
-
-The failure modes are symmetric, and each is a smell that you picked the wrong step size:
-
-- test-first on genuinely complex logic → the red→green gap is huge, debugging is hard, and you
-  over-build
-- strict TDD on a fixed contract → triangulation theater, ceremony with no design discovered
 
 ## The Modes — Let Uncertainty Choose Step Size and Direction
 
@@ -77,9 +48,30 @@ when the plan rests on something nobody has run: mocks written from the plan agr
 it is wrong, so a bad assumption would surface only at the end, after the other layers were built on
 it.
 
-In every mode, an automatable criterion gets an acceptance test at the boundary, written first. It
-stays red as the goal post while the units behind it are grown, and `git-workflow.md` says when it is
-committed.
+In every mode, an automatable criterion gets an acceptance test at the boundary, written first, which
+stays red as the goal post while the units behind it are grown.
+
+### Step Size
+
+Strict TDD (one test at a time, fake-it → triangulate) and test-first are points on one spectrum of
+step size, which tracks how much design you still have to **discover** versus **conform to**. Ask:
+*what is this test for?* Anchor on uncertainty, not on layer; the examples are heuristics, not laws.
+
+- **conforming to a known shape** → **test-first**: the test is a specification you satisfy, so write
+  it, then write the code. For example an external contract, API request/acceptance tests,
+  schema/protocol conformance, characterization of legacy behavior, or pure DTO/mapping/plumbing
+- **discovering an unknown shape** → **strict TDD**: the test is a design instrument, so take the
+  smallest step and let the next test force the next bit. For example emergent design, branchy edge
+  cases, an expensive-to-undo abstraction, domain/application services and complex domain logic, or
+  when you feel the urge to over-engineer
+- **a helper or small service whose whole implementation fits in your head** → **obvious
+  implementation** (≈ test-first)
+
+Each failure mode is a smell that you picked the wrong step size:
+
+- test-first on genuinely complex logic → the red→green gap is huge, debugging is hard, and you
+  over-build
+- strict TDD on a fixed contract → triangulation theater, ceremony with no design discovered
 
 ### `inside-out`
 

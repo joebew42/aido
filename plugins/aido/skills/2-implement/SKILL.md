@@ -11,8 +11,8 @@ test at a time**, in the mode each plan item names.
 `SPEC.md` and `SPEC.md.draft` stand for the spec file and its draft: resolve them first, per "The
 Specification File" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`.
 
-Match step size to how much design you must *discover* vs. *conform to*, as "Test-First vs. Strict
-TDD" in `${CLAUDE_PLUGIN_ROOT}/guidelines/tdd.md` describes.
+Match step size to how much design you must *discover* vs. *conform to*, as "Step Size" in
+`${CLAUDE_PLUGIN_ROOT}/guidelines/tdd.md` describes.
 
 ## Step 0: Load Context
 
@@ -85,13 +85,8 @@ Each feature item names its mode, as "The Modes" in `tdd.md` defines them. Work 
 An item with no mode comes from a plan written before modes existed: treat it as inside-out, and do
 not ask.
 
-- **`inside-out`** — grow the units layer by layer, from the domain out to the entry point: one failing
-  test at a time, going straight to the real implementation
-- **`in-unit`** — grow the one unit with strict TDD
-- **`outside-in`** — take the slices the item lists, in order. Connect the first slice through the real
-  entry point before writing any edge case: the entry point calls the feature while the only
-  behaviour it reaches is the first slice's. Grow its units with strict TDD, and finish each slice, as
-  `tdd.md` defines it, before the next
+In an `outside-in` item, connect the first slice through the real entry point before writing any edge
+case: the entry point calls the feature while the only behaviour it reaches is the first slice's.
 
 **When the plan proves wrong**, change the part's mode rather than carrying on with one that has
 stopped fitting: an inside-out part hides an unknown, or an outside-in part turns out to have nothing
