@@ -119,11 +119,29 @@ An item that serves none (an enabling refactoring) says so: `(enabling)`.
 The plan of a feature or a phase also follows these rules. The phases of a main plan, written by
 `/aido:multi-phase-spec-pr`, do not: they only name the criteria they deliver.
 
-- each item names the layer it lives in — domain, application service, or infrastructure (see
+- each item names the layers it touches — domain, application service, or infrastructure (see
   "Architecture" in `code-standards.md`)
+- every feature item, meaning any item not marked `(enabling)`, names its mode and the reason for it
+  after its title, as "The Modes" in `tdd.md` defines them:
+  - `inside-out` cites the existing code or known contract it conforms to
+  - `outside-in` names its unknown and lists its slices in order, with any guard such as
+    authorization in the first slice
+  - `in-unit` names the unknown logic
 - enabling refactorings come first, each as its own `refactor:` item
-- the rest is ordered inside-out: domain → application → infrastructure, with what inner code calls
-  out to before what calls in
+- the rest is ordered by dependency, with an outside-in item before any inside-out item relying on
+  the contract it discovers. Otherwise the order is inside-out: domain → application → infrastructure,
+  with what inner code calls out to before what calls in
+
+```markdown
+1. **refactor: extract the task store** (enabling) — infrastructure
+2. **complete a task** (AC1) — inside-out: follows `add_task` in `lib/tasks.sh`. Touches domain,
+   application
+3. **sync tasks to the calendar** (AC2, AC3) — outside-in: the provider's error responses are
+   unconfirmed. Touches application, infrastructure
+   - slice 1: a completed task reaches the provider, through the authorization check
+   - slice 2: a rejected sync is reported to the user
+4. **repeat a task monthly** (AC4) — in-unit: the month-end rule is unsettled. Touches domain
+```
 
 ### Acceptance in Progress
 

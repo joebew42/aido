@@ -190,8 +190,9 @@ apart from Step 5.5, so do not ask about the enabling refactoring analysis.
    `${CLAUDE_PLUGIN_ROOT}/guidelines/repository-alignment.md` describes. A significant misalignment
    is an open decision: continue at "Moving to the full route", where Step 3 raises it
 3. Run Step 5.5 against the draft
-4. Add a `## Plan` whose items follow Step 6: in order, each naming the criteria it serves, with
-   every criterion served by at least one item, and any opportunity pulled in first. After it, add
+4. Add a `## Plan` whose items follow Step 6: in order, each naming the criteria it serves and, for a
+   feature item, its mode and the reason for it, with every criterion served by at least one item, and
+   any opportunity pulled in first. After it, add
    this line: `The enabling refactoring analysis was skipped.`
 5. Show the draft, then ask two questions in one `AskUserQuestion` call:
    - "Are this specification and plan approved? This is the only approval on this route." — options:
@@ -368,6 +369,9 @@ Each one pulled in becomes an **enabling** plan item that names its file. The re
 - go through the specification and propose a plan of the changes, with items written and ordered as
   "Plan Items" in "The Specification Structure" (`${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`)
   describes
+- choose each feature item's mode as "The Modes" in `${CLAUDE_PLUGIN_ROOT}/guidelines/tdd.md` describes;
+  read that file now. Open what an inside-out item cites and confirm it exists and fits: agents tend to
+  over-label work as obvious, so when you can't cite anything, name the unknown instead
 - the **enabling** refactorings are those from Step 5 and the opportunities pulled in at Step 5.5;
   deferred findings are not planned, only listed in the Design notes, each with every field under
   **What every finding states** in `systemic-refactoring.md`
