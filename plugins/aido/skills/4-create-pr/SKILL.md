@@ -178,26 +178,21 @@ After creating the PR:
 - [ ] assign the PR author to the PR: `gh pr edit --add-assignee "@me"`
 - [ ] if the host repository's agent instruction files ask for specific labels or reviewers, apply them as they describe; otherwise add none
 
-## Step 4.5: Offer Issues for Deferred Points
+## Step 4.5: Offer Issues for Deferred Criteria
 
-Offer to turn the deferred points worth keeping into issues, so they outlive the specification.
+Offer to turn the deferred acceptance criteria worth keeping into issues, so they outlive the specification. These are the criteria `## Progress` records as `deferred`.
 
-Collect the deferred points from the specification read in Step 0:
+Deferred refactorings are not offered: a refactoring is made as part of a working feature, so deferring one gives up the opportunity.
 
-- **deferred refactorings** — **Deferred refactorings** in `## Progress`, and `Deferred` in `## Design notes`. Both lists are free-form, so read them leniently, and offer findings with the same `path` — `Symbol` evidence as one point
-- **deferred acceptance criteria** — the criteria `## Progress` records as `deferred`. A specification without numbered criteria has none, and its deferred refactorings are still offered
+With no deferred criteria, including when the specification has no numbered criteria, skip this step without asking anything.
 
-With no deferred points, including when the specification has neither section, skip this step without asking anything.
-
-Otherwise, get the PR's URL with `gh pr view --json url --jq .url`, show the points, and follow `${CLAUDE_PLUGIN_ROOT}/guidelines/github-issues.md` with:
+Otherwise, get the PR's URL with `gh pr view --json url --jq .url`, show the criteria, and follow `${CLAUDE_PLUGIN_ROOT}/guidelines/github-issues.md` with:
 
 - **title:** a plain-language title with no prefix
-- **body of a deferred refactoring:** **Observation**, **Evidence** (`path` — `Symbol`) and **Why it was deferred**, ending with one line linking to the PR
-- **body of a deferred criterion:** **Observation**, holding the criterion's wording, and **Why it was deferred**, ending with one line linking to the PR. It needs no evidence
-- **label:** `refactor` for a deferred refactoring; none for a deferred criterion
-- **issues that do not count as a match:** the issue in the PR's `Closes #NUMBER`, if any, because merging the PR would close it and the deferred point with it
+- **body:** **Observation**, holding the criterion's wording, and **Why it was deferred**, ending with one line linking to the PR
+- **issues that do not count as a match:** the issue in the PR's `Closes #NUMBER`, if any, because merging the PR would close it and the deferred criterion with it
 
-Report each issue opened or commented on with its URL, and each skipped point with the reason. Points not picked stay where they were recorded, and neither the specification nor the PR description changes.
+Report each issue opened or commented on with its URL, and each skipped criterion with the reason. Criteria not picked stay where they were recorded, and neither the specification nor the PR description changes.
 
 ## Step 5: Suggest Repository Conventions
 

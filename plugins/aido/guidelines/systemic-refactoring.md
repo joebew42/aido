@@ -68,7 +68,8 @@ the user or recorded as deferred, so routine cycles stay light.
 - **fix now** — a design problem this change introduced
 - **refactor now** — directly related to the change, bounded, and covered by tests
 - **defer** — worthwhile but broader or riskier than this change justifies; record it with its
-  evidence
+  evidence. A refactoring is made as part of a working feature, so no issue tracks it and deferring
+  gives up the opportunity
 - **no action** — an intentional difference, or a hypothesis the evidence did not support
 
 When planning, nothing has been built yet, so fix now and refactor now collapse into one outcome:

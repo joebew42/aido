@@ -65,7 +65,7 @@ plan approved together, without the enabling-refactoring analysis.
 
 Later, `/aido:3-organize-commits` asks whether to revert `SPEC.md` (the default) or keep it in the
 repository docs. `/aido:4-create-pr` offers verification before pushing and can open GitHub issues
-for deferred points you select.
+for deferred acceptance criteria you select.
 
 ### Recommended Claude Code settings
 
