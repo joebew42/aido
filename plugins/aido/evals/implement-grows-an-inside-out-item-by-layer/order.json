@@ -1,0 +1,5 @@
+{
+  "name": "grows-the-domain-before-the-entry-point",
+  "before": { "paths": ["lib/task.sh"], "contains": "complete|done" },
+  "after": { "paths": ["bin/todo"], "contains": "complete" }
+}

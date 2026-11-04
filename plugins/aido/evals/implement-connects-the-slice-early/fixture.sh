@@ -85,8 +85,12 @@ Reopening a task.
 
 ## Plan
 
-1. **complete a task** (AC1, AC2, AC3) — touches `lib/task.sh` (domain), `lib/tasks.sh` (application),
-   and `lib/task_store.sh` and `bin/todo` (infrastructure)
+1. **complete a task** (AC1, AC2, AC3) — outside-in: how a task in the store changes state is
+   unconfirmed, because the store only appends today. Touches `lib/task.sh` (domain), `lib/tasks.sh`
+   (application), and `lib/task_store.sh` and `bin/todo` (infrastructure)
+   - slice 1: `bin/todo complete <id>` completes an open task (AC1)
+   - slice 2: completing a task that is already done (AC2)
+   - slice 3: completing an unknown id (AC3)
 
 The enabling refactoring analysis was skipped.
 EOF

@@ -48,9 +48,14 @@ python3 tests/test_evals.py
 
 | Cases | What they check |
 | --- | --- |
-| `implement-connects-the-slice-early` | Does the agent connect the feature before writing the edge cases, and does it work? |
+| `implement-connects-the-slice-early` | Given an outside-in item, does the agent connect the feature before writing the edge cases, give the inner units their own tests, and does it work? |
+| `implement-grows-an-inside-out-item-by-layer` | Given an inside-out item, does the agent grow the domain before the entry point, and does it work? |
 | `implement-writes-the-test-first` | Does the test change before the code? |
+| `plan-names-each-items-mode` | Does each feature item in a plan name its mode and reason, with something to cite or an unknown? |
 | `plan-stops-before-code` | Does planning wait for you instead of writing code? |
+| `organize-follows-a-mode-change-in-progress` | When `## Progress` records a change to outside-in, is the history slice-shaped? |
+| `organize-shapes-an-inside-out-part` | Is an inside-out part's history inside-out, with its acceptance tests last? |
+| `organize-without-a-plan` | With no specification, plan or mode, is the history inside-out? |
 | `verify-catches-a-test-that-cannot-fail` | Does verification notice a test that would pass anyway? |
 | `verify-accepts-a-real-test` | Does verification accept good tests, without false alarms? |
 
@@ -137,8 +142,8 @@ by design. That is the job of `/code-review`.
 
 ## Why not `claude plugin eval`?
 
-The cases follow the format of `claude plugin eval`, the official tool. It can't run the `order.json`
-and `acceptance.sh` checks, which only this runner understands. On Ubuntu
+The cases follow the format of `claude plugin eval`, the official tool. It can't run the `order.json`,
+`acceptance.sh` and `checks/<name>.sh` checks, which only this runner understands. On Ubuntu
 its sandbox also failed for us: Bash couldn't start at all under the default AppArmor settings, and
 with those settings off, every write failed with `Read-only file system`. This runner doesn't use that
 sandbox, which is why it needs one of its own around it.

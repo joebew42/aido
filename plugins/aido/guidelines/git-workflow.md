@@ -64,12 +64,31 @@ Resolve it once per skill run with `git symbolic-ref --short refs/remotes/origin
 - organize commits so that tests and code changes are committed together
 - keep commits per class or module (e.g., if changing `SomeService`, include `SomeService` tests in same commit)
 - when multiple service classes are changed as part of the same feature, give each service its own commit — even if the changes are similar (e.g., `ServiceA` and `ServiceB` both get a one-line update: two commits, not one)
-- use inside-out strategy: commit most internal parts first, end with outer parts
-- request or acceptance tests should be committed last
+- use inside-out strategy: commit most internal parts first, end with outer parts, within the shape
+  each part's mode gives it (see "Shape by Mode" below)
+- request or acceptance tests should be committed last, except for an outside-in part's
 - keep API-layer changes in their own commit, separate from application code (models, services) — if the project defines API scopes, the API commit carries one (see "Conventional-commit scopes" above)
 - implementations of collaborators (e.g. `PostgresqlTaskRepository`; see "Collaborators and their implementations" in `code-standards.md`) go in their own commit, after application code and before API-layer commits
 - database migrations and any generated schema snapshot go in their own commit, separate from model and application code — even when a migration and its model are created together, split them
 - commit **stand-alone** refactoring separately with a `refactor:` prefix — that is any refactoring of code that existed before the feature, even when the feature motivated it (an enabling refactoring planned up front, or a systemic one found while implementing); it lands before the feature commits that depend on it. Refactoring the feature's own new code stays inside that feature's commit
+
+### Shape by Mode
+
+Each part of a plan has a mode (see "The Modes" in `tdd.md`), which shapes its commits:
+
+- **`inside-out` and `in-unit`** — the principles above, with the part's acceptance tests last, after
+  any slices
+- **`outside-in`** — one group of commits per slice, in slice order. Each group is inside-out within
+  and closed by the slice's acceptance test, committed once it is green. The history is slice-shaped
+  rather than literally outside-in, because an outer commit calling code from a later commit would
+  fail the per-commit gate
+- **no plan, specification or mode** — inside-out, which also covers older specifications
+
+Thin slices can produce several schema changes. While they are unpushed, squash a part's schema
+changes into one migration commit, in the first slice that needs it.
+
+A phase merges only as a complete set of slices: merged partway, an outside-in phase could ship
+without what its later slices add.
 
 ### Special Cases
 - the feature specification — `SPEC.md`, or the file named per "The Specification File" in `specification.md` — is committed as `docs: feature specification`, and that commit should always be the **first** in history

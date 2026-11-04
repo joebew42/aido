@@ -1,0 +1,6 @@
+schema_version: "1.1"
+name: organize-follows-a-mode-change-in-progress
+description: The plan says inside-out, but Progress records a change to outside-in, so the history is slice-shaped
+tags: [organize]
+context:
+  scaffold_script: fixture.sh

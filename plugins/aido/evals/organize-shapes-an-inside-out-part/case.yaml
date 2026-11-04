@@ -1,0 +1,6 @@
+schema_version: "1.1"
+name: organize-shapes-an-inside-out-part
+description: A part the plan names inside-out gets inside-out history, with its acceptance tests last
+tags: [organize]
+context:
+  scaffold_script: fixture.sh

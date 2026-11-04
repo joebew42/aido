@@ -1,0 +1,6 @@
+schema_version: "1.1"
+name: implement-grows-an-inside-out-item-by-layer
+description: A feature across layers that conforms to existing code, grown from the domain out to the entry point
+tags: [implement, inside-out]
+context:
+  scaffold_script: fixture.sh

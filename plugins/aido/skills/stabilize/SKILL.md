@@ -19,7 +19,7 @@ PR or branch.
 
 - run `git fetch origin`
 - load `${CLAUDE_PLUGIN_ROOT}/guidelines/code-standards.md`, `${CLAUDE_PLUGIN_ROOT}/guidelines/git-workflow.md`,
-  `${CLAUDE_PLUGIN_ROOT}/guidelines/testing-principles.md`, `${CLAUDE_PLUGIN_ROOT}/guidelines/project-conventions.md` and `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`
+  `${CLAUDE_PLUGIN_ROOT}/guidelines/testing-principles.md`, `${CLAUDE_PLUGIN_ROOT}/guidelines/tdd.md`, `${CLAUDE_PLUGIN_ROOT}/guidelines/project-conventions.md` and `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`
 - gather the host repository's conventions as `${CLAUDE_PLUGIN_ROOT}/guidelines/project-conventions.md` describes
 - if `SPEC.md` or `SPEC.md.draft` already exists in the working directory, stop and tell the
   user — this skill creates a new one
@@ -134,8 +134,9 @@ Strategy: <reimplement from scratch | carry over and adjust>
 - AC1: <one checkable statement — the behaviour the original work was meant to deliver>
 
 ## Plan
-<the changes, each tagged with its layer and the criteria it serves, ordered inside-out:
-domain → application → infrastructure, with what inner code calls out to before what calls in>
+<the changes, written and ordered as "Plan Items" in "The Specification Structure" describes, each
+feature item naming its mode and reason as "The Modes" in `tdd.md` defines them. A carry-over item is
+normally inside-out, citing the original work>
 ```
 
 - refine it with the user as `/aido:1-plan` Step 3 does, without the question about the enabling

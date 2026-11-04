@@ -116,6 +116,33 @@ Each item in `## Plan` names the criteria it serves, in parentheses after its ti
 `1. **domain — let a list be shared** (AC1, AC3)`. Every criterion is served by at least one item.
 An item that serves none (an enabling refactoring) says so: `(enabling)`.
 
+The plan of a feature or a phase also follows these rules. The phases of a main plan, written by
+`/aido:multi-phase-spec-pr`, do not: they only name the criteria they deliver.
+
+- each item names the layers it touches — domain, application service, or infrastructure (see
+  "Architecture" in `code-standards.md`)
+- every feature item, meaning any item not marked `(enabling)`, names its mode and the reason for it
+  after its title, as "The Modes" in `tdd.md` defines them:
+  - `inside-out` cites the existing code or known contract it conforms to
+  - `outside-in` names its unknown and lists its slices in order, with any guard such as
+    authorization in the first slice
+  - `in-unit` names the unknown logic
+- enabling refactorings come first, each as its own `refactor:` item
+- the rest is ordered by dependency, with an outside-in item before any inside-out item relying on
+  the contract it discovers. Otherwise the order is inside-out: domain → application → infrastructure,
+  with what inner code calls out to before what calls in
+
+```markdown
+1. **refactor: extract the task store** (enabling) — infrastructure
+2. **complete a task** (AC1) — inside-out: follows `add_task` in `lib/tasks.sh`. Touches domain,
+   application
+3. **sync tasks to the calendar** (AC2, AC3) — outside-in: the provider's error responses are
+   unconfirmed. Touches application, infrastructure
+   - slice 1: a completed task reaches the provider, through the authorization check
+   - slice 2: a rejected sync is reported to the user
+4. **repeat a task monthly** (AC4) — in-unit: the month-end rule is unsettled. Touches domain
+```
+
 ### Acceptance in Progress
 
 `## Progress` records each criterion that has been checked, one line each:
@@ -125,6 +152,14 @@ An item that serves none (an enabling refactoring) says so: `(enabling)`.
 - `AC3: changed — <what changed and why>` (the criterion in `## Acceptance criteria` is updated too)
 - `AC4: deferred — <why>`
 - `AC5: unchecked` — its plan items are not done yet
+
+### Modes and Slices in Progress
+
+`## Progress` records what was actually built where it differs from, or adds to, the plan, because
+`/aido:3-organize-commits` shapes the history from it:
+
+- `Item 3 mode changed: outside-in → inside-out — <why>`
+- `Item 3 slices built: <slice>; <slice>`
 
 ### Specifications Without Acceptance Criteria
 

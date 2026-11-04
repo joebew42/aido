@@ -126,6 +126,8 @@ evidence, once per requirement:
   with its reason
 - a criterion recorded as `changed` is checked against its current wording
 - a conflict under `## Alignment decisions` was decided by the engineer, and is not a deviation
+- a mode change recorded in `## Progress` was decided during implementation, and is not a deviation
+  from the plan. Do not judge whether a mode was the right choice
 
 **List under deviations**, separately: changes in the diff that no requirement or plan item explains,
 and departures from the agreed scope, the `## Out of scope` section, the plan or the `## Design notes`.

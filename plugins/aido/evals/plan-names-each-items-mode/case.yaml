@@ -1,0 +1,6 @@
+schema_version: "1.1"
+name: plan-names-each-items-mode
+description: Given an approved specification, each feature item in the plan names its mode and reason
+tags: [plan]
+context:
+  scaffold_script: fixture.sh
