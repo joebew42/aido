@@ -1,27 +1,26 @@
 ---
-description: Assesses the current repository's architecture area by area for evidence-backed systemic refactorings (duplicated knowledge, misplaced ownership, reinvented abstractions, crossed boundaries) and, for the findings the user picks, opens deduplicated GitHub issues. Invoked when the user wants to assess the architecture, find refactoring opportunities across the codebase, open refactoring issues, or runs /aido:assess-architecture.
+description: Assesses the current repository's architecture area by area for evidence-backed systemic refactorings (duplicated knowledge, misplaced ownership, reinvented abstractions, crossed boundaries) and parks the findings the user picks as refactoring opportunities, for a later planned change to pull in. Invoked when the user wants to assess the architecture, find refactoring opportunities across the codebase, or runs /aido:assess-architecture.
 disable-model-invocation: false
 ---
 
 # Assess the Architecture
 
-Review the repository's design area by area, independent of any feature, and turn the findings
-the user picks into GitHub issues. The issue tracker becomes the refactoring backlog.
+Review the repository's design area by area, independent of any feature, and park the findings the
+user picks as refactoring opportunities. `/aido:1-plan` offers them when a planned change can
+include them, so each refactoring is made as part of a working feature.
 
-This skill reads the repository and never edits it. Its only outward action is opening (or
-commenting on) issues the user explicitly chose.
+This skill reads the repository and never edits it. It writes only the opportunity files the user
+explicitly chose, which live outside the repository.
 
 ## Step 0: Load Context
 
 - identify `<repo-name>` and the index directory as defined in **Index Location and Shape** in
   `${CLAUDE_PLUGIN_ROOT}/skills/map-architecture/SKILL.md`
-- load `${CLAUDE_PLUGIN_ROOT}/guidelines/systemic-refactoring.md`, which defines what to look for and the
-  evidence rule, `${CLAUDE_PLUGIN_ROOT}/guidelines/code-standards.md`, whose "Architecture" and "Code Quality" hold the
-  rules each finding is judged by, `${CLAUDE_PLUGIN_ROOT}/guidelines/github-issues.md`, which defines how picked findings become
-  issues, and `${CLAUDE_PLUGIN_ROOT}/guidelines/project-conventions.md`, then gather the host repository's conventions as it
+- load `${CLAUDE_PLUGIN_ROOT}/guidelines/systemic-refactoring.md`, which defines what to look for, the
+  evidence rule and how to park an opportunity, `${CLAUDE_PLUGIN_ROOT}/guidelines/code-standards.md`, whose "Architecture" and "Code Quality" hold the
+  rules each finding is judged by, and `${CLAUDE_PLUGIN_ROOT}/guidelines/project-conventions.md`, then gather the host repository's conventions as it
   describes
-- run `git fetch origin`, and check `gh repo view` works for this repository — if it does not,
-  stop and tell the user why
+- run `git fetch origin`
 - **no index** → `AskUserQuestion`: "This repo has no architecture index yet. The assessment needs
   one." — options **Run /aido:map-architecture first** / **Cancel**. On the first, run that skill, then
   continue here
@@ -49,12 +48,12 @@ Launch one `Agent` per area with `model: "fable"`, in parallel. Brief each with:
 - to apply it inside the area **and** across its boundary with other areas (e.g. the same rule
   enforced in this area and another)
 - to treat the index as a map only — read the code before claiming anything
-- to group related findings in the area into one candidate issue, so the volume stays low
+- to group related findings in the area into one candidate, so the volume stays low
 - never to edit files
-- to return only this, per candidate issue:
+- to return only this, per candidate:
 
   ```markdown
-  ### <issue title, plain language, no prefix>
+  ### <title, plain language, no prefix>
   - **Category:** duplicated knowledge | misplaced ownership | reinvented abstraction | crossed boundary
   - **Size:** S | M | L
   - **Impact:** why it matters for the design
@@ -71,7 +70,7 @@ say so in the presentation.
 
 Confirm each finding before presenting it, as **Evidence before action** in
 `systemic-refactoring.md` describes. A finding the code does not support is dropped, and is not
-offered as an issue.
+offered for parking.
 
 Number every confirmed candidate across all areas and show them grouped by area: title, category,
 size and evidence count, then the full detail of each. Close with the dropped findings, each with
@@ -81,19 +80,23 @@ findings.
 If no finding was found or confirmed, say so, list any dropped findings, and stop — that is a valid
 result.
 
-## Step 4: Open the Issues
+## Step 4: Park the Opportunities
 
-Follow `${CLAUDE_PLUGIN_ROOT}/guidelines/github-issues.md` for the numbered candidates shown in Step 3, with:
+Ask which of the numbered candidates shown in Step 3 to park:
 
-- **title:** the candidate's title
-- **body:** the **Observation**, **Evidence**, **Competing explanations**, **Confidence**, **What
-  would change it**, **Impact**, **Recommendation** and **Risk** sections, ending with one line:
-  "Found while assessing the architecture at `<short SHA>`."
-- **label:** `refactor`
+- **4 candidates or fewer** → multi-select `AskUserQuestion`: "Which of these should I park as
+  refactoring opportunities?" — one option per title
+- **more than 4** → `AskUserQuestion`: "Which of these should I park as refactoring opportunities?"
+  — options **All** / **None** / **By number** (the user types the numbers)
+
+Park each picked candidate as **Parking an opportunity** in `systemic-refactoring.md` describes. Its
+**Category** names the design smell, and its **Impact** is why it matters. When a file with the same
+evidence already exists, show it and `AskUserQuestion`: "`<file>` looks like the same opportunity."
+— options **Skip** / **Replace it**.
 
 ## Step 5: Report
 
-List each issue opened or commented on with its URL, each skipped candidate with the reason, each
+List each opportunity parked with its file path, each skipped candidate with the reason, each
 dropped finding with the reason, and any step that fell back from `fable` to the session model.
 
 ## STOP — Skill Complete
