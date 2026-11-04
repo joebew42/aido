@@ -135,11 +135,12 @@ The plan of a feature or a phase also follows these rules. The phases of a main 
 - `AC4: deferred — <why>`
 - `AC5: unchecked` — its plan items are not done yet
 
-### Slices in Progress
+### Modes and Slices in Progress
 
-`## Progress` records the slices actually built for each outside-in item, because
-`/aido:3-organize-commits` shapes the history from them:
+`## Progress` records what was actually built where it differs from, or adds to, the plan, because
+`/aido:3-organize-commits` shapes the history from it:
 
+- `Item 3 mode changed: outside-in → inside-out — <why>`
 - `Item 3 slices built: <slice>; <slice>`
 
 ### Specifications Without Acceptance Criteria

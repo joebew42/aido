@@ -93,6 +93,11 @@ not ask.
   behaviour it reaches is the first slice's. Grow its units with strict TDD, and finish each slice, as
   `tdd.md` defines it, before the next
 
+**When the plan proves wrong**, change the part's mode rather than carrying on with one that has
+stopped fitting: an inside-out part hides an unknown, or an outside-in part turns out to have nothing
+left to discover. Tell the user in one line, without asking, and record it as "Modes and Slices in
+Progress" in "The Specification Structure" describes.
+
 ## Acceptance Criteria as Goal Posts
 
 The specification's acceptance criteria are the outer loop, as "The Modes" in `tdd.md` describes. An
@@ -285,8 +290,8 @@ user chose to skip it:
 
 1. **Update `SPEC.md`** with a `## Progress` section at the bottom:
    - list each implemented unit of work (checked off)
-   - record the slices built for each outside-in item, as "Slices in Progress" in "The Specification
-     Structure" describes
+   - record the slices built for each outside-in item and every mode change, as "Modes and Slices in
+     Progress" in "The Specification Structure" describes
    - note any units remaining (if session ended early)
    - record each result of the Acceptance Criteria Check, as "Acceptance in Progress" in "The
      Specification Structure" describes
