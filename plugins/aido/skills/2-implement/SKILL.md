@@ -146,7 +146,8 @@ Run it inline, on green, scoped to the evidence the cycle surfaced:
 4. before a refactoring that touches another module, ask with `AskUserQuestion`, showing the
    finding with every field under **What every finding states** in `systemic-refactoring.md` —
    options **Refactor now** / **Defer** / **No action**
-5. note deferred findings for the `## Progress` handoff, with those same fields, then return to RED
+5. note deferred findings for the `## Progress` handoff, with those same fields, and park them as
+   **Parking an opportunity** in `systemic-refactoring.md` describes, then return to RED
 
 ### Before completion — `fable` subagent
 
@@ -185,11 +186,15 @@ Then, in this session:
    `systemic-refactoring.md` describes
 2. present the findings; ask with `AskUserQuestion` before any that touch another module
 3. apply the accepted ones on green, in small steps, re-running the relevant tests after each
-4. record the deferred ones for the `## Progress` handoff
+4. record the deferred ones for the `## Progress` handoff, and park them as **Parking an
+   opportunity** in `systemic-refactoring.md` describes
 
 ### Committing systemic refactorings
 
 Follow the stand-alone refactoring rule in `git-workflow.md`, loaded in Step 0.
+
+When a plan item names a parked refactoring opportunity, remove its file once the refactoring is
+committed, and tell the user.
 
 ## Acceptance Criteria Check
 
