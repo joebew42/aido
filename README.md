@@ -14,9 +14,9 @@ with any stack.
 
 Every skill is available as `/aido:<skill>`.
 
-![At every stage the agent proposes and you decide: approving the draft, spec and plan; deciding on misalignments with your repository; picking what to implement; approving the commit grouping and every push; verifying and approving the PR; picking which review feedback to address](docs/human-in-the-loop.svg)
+![At every stage the agent proposes and you decide: approving the draft, spec and plan; deciding on misalignments with your repository; picking what to implement; approving the commit grouping and every push; verifying and approving the PR; picking which review feedback to address](docs/readme/human-in-the-loop.svg)
 
-![/aido:1-plan waiting for an answer: it asks whether to start from a GitHub issue, a SPEC.md.draft you write yourself, or a conversation](docs/plan-asks-for-the-spec.png)
+![/aido:1-plan waiting for an answer: it asks whether to start from a GitHub issue, a SPEC.md.draft you write yourself, or a conversation](docs/readme/plan-asks-for-the-spec.png)
 
 ## Your first feature
 
@@ -89,7 +89,7 @@ design notes into it. Implementation reads the plan and records its progress the
 request description is written from it, and review feedback is checked against it. `/aido:verify`
 checks the code against it.
 
-![SPEC.md at the center: planning writes it, implementation reads and updates it, organizing commits reverts it or moves it into the docs, the PR is written from it, review reads it without changing it, and verification checks the code against it](docs/spec-at-the-center.svg)
+![SPEC.md at the center: planning writes it, implementation reads and updates it, organizing commits reverts it or moves it into the docs, the PR is written from it, review reads it without changing it, and verification checks the code against it](docs/readme/spec-at-the-center.svg)
 
 Every specification has the same shape. **Context** says why the change is needed, **Intent** what
 it must achieve, **Out of scope** what it leaves out, and **Acceptance criteria** — numbered `AC1`,
