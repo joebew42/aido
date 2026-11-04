@@ -1,0 +1,64 @@
+{
+  "verify-accepts-a-real-test": {
+    "models": [
+      "claude-opus-5-5"
+    ],
+    "plugin_version": "4.1.0",
+    "recorded": "2026-11-04",
+    "runs_per_arm": 3,
+    "with": {
+      "cost": 1.7734081,
+      "graders": {
+        "verifies-both-criteria": "3/3"
+      },
+      "invalid_runs": 0,
+      "mean_cost": 0.5911360333333333,
+      "mean_turns": 10.666666666666666,
+      "score": 1.0,
+      "valid_runs": 3
+    },
+    "without": {
+      "cost": 0.6359988,
+      "graders": {
+        "verifies-both-criteria": "2/3"
+      },
+      "invalid_runs": 0,
+      "mean_cost": 0.21199959999999998,
+      "mean_turns": 6.0,
+      "score": 0.6666666666666666,
+      "valid_runs": 3
+    }
+  },
+  "verify-catches-a-test-that-cannot-fail": {
+    "models": [
+      "claude-opus-5-5"
+    ],
+    "plugin_version": "4.1.0",
+    "recorded": "2026-11-04",
+    "runs_per_arm": 3,
+    "with": {
+      "cost": 1.7603505499999998,
+      "graders": {
+        "does-not-condemn-the-good-test": "3/3",
+        "does-not-trust-the-test": "3/3"
+      },
+      "invalid_runs": 0,
+      "mean_cost": 0.5867835166666666,
+      "mean_turns": 11.0,
+      "score": 1.0,
+      "valid_runs": 3
+    },
+    "without": {
+      "cost": 0.561655,
+      "graders": {
+        "does-not-condemn-the-good-test": "3/3",
+        "does-not-trust-the-test": "0/3"
+      },
+      "invalid_runs": 0,
+      "mean_cost": 0.18721833333333335,
+      "mean_turns": 7.333333333333333,
+      "score": 0.5,
+      "valid_runs": 3
+    }
+  }
+}
