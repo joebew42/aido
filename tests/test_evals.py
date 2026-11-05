@@ -1,15 +1,16 @@
 import json
+import os
 import sys
 import tempfile
 import unittest
 from pathlib import Path
+from unittest import mock
 
 sys.path.insert(0, str(Path(__file__).parent))
 import evals
 
 EVALS = Path(__file__).parent.parent / "plugins" / "aido" / "evals"
-SLICE = EVALS / "implement-connects-the-slice-early" / "graders"
-TEST_FIRST = EVALS / "implement-writes-the-test-first" / "graders"
+FINISHED = EVALS / "implement-finishes-the-feature" / "graders"
 
 
 def line(**fields):
@@ -72,7 +73,7 @@ class RegexGraders(unittest.TestCase):
         return evals.grade_regex(meta, evals.Run(trace=text, last_message="", workspace=None))
 
     def test_suite_green_needs_real_test_output(self):
-        green = SLICE / "suite-ends-green.md"
+        green = FINISHED / "suite-ends-green.md"
 
         self.assertTrue(self.grade(green, GREEN))
         self.assertTrue(self.grade(green, line(type="tool_result", content="Pay rent\nall passed")))
@@ -238,6 +239,31 @@ class Report(unittest.TestCase):
             evals.replace_results("no markers here", "new")
 
 
+class ImplementCases(unittest.TestCase):
+    def checks_of(self, name):
+        case = EVALS / name
+        graders = {path.stem for path in (case / "graders").glob("*.md")}
+        return graders | set(evals.shell_checks(case))
+
+    def test_the_order_cases_have_only_their_order_check_so_they_stop_early(self):
+        for name in (
+            "implement-connects-the-slice-early",
+            "implement-grows-an-inside-out-item-by-layer",
+            "implement-writes-the-test-first",
+        ):
+            with self.subTest(name):
+                checks = self.checks_of(name)
+                has_order_check = (EVALS / name / "order.json").is_file()
+
+                self.assertEqual(checks, set())
+                self.assertTrue(has_order_check)
+
+    def test_one_small_case_checks_the_finished_feature(self):
+        checks = self.checks_of("implement-finishes-the-feature")
+
+        self.assertEqual(checks, {"suite-ends-green", "behaves-as-specified", "inner-units-have-tests"})
+
+
 class CaseDocumentation(unittest.TestCase):
     def test_docs_list_every_case(self):
         docs = (EVALS.parent.parent.parent / "docs" / "evals.md").read_text()
@@ -376,6 +402,117 @@ class Validity(unittest.TestCase):
         self.assertEqual(evals.problems(trace(INIT_WITH, said, BASH_USE, event(bash_result("ok")), RESULT), with_plugin=True, needs_bash=True), [])
 
 
+class CutOffRuns(unittest.TestCase):
+    def test_a_run_ending_at_its_turn_limit_is_shown_as_cut_off(self):
+        run = {"valid": True, "score": 0.5, "cost": 1.0, "cut_off": True, "stopped": False, "problems": []}
+
+        state = evals.describe_run(run)
+
+        self.assertEqual(state, "score 0.50 CUT OFF at its turn limit $1.00")
+
+    def test_a_stopped_run_says_so(self):
+        run = {"valid": True, "score": 1.0, "cost": 0.5, "cut_off": False, "stopped": True, "problems": []}
+
+        state = evals.describe_run(run)
+
+        self.assertEqual(state, "score 1.00 stopped early $0.50")
+
+    def test_an_invalid_run_names_its_problems(self):
+        run = {"valid": False, "score": None, "cost": 0.0, "cut_off": False, "stopped": False, "problems": ["a", "b"]}
+
+        state = evals.describe_run(run)
+
+        self.assertEqual(state, "INVALID: a; b $0.00")
+
+    def test_a_run_that_hits_its_turn_limit_is_marked_as_cut_off(self):
+        no_bash = "---\nallowed_tools: [Read]\n---\n\nDo it.\n"
+        root = stand_in_project(self, extra_files={"acceptance.sh": "true\n", "prompt.md": no_bash}, ending="error_max_turns")
+        (root / "out" / "traces").mkdir(parents=True)
+
+        run = evals.run_case(root / "plugin" / "evals" / "a-case", "with", 0, "m", root / "out")
+
+        self.assertTrue(run["cut_off"])
+        self.assertTrue(run["valid"], run["problems"])
+
+    def test_only_the_turn_limit_result_counts_as_cut_off(self):
+        cut_off = evals.was_cut_off({"type": "result", "subtype": "error_max_turns"})
+        finished = evals.was_cut_off({"type": "result", "subtype": "success"})
+        interrupted = evals.was_cut_off({"type": "result", "subtype": "error_during_execution"})
+
+        self.assertEqual((cut_off, finished, interrupted), (True, False, False))
+
+
+class StoppingAtTheFirstFailure(unittest.TestCase):
+    def test_a_failed_check_starts_no_new_runs_and_records_nothing(self):
+        root = stand_in_project(self, order=("second", "first"))
+
+        status, summary, latest = run_main(root, "--stop-at-first-failure", "--concurrency", "1")
+
+        self.assertEqual(status, 2)
+        self.assertEqual(len(summary["runs"]), 1)
+        self.assertFalse(latest.exists())
+
+    def test_without_the_option_every_run_happens(self):
+        root = stand_in_project(self, order=("second", "first"))
+
+        _, summary, _ = run_main(root, "--concurrency", "6")
+
+        self.assertEqual(len(summary["runs"]), 6)
+
+    def test_passing_runs_are_all_made_and_recorded(self):
+        root = stand_in_project(self)
+
+        status, summary, latest = run_main(root, "--stop-at-first-failure", "--concurrency", "6")
+
+        self.assertEqual(status, 0)
+        self.assertEqual(len(summary["runs"]), 6)
+        self.assertTrue(latest.exists())
+
+
+class ChoosingThePlugin(unittest.TestCase):
+    def test_runs_use_the_chosen_plugin(self):
+        root = stand_in_project(self)
+        (root / "out" / "traces").mkdir(parents=True)
+
+        evals.run_case(root / "plugin" / "evals" / "a-case", "with", 0, "m", root / "out", plugin=root / "a-broken-copy")
+
+        self.assertIn(str(root / "a-broken-copy"), (root / "arguments").read_text().splitlines())
+
+    def test_a_run_of_another_plugin_records_nothing(self):
+        root = stand_in_project(self)
+
+        status, summary, latest = run_main(root, "--plugin-dir", str(root / "a-broken-copy"), "--concurrency", "6")
+
+        self.assertEqual(status, 0)
+        self.assertEqual(len(summary["runs"]), 6)
+        self.assertFalse(latest.exists())
+
+
+class FailuresThatStopARound(unittest.TestCase):
+    def test_a_failed_check_in_the_with_aido_arm_counts(self):
+        run = {"case": "a", "arm": "with", "valid": True, "graders": {"x": True, "y": False}}
+
+        self.assertTrue(evals.fails_a_check(run))
+
+    def test_a_failed_check_in_the_without_aido_arm_does_not_count(self):
+        run = {"case": "a", "arm": "without", "valid": True, "graders": {"x": False}}
+
+        self.assertFalse(evals.fails_a_check(run))
+
+    def test_an_invalid_run_does_not_count(self):
+        run = {"case": "a", "arm": "with", "valid": False, "graders": {}}
+
+        self.assertFalse(evals.fails_a_check(run))
+
+    def test_a_case_that_failed_is_left_out_even_when_all_its_runs_happened(self):
+        failed = {"case": "a", "arm": "with", "valid": True, "graders": {"x": False}}
+        passed = {"case": "b", "arm": "with", "valid": True, "graders": {"x": True}}
+
+        kept = evals.without_failed_cases([failed, passed])
+
+        self.assertEqual(kept, [passed])
+
+
 class Summary(unittest.TestCase):
     def test_invalid_runs_are_left_out_of_the_score_and_counted(self):
         runs = [
@@ -390,6 +527,119 @@ class Summary(unittest.TestCase):
         self.assertEqual(arm["invalid_runs"], 1)
         self.assertEqual(arm["score"], 0.5)
         self.assertEqual(arm["graders"], {"a": "1/2"})
+
+
+def stand_in_project(test, order=("first", "second"), extra_files=None, ending="success"):
+    """A plugin folder with one case, and a `claude` on PATH that writes the case's two files in order."""
+    directory = tempfile.TemporaryDirectory()
+    test.addCleanup(directory.cleanup)
+    root = Path(directory.name)
+    case = root / "plugin" / "evals" / "a-case"
+    (case / "graders").mkdir(parents=True)
+    (case / "prompt.md").write_text("---\nallowed_tools: [Bash]\n---\n\nDo it.\n")
+    (case / "case.yaml").write_text("name: a-case\ncontext:\n  scaffold_script: fixture.sh\n")
+    (case / "fixture.sh").write_text("true\n")
+    (case / "order.json").write_text(json.dumps({
+        "name": "first-before-second",
+        "before": {"paths": ["first"], "contains": "x"},
+        "after": {"paths": ["second"], "contains": "x"},
+    }))
+    for name, content in (extra_files or {}).items():
+        (case / name).parent.mkdir(exist_ok=True)
+        (case / name).write_text(content)
+    manifest = root / "plugin" / ".claude-plugin" / "plugin.json"
+    manifest.parent.mkdir()
+    manifest.write_text('{"version": "1.0.0"}')
+    interrupted = json.dumps({"type": "result", "subtype": "error_during_execution", "total_cost_usd": 0.5})
+    finished = json.dumps({"type": "result", "subtype": ending, "total_cost_usd": 9})
+    with_plugin = json.dumps({"type": "system", "subtype": "init", "slash_commands": ["aido:2-implement"], "model": "m"})
+    without_plugin = json.dumps({"type": "system", "subtype": "init", "slash_commands": [], "model": "m"})
+    stand_in = root / "bin" / "claude"
+    stand_in.parent.mkdir()
+    stand_in.write_text(f"""#!/bin/sh
+printf '%s\\n' "$@" >> {root}/arguments
+trap 'echo {json.dumps(interrupted)}; exit 0' INT
+case "$*" in
+  *--plugin-dir*) echo {json.dumps(with_plugin)} ;;
+  *) echo {json.dumps(without_plugin)} ;;
+esac
+echo x > {order[0]}
+sleep 0.5
+echo x > {order[1]}
+sleep 2 &
+wait $!
+echo {json.dumps(finished)}
+""")
+    stand_in.chmod(0o755)
+    path = mock.patch.dict(os.environ, {"PATH": f"{stand_in.parent}:{os.environ['PATH']}"})
+    path.start()
+    test.addCleanup(path.stop)
+    return root
+
+
+def run_main(root, *options):
+    report = root / "docs" / "evals"
+    report.mkdir(parents=True, exist_ok=True)
+    (root / "docs" / "evals.md").write_text(f"{evals.RESULTS_START}\n{evals.RESULTS_END}\n")
+    argv = ["evals.py", "--output-dir", str(root / "out"), "--report-dir", str(report), *options]
+    with mock.patch.object(evals, "PLUGIN", root / "plugin"), mock.patch.object(sys, "argv", argv):
+        with mock.patch("builtins.print"):
+            status = evals.main()
+    summary = json.loads((root / "out" / "summary.json").read_text())
+    return status, summary, report / "latest.json"
+
+
+class StoppingARun(unittest.TestCase):
+    def run_stand_in(self, order=("first", "second"), extra_files=None):
+        root = stand_in_project(self, order, extra_files)
+        (root / "out" / "traces").mkdir(parents=True)
+        return evals.run_case(root / "plugin" / "evals" / "a-case", "with", 0, "m", root / "out")
+
+    def test_a_run_with_only_an_order_check_stops_once_it_is_settled(self):
+        run = self.run_stand_in()
+
+        self.assertTrue(run["stopped"])
+        self.assertTrue(run["valid"], run["problems"])
+        self.assertEqual(run["graders"], {"first-before-second": True})
+
+    def test_the_wrong_order_stops_too_and_fails_the_check(self):
+        run = self.run_stand_in(order=("second", "first"))
+
+        self.assertTrue(run["stopped"])
+        self.assertTrue(run["valid"], run["problems"])
+        self.assertEqual(run["graders"], {"first-before-second": False})
+
+    def test_a_stopped_run_reports_what_it_cost_so_far(self):
+        run = self.run_stand_in()
+
+        self.assertEqual(run["cost"], 0.5)
+
+    def test_a_stopped_runs_cost_counts_towards_the_limit(self):
+        root = stand_in_project(self)
+
+        _, summary, _ = run_main(root, "--max-cost-usd", "0.4", "--concurrency", "1")
+
+        self.assertEqual(len(summary["runs"]), 1)
+        self.assertEqual(summary["cost"], 0.5)
+
+    def test_a_case_with_a_shell_check_runs_to_the_end(self):
+        run = self.run_stand_in(extra_files={"checks/needs-the-end.sh": "true\n"})
+
+        self.assertFalse(run["stopped"])
+        self.assertEqual(run["cost"], 9)
+
+    def test_a_case_with_a_grader_runs_to_the_end(self):
+        grader = "---\ntype: regex\npattern: nothing\nmatch: not_contains\n---\n"
+
+        run = self.run_stand_in(extra_files={"graders/needs-the-end.md": grader})
+
+        self.assertFalse(run["stopped"])
+        self.assertEqual(run["cost"], 9)
+
+    def test_a_case_with_an_acceptance_script_runs_to_the_end(self):
+        run = self.run_stand_in(extra_files={"acceptance.sh": "true\n"})
+
+        self.assertFalse(run["stopped"])
 
 
 if __name__ == "__main__":

@@ -1,4 +1,128 @@
 {
+  "implement-connects-the-slice-early": {
+    "models": [
+      "claude-opus-5-5"
+    ],
+    "plugin_version": "4.4.1",
+    "recorded": "2026-11-05",
+    "runs_per_arm": 3,
+    "with": {
+      "cost": 2.8181177999999996,
+      "graders": {
+        "connects-before-the-edge-cases": "3/3"
+      },
+      "invalid_runs": 0,
+      "mean_cost": 0.9393725999999999,
+      "mean_turns": 27.666666666666668,
+      "score": 1.0,
+      "valid_runs": 3
+    },
+    "without": {
+      "cost": 0.7318432,
+      "graders": {
+        "connects-before-the-edge-cases": "3/3"
+      },
+      "invalid_runs": 0,
+      "mean_cost": 0.24394773333333333,
+      "mean_turns": 7.333333333333333,
+      "score": 1.0,
+      "valid_runs": 3
+    }
+  },
+  "implement-finishes-the-feature": {
+    "models": [
+      "claude-opus-5-5"
+    ],
+    "plugin_version": "4.4.1",
+    "recorded": "2026-11-05",
+    "runs_per_arm": 3,
+    "with": {
+      "cost": 5.39777825,
+      "graders": {
+        "behaves-as-specified": "3/3",
+        "inner-units-have-tests": "3/3",
+        "suite-ends-green": "3/3"
+      },
+      "invalid_runs": 0,
+      "mean_cost": 1.7992594166666667,
+      "mean_turns": 26.666666666666668,
+      "score": 1.0,
+      "valid_runs": 3
+    },
+    "without": {
+      "cost": 0.6957133999999999,
+      "graders": {
+        "behaves-as-specified": "3/3",
+        "inner-units-have-tests": "0/3",
+        "suite-ends-green": "3/3"
+      },
+      "invalid_runs": 0,
+      "mean_cost": 0.23190446666666664,
+      "mean_turns": 6.0,
+      "score": 0.6666666666666666,
+      "valid_runs": 3
+    }
+  },
+  "implement-grows-an-inside-out-item-by-layer": {
+    "models": [
+      "claude-opus-5-5"
+    ],
+    "plugin_version": "4.4.1",
+    "recorded": "2026-11-05",
+    "runs_per_arm": 3,
+    "with": {
+      "cost": 2.8537308,
+      "graders": {
+        "grows-the-domain-before-the-entry-point": "3/3"
+      },
+      "invalid_runs": 0,
+      "mean_cost": 0.9512436000000001,
+      "mean_turns": 32.333333333333336,
+      "score": 1.0,
+      "valid_runs": 3
+    },
+    "without": {
+      "cost": 0.6130116,
+      "graders": {
+        "grows-the-domain-before-the-entry-point": "0/3"
+      },
+      "invalid_runs": 0,
+      "mean_cost": 0.2043372,
+      "mean_turns": 5.666666666666667,
+      "score": 0.0,
+      "valid_runs": 3
+    }
+  },
+  "implement-writes-the-test-first": {
+    "models": [
+      "claude-opus-5-5"
+    ],
+    "plugin_version": "4.4.1",
+    "recorded": "2026-11-05",
+    "runs_per_arm": 3,
+    "with": {
+      "cost": 1.1435438,
+      "graders": {
+        "test-before-code": "3/3"
+      },
+      "invalid_runs": 0,
+      "mean_cost": 0.3811812666666667,
+      "mean_turns": 12.333333333333334,
+      "score": 1.0,
+      "valid_runs": 3
+    },
+    "without": {
+      "cost": 0.43228160000000004,
+      "graders": {
+        "test-before-code": "2/3"
+      },
+      "invalid_runs": 0,
+      "mean_cost": 0.14409386666666668,
+      "mean_turns": 6.0,
+      "score": 0.6666666666666666,
+      "valid_runs": 3
+    }
+  },
   "verify-accepts-a-real-test": {
     "models": [
       "claude-opus-5-5"

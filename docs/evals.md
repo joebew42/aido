@@ -19,10 +19,30 @@ in general.
 You need `python3`, `git` and Claude Code. Each run is a real Claude session, so it is billed to an API
 account or counts against a subscription's limits. Dollar figures here are estimates at API rates.
 
-After changing a skill, run the cases for that skill:
+## When to run them
+
+Paid evals cost time and money, so most changes don't need them.
+
+| When | What to run | Rough cost |
+| --- | --- | --- |
+| Every change | The free checks, below | Free, seconds |
+| A risky change to a skill, when you ask for it | One run of the matching case | About $0.50 to $2, a few minutes |
+| From time to time, such as before a release | The full round, recorded and committed | About $15 and 15 minutes for the four main `implement-*` cases, and about $40 for every case |
+
+The one-run check stops as soon as a check fails with aido:
 
 ```bash
-python3 tests/evals.py --case 'implement-*'
+python3 tests/evals.py --case implement-connects-the-slice-early --runs 1 --stop-at-first-failure
+```
+
+It records nothing. Three runs catch more than one: if a change makes a check pass only half the time,
+one run catches it 50% of the time and three runs 87.5%. So a passing one-run check doesn't clear a
+change, and the full round is still what you compare against.
+
+The full round needs a higher cost limit:
+
+```bash
+python3 tests/evals.py --max-cost-usd 50
 ```
 
 Run this inside a sandbox or on a disposable machine, because the agents get unrestricted Bash. One way
@@ -35,21 +55,32 @@ is to ask Claude Code to run it with its sandbox on. You don't need to change an
 | `--max-cost-usd` | 5 | Starts no new run past this amount |
 | `--concurrency` | 3 | Runs at the same time |
 | `--model` | `opus` | The model the agents use |
+| `--stop-at-first-failure` | off | Starts no new run once a check fails with aido, exits with status 2, and records no case that failed |
+| `--plugin-dir <path>` | off | Runs the "with aido" arm on this copy of the plugin, and records nothing. Use it to check that a case fails when a rule is broken |
 | `--regrade <output-dir>` | off | Judges a run's saved reports again, running no agents. Use it after changing a rubric |
 
-So far a run has cost about $2 with aido and about $0.25 without. One case at 3 runs per arm is about
-$6, and the $5 default stops it early, so raise the limit for a full run.
+A case that has only an order check stops as soon as that check is settled, so its run doesn't carry on
+to the end. Any other check needs a finished run, so its case runs to the end. The checks on finished
+work for an outside-in feature are in `implement-finishes-the-feature`. They used to be in each
+`implement-*` case that checks an order.
 
-To check the runner itself, for free:
+The free checks are:
 
 ```bash
+bash tests/hooks.sh
+bash tests/skills.sh
+python3 tests/test_skills.py
 python3 tests/test_evals.py
 ```
 
+`tests/skills.sh` fails when a skill or guideline names a section that doesn't exist, or when a listed
+approval question or evidence rule is removed. `tests/test_evals.py` checks the runner itself.
+
 | Cases | What they check |
 | --- | --- |
-| `implement-connects-the-slice-early` | Given an outside-in item, does the agent connect the feature before writing the edge cases, give the inner units their own tests, and does it work? |
-| `implement-grows-an-inside-out-item-by-layer` | Given an inside-out item, does the agent grow the domain before the entry point, and does it work? |
+| `implement-connects-the-slice-early` | Given an outside-in item, does the agent connect the feature before writing the edge cases? |
+| `implement-grows-an-inside-out-item-by-layer` | Given an inside-out item, does the agent grow the domain before the entry point? |
+| `implement-finishes-the-feature` | Given a one-slice feature, does the agent finish it with the suite green and its inner units tested, and does it work? |
 | `implement-writes-the-test-first` | Does the test change before the code? |
 | `plan-names-each-items-mode` | Does each feature item in a plan name its mode and reason, with something to cite or an unknown? |
 | `plan-stops-before-code` | Does planning wait for you instead of writing code? |
@@ -82,6 +113,9 @@ Changes since the last report:
 - **With and without aido:** the difference between them is what aido adds on that check
 - **Mean cost and turns:** what the result cost. Compare cost rather than turns, because an agent
   batching its work takes fewer turns for the same work
+- **`stopped early`:** the run ended once its order check was settled, as intended
+- **`CUT OFF at its turn limit`:** the run ran out of turns before it finished. It still counts, so read
+  a failed check on such a run as "didn't get there", not necessarily as a wrong result
 - **`INVALID`:** the environment broke, for example Bash couldn't write. These runs are left out of the
   scores, nothing is recorded, and the command exits with status 2. Fix the environment and run again
 
@@ -97,6 +131,52 @@ such as `3/3` to `0/3` is much more likely to be real. Transcripts are saved in
 Generated by `tests/evals.py`, so change this part by running it, not by hand.
 
 <!-- evals:results:start -->
+#### implement-connects-the-slice-early
+
+Recorded 2026-11-05 on plugin version 4.4.1 with claude-opus-5-5, 3 runs per arm.
+
+| Measure | With aido | Without aido |
+| --- | --- | --- |
+| Score | 1.00 | 1.00 |
+| connects-before-the-edge-cases | 3/3 | 3/3 |
+| Mean cost | $0.94 | $0.24 |
+| Mean turns | 28 | 7 |
+
+#### implement-finishes-the-feature
+
+Recorded 2026-11-05 on plugin version 4.4.1 with claude-opus-5-5, 3 runs per arm.
+
+| Measure | With aido | Without aido |
+| --- | --- | --- |
+| Score | 1.00 | 0.67 |
+| behaves-as-specified | 3/3 | 3/3 |
+| inner-units-have-tests | 3/3 | 0/3 |
+| suite-ends-green | 3/3 | 3/3 |
+| Mean cost | $1.80 | $0.23 |
+| Mean turns | 27 | 6 |
+
+#### implement-grows-an-inside-out-item-by-layer
+
+Recorded 2026-11-05 on plugin version 4.4.1 with claude-opus-5-5, 3 runs per arm.
+
+| Measure | With aido | Without aido |
+| --- | --- | --- |
+| Score | 1.00 | 0.00 |
+| grows-the-domain-before-the-entry-point | 3/3 | 0/3 |
+| Mean cost | $0.95 | $0.20 |
+| Mean turns | 32 | 6 |
+
+#### implement-writes-the-test-first
+
+Recorded 2026-11-05 on plugin version 4.4.1 with claude-opus-5-5, 3 runs per arm.
+
+| Measure | With aido | Without aido |
+| --- | --- | --- |
+| Score | 1.00 | 0.67 |
+| test-before-code | 3/3 | 2/3 |
+| Mean cost | $0.38 | $0.14 |
+| Mean turns | 12 | 6 |
+
 #### verify-accepts-a-real-test
 
 Recorded 2026-11-04 on plugin version 4.1.0 with claude-opus-5-5, 3 runs per arm.
@@ -122,6 +202,30 @@ Recorded 2026-11-04 on plugin version 4.1.0 with claude-opus-5-5, 3 runs per arm
 <!-- evals:results:end -->
 
 Cases not listed here have no recorded results yet.
+
+### What the shorter runs saved
+
+Measured on 2026-11-05 with claude-opus-5-5, 3 runs per arm.
+
+| Case | Mean cost with aido, before | After | After, share of before |
+| --- | --- | --- | --- |
+| `implement-connects-the-slice-early` | $2.26 | $0.94 | 42% |
+| `implement-grows-an-inside-out-item-by-layer` | $1.78 | $0.95 | 53% |
+| `implement-writes-the-test-first` | $0.53 | $0.38 | 72% |
+
+| Round, 3 runs per arm, both arms | Before | After |
+| --- | --- | --- |
+| The three cases above | $15.96 | $8.60 (54%) |
+| The three cases plus `implement-finishes-the-feature` | $15.96 | $14.69 (92%) |
+
+So a check on one order is much cheaper, but the full round is only about 8% cheaper. The new case
+costs about $1.80 per run with aido, and about $0.66 of that is the final design review, which it doesn't
+check.
+
+The shortened cases still fail when the behaviour breaks. Each ran once against a copy of the plugin whose
+rule said the opposite, and its check failed: `connects-before-the-edge-cases`,
+`grows-the-domain-before-the-entry-point`, `test-before-code` and `inner-units-have-tests`. That is one
+run each, so it is good evidence rather than proof.
 
 ### What the verify results don't show
 

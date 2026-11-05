@@ -1,0 +1,6 @@
+schema_version: "1.1"
+name: implement-finishes-the-feature
+description: A one-slice feature across layers, finished and working, with its inner units tested
+tags: [implement]
+context:
+  scaffold_script: fixture.sh

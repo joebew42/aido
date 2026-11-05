@@ -11,11 +11,11 @@ install it.
 - `plugins/aido/guidelines/` — the guidelines the skills load
 - `plugins/aido/.claude-plugin/icon.png` — the plugin's marketplace icon
 - `plugins/aido/hooks/hooks.json` — the plugin's hooks, each running a script next to it
-- `tests/` — checks for the hook scripts and the skills; run `tests/hooks.sh`, which needs `jq`, and
-  `tests/skills.sh`
+- `tests/` — free checks for the hook scripts and the skills; run `tests/hooks.sh`, which needs `jq`,
+  `tests/skills.sh` and `tests/test_skills.py`, on every change
 - `plugins/aido/evals/` — eval cases that measure the skills' behaviour against plain Claude Code.
-  After changing a skill's behaviour, run them as `docs/evals.md` describes, and commit the results it
-  updates with the change. `tests/test_evals.py` checks the runner for free
+  Run the full round from time to time, such as before a release, as `docs/evals.md` describes, and
+  commit the results it updates. `tests/test_evals.py` checks the runner for free
 - `docs/evals.md` — what the evals are for, how to run and read them, and the current results
 - `docs/evals/` — the data behind those results
 - `docs/readme/` — the images the README displays
@@ -35,10 +35,10 @@ install it.
 - every PR that changes the plugin bumps `version` in
   `plugins/aido/.claude-plugin/plugin.json`, following semantic versioning
 - after every change, run `claude plugin validate .` and `claude plugin validate ./plugins/aido`
-- when a change can alter how agents behave, in a skill or a guideline, propose running the matching
-  eval cases as `docs/evals.md` describes, and ask first, because they are billed to an API account or
-  count against a subscription's limits. Commit the results they update with the change. Wording
-  changes with no change in meaning need no evals
+- when a change is a risky change to how agents behave, in a skill or a guideline, propose one run of
+  the matching eval cases as `docs/evals.md` describes, and ask first, because they are billed to an API
+  account or count against a subscription's limits. Other changes rely on the free checks and the next
+  full round. One run records nothing
 - a change to a skill's behaviour with no matching case either gets a new case, or says in its PR that
   it isn't covered
 - hook scripts use no shell variables or substitutions, reading stdin with `grep` alone, so that

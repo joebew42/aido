@@ -9,11 +9,14 @@ import argparse
 import concurrent.futures
 import fnmatch
 import json
+import os
 import re
 import shutil
+import signal
 import subprocess
 import tempfile
 import threading
+import time
 from dataclasses import dataclass, field
 from datetime import date, datetime
 from pathlib import Path
@@ -25,6 +28,8 @@ JUDGE_VOTES = 3
 JUDGE_MODEL = "sonnet"
 MIN_RUNS_TO_RECORD = 3
 COST_CHANGE_WORTH_NOTING = 0.25
+WATCH_INTERVAL_SECONDS = 0.2
+STOP_GRACE_SECONDS = 30
 RESULTS_START = "<!-- evals:results:start -->"
 RESULTS_END = "<!-- evals:results:end -->"
 
@@ -137,6 +142,19 @@ def problems(trace, with_plugin, needs_bash):
     return found
 
 
+def was_cut_off(final):
+    return final.get("subtype") == "error_max_turns"
+
+
+def fails_a_check(run):
+    return run["arm"] == "with" and run["valid"] and not all(run["graders"].values())
+
+
+def without_failed_cases(runs):
+    failed = {run["case"] for run in runs if fails_a_check(run)}
+    return [run for run in runs if run["case"] not in failed]
+
+
 def grader_target(meta, key, run):
     target = meta.get(key, "last_message")
     if target == "trace":
@@ -170,12 +188,13 @@ def grade_file_exists(meta, run):
     return found == meta.get("exists", True)
 
 
-def isolated_claude(prompt, cwd, *extra, timeout=None):
+def isolated_command(prompt, *extra):
     """Leaves out user settings, so the installed copy of the plugin never reaches either arm."""
-    return subprocess.run(
-        ["claude", "-p", prompt, "--setting-sources", "project", "--strict-mcp-config", "--no-session-persistence", *extra],
-        cwd=cwd, capture_output=True, text=True, timeout=timeout,
-    )
+    return ["claude", "-p", prompt, "--setting-sources", "project", "--strict-mcp-config", "--no-session-persistence", *extra]
+
+
+def isolated_claude(prompt, cwd, *extra):
+    return subprocess.run(isolated_command(prompt, *extra), cwd=cwd, capture_output=True, text=True)
 
 
 def judge_passed(reply):
@@ -253,15 +272,46 @@ class OrderWatch:
             if seen is None and self.contains(side):
                 self.first_seen[side] = self.ticks
 
+    def settled(self):
+        return self.first_seen["after"] is not None
+
     def passed(self):
         before, after = self.first_seen["before"], self.first_seen["after"]
         return before is not None and after is not None and before < after
 
 
-def watch_order(watch, stop, interval=0.2):
-    while not stop.wait(interval):
-        watch.tick()
-    watch.tick()
+def signal_group(agent, signum):
+    try:
+        os.killpg(agent.pid, signum)
+    except ProcessLookupError:
+        pass
+
+
+def run_agent(command, workspace, timeout, watch=None, stop_when_settled=False):
+    """Returns the trace, and whether the run was stopped because its order check was settled.
+
+    SIGINT, not SIGTERM: only then does `claude -p` still write the final result, which holds the cost.
+    """
+    with tempfile.TemporaryFile("w+", errors="replace") as output:
+        agent = subprocess.Popen(command, cwd=workspace, stdin=subprocess.DEVNULL, stdout=output, stderr=subprocess.DEVNULL, start_new_session=True)
+        deadline = time.monotonic() + timeout
+        stopped = False
+        while agent.poll() is None:
+            if watch:
+                watch.tick()
+            if stop_when_settled and not stopped and watch and watch.settled():
+                stopped = True
+                signal_group(agent, signal.SIGINT)
+                deadline = time.monotonic() + STOP_GRACE_SECONDS
+            if time.monotonic() > deadline:
+                break
+            time.sleep(WATCH_INTERVAL_SECONDS)
+        signal_group(agent, signal.SIGKILL)
+        agent.wait()
+        if watch:
+            watch.tick()
+        output.seek(0)
+        return output.read(), stopped
 
 
 def shell_checks(case):
@@ -293,7 +343,7 @@ def allowed_tools(names):
     return ["Edit(./**)" if name in ("Edit", "Write") else name for name in names]
 
 
-def run_case(case, arm, index, model, output_dir):
+def run_case(case, arm, index, model, output_dir, plugin=None):
     meta, prompt = parse_frontmatter((case / "prompt.md").read_text())
     config = parse_mapping((case / "case.yaml").read_text())
     tools = meta.get("allowed_tools", [])
@@ -301,39 +351,32 @@ def run_case(case, arm, index, model, output_dir):
     try:
         subprocess.run(["bash", str(case / config["context"]["scaffold_script"])], cwd=workspace, check=True, capture_output=True)
         before = snapshot(workspace)
-        command = [
+        arguments = [
             "--model", model, "--output-format", "stream-json", "--verbose", "--permission-mode", "dontAsk",
             "--max-turns", str(meta.get("max_turns", 30)), "--allowedTools", *allowed_tools(tools),
         ]
         if arm == "with":
-            command += ["--plugin-dir", str(PLUGIN)]
+            arguments += ["--plugin-dir", str(plugin or PLUGIN)]
         order_file = case / "order.json"
         watch = OrderWatch(workspace, json.loads(order_file.read_text())) if order_file.is_file() else None
-        stop = threading.Event()
-        watcher = threading.Thread(target=watch_order, args=(watch, stop)) if watch else None
-        if watcher:
-            watcher.start()
-        try:
-            trace = isolated_claude(prompt, workspace, *command, timeout=meta.get("timeout_seconds", 600)).stdout
-        except subprocess.TimeoutExpired as expired:
-            trace = (expired.stdout or b"").decode(errors="replace")
-        finally:
-            stop.set()
-            if watcher:
-                watcher.join()
+        grader_paths = sorted((case / "graders").glob("*.md"))
+        needs_the_end = bool(grader_paths or shell_checks(case))
+        trace, stopped = run_agent(
+            isolated_command(prompt, *arguments), workspace, meta.get("timeout_seconds", 600), watch, stop_when_settled=not needs_the_end,
+        )
 
         trace_path = output_dir / "traces" / f"{case.name}-{arm}-{index}.jsonl"
         trace_path.write_text(trace)
         final = next((e for e in events(trace) if e.get("type") == "result"), {})
         run = Run(trace, str(final.get("result", "")), workspace, snapshot(workspace) - before)
-        found = problems(trace, with_plugin=arm == "with", needs_bash="Bash" in tools)
-        graders = {path.stem: grade(path, run) for path in sorted((case / "graders").glob("*.md"))} if not found else {}
+        found = problems(trace, with_plugin=arm == "with", needs_bash="Bash" in tools and not stopped)
+        graders = {path.stem: grade(path, run) for path in grader_paths} if not found else {}
         if watch and not found:
             graders[watch.spec["name"]] = watch.passed()
         if not found:
             graders.update({name: passes_acceptance(script, workspace) for name, script in shell_checks(case).items()})
         return {
-            "case": case.name, "arm": arm, "valid": not found, "problems": found, "graders": graders,
+            "case": case.name, "arm": arm, "valid": not found, "stopped": stopped, "cut_off": was_cut_off(final), "problems": found, "graders": graders,
             "score": sum(graders.values()) / len(graders) if graders else None,
             "cost": final.get("total_cost_usd", 0) or 0, "turns": final.get("num_turns"),
             "model": next((e.get("model") for e in events(trace) if e.get("subtype") == "init"), None),
@@ -386,6 +429,18 @@ def changes(previous, current):
             if abs(new["mean_cost"] - old["mean_cost"]) > COST_CHANGE_WORTH_NOTING * max(old["mean_cost"], 0.01):
                 found.append(f"{name} [{arm}] mean cost: ${old['mean_cost']:.2f} -> ${new['mean_cost']:.2f}")
     return found
+
+
+def describe_run(run):
+    if not run["valid"]:
+        state = "INVALID: " + "; ".join(run["problems"])
+    else:
+        state = f"score {run['score']:.2f}"
+    if run["cut_off"]:
+        state += " CUT OFF at its turn limit"
+    if run["stopped"]:
+        state += " stopped early"
+    return f"{state} ${run['cost']:.2f}"
 
 
 def show_score(score):
@@ -476,6 +531,8 @@ def main():
     parser.add_argument("--concurrency", type=int, default=3)
     parser.add_argument("--model", default="opus")
     parser.add_argument("--max-cost-usd", type=float, default=5.0, help="start no new run past this; runs in flight finish")
+    parser.add_argument("--plugin-dir", type=Path, help="run the with-aido arm on this copy of the plugin, recording nothing")
+    parser.add_argument("--stop-at-first-failure", action="store_true", help="start no new run once a check fails with aido, and record no case that failed")
     parser.add_argument("--output-dir", type=Path, default=PLUGIN / "evals" / "results" / datetime.now().strftime("%Y%m%dT%H%M%S"))
     parser.add_argument("--report-dir", type=Path, default=ROOT / "docs" / "evals", help="where latest.json lives; evals.md sits next to this directory")
     parser.add_argument("--regrade", type=Path, help="judge the saved reports of an earlier run's output directory again, running no agents")
@@ -488,18 +545,20 @@ def main():
     (args.output_dir / "traces").mkdir(parents=True, exist_ok=True)
 
     spent = [0.0]
+    failed = threading.Event()
     lock = threading.Lock()
 
     def attempt(job):
         case, arm, index = job
         with lock:
-            if spent[0] >= args.max_cost_usd:
+            if spent[0] >= args.max_cost_usd or (args.stop_at_first_failure and failed.is_set()):
                 return None
-        run = run_case(case, arm, index, args.model, args.output_dir)
+        run = run_case(case, arm, index, args.model, args.output_dir, args.plugin_dir)
         with lock:
             spent[0] += run["cost"]
-        state = f"score {run['score']:.2f}" if run["valid"] else "INVALID: " + "; ".join(run["problems"])
-        print(f"{case.name} [{arm} {index}] {state} ${run['cost']:.2f}", flush=True)
+        if fails_a_check(run):
+            failed.set()
+        print(f"{case.name} [{arm} {index}] {describe_run(run)}", flush=True)
         return run
 
     jobs = [(case, arm, index) for case in cases for index in range(args.runs) for arm in ("with", "without")]
@@ -511,7 +570,7 @@ def main():
         "started": args.output_dir.name,
         "plugin_version": json.loads((PLUGIN / ".claude-plugin" / "plugin.json").read_text())["version"],
         "runs_requested": len(jobs),
-        "runs_skipped_for_cost": len(jobs) - len(runs),
+        "runs_skipped": len(jobs) - len(runs),
         "cost": spent[0],
         "models": sorted({run["model"] for run in runs if run["model"]}),
         "cases": {
@@ -529,9 +588,11 @@ def main():
             score = "n/a" if summary["score"] is None else f"{summary['score']:.2f}"
             print(f"  {arm:8} score {score}  valid {summary['valid_runs']}  invalid {summary['invalid_runs']}  {summary['graders']}")
 
-    update_report(args.report_dir, cases, runs, args.runs, report["plugin_version"])
+    stopped_for_failure = args.stop_at_first_failure and failed.is_set()
+    if not args.plugin_dir:
+        update_report(args.report_dir, cases, without_failed_cases(runs) if args.stop_at_first_failure else runs, args.runs, report["plugin_version"])
 
-    return 2 if report["runs_skipped_for_cost"] or any(not run["valid"] for run in runs) else 0
+    return 2 if report["runs_skipped"] or stopped_for_failure or any(not run["valid"] for run in runs) else 0
 
 
 if __name__ == "__main__":
