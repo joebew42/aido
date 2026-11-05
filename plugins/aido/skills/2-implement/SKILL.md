@@ -56,8 +56,8 @@ Before writing the first test, make sure you know how to run a single test, the 
 the linter in this project. If you can't determine one of them, ask the user.
 
 - do NOT re-read guideline files during implementation while they are still loaded. After the
-  conversation is compacted they may not be: read them again, and when this skill is invoked again
-  with work in progress, skip Steps 0.5 and 1 and continue from the next unit, using `git log` and
+  conversation is compacted they may not be: read them again, and when a single session invokes
+  this skill again with work in progress, skip Steps 0.5 and 1 and continue from the next unit, using `git log` and
   `SPEC.md` to see where the work stands
 
 ## Step 0.5: Check the Alignment with the Repository
@@ -119,22 +119,26 @@ Show the items it will run, each with the criteria it serves, and ask nothing.
    child's results, with the item ticked. For a `changed` criterion, also update its wording in
    `## Acceptance criteria`, keeping its ID. Commit it per the `SPEC.md` rule in `git-workflow.md`
    Special Cases, then start the next item's child
-4. **one fails** → stop the loop. Report what failed, and the items not yet run. Record nothing for
-   the failed item
+4. **one fails** → stop the loop. Report what failed, and the items not yet run. Tick nothing for
+   the failed item, and record the items left
 
 **After the last item it runs:**
 
 - **the plan's last item is done** → ask about the final design review and organizing the commits in
   one question, as "Before completion" describes. Run the review here, if chosen, then finish as "STOP
   — Skill Complete" describes. Each item's Progress is already committed
-- **the range ends before the plan does** → name the items left, and say that running
+- **the range ends before the plan does** → record the items left, name them, and say that running
   `/aido:2-implement loop` again continues them. Ask about neither
+
+**To record the items left**, whenever the loop ends before the plan does, add them to `## Progress`
+as units remaining, with the criteria only they serve as `unchecked`, as "What Progress Records"
+lists. Commit it per the `SPEC.md` rule in `git-workflow.md` Special Cases.
 
 **When a child returns a question** instead of its results, it has paused. Ask the user with
 `AskUserQuestion`, keeping the child's question and options. Then send the answer to that same child
 with `SendMessage`, and wait for it to return again. When nobody answers, or the question can't be
-asked, stop the loop: name the paused item, its question, and the items not yet run. Record nothing
-for the paused item, and offer nothing else.
+asked, stop the loop: name the paused item, its question, and the items not yet run. Tick nothing for
+the paused item, record the items left, and offer nothing else.
 
 ## Child Mode
 
@@ -150,16 +154,14 @@ A child implements plan item `<N>` and nothing else:
 - **a child can't ask the user.** Wherever this skill says to ask with `AskUserQuestion`, end your
   turn by returning the question instead: the item's number, the question, and each option with what
   it does. Return nothing else, and carry on from the answer the orchestrator sends back
+- wherever this skill says to tell the user something, put it in the results instead
 
 ### Child Results
 
 - the item's number, and the commits it made
-- each criterion the item serves, as a line from "Acceptance in Progress" in "The Specification
-  Structure"
-- the slices built and any mode change, as "Modes and Slices in Progress" in that same section
-  describes
-- any key decisions, and any deferred refactorings with every field under **What every finding
-  states** in `systemic-refactoring.md`
+- what "What Progress Records" lists, for this item only, apart from the final design review's note
+- for a `changed` criterion, the wording the user agreed
+- anything this skill told the child to tell the user
 
 ## Work in the Item's Mode
 
