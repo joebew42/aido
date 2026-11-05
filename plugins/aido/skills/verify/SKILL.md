@@ -68,6 +68,8 @@ Launch one `Agent` with `model: "fable"`. Brief it with:
   text of the PR description and its linked issues
 - the host repository's agent instruction files to read, and how to run a single test
 - "The Verification Brief" below, copied in full — the subagent has not loaded this skill
+- `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md`, copied in full, so what it returns follows it. The
+  sections and labels it is asked for stay as they are
 - nothing else from this session: no summary of the work and no opinion of it
 
 If `fable` is unavailable or the call is denied, run the same brief in a subagent with the session's

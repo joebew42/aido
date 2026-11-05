@@ -46,6 +46,8 @@ Launch one `Agent` per area with `model: "fable"`, in parallel. Brief each with:
   reading them whole
 - `systemic-refactoring.md` and the rules it points to in `code-standards.md`, copied
   — the subagent has not loaded the guidelines
+- `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md`, copied in full, so what it returns follows it. The
+  sections and labels it is asked for stay as they are
 - to apply it inside the area **and** across its boundary with other areas (e.g. the same rule
   enforced in this area and another)
 - to treat the index as a map only — read the code before claiming anything

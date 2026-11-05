@@ -323,6 +323,8 @@ Launch one `Agent` with `model: "fable"`. Brief it with:
   `${CLAUDE_PLUGIN_ROOT}/skills/map-architecture/SKILL.md`, copied in full
 - `systemic-refactoring.md` and the rules it points to in `code-standards.md`, copied
   — the subagent has not loaded the guidelines
+- `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md`, copied in full, so what it returns follows it. The
+  sections and labels it is asked for stay as they are
 - to search the domain's own vocabulary for where this behaviour belongs, what already implements
   related rules or abstractions, and which boundaries apply — widening only on evidence
 - never to edit files
