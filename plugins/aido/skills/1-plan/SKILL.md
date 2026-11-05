@@ -238,9 +238,9 @@ Work through the draft and fix what you find, in `SPEC.md.draft` itself:
   "What Counts as Significant" in `${CLAUDE_PLUGIN_ROOT}/guidelines/repository-alignment.md`) goes to
   "Check the alignment with the repository" below; a lesser one stays here
 - **scope** — what is in, and what is explicitly out
-- **wording** — plain, concise language in the project's own vocabulary (see "don't invent domain
-  vocabulary" in `${CLAUDE_PLUGIN_ROOT}/guidelines/code-standards.md`); acceptance criteria that
-  can be tested
+- **wording** — language that follows `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md`, in the project's
+  own vocabulary (see "don't invent domain vocabulary" in
+  `${CLAUDE_PLUGIN_ROOT}/guidelines/code-standards.md`); acceptance criteria that can be tested
 
 **Ask, don't guess.** Whenever a decision belongs to the user — a behaviour the draft leaves open,
 a scope choice, a conflict between the draft and the code — ask with `AskUserQuestion`, offering

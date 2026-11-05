@@ -96,13 +96,13 @@ When a template is chosen:
 ### Default Sections
 
 **Context** - high-level description of WHY this change is needed
-- keep it descriptive and concise
+- keep it descriptive
 - focus on the problem or need being addressed
 - **NO bullet lists unless absolutely necessary**
 - use narrative/paragraph style
 
 **This PR** - high-level description of WHAT changes are introduced
-- keep it descriptive and concise
+- keep it descriptive
 - focus on the solution approach, not commit-by-commit details
 - **NO detailed list of commits or files changed**
 - **NO detailed technical implementation**
@@ -132,8 +132,7 @@ The format rules (narrative vs. bullets, Context style) apply to the Default Sec
 - [ ] **NO detailed list of files changed**
 - [ ] **NO information about testing or tests**
 - [ ] **DO NOT hard-wrap prose** — in PR/issue bodies GitHub renders a single newline as a line break, so fixed-column wrapping makes the rendered text choppy and stops it reflowing. One line per paragraph. (Code blocks and lists exempt.)
-- [ ] **Use less verbose and less convoluted language** — a reader should get the context and the purpose of the PR quickly, without unpacking long or complicated sentences
-- [ ] keep tone descriptive and concise
+- [ ] **Follow `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md`**, so a reader gets the context and the purpose of the PR quickly
 - [ ] if follow-up PR: mention previous PR in Context section
 - [ ] if follow-up PR: include updated Roadmap section
 - [ ] if `## Progress` records a **deferred acceptance criterion**: it is named in a **Not Included** section
