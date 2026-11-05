@@ -16,6 +16,14 @@ Match step size to how much design you must *discover* vs. *conform to*, as "Ste
 
 Load `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` and follow it in everything you write for a person.
 
+**How it was invoked** decides the session's role:
+
+- **nothing, or anything but the two below** → a single session, as this skill describes
+- **`loop`** → this session is the **orchestrator**: it runs each plan item in a child, as "Loop
+  Mode" describes
+- **`item <N>`** → this session is a **child** the orchestrator started for plan item `<N>`, as
+  "Child Mode" describes
+
 ## Step 0: Load Context
 
 Before any implementation work:
@@ -74,12 +82,60 @@ every session, before anything else is decided:
 
 ## Step 1: Confirm Implementation Scope
 
+An orchestrator or a child skips this step: the argument already chose the items.
+
 After loading context, use `AskUserQuestion` to present the list of plan items from `SPEC.md`,
 each with the acceptance criteria it serves, and ask:
 
 > "Which items should I do in this session? (all / specific items / the next logical one)"
 
 Wait for the user's response before starting implementation.
+
+## Loop Mode
+
+The orchestrator builds nothing itself. Each plan item runs in a fresh child, so it is built with the
+full specification and guidelines in view. Only the orchestrator writes `SPEC.md`.
+
+**Before the first child:** run Step 0 and Step 0.5 once. The items to run are every plan item not
+ticked in `## Progress`, in plan order.
+
+**For each item, in order:**
+
+1. launch one `Agent`, with no model override. Brief it with:
+   - the repository root, the `SPEC.md` path and the item's number
+   - to invoke `/aido:2-implement item <N>` with the `Skill` tool, and follow it
+   - to return only what "Child Results" lists
+2. when it returns, check three things:
+   - its results give each criterion the item serves as `met`, `changed` or `deferred`
+   - the working tree is clean
+   - lint and the whole test suite pass
+3. **all three pass** → record the item in `## Progress` as "What Progress Records" lists, from the
+   child's results, with the item ticked. Commit it per the `SPEC.md` rule in `git-workflow.md`
+   Special Cases, then start the next item's child
+4. **one fails** → stop the loop. Report what failed, and the items not yet run. Record nothing for
+   the failed item
+
+## Child Mode
+
+A child implements plan item `<N>` and nothing else:
+
+- run Step 0, then go straight to the item, skipping Step 0.5 and Step 1
+- build it as the sections below describe, from "Work in the Item's Mode" to "Commits". Its
+  Acceptance Criteria Check covers the criteria item `<N>` serves
+- **never edit `SPEC.md`**. Wherever this skill says to record something in it, put it in the results
+  instead
+- skip the final Systemic Design Checkpoint and "STOP — Skill Complete". End by returning what "Child
+  Results" lists
+
+### Child Results
+
+- the item's number, and the commits it made
+- each criterion the item serves, as a line from "Acceptance in Progress" in "The Specification
+  Structure"
+- the slices built and any mode change, as "Modes and Slices in Progress" in that same section
+  describes
+- any key decisions, and any deferred refactorings with every field under **What every finding
+  states** in `systemic-refactoring.md`
 
 ## Work in the Item's Mode
 
