@@ -1,8 +1,10 @@
 import json
+import os
 import sys
 import tempfile
 import unittest
 from pathlib import Path
+from unittest import mock
 
 sys.path.insert(0, str(Path(__file__).parent))
 import evals
@@ -390,6 +392,77 @@ class Summary(unittest.TestCase):
         self.assertEqual(arm["invalid_runs"], 1)
         self.assertEqual(arm["score"], 0.5)
         self.assertEqual(arm["graders"], {"a": "1/2"})
+
+
+def stand_in_project(test, order=("first", "second"), extra_files=None, ending="success"):
+    """A plugin folder with one case, and a `claude` on PATH that writes the case's two files in order."""
+    directory = tempfile.TemporaryDirectory()
+    test.addCleanup(directory.cleanup)
+    root = Path(directory.name)
+    case = root / "plugin" / "evals" / "a-case"
+    (case / "graders").mkdir(parents=True)
+    (case / "prompt.md").write_text("---\nallowed_tools: [Bash]\n---\n\nDo it.\n")
+    (case / "case.yaml").write_text("name: a-case\ncontext:\n  scaffold_script: fixture.sh\n")
+    (case / "fixture.sh").write_text("true\n")
+    (case / "order.json").write_text(json.dumps({
+        "name": "first-before-second",
+        "before": {"paths": ["first"], "contains": "x"},
+        "after": {"paths": ["second"], "contains": "x"},
+    }))
+    for name, content in (extra_files or {}).items():
+        (case / name).parent.mkdir(exist_ok=True)
+        (case / name).write_text(content)
+    manifest = root / "plugin" / ".claude-plugin" / "plugin.json"
+    manifest.parent.mkdir()
+    manifest.write_text('{"version": "1.0.0"}')
+    interrupted = json.dumps({"type": "result", "subtype": "error_during_execution", "total_cost_usd": 0.5})
+    finished = json.dumps({"type": "result", "subtype": ending, "total_cost_usd": 9})
+    with_plugin = json.dumps({"type": "system", "subtype": "init", "slash_commands": ["aido:2-implement"], "model": "m"})
+    without_plugin = json.dumps({"type": "system", "subtype": "init", "slash_commands": [], "model": "m"})
+    stand_in = root / "bin" / "claude"
+    stand_in.parent.mkdir()
+    stand_in.write_text(f"""#!/bin/sh
+printf '%s\\n' "$@" >> {root}/arguments
+trap 'echo {json.dumps(interrupted)}; exit 0' INT
+case "$*" in
+  *--plugin-dir*) echo {json.dumps(with_plugin)} ;;
+  *) echo {json.dumps(without_plugin)} ;;
+esac
+echo x > {order[0]}
+sleep 0.5
+echo x > {order[1]}
+sleep 2 &
+wait $!
+echo {json.dumps(finished)}
+""")
+    stand_in.chmod(0o755)
+    path = mock.patch.dict(os.environ, {"PATH": f"{stand_in.parent}:{os.environ['PATH']}"})
+    path.start()
+    test.addCleanup(path.stop)
+    return root
+
+
+class StoppingARun(unittest.TestCase):
+    def run_stand_in(self, order=("first", "second"), extra_files=None):
+        root = stand_in_project(self, order, extra_files)
+        (root / "out" / "traces").mkdir(parents=True)
+        return evals.run_case(root / "plugin" / "evals" / "a-case", "with", 0, "m", root / "out")
+
+    def test_a_run_with_only_an_order_check_stops_once_it_is_settled(self):
+        run = self.run_stand_in()
+
+        self.assertTrue(run["stopped"])
+        self.assertTrue(run["valid"], run["problems"])
+        self.assertEqual(run["graders"], {"first-before-second": True})
+
+    def test_the_wrong_order_stops_too_and_fails_the_check(self):
+        run = self.run_stand_in(order=("second", "first"))
+
+        self.assertTrue(run["stopped"])
+        self.assertTrue(run["valid"], run["problems"])
+        self.assertEqual(run["graders"], {"first-before-second": False})
+
+
 
 
 if __name__ == "__main__":
