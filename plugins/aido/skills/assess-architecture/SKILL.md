@@ -23,11 +23,10 @@ Load `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` and follow it in everything 
   rules each finding is judged by, and `${CLAUDE_PLUGIN_ROOT}/guidelines/project-conventions.md`, then gather the host repository's conventions as it
   describes
 - run `git fetch origin`
-- **no index** → `AskUserQuestion`: "This repo has no architecture index yet. The assessment needs
-  one." — options **Run /aido:map-architecture first** / **Cancel**. On the first, run that skill, then
+- **no index** → `AskUserQuestion`: "This repository has no map of its architecture, and the assessment needs one. Should I build it first?" — options **Run /aido:map-architecture first** / **Cancel**. On the first, run that skill, then
   continue here
 - **index stale** (see **Staleness** under **Index Location and Shape**) →
-  `AskUserQuestion`: "The index was built `<n>` commits ago." — options **Update it first
+  `AskUserQuestion`: "The architecture map is `<n>` commits old. Should I update it first?" — options **Update it first
   (Recommended)** / **Assess with it as is**
 
 ## Step 1: Choose the Scope
@@ -86,14 +85,13 @@ result.
 
 Ask which of the numbered candidates shown in Step 3 to park:
 
-- **4 candidates or fewer** → multi-select `AskUserQuestion`: "Which of these should I park as
-  refactoring opportunities?" — one option per title
-- **more than 4** → `AskUserQuestion`: "Which of these should I park as refactoring opportunities?"
+- **4 candidates or fewer** → multi-select `AskUserQuestion`: "Which of these should I save for later?" — one option per title
+- **more than 4** → `AskUserQuestion`: "Which of these should I save for later?"
   — options **All** / **None** / **By number** (the user types the numbers)
 
 Park each picked candidate as **Parking an opportunity** in `systemic-refactoring.md` describes. Its
 **Category** names the design smell, and its **Impact** is why it matters. When a file with the same
-evidence already exists, show it and `AskUserQuestion`: "`<file>` looks like the same opportunity."
+evidence already exists, show it and `AskUserQuestion`: "`<file>` looks like the same refactoring idea. What should I do?"
 — options **Skip** / **Replace it**.
 
 ## Step 5: Report

@@ -73,8 +73,7 @@ in Step 7.
 
 - **`SPEC.md` exists** → the specification is already approved. Delete `SPEC.md.draft` if it is
   there, read `SPEC.md`, and continue at Step 4
-- **only `SPEC.md.draft` exists** → `AskUserQuestion`: "There is a `SPEC.md.draft` from an earlier
-  session. What would you like to do?" — options **Resume refining it** (use "Determine the work
+- **only `SPEC.md.draft` exists** → `AskUserQuestion`: "`SPEC.md.draft` is left from an earlier session. What should I do with it?" — options **Resume refining it** (use "Determine the work
   type" in Step 2: a phase of a multi-phase project continues at Step 3, standalone work at "Approve
   the draft and choose the route") / **Start over** (delete it and continue at Step 2)
 - **neither exists** → continue at Step 2
@@ -88,7 +87,7 @@ in Step 7.
    - check if there's a `SPEC.md` in that branch
 
 2. **If a main plan branch is found, use `AskUserQuestion` to confirm:**
-   - Question: "Is this work part of the existing multi-phase project in the `[branch-name]` branch?"
+   - Question: "Is this work part of the multi-phase project in `[branch-name]`?"
    - Options:
      - **Yes — multi-phase** — follow "Multi-Phase Project Flow" below
      - **No — standalone** — follow "Standalone Project Flow" below
@@ -100,7 +99,7 @@ in Step 7.
 1. **Check if any phases have been implemented yet:**
    - use `gh pr view <MAIN_PLAN_PR_NUMBER>` to read the main plan PR description
    - look at the Roadmap section and check if ALL items are unchecked (`- [ ]`)
-   - if ALL roadmap items are unchecked: propose "No phases have been implemented yet. Would you like to start planning Phase 1?" and proceed to plan Phase 1 without requiring extra prompting
+   - if ALL roadmap items are unchecked: propose "No phases are done yet. Should I start planning Phase 1?" and proceed to plan Phase 1 without requiring extra prompting
    - if some items are already checked: continue with the existing multi-phase flow below
 
 2. **Analyze phase dependencies and propose parallel work:**
@@ -111,7 +110,7 @@ in Step 7.
      - **Tier 2+**: phases that depend on Tier 1 completion, etc.
    - if there are 2 or more independent phases in Tier 1:
      - present the dependency analysis clearly to the user
-     - use `AskUserQuestion` with question: "These phases appear independent and could be worked in parallel. Would you like to set up parallel worktrees for them?" and options **Yes — set up worktrees** / **No — plan one phase**
+     - use `AskUserQuestion` with question: "These phases don't depend on each other. Should I set up a worktree for each, so they can run in parallel?" and options **Yes — set up worktrees** / **No — plan one phase**
      - if YES: for each independent phase, create a git worktree:
        - run `git worktree add ../<repo-name>-<phase-slug> <default-branch>` (use a short slug from the phase name)
        - inform the user that each worktree is an isolated copy where a separate Claude session can run `/aido:1-plan` independently
@@ -136,7 +135,7 @@ in Step 7.
 ### Standalone Project Flow
 
 **Use `AskUserQuestion` to ask how they want to provide the specification:**
-- Question: "How would you like to provide the feature specification?"
+- Question: "Where should the feature specification come from?"
 - Options:
   - **GitHub Issue** — ask for the GitHub issue link, read it with `gh issue view <NUMBER>`, and
     write `SPEC.md.draft` yourself from its content, including the issue reference
@@ -156,8 +155,7 @@ in Step 7.
 
 ### Approve the draft
 
-A phase of a multi-phase project has no route to choose. Show the draft, then `AskUserQuestion`: "Is
-this draft the right starting point? Once you approve it, I'll analyse and refine it with you." —
+A phase of a multi-phase project has no route to choose. Show the draft, then `AskUserQuestion`: "Is this draft the right starting point? If so, I'll refine it with you next." —
 options **Approve the draft** (continue at Step 3) / **I'll edit it first** (wait for the user, then
 ask again) / **Cancel** (stop, leaving the draft in place).
 
@@ -171,12 +169,11 @@ change is **small and clear** only when all of these hold:
 - it touches one module or area
 - it introduces no new domain concept or abstraction
 
-Show the draft, say whether the change looks small and clear, and why, then `AskUserQuestion`: "Is
-this draft the right starting point, and which route should it take?" — with the route you propose
+Show the draft, say whether the change looks small and clear, and why, then `AskUserQuestion`: "Is this draft the right starting point, and how much planning does it need?" — with the route you propose
 marked as recommended. The user's choice stands, whatever you propose:
 
-- **Small-change route** → continue at "Small-Change Route"
-- **Full route** → continue at Step 3
+- **Plan it in one step** → continue at "Small-Change Route"
+- **Plan it fully** → continue at Step 3
 - **I'll edit it first** → wait for the user, then ask again
 - **Cancel** → stop, leaving the draft in place
 
@@ -197,10 +194,10 @@ apart from Step 5.5, so do not ask about the enabling refactoring analysis.
    any opportunity pulled in first. After it, add
    this line: `The enabling refactoring analysis was skipped.`
 5. Show the draft, then ask two questions in one `AskUserQuestion` call:
-   - "Are this specification and plan approved? This is the only approval on this route." — options:
+   - "Do you approve this specification and plan? This is the only approval for this change." — options:
      - **Approve — move it to SPEC.md** — continue with the checks below
      - **Change it** — ask what to change, update the draft, and ask again
-     - **Move to the full route** — see below
+     - **Plan it fully** — see "Moving to the full route" below
    - the question on how to continue from "Choose how to continue" in Step 6, whose answer counts
      only on approval
 
@@ -278,8 +275,7 @@ Summarise what you changed and why, then ask two questions in one `AskUserQuesti
 
 - "Is `SPEC.md.draft` ready to become `SPEC.md`?" — options **Approve — move it to SPEC.md** /
   **Keep refining** (ask what to change, and repeat this step)
-- "Once it is approved, should I run the enabling refactoring analysis? It looks for refactorings
-  that would make this feature easier, and can take a while." — options **Run the analysis** /
+- "Once it's approved, should I look for refactorings that would make this feature easier? This can take a while." — options **Run the analysis** /
   **Skip it**. Mark neither as recommended. The answer counts only on approval, and Step 4 acts on it
 
 On approval:
@@ -295,7 +291,8 @@ On approval:
 ## Step 4: Check the Architecture Index
 
 If you entered at Step 4 with an existing `SPEC.md`, first load the context as in Step 3 —
-**Load the context** — then ask the analysis question from "Approve the specification" on its own.
+**Load the context** — then ask the analysis question from "Approve the specification" on its own,
+without its "Once it's approved" opening.
 
 The architecture index feeds the enabling refactoring analysis in Step 5. When the user chose to
 skip the analysis, skip the rest of this step and Step 5, and continue at Step 5.5.
@@ -304,13 +301,12 @@ The index is defined in **Index Location and Shape** in
 `${CLAUDE_PLUGIN_ROOT}/skills/map-architecture/SKILL.md`. Identify `<repo-name>` as described there, then:
 
 - **`.skip-map-architecture` exists** → skip this step silently
-- **no index** → `AskUserQuestion`: "This repo has no architecture index. It helps me find
-  existing abstractions and rules before planning." — options:
+- **no index** → `AskUserQuestion`: "This repository has no map of its architecture. A map helps me find existing code and rules before planning. Should I build one?" — options:
   - **Build it now** — run `/aido:map-architecture`, then continue here
   - **Continue without** — plan without it this time
   - **Never ask for this repo** — create an empty `~/.claude/repos/<repo-name>/.skip-map-architecture`
 - **index stale** (see **Staleness** in that same section) →
-  `AskUserQuestion`: "The architecture index is `<n>` commits behind `<default-branch>`." — options **Update it
+  `AskUserQuestion`: "The architecture map is `<n>` commits behind `<default-branch>`. Should I update it?" — options **Update it
   now** (run `/aido:map-architecture` in update mode) / **Use it as is**
 
 ## Step 5: Look for Enabling Refactorings — `fable` subagent
@@ -359,8 +355,7 @@ current code:
 - **no opportunity fits** → say so in one line and continue
 - **some still hold** → show each one's refactoring, design smell and why it matters, then ask which
   to pull in:
-  - **4 or fewer** → multi-select `AskUserQuestion`: "These parked refactoring opportunities fit this
-    work. Which should I pull in?" — one option per title
+  - **4 or fewer** → multi-select `AskUserQuestion`: "These saved refactoring ideas fit this work. Which should I include?" — one option per title
   - **more than 4** → the same question, with options **All** / **None** / **By number** (the user
     types the numbers)
 

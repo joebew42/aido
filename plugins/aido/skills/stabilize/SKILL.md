@@ -30,7 +30,7 @@ Load `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` and follow it in everything 
 
 Use `AskUserQuestion`:
 
-- Question: "Which work would you like to stabilize?"
+- Question: "Which work should I take over?"
 - Options:
   - **A pull request** — then ask for the PR number or URL
   - **A remote branch** — then ask for the branch name
@@ -74,7 +74,7 @@ history, and the user should know that before choosing a strategy.
 
 Use `AskUserQuestion`:
 
-- Question: "How would you like to stabilize this work on a new branch?"
+- Question: "How should I bring this work onto a new branch?"
 - Options:
   - **Reimplement from scratch** — new branch from the default branch; the original stays untouched as a
     reference and every behaviour is regrown with TDD

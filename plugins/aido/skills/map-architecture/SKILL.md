@@ -137,7 +137,7 @@ TODO lists a user shares and the collaborators who can edit them.
   `${CLAUDE_PLUGIN_ROOT}/guidelines/project-conventions.md`, then gather the host repository's conventions as it
   describes — they may say how the roles map onto this codebase
 - run `git fetch origin`. If the current branch is not the default branch, or is behind it, use
-  `AskUserQuestion`: "The index should describe the default branch, `<default-branch>`. You're on `<branch>`." — options
+  `AskUserQuestion`: "You're on `<branch>`, but the map should describe `<default-branch>`. Map this checkout anyway?" — options
   **Map the current checkout** / **Cancel**. The index records whichever commit it was built from
 - if `.skip-map-architecture` exists, delete it — running this skill explicitly overrides
   "never ask"
@@ -145,8 +145,7 @@ TODO lists a user shares and the collaborators who can edit them.
 ## Step 1: Choose the Mode
 
 - no `architecture/README.md` → **warm-up** (Step 2)
-- `README.md` exists → `AskUserQuestion`: "An index built from `<short SHA>` on `<date>` exists.
-  What would you like to do?" — options **Update (Recommended)** — refresh only the areas changed
+- `README.md` exists → `AskUserQuestion`: "A map from `<short SHA>` on `<date>` already exists. What should I do with it?" — options **Update (Recommended)** — refresh only the areas changed
   since then (Step 3) / **Rebuild** — discard it and run a warm-up (Step 2)
 
 ## Step 2: Warm-Up

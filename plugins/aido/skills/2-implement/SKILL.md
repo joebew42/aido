@@ -77,7 +77,7 @@ every session, before anything else is decided:
 After loading context, use `AskUserQuestion` to present the list of plan items from `SPEC.md`,
 each with the acceptance criteria it serves, and ask:
 
-> "Here are the planned items. Which ones would you like to tackle in this session? (all / specific items / let me pick the next logical one)"
+> "Which items should I do in this session? (all / specific items / the next logical one)"
 
 Wait for the user's response before starting implementation.
 
@@ -172,10 +172,10 @@ Run it inline, on green, scoped to the evidence the cycle surfaced:
 Run it after the Acceptance Criteria Check below, so it reviews the code that the check may have
 added. Once every plan item is implemented — not at the end of a partial session — the checkpoint is due
 over the whole feature. It can take long and is not always needed, so ask first —
-`AskUserQuestion`: "Should I run the final Systemic Design Checkpoint over the whole feature?" —
-options **Run the checkpoint** / **Skip it**:
+`AskUserQuestion`: "Should I run a final design review over the whole feature?" —
+options **Run the review** / **Skip it**:
 
-- mark **Run the checkpoint** as recommended when the diff against the default branch touches more than one
+- mark **Run the review** as recommended when the diff against the default branch touches more than one
   module or area, or introduces a new domain concept or abstraction; otherwise mark **Skip it** as
   recommended. Diff size alone does not count
 - in the question, say briefly why the recommended option is recommended
@@ -188,7 +188,7 @@ implementation is complete, should I organize the commits?" — options **Organi
 (recommended) / **Stop here**. The question names each criterion recorded as `deferred`, so the user
 doesn't continue without noticing it.
 
-On **Run the checkpoint**, launch one `Agent` with `model: "fable"`. Brief it with:
+On **Run the review**, launch one `Agent` with `model: "fable"`. Brief it with:
 
 - the repository root and the diff range (`git diff origin/<default-branch>...HEAD`)
 - the `SPEC.md` path; when it has `## Design notes`, ask the subagent to check them against what

@@ -30,7 +30,7 @@ acceptance-criteria step below.
 
 Before anything leaves this machine, use `AskUserQuestion` to ask:
 
-> "Would you like to verify the implementation against the specification before pushing? `/aido:verify` runs from a fresh context and changes nothing."
+> "Should I check the implementation against the specification before pushing? `/aido:verify` starts fresh and changes nothing."
 
 Options:
 - **Verify** — run `/aido:verify` on the current branch
@@ -38,7 +38,7 @@ Options:
 
 After **Verify**, once the report is shown, use `AskUserQuestion` to ask:
 
-> "Based on this report, how would you like to proceed?"
+> "How should I continue after this report?"
 
 - **Proceed** — continue at Step 1. Every item the report lists under its deviations, other than deferred criteria, counts as acknowledged: keep them for the **Deviations** section of the description
 - **Address findings** — stop here, before anything is pushed, and let the user make changes (they can re-run `/aido:4-create-pr` when ready)
@@ -163,7 +163,7 @@ Before creating the PR, use `AskUserQuestion` to present the draft title and des
 > **Description:**
 > [proposed description]
 >
-> Would you like to adjust anything before I create it? Also, should this be a **draft** or **ready for review**?"
+> Should I change anything before creating it, and should it be a **draft** or **ready for review**?"
 
 **Wait for the user's response before creating the PR.**
 
