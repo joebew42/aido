@@ -16,7 +16,7 @@ install it.
   After changing a skill's behaviour, run them as `docs/evals.md` describes, and commit the results it
   updates with the change. `tests/test_evals.py` checks the runner for free
 - `docs/evals.md` — what the evals are for, how to run and read them, and the current results
-- `docs/evals/` — the data behind those results, and recorded baselines
+- `docs/evals/` — the data behind those results
 - `docs/readme/` — the images the README displays
 - `docs/assets/` — source images, such as the original mascot
 

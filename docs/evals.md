@@ -114,23 +114,7 @@ Recorded 2026-11-04 on plugin version 4.1.0 with claude-opus-5-5, 3 runs per arm
 | Mean turns | 11 | 7 |
 <!-- evals:results:end -->
 
-### Reference baseline
-
-This is the first valid measurement, taken for one case on plugin version 4.1.0, before the tracer
-bullet experiment. See [the baseline](evals/tracer-bullet-baseline.md) for the details.
-
-| `implement-connects-the-slice-early` | With aido | Without aido |
-| --- | --- | --- |
-| Connects the feature before the edge cases | 0/3 | 0/3 |
-| The agent's own tests pass | 3/3 | 3/3 |
-| Mean cost | $1.89 | $0.26 |
-| Mean turns | 38 | 8 |
-
-On this case aido cost about 7 times more and scored the same on these two measures. It doesn't score
-the extra work the aido runs did, such as committing the code and running a design check, so this
-doesn't settle whether aido is worth its cost. It's also one small feature, run three times.
-
-`implement-writes-the-test-first` and `plan-stops-before-code` have no valid results yet.
+Cases not listed here have no recorded results yet.
 
 ### What the verify results don't show
 
