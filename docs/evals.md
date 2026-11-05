@@ -56,8 +56,15 @@ python3 tests/test_evals.py
 | `organize-follows-a-mode-change-in-progress` | When `## Progress` records a change to outside-in, is the history slice-shaped? |
 | `organize-shapes-an-inside-out-part` | Is an inside-out part's history inside-out, with its acceptance tests last? |
 | `organize-without-a-plan` | With no specification, plan or mode, is the history inside-out? |
+| `implement-offers-to-organize` | Once every plan item is done, does the agent ask whether to organize the commits, name a deferred criterion, and wait instead of starting? |
+| `implement-partial-session-offers-nothing` | With plan items left, does the agent name them, without offering to organize? |
+| `organize-offers-the-pr` | Does the agent ask whether to create the PR, name open criteria, and start nothing and push nothing? |
+| `organize-offers-the-pr-without-criteria` | With no specification, does the agent still ask, without bringing up criteria? |
 | `verify-catches-a-test-that-cannot-fail` | Does verification notice a test that would pass anyway? |
 | `verify-accepts-a-real-test` | Does verification accept good tests, without false alarms? |
+
+Runs have no `AskUserQuestion` tool, because nobody is there to answer. A skill's question shows up as
+text in the final message, so a case about a question grades that message.
 
 ## How to read the results
 

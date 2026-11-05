@@ -69,6 +69,12 @@ Later, `/aido:3-organize-commits` asks whether to revert `SPEC.md` (the default)
 repository docs. `/aido:4-create-pr` offers verification before pushing and can open GitHub issues
 for deferred acceptance criteria you select.
 
+You don't have to remember what comes next. Once every plan item is done, `/aido:2-implement` asks
+whether to organize the commits, and `/aido:3-organize-commits` asks whether to create the PR, each
+alongside its last approval, so this adds no extra stop. Either question names any criteria still open
+or deferred. Accepting only starts the next skill: every approval inside it still happens, including
+the push. Stopping names the skill to run later, in a new session if you want a fresh context.
+
 ### Recommended Claude Code settings
 
 The guidelines request commits and PRs without AI attribution and no auto-memory. A plugin cannot
