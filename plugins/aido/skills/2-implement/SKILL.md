@@ -122,6 +122,14 @@ Show the items it will run, each with the criteria it serves, and ask nothing.
 4. **one fails** → stop the loop. Report what failed, and the items not yet run. Record nothing for
    the failed item
 
+**After the last item it runs:**
+
+- **the plan's last item is done** → ask about the final design review and organizing the commits in
+  one question, as "Before completion" describes. Run the review here, if chosen, then finish as "STOP
+  — Skill Complete" describes. Each item's Progress is already committed
+- **the range ends before the plan does** → name the items left, and say that running
+  `/aido:2-implement loop` again continues them. Ask about neither
+
 **When a child returns a question** instead of its results, it has paused. Ask the user with
 `AskUserQuestion`, keeping the child's question and options. Then send the answer to that same child
 with `SendMessage`, and wait for it to return again. When nobody answers, or the question can't be
