@@ -346,8 +346,10 @@ def run_case(case, arm, index, model, output_dir):
             arguments += ["--plugin-dir", str(PLUGIN)]
         order_file = case / "order.json"
         watch = OrderWatch(workspace, json.loads(order_file.read_text())) if order_file.is_file() else None
+        grader_paths = sorted((case / "graders").glob("*.md"))
+        needs_the_end = bool(grader_paths or shell_checks(case))
         trace, stopped = run_agent(
-            isolated_command(prompt, *arguments), workspace, meta.get("timeout_seconds", 600), watch, stop_when_settled=True,
+            isolated_command(prompt, *arguments), workspace, meta.get("timeout_seconds", 600), watch, stop_when_settled=not needs_the_end,
         )
 
         trace_path = output_dir / "traces" / f"{case.name}-{arm}-{index}.jsonl"
@@ -355,7 +357,7 @@ def run_case(case, arm, index, model, output_dir):
         final = next((e for e in events(trace) if e.get("type") == "result"), {})
         run = Run(trace, str(final.get("result", "")), workspace, snapshot(workspace) - before)
         found = problems(trace, with_plugin=arm == "with", needs_bash="Bash" in tools and not stopped)
-        graders = {path.stem: grade(path, run) for path in sorted((case / "graders").glob("*.md"))} if not found else {}
+        graders = {path.stem: grade(path, run) for path in grader_paths} if not found else {}
         if watch and not found:
             graders[watch.spec["name"]] = watch.passed()
         if not found:

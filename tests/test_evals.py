@@ -462,7 +462,24 @@ class StoppingARun(unittest.TestCase):
         self.assertTrue(run["valid"], run["problems"])
         self.assertEqual(run["graders"], {"first-before-second": False})
 
+    def test_a_case_with_a_shell_check_runs_to_the_end(self):
+        run = self.run_stand_in(extra_files={"checks/needs-the-end.sh": "true\n"})
 
+        self.assertFalse(run["stopped"])
+        self.assertEqual(run["cost"], 9)
+
+    def test_a_case_with_a_grader_runs_to_the_end(self):
+        grader = "---\ntype: regex\npattern: nothing\nmatch: not_contains\n---\n"
+
+        run = self.run_stand_in(extra_files={"graders/needs-the-end.md": grader})
+
+        self.assertFalse(run["stopped"])
+        self.assertEqual(run["cost"], 9)
+
+    def test_a_case_with_an_acceptance_script_runs_to_the_end(self):
+        run = self.run_stand_in(extra_files={"acceptance.sh": "true\n"})
+
+        self.assertFalse(run["stopped"])
 
 
 if __name__ == "__main__":
