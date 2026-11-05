@@ -3,34 +3,62 @@
     "models": [
       "claude-opus-5-5"
     ],
-    "plugin_version": "4.4.0",
+    "plugin_version": "4.4.1",
     "recorded": "2026-11-05",
     "runs_per_arm": 3,
     "with": {
-      "cost": 6.7656975500000005,
+      "cost": 2.8181177999999996,
       "graders": {
-        "behaves-as-specified": "3/3",
-        "connects-before-the-edge-cases": "3/3",
-        "inner-units-have-tests": "3/3",
-        "suite-ends-green": "3/3"
+        "connects-before-the-edge-cases": "3/3"
       },
       "invalid_runs": 0,
-      "mean_cost": 2.2552325166666667,
-      "mean_turns": 23.0,
+      "mean_cost": 0.9393725999999999,
+      "mean_turns": 27.666666666666668,
       "score": 1.0,
       "valid_runs": 3
     },
     "without": {
-      "cost": 0.8932426000000001,
+      "cost": 0.7318432,
+      "graders": {
+        "connects-before-the-edge-cases": "3/3"
+      },
+      "invalid_runs": 0,
+      "mean_cost": 0.24394773333333333,
+      "mean_turns": 7.333333333333333,
+      "score": 1.0,
+      "valid_runs": 3
+    }
+  },
+  "implement-finishes-the-feature": {
+    "models": [
+      "claude-opus-5-5"
+    ],
+    "plugin_version": "4.4.1",
+    "recorded": "2026-11-05",
+    "runs_per_arm": 3,
+    "with": {
+      "cost": 5.39777825,
       "graders": {
         "behaves-as-specified": "3/3",
-        "connects-before-the-edge-cases": "2/3",
+        "inner-units-have-tests": "3/3",
+        "suite-ends-green": "3/3"
+      },
+      "invalid_runs": 0,
+      "mean_cost": 1.7992594166666667,
+      "mean_turns": 26.666666666666668,
+      "score": 1.0,
+      "valid_runs": 3
+    },
+    "without": {
+      "cost": 0.6957133999999999,
+      "graders": {
+        "behaves-as-specified": "3/3",
         "inner-units-have-tests": "0/3",
         "suite-ends-green": "3/3"
       },
       "invalid_runs": 0,
-      "mean_cost": 0.29774753333333337,
-      "mean_turns": 6.333333333333333,
+      "mean_cost": 0.23190446666666664,
+      "mean_turns": 6.0,
       "score": 0.6666666666666666,
       "valid_runs": 3
     }
@@ -39,33 +67,29 @@
     "models": [
       "claude-opus-5-5"
     ],
-    "plugin_version": "4.4.0",
+    "plugin_version": "4.4.1",
     "recorded": "2026-11-05",
     "runs_per_arm": 3,
     "with": {
-      "cost": 5.345008999999999,
+      "cost": 2.8537308,
       "graders": {
-        "behaves-as-specified": "3/3",
-        "grows-the-domain-before-the-entry-point": "3/3",
-        "suite-ends-green": "3/3"
+        "grows-the-domain-before-the-entry-point": "3/3"
       },
       "invalid_runs": 0,
-      "mean_cost": 1.7816696666666665,
-      "mean_turns": 32.0,
+      "mean_cost": 0.9512436000000001,
+      "mean_turns": 32.333333333333336,
       "score": 1.0,
       "valid_runs": 3
     },
     "without": {
-      "cost": 0.761288,
+      "cost": 0.6130116,
       "graders": {
-        "behaves-as-specified": "3/3",
-        "grows-the-domain-before-the-entry-point": "0/3",
-        "suite-ends-green": "3/3"
+        "grows-the-domain-before-the-entry-point": "0/3"
       },
       "invalid_runs": 0,
-      "mean_cost": 0.25376266666666664,
-      "mean_turns": 6.0,
-      "score": 0.6666666666666666,
+      "mean_cost": 0.2043372,
+      "mean_turns": 5.666666666666667,
+      "score": 0.0,
       "valid_runs": 3
     }
   },
@@ -73,31 +97,29 @@
     "models": [
       "claude-opus-5-5"
     ],
-    "plugin_version": "4.4.0",
+    "plugin_version": "4.4.1",
     "recorded": "2026-11-05",
     "runs_per_arm": 3,
     "with": {
-      "cost": 1.6034422,
+      "cost": 1.1435438,
       "graders": {
-        "does-the-work": "3/3",
         "test-before-code": "3/3"
       },
       "invalid_runs": 0,
-      "mean_cost": 0.5344807333333333,
-      "mean_turns": 14.333333333333334,
+      "mean_cost": 0.3811812666666667,
+      "mean_turns": 12.333333333333334,
       "score": 1.0,
       "valid_runs": 3
     },
     "without": {
-      "cost": 0.5927602,
+      "cost": 0.43228160000000004,
       "graders": {
-        "does-the-work": "3/3",
         "test-before-code": "2/3"
       },
       "invalid_runs": 0,
-      "mean_cost": 0.19758673333333332,
-      "mean_turns": 7.333333333333333,
-      "score": 0.8333333333333334,
+      "mean_cost": 0.14409386666666668,
+      "mean_turns": 6.0,
+      "score": 0.6666666666666666,
       "valid_runs": 3
     }
   },
