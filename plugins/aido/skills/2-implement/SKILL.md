@@ -110,10 +110,17 @@ ticked in `## Progress`, in plan order.
    - the working tree is clean
    - lint and the whole test suite pass
 3. **all three pass** → record the item in `## Progress` as "What Progress Records" lists, from the
-   child's results, with the item ticked. Commit it per the `SPEC.md` rule in `git-workflow.md`
+   child's results, with the item ticked. For a `changed` criterion, also update its wording in
+   `## Acceptance criteria`, keeping its ID. Commit it per the `SPEC.md` rule in `git-workflow.md`
    Special Cases, then start the next item's child
 4. **one fails** → stop the loop. Report what failed, and the items not yet run. Record nothing for
    the failed item
+
+**When a child returns a question** instead of its results, it has paused. Ask the user with
+`AskUserQuestion`, keeping the child's question and options. Then send the answer to that same child
+with `SendMessage`, and wait for it to return again. When nobody answers, or the question can't be
+asked, stop the loop: name the paused item, its question, and the items not yet run. Record nothing
+for the paused item, and offer nothing else.
 
 ## Child Mode
 
@@ -126,6 +133,9 @@ A child implements plan item `<N>` and nothing else:
   instead
 - skip the final Systemic Design Checkpoint and "STOP — Skill Complete". End by returning what "Child
   Results" lists
+- **a child can't ask the user.** Wherever this skill says to ask with `AskUserQuestion`, end your
+  turn by returning the question instead: the item's number, the question, and each option with what
+  it does. Return nothing else, and carry on from the answer the orchestrator sends back
 
 ### Child Results
 
