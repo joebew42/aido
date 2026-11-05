@@ -264,6 +264,21 @@ per-class/module commit** with its tests. An outside-in slice grows from the ent
 commit it when it is finished: its units inside-out, then its acceptance test. **Final history
 shaping** is not done here — `/aido:3-organize-commits` owns it.
 
+## What Progress Records
+
+The `## Progress` section of `SPEC.md` is a handoff note for the next session. Keep it brief:
+
+- list each implemented unit of work (checked off)
+- record the slices built for each outside-in item and every mode change, as "Modes and Slices in
+  Progress" in "The Specification Structure" describes
+- note any units remaining (if session ended early)
+- record each result of the Acceptance Criteria Check, as "Acceptance in Progress" in "The
+  Specification Structure" describes
+- record any key decisions made during implementation (e.g., design choices, deviations from spec)
+- list **Deferred refactorings**, each with every field under **What every finding states** in
+  `systemic-refactoring.md`, its evidence as `path` — `Symbol`, and why it was deferred
+- if the user skipped the final Systemic Design Checkpoint, say so in plain words: "the final design review was skipped"
+
 ## Red Flags to Watch For
 
 If you catch yourself doing any of these, STOP immediately:
@@ -293,18 +308,8 @@ When all units of work are implemented and committed, the Acceptance Criteria Ch
 if this session finished the last plan items, the final Systemic Design Checkpoint has run or the
 user chose to skip it:
 
-1. **Update `SPEC.md`** with a `## Progress` section at the bottom:
-   - list each implemented unit of work (checked off)
-   - record the slices built for each outside-in item and every mode change, as "Modes and Slices in
-     Progress" in "The Specification Structure" describes
-   - note any units remaining (if session ended early)
-   - record each result of the Acceptance Criteria Check, as "Acceptance in Progress" in "The
-     Specification Structure" describes
-   - record any key decisions made during implementation (e.g., design choices, deviations from spec)
-   - list **Deferred refactorings**, each with every field under **What every finding states** in
-     `systemic-refactoring.md`, its evidence as `path` — `Symbol`, and why it was deferred
-   - if the user skipped the final Systemic Design Checkpoint, say so in plain words: "the final design review was skipped"
-   - keep it brief — this is a handoff note for the next session
+1. **Update `SPEC.md`** with a `## Progress` section at the bottom, holding what "What Progress
+   Records" lists
 
 2. **Commit the progress update** (per the `SPEC.md` rule in `git-workflow.md` Special Cases):
    - squash or amend into the existing `docs: feature specification` commit if history is not yet pushed
