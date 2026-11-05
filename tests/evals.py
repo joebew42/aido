@@ -146,6 +146,15 @@ def was_cut_off(final):
     return final.get("subtype") == "error_max_turns"
 
 
+def fails_a_check(run):
+    return run["arm"] == "with" and run["valid"] and not all(run["graders"].values())
+
+
+def without_failed_cases(runs):
+    failed = {run["case"] for run in runs if fails_a_check(run)}
+    return [run for run in runs if run["case"] not in failed]
+
+
 def grader_target(meta, key, run):
     target = meta.get(key, "last_message")
     if target == "trace":
@@ -522,6 +531,7 @@ def main():
     parser.add_argument("--concurrency", type=int, default=3)
     parser.add_argument("--model", default="opus")
     parser.add_argument("--max-cost-usd", type=float, default=5.0, help="start no new run past this; runs in flight finish")
+    parser.add_argument("--stop-at-first-failure", action="store_true", help="start no new run once a check fails with aido, and record no case that failed")
     parser.add_argument("--output-dir", type=Path, default=PLUGIN / "evals" / "results" / datetime.now().strftime("%Y%m%dT%H%M%S"))
     parser.add_argument("--report-dir", type=Path, default=ROOT / "docs" / "evals", help="where latest.json lives; evals.md sits next to this directory")
     parser.add_argument("--regrade", type=Path, help="judge the saved reports of an earlier run's output directory again, running no agents")
@@ -534,16 +544,19 @@ def main():
     (args.output_dir / "traces").mkdir(parents=True, exist_ok=True)
 
     spent = [0.0]
+    failed = threading.Event()
     lock = threading.Lock()
 
     def attempt(job):
         case, arm, index = job
         with lock:
-            if spent[0] >= args.max_cost_usd:
+            if spent[0] >= args.max_cost_usd or (args.stop_at_first_failure and failed.is_set()):
                 return None
         run = run_case(case, arm, index, args.model, args.output_dir)
         with lock:
             spent[0] += run["cost"]
+        if fails_a_check(run):
+            failed.set()
         print(f"{case.name} [{arm} {index}] {describe_run(run)}", flush=True)
         return run
 
@@ -556,7 +569,7 @@ def main():
         "started": args.output_dir.name,
         "plugin_version": json.loads((PLUGIN / ".claude-plugin" / "plugin.json").read_text())["version"],
         "runs_requested": len(jobs),
-        "runs_skipped_for_cost": len(jobs) - len(runs),
+        "runs_skipped": len(jobs) - len(runs),
         "cost": spent[0],
         "models": sorted({run["model"] for run in runs if run["model"]}),
         "cases": {
@@ -574,9 +587,10 @@ def main():
             score = "n/a" if summary["score"] is None else f"{summary['score']:.2f}"
             print(f"  {arm:8} score {score}  valid {summary['valid_runs']}  invalid {summary['invalid_runs']}  {summary['graders']}")
 
-    update_report(args.report_dir, cases, runs, args.runs, report["plugin_version"])
+    stopped_for_failure = args.stop_at_first_failure and failed.is_set()
+    update_report(args.report_dir, cases, without_failed_cases(runs) if args.stop_at_first_failure else runs, args.runs, report["plugin_version"])
 
-    return 2 if report["runs_skipped_for_cost"] or any(not run["valid"] for run in runs) else 0
+    return 2 if report["runs_skipped"] or stopped_for_failure or any(not run["valid"] for run in runs) else 0
 
 
 if __name__ == "__main__":

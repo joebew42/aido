@@ -418,6 +418,58 @@ class CutOffRuns(unittest.TestCase):
         self.assertEqual((cut_off, finished, interrupted), (True, False, False))
 
 
+class StoppingAtTheFirstFailure(unittest.TestCase):
+    def test_a_failed_check_starts_no_new_runs_and_records_nothing(self):
+        root = stand_in_project(self, order=("second", "first"))
+
+        status, summary, latest = run_main(root, "--stop-at-first-failure", "--concurrency", "1")
+
+        self.assertEqual(status, 2)
+        self.assertEqual(len(summary["runs"]), 1)
+        self.assertFalse(latest.exists())
+
+    def test_without_the_option_every_run_happens(self):
+        root = stand_in_project(self, order=("second", "first"))
+
+        _, summary, _ = run_main(root, "--concurrency", "6")
+
+        self.assertEqual(len(summary["runs"]), 6)
+
+    def test_passing_runs_are_all_made_and_recorded(self):
+        root = stand_in_project(self)
+
+        status, summary, latest = run_main(root, "--stop-at-first-failure", "--concurrency", "6")
+
+        self.assertEqual(status, 0)
+        self.assertEqual(len(summary["runs"]), 6)
+        self.assertTrue(latest.exists())
+
+
+class FailuresThatStopARound(unittest.TestCase):
+    def test_a_failed_check_in_the_with_aido_arm_counts(self):
+        run = {"case": "a", "arm": "with", "valid": True, "graders": {"x": True, "y": False}}
+
+        self.assertTrue(evals.fails_a_check(run))
+
+    def test_a_failed_check_in_the_without_aido_arm_does_not_count(self):
+        run = {"case": "a", "arm": "without", "valid": True, "graders": {"x": False}}
+
+        self.assertFalse(evals.fails_a_check(run))
+
+    def test_an_invalid_run_does_not_count(self):
+        run = {"case": "a", "arm": "with", "valid": False, "graders": {}}
+
+        self.assertFalse(evals.fails_a_check(run))
+
+    def test_a_case_that_failed_is_left_out_even_when_all_its_runs_happened(self):
+        failed = {"case": "a", "arm": "with", "valid": True, "graders": {"x": False}}
+        passed = {"case": "b", "arm": "with", "valid": True, "graders": {"x": True}}
+
+        kept = evals.without_failed_cases([failed, passed])
+
+        self.assertEqual(kept, [passed])
+
+
 class Summary(unittest.TestCase):
     def test_invalid_runs_are_left_out_of_the_score_and_counted(self):
         runs = [
