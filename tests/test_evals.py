@@ -378,6 +378,46 @@ class Validity(unittest.TestCase):
         self.assertEqual(evals.problems(trace(INIT_WITH, said, BASH_USE, event(bash_result("ok")), RESULT), with_plugin=True, needs_bash=True), [])
 
 
+class CutOffRuns(unittest.TestCase):
+    def test_a_run_ending_at_its_turn_limit_is_shown_as_cut_off(self):
+        run = {"valid": True, "score": 0.5, "cost": 1.0, "cut_off": True, "stopped": False, "problems": []}
+
+        state = evals.describe_run(run)
+
+        self.assertEqual(state, "score 0.50 CUT OFF at its turn limit $1.00")
+
+    def test_a_stopped_run_says_so(self):
+        run = {"valid": True, "score": 1.0, "cost": 0.5, "cut_off": False, "stopped": True, "problems": []}
+
+        state = evals.describe_run(run)
+
+        self.assertEqual(state, "score 1.00 stopped early $0.50")
+
+    def test_an_invalid_run_names_its_problems(self):
+        run = {"valid": False, "score": None, "cost": 0.0, "cut_off": False, "stopped": False, "problems": ["a", "b"]}
+
+        state = evals.describe_run(run)
+
+        self.assertEqual(state, "INVALID: a; b $0.00")
+
+    def test_a_run_that_hits_its_turn_limit_is_marked_as_cut_off(self):
+        no_bash = "---\nallowed_tools: [Read]\n---\n\nDo it.\n"
+        root = stand_in_project(self, extra_files={"acceptance.sh": "true\n", "prompt.md": no_bash}, ending="error_max_turns")
+        (root / "out" / "traces").mkdir(parents=True)
+
+        run = evals.run_case(root / "plugin" / "evals" / "a-case", "with", 0, "m", root / "out")
+
+        self.assertTrue(run["cut_off"])
+        self.assertTrue(run["valid"], run["problems"])
+
+    def test_only_the_turn_limit_result_counts_as_cut_off(self):
+        cut_off = evals.was_cut_off({"type": "result", "subtype": "error_max_turns"})
+        finished = evals.was_cut_off({"type": "result", "subtype": "success"})
+        interrupted = evals.was_cut_off({"type": "result", "subtype": "error_during_execution"})
+
+        self.assertEqual((cut_off, finished, interrupted), (True, False, False))
+
+
 class Summary(unittest.TestCase):
     def test_invalid_runs_are_left_out_of_the_score_and_counted(self):
         runs = [

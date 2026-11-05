@@ -142,6 +142,10 @@ def problems(trace, with_plugin, needs_bash):
     return found
 
 
+def was_cut_off(final):
+    return final.get("subtype") == "error_max_turns"
+
+
 def grader_target(meta, key, run):
     target = meta.get(key, "last_message")
     if target == "trace":
@@ -363,7 +367,7 @@ def run_case(case, arm, index, model, output_dir):
         if not found:
             graders.update({name: passes_acceptance(script, workspace) for name, script in shell_checks(case).items()})
         return {
-            "case": case.name, "arm": arm, "valid": not found, "stopped": stopped, "problems": found, "graders": graders,
+            "case": case.name, "arm": arm, "valid": not found, "stopped": stopped, "cut_off": was_cut_off(final), "problems": found, "graders": graders,
             "score": sum(graders.values()) / len(graders) if graders else None,
             "cost": final.get("total_cost_usd", 0) or 0, "turns": final.get("num_turns"),
             "model": next((e.get("model") for e in events(trace) if e.get("subtype") == "init"), None),
@@ -416,6 +420,18 @@ def changes(previous, current):
             if abs(new["mean_cost"] - old["mean_cost"]) > COST_CHANGE_WORTH_NOTING * max(old["mean_cost"], 0.01):
                 found.append(f"{name} [{arm}] mean cost: ${old['mean_cost']:.2f} -> ${new['mean_cost']:.2f}")
     return found
+
+
+def describe_run(run):
+    if not run["valid"]:
+        state = "INVALID: " + "; ".join(run["problems"])
+    else:
+        state = f"score {run['score']:.2f}"
+    if run["cut_off"]:
+        state += " CUT OFF at its turn limit"
+    if run["stopped"]:
+        state += " stopped early"
+    return f"{state} ${run['cost']:.2f}"
 
 
 def show_score(score):
@@ -528,8 +544,7 @@ def main():
         run = run_case(case, arm, index, args.model, args.output_dir)
         with lock:
             spent[0] += run["cost"]
-        state = f"score {run['score']:.2f}" if run["valid"] else "INVALID: " + "; ".join(run["problems"])
-        print(f"{case.name} [{arm} {index}] {state} ${run['cost']:.2f}", flush=True)
+        print(f"{case.name} [{arm} {index}] {describe_run(run)}", flush=True)
         return run
 
     jobs = [(case, arm, index) for case in cases for index in range(args.runs) for arm in ("with", "without")]
