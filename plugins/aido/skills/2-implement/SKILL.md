@@ -19,8 +19,8 @@ Load `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` and follow it in everything 
 **How it was invoked** decides the session's role:
 
 - **nothing, or anything but the two below** → a single session, as this skill describes
-- **`loop`** → this session is the **orchestrator**: it runs each plan item in a child, as "Loop
-  Mode" describes
+- **`loop`, or `loop <first>-<last>`, such as `loop 7-9`** → this session is the **orchestrator**:
+  it runs each plan item in a child, as "Loop Mode" describes
 - **`item <N>`** → this session is a **child** the orchestrator started for plan item `<N>`, as
   "Child Mode" describes
 
@@ -96,8 +96,14 @@ Wait for the user's response before starting implementation.
 The orchestrator builds nothing itself. Each plan item runs in a fresh child, so it is built with the
 full specification and guidelines in view. Only the orchestrator writes `SPEC.md`.
 
-**Before the first child:** run Step 0 and Step 0.5 once. The items to run are every plan item not
-ticked in `## Progress`, in plan order.
+**Before the first child:** run Step 0 and Step 0.5 once, then choose the items to run, in plan
+order:
+
+- **`loop`** → every plan item not ticked in `## Progress`
+- **a range** → the items in it. Skip those already ticked in `## Progress`, and name them
+- **a range that names an item the plan doesn't have** → don't start the loop, and say why
+
+Show the items it will run, each with the criteria it serves, and ask nothing.
 
 **For each item, in order:**
 
