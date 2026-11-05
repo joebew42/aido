@@ -89,6 +89,7 @@ approval question or evidence rule is removed. `tests/test_evals.py` checks the 
 | `organize-without-a-plan` | With no specification, plan or mode, is the history inside-out? |
 | `implement-offers-to-organize` | Once every plan item is done, does the agent ask whether to organize the commits, name a deferred criterion, and wait instead of starting? |
 | `implement-partial-session-offers-nothing` | With plan items left, does the agent name them, without offering to organize? |
+| `implement-loops-over-the-plan` | In loop mode, does each plan item run in its own child, with the orchestrator recording it in `## Progress`? |
 | `organize-offers-the-pr` | Does the agent ask whether to create the PR, name open criteria, and start nothing and push nothing? |
 | `organize-offers-the-pr-without-criteria` | With no specification, does the agent still ask, without bringing up criteria? |
 | `verify-catches-a-test-that-cannot-fail` | Does verification notice a test that would pass anyway? |
