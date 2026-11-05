@@ -100,6 +100,8 @@ In the same `AskUserQuestion` call, offer the next step, following "each approva
 
 Options: **Create the PR** (recommended) / **Stop here**.
 
+Read `## Progress` first, as "Acceptance in Progress" in `specification.md` describes. The question names each criterion recorded as `unchecked` or `deferred`, so the user doesn't continue without noticing it. While any is `unchecked`, its plan items aren't done, so mark **Create the PR** as not recommended.
+
 **Wait for user approval before starting the rebase.** The rebase is destructive and hard to undo — getting alignment first avoids rework.
 
 ## Final Checklist
