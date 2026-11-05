@@ -445,6 +445,25 @@ class StoppingAtTheFirstFailure(unittest.TestCase):
         self.assertTrue(latest.exists())
 
 
+class ChoosingThePlugin(unittest.TestCase):
+    def test_runs_use_the_chosen_plugin(self):
+        root = stand_in_project(self)
+        (root / "out" / "traces").mkdir(parents=True)
+
+        evals.run_case(root / "plugin" / "evals" / "a-case", "with", 0, "m", root / "out", plugin=root / "a-broken-copy")
+
+        self.assertIn(str(root / "a-broken-copy"), (root / "arguments").read_text().splitlines())
+
+    def test_a_run_of_another_plugin_records_nothing(self):
+        root = stand_in_project(self)
+
+        status, summary, latest = run_main(root, "--plugin-dir", str(root / "a-broken-copy"), "--concurrency", "6")
+
+        self.assertEqual(status, 0)
+        self.assertEqual(len(summary["runs"]), 6)
+        self.assertFalse(latest.exists())
+
+
 class FailuresThatStopARound(unittest.TestCase):
     def test_a_failed_check_in_the_with_aido_arm_counts(self):
         run = {"case": "a", "arm": "with", "valid": True, "graders": {"x": True, "y": False}}

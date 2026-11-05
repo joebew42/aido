@@ -343,7 +343,7 @@ def allowed_tools(names):
     return ["Edit(./**)" if name in ("Edit", "Write") else name for name in names]
 
 
-def run_case(case, arm, index, model, output_dir):
+def run_case(case, arm, index, model, output_dir, plugin=None):
     meta, prompt = parse_frontmatter((case / "prompt.md").read_text())
     config = parse_mapping((case / "case.yaml").read_text())
     tools = meta.get("allowed_tools", [])
@@ -356,7 +356,7 @@ def run_case(case, arm, index, model, output_dir):
             "--max-turns", str(meta.get("max_turns", 30)), "--allowedTools", *allowed_tools(tools),
         ]
         if arm == "with":
-            arguments += ["--plugin-dir", str(PLUGIN)]
+            arguments += ["--plugin-dir", str(plugin or PLUGIN)]
         order_file = case / "order.json"
         watch = OrderWatch(workspace, json.loads(order_file.read_text())) if order_file.is_file() else None
         grader_paths = sorted((case / "graders").glob("*.md"))
@@ -531,6 +531,7 @@ def main():
     parser.add_argument("--concurrency", type=int, default=3)
     parser.add_argument("--model", default="opus")
     parser.add_argument("--max-cost-usd", type=float, default=5.0, help="start no new run past this; runs in flight finish")
+    parser.add_argument("--plugin-dir", type=Path, help="run the with-aido arm on this copy of the plugin, recording nothing")
     parser.add_argument("--stop-at-first-failure", action="store_true", help="start no new run once a check fails with aido, and record no case that failed")
     parser.add_argument("--output-dir", type=Path, default=PLUGIN / "evals" / "results" / datetime.now().strftime("%Y%m%dT%H%M%S"))
     parser.add_argument("--report-dir", type=Path, default=ROOT / "docs" / "evals", help="where latest.json lives; evals.md sits next to this directory")
@@ -552,7 +553,7 @@ def main():
         with lock:
             if spent[0] >= args.max_cost_usd or (args.stop_at_first_failure and failed.is_set()):
                 return None
-        run = run_case(case, arm, index, args.model, args.output_dir)
+        run = run_case(case, arm, index, args.model, args.output_dir, args.plugin_dir)
         with lock:
             spent[0] += run["cost"]
         if fails_a_check(run):
@@ -588,7 +589,8 @@ def main():
             print(f"  {arm:8} score {score}  valid {summary['valid_runs']}  invalid {summary['invalid_runs']}  {summary['graders']}")
 
     stopped_for_failure = args.stop_at_first_failure and failed.is_set()
-    update_report(args.report_dir, cases, without_failed_cases(runs) if args.stop_at_first_failure else runs, args.runs, report["plugin_version"])
+    if not args.plugin_dir:
+        update_report(args.report_dir, cases, without_failed_cases(runs) if args.stop_at_first_failure else runs, args.runs, report["plugin_version"])
 
     return 2 if report["runs_skipped"] or stopped_for_failure or any(not run["valid"] for run in runs) else 0
 
