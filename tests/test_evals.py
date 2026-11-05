@@ -238,6 +238,15 @@ class Report(unittest.TestCase):
             evals.replace_results("no markers here", "new")
 
 
+class CaseDocumentation(unittest.TestCase):
+    def test_docs_list_every_case(self):
+        docs = (EVALS.parent.parent.parent / "docs" / "evals.md").read_text()
+
+        missing = [case.parent.name for case in EVALS.glob("*/case.yaml") if f"`{case.parent.name}`" not in docs]
+
+        self.assertEqual(missing, [])
+
+
 class JudgeVerdict(unittest.TestCase):
     def test_the_last_line_decides_after_the_reasoning(self):
         reply = "FAIL: it says AC3 is deferred, so the rubric is met.\n\nPASS\n"
