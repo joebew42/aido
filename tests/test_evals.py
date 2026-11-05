@@ -442,6 +442,18 @@ echo {json.dumps(finished)}
     return root
 
 
+def run_main(root, *options):
+    report = root / "docs" / "evals"
+    report.mkdir(parents=True, exist_ok=True)
+    (root / "docs" / "evals.md").write_text(f"{evals.RESULTS_START}\n{evals.RESULTS_END}\n")
+    argv = ["evals.py", "--output-dir", str(root / "out"), "--report-dir", str(report), *options]
+    with mock.patch.object(evals, "PLUGIN", root / "plugin"), mock.patch.object(sys, "argv", argv):
+        with mock.patch("builtins.print"):
+            status = evals.main()
+    summary = json.loads((root / "out" / "summary.json").read_text())
+    return status, summary, report / "latest.json"
+
+
 class StoppingARun(unittest.TestCase):
     def run_stand_in(self, order=("first", "second"), extra_files=None):
         root = stand_in_project(self, order, extra_files)
@@ -461,6 +473,19 @@ class StoppingARun(unittest.TestCase):
         self.assertTrue(run["stopped"])
         self.assertTrue(run["valid"], run["problems"])
         self.assertEqual(run["graders"], {"first-before-second": False})
+
+    def test_a_stopped_run_reports_what_it_cost_so_far(self):
+        run = self.run_stand_in()
+
+        self.assertEqual(run["cost"], 0.5)
+
+    def test_a_stopped_runs_cost_counts_towards_the_limit(self):
+        root = stand_in_project(self)
+
+        _, summary, _ = run_main(root, "--max-cost-usd", "0.4", "--concurrency", "1")
+
+        self.assertEqual(len(summary["runs"]), 1)
+        self.assertEqual(summary["cost"], 0.5)
 
     def test_a_case_with_a_shell_check_runs_to_the_end(self):
         run = self.run_stand_in(extra_files={"checks/needs-the-end.sh": "true\n"})
