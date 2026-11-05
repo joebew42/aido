@@ -7,6 +7,8 @@ disable-model-invocation: false
 
 Switch to the main plan branch for a multi-phase feature.
 
+Load `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` and follow it in everything you write for a person.
+
 ## Process
 
 1. **Find the main plan branch:**

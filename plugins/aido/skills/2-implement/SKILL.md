@@ -14,6 +14,8 @@ Specification File" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`.
 Match step size to how much design you must *discover* vs. *conform to*, as "Step Size" in
 `${CLAUDE_PLUGIN_ROOT}/guidelines/tdd.md` describes.
 
+Load `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` and follow it in everything you write for a person.
+
 ## Step 0: Load Context
 
 Before any implementation work:

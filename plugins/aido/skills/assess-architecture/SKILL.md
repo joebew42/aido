@@ -12,6 +12,8 @@ include them, so each refactoring is made as part of a working feature.
 This skill reads the repository and never edits it. It writes only the opportunity files the user
 explicitly chose, which live outside the repository.
 
+Load `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` and follow it in everything you write for a person.
+
 ## Step 0: Load Context
 
 - identify `<repo-name>` and the index directory as defined in **Index Location and Shape** in

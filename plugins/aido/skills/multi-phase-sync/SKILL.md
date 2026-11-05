@@ -9,6 +9,8 @@ Update the main plan PR based on the status of individual phase PRs.
 
 Load `${CLAUDE_PLUGIN_ROOT}/guidelines/git-workflow.md`.
 
+Load `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` and follow it in everything you write for a person.
+
 ## Process
 
 1. switch to the branch with the main plan of the feature

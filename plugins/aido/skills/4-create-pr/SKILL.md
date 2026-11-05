@@ -10,6 +10,8 @@ Create or update a draft pull request for the current feature.
 `SPEC.md` and `SPEC.md.draft` stand for the spec file and its draft: resolve them first, per "The
 Specification File" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`.
 
+Load `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` and follow it in everything you write for a person.
+
 ## Step 0: Load Guidelines
 
 Load `${CLAUDE_PLUGIN_ROOT}/guidelines/git-workflow.md` — the source of truth for the **pushing** and **branch** conventions used below — `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md` and `${CLAUDE_PLUGIN_ROOT}/guidelines/github-issues.md`, and check the host repository's agent instruction files (see `project-conventions.md`) for any PR conventions of its own.

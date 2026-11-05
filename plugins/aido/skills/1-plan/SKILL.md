@@ -10,6 +10,8 @@ Turn a feature or phase into an approved specification and plan in `SPEC.md`, th
 
 Branch-naming and spec-commit conventions are defined in `${CLAUDE_PLUGIN_ROOT}/guidelines/git-workflow.md` — load it before Step 7.
 
+Load `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` and follow it in everything you write for a person.
+
 ## The Specification Files
 
 Planning moves through two files at the repository root:

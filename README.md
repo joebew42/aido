@@ -279,6 +279,7 @@ Skills load their guidance from [`plugins/aido/guidelines/`](plugins/aido/guidel
 | `testing-principles.md` | Test structure, collaboration tests, and flaky-test prevention. |
 | `project-conventions.md` | Discovering host repository conventions in `CLAUDE.md` and `AGENTS.md`. |
 | `specification.md` | Specification structure and acceptance criteria. |
+| `language.md` | Writing for people so it is understood on first read. |
 | `repository-alignment.md` | Checking specifications against the repository and handling conflicts. |
 | `systemic-refactoring.md` | Looking beyond changed lines when a design check runs. |
 | `evolving-guidelines.md` | Proposing conventions back to the host repository after a PR or phase. |

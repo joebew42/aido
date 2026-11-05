@@ -15,6 +15,8 @@ This skill **reads** the original work and **prepares** a new branch and `SPEC.m
 does not implement anything, and it never pushes to, rewrites, comments on or closes the original
 PR or branch.
 
+Load `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` and follow it in everything you write for a person.
+
 ## Step 0: Load Context
 
 - run `git fetch origin`

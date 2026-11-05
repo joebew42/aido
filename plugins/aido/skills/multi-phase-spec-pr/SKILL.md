@@ -12,6 +12,8 @@ Specification File" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`.
 
 Load `${CLAUDE_PLUGIN_ROOT}/guidelines/git-workflow.md`, `${CLAUDE_PLUGIN_ROOT}/guidelines/pr-roadmap.md` and `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`.
 
+Load `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` and follow it in everything you write for a person.
+
 ## Purpose
 
 - this PR remains in draft throughout the entire implementation of the feature

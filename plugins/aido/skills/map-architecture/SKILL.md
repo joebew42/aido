@@ -11,6 +11,8 @@ aid: the source code stays authoritative, and every consumer verifies what it re
 
 This skill only reads the repository. It writes nothing inside it.
 
+Load `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` and follow it in everything you write for a person.
+
 ## Index Location and Shape
 
 ```

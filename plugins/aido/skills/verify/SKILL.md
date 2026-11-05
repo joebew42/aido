@@ -18,6 +18,8 @@ look for bugs, style or design problems unless they make a requirement unmet.
 `SPEC.md` stands for the spec file: resolve it per "The Specification File" in
 `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`.
 
+Load `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` and follow it in everything you write for a person.
+
 ## Step 0: Load Context
 
 Load `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md` and

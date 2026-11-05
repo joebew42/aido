@@ -10,6 +10,8 @@ Plan and implement changes based on PR review and comments.
 `SPEC.md` and `SPEC.md.draft` stand for the spec file and its draft: resolve them first, per "The
 Specification File" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`.
 
+Load `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` and follow it in everything you write for a person.
+
 ## Step 0: Load Context
 
 Before any implementation work:
