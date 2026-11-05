@@ -94,6 +94,12 @@ Before performing any rebase or history rewrite, analyze the current commits and
 
 Options: **Approve the grouping** / **Adjust it** (ask what to change, update the proposal, and ask again).
 
+In the same `AskUserQuestion` call, offer the next step, following "each approval also settles the choice that follows it" in `/aido:1-plan`. The answer counts only when the grouping is approved, and "Hand Off" acts on it:
+
+> "Once the commits are organized, should I create the pull request?"
+
+Options: **Create the PR** (recommended) / **Stop here**.
+
 **Wait for user approval before starting the rebase.** The rebase is destructive and hard to undo — getting alignment first avoids rework.
 
 ## Final Checklist
@@ -109,3 +115,12 @@ After organizing commits, verify ALL of the following:
       shaped by the mode "Follow What Was Actually Built" gives it
 - [ ] "Before Every Commit" in `git-workflow.md` holds
 - [ ] All tests pass
+
+## Hand Off
+
+Continue as the user chose in Step 2, without asking again:
+
+- **Create the PR** → once the final checklist holds, invoke `/aido:4-create-pr`. This answer approves only starting that skill: its verification offer, the push approval and the review of the PR all still happen. If the checklist can't hold, do not start it, and tell the user why
+- **Stop here** → tell the user they can run `/aido:4-create-pr` later, and that running it in a new session gives it a fresh context
+
+When nobody answered the question, or it couldn't be asked, start nothing.
