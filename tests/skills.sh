@@ -72,6 +72,7 @@ skills/2-implement/SKILL.md|`loop <first>-<last>`, such as `loop 7-9`
 skills/2-implement/SKILL.md|Skip those already ticked in `## Progress`, and name them
 skills/2-implement/SKILL.md|a range that names an item the plan doesn't have** → don't start the loop, and say why
 skills/2-implement/SKILL.md|each with the criteria it serves, and ask nothing
+skills/2-implement/SKILL.md|the range ends before the plan does** → name the items left
 skills/3-organize-commits/SKILL.md|Once the commits are organized, should I create the pull request?
 skills/verify/SKILL.md|Every finding names its evidence
 skills/verify/SKILL.md|are not evidence
