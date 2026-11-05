@@ -90,7 +90,9 @@ Before performing any rebase or history rewrite, analyze the current commits and
 > 4. ...
 > N. `revert: docs: feature specification` or `docs: move feature specification to <path>` (last, as chosen in Step 1)
 >
-> Does this look right, or would you like to adjust the grouping?"
+> Is this grouping approved?"
+
+Options: **Approve the grouping** / **Adjust it** (ask what to change, update the proposal, and ask again).
 
 **Wait for user approval before starting the rebase.** The rebase is destructive and hard to undo — getting alignment first avoids rework.
 
