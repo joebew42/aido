@@ -1,4 +1,106 @@
 {
+  "implement-connects-the-slice-early": {
+    "models": [
+      "claude-opus-5-5"
+    ],
+    "plugin_version": "4.4.0",
+    "recorded": "2026-11-05",
+    "runs_per_arm": 3,
+    "with": {
+      "cost": 6.7656975500000005,
+      "graders": {
+        "behaves-as-specified": "3/3",
+        "connects-before-the-edge-cases": "3/3",
+        "inner-units-have-tests": "3/3",
+        "suite-ends-green": "3/3"
+      },
+      "invalid_runs": 0,
+      "mean_cost": 2.2552325166666667,
+      "mean_turns": 23.0,
+      "score": 1.0,
+      "valid_runs": 3
+    },
+    "without": {
+      "cost": 0.8932426000000001,
+      "graders": {
+        "behaves-as-specified": "3/3",
+        "connects-before-the-edge-cases": "2/3",
+        "inner-units-have-tests": "0/3",
+        "suite-ends-green": "3/3"
+      },
+      "invalid_runs": 0,
+      "mean_cost": 0.29774753333333337,
+      "mean_turns": 6.333333333333333,
+      "score": 0.6666666666666666,
+      "valid_runs": 3
+    }
+  },
+  "implement-grows-an-inside-out-item-by-layer": {
+    "models": [
+      "claude-opus-5-5"
+    ],
+    "plugin_version": "4.4.0",
+    "recorded": "2026-11-05",
+    "runs_per_arm": 3,
+    "with": {
+      "cost": 5.345008999999999,
+      "graders": {
+        "behaves-as-specified": "3/3",
+        "grows-the-domain-before-the-entry-point": "3/3",
+        "suite-ends-green": "3/3"
+      },
+      "invalid_runs": 0,
+      "mean_cost": 1.7816696666666665,
+      "mean_turns": 32.0,
+      "score": 1.0,
+      "valid_runs": 3
+    },
+    "without": {
+      "cost": 0.761288,
+      "graders": {
+        "behaves-as-specified": "3/3",
+        "grows-the-domain-before-the-entry-point": "0/3",
+        "suite-ends-green": "3/3"
+      },
+      "invalid_runs": 0,
+      "mean_cost": 0.25376266666666664,
+      "mean_turns": 6.0,
+      "score": 0.6666666666666666,
+      "valid_runs": 3
+    }
+  },
+  "implement-writes-the-test-first": {
+    "models": [
+      "claude-opus-5-5"
+    ],
+    "plugin_version": "4.4.0",
+    "recorded": "2026-11-05",
+    "runs_per_arm": 3,
+    "with": {
+      "cost": 1.6034422,
+      "graders": {
+        "does-the-work": "3/3",
+        "test-before-code": "3/3"
+      },
+      "invalid_runs": 0,
+      "mean_cost": 0.5344807333333333,
+      "mean_turns": 14.333333333333334,
+      "score": 1.0,
+      "valid_runs": 3
+    },
+    "without": {
+      "cost": 0.5927602,
+      "graders": {
+        "does-the-work": "3/3",
+        "test-before-code": "2/3"
+      },
+      "invalid_runs": 0,
+      "mean_cost": 0.19758673333333332,
+      "mean_turns": 7.333333333333333,
+      "score": 0.8333333333333334,
+      "valid_runs": 3
+    }
+  },
   "verify-accepts-a-real-test": {
     "models": [
       "claude-opus-5-5"
