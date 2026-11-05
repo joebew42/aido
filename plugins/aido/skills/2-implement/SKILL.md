@@ -180,6 +180,12 @@ options **Run the checkpoint** / **Skip it**:
 - on **Skip it**, launch nothing: note the skip for the `## Progress` handoff and go on to
   completion
 
+In the same `AskUserQuestion` call, offer the next step, following "each approval also settles the
+choice that follows it" in `/aido:1-plan`. "STOP — Skill Complete" acts on the answer: "Once
+implementation is complete, should I organize the commits?" — options **Organize the commits**
+(recommended) / **Stop here**. The question names each criterion recorded as `deferred`, so the user
+doesn't continue without noticing it.
+
 On **Run the checkpoint**, launch one `Agent` with `model: "fable"`. Brief it with:
 
 - the repository root and the diff range (`git diff origin/<default-branch>...HEAD`)
@@ -300,4 +306,12 @@ user chose to skip it:
    - squash or amend into the existing `docs: feature specification` commit if history is not yet pushed
    - if already pushed, add a new `docs: update feature specification` commit
 
-3. Inform the user that implementation is complete and they can run `/aido:3-organize-commits` when ready.
+3. **Hand off**, without asking again:
+   - **plan items remain** → name them, and say that running `/aido:2-implement` again continues them.
+     Do not call the implementation complete, and do not offer or mention organizing the commits
+   - **Organize the commits** → once the progress update is committed, invoke
+     `/aido:3-organize-commits`. This answer approves only starting that skill: all of its own questions
+     still happen. If the work can't finish cleanly, do not start it, and tell the user why
+   - **Stop here** → tell the user that implementation is complete, that they can run
+     `/aido:3-organize-commits` later, and that running it in a new session gives it a fresh context
+   - **nobody answered the question, or it couldn't be asked** → start nothing

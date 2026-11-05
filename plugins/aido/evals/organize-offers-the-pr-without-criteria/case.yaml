@@ -1,0 +1,6 @@
+schema_version: "1.1"
+name: organize-offers-the-pr-without-criteria
+description: With no specification, organizing the commits still offers to create the PR, and says nothing about criteria
+tags: [organize]
+context:
+  scaffold_script: fixture.sh

@@ -238,6 +238,43 @@ class Report(unittest.TestCase):
             evals.replace_results("no markers here", "new")
 
 
+class CaseDocumentation(unittest.TestCase):
+    def test_docs_list_every_case(self):
+        docs = (EVALS.parent.parent.parent / "docs" / "evals.md").read_text()
+
+        missing = [case.parent.name for case in EVALS.glob("*/case.yaml") if f"`{case.parent.name}`" not in docs]
+
+        self.assertEqual(missing, [])
+
+
+class JudgeVerdict(unittest.TestCase):
+    def test_the_last_line_decides_after_the_reasoning(self):
+        reply = "FAIL: it says AC3 is deferred, so the rubric is met.\n\nPASS\n"
+
+        passed = evals.judge_passed(reply)
+
+        self.assertTrue(passed)
+
+    def test_a_pass_in_the_reasoning_does_not_count(self):
+        reply = "PASS looked likely, but the question is never asked.\n\nFAIL\n"
+
+        passed = evals.judge_passed(reply)
+
+        self.assertFalse(passed)
+
+    def test_markdown_around_the_verdict_is_ignored(self):
+        reply = "The rubric is met.\n\n**PASS**"
+
+        passed = evals.judge_passed(reply)
+
+        self.assertTrue(passed)
+
+    def test_a_reply_with_no_verdict_fails(self):
+        passed = evals.judge_passed("")
+
+        self.assertFalse(passed)
+
+
 class Regrade(unittest.TestCase):
     def test_judges_saved_reports_again_and_keeps_the_other_checks(self):
         with tempfile.TemporaryDirectory() as directory:

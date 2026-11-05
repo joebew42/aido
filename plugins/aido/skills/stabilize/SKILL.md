@@ -144,8 +144,8 @@ normally inside-out, citing the original work>
   wherever a decision belongs to the user — and run the alignment check in
   `${CLAUDE_PLUGIN_ROOT}/guidelines/repository-alignment.md` on it, as that step does
 - propose the plan and **wait for explicit user approval**, as "Approve the plan" in
-  `/aido:1-plan` Step 6 does, without its question on how to continue; update the draft with any
-  changes the user asks for
+  `/aido:1-plan` Step 6 does, leaving its question on how to continue to Step 6 below; update the
+  draft with any changes the user asks for
 - once approved, move it with `mv SPEC.md.draft SPEC.md` and confirm `SPEC.md.draft` is gone —
   the two files never exist together
 - commit **only** `SPEC.md` with the exact message
@@ -154,17 +154,15 @@ normally inside-out, citing the original work>
 
 ## Step 6: Hand Off
 
-Tell the user the branch is ready and the next steps:
+Tell the user the branch is ready, then ask "Choose how to continue" from Step 6 of
+`${CLAUDE_PLUGIN_ROOT}/skills/1-plan/SKILL.md` with `AskUserQuestion`, and continue as its Step 8
+does. Ask nothing else about the handoff.
 
-1. run `/aido:2-implement` — it works through the plan in small commits; in carry-over mode it
-   adjusts and commits the applied original changes rather than writing them anew
-2. run `/aido:3-organize-commits` to shape the final history
-3. run `/aido:4-create-pr` when they decide it is time to open the PR
-
-Use `AskUserQuestion` to ask whether they want a worktree for this branch, and create it as
-`/aido:1-plan` Step 8 does — **not available in carry-over mode**, because the uncommitted original
-changes live in this working directory.
+In carry-over mode, leave out **Implement in a worktree**, because the uncommitted original changes
+live in this working directory. `/aido:2-implement` then adjusts and commits those changes rather
+than writing them anew.
 
 ## STOP — Skill Complete
 
-**Do NOT proceed further.** Do NOT implement anything, organize commits, or create a PR.
+**Do NOT implement anything, organize commits, or create a PR in this skill.** Implementation happens
+only in `/aido:2-implement`, which offers the steps after it.

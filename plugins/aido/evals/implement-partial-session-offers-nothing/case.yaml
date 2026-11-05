@@ -1,0 +1,6 @@
+schema_version: "1.1"
+name: implement-partial-session-offers-nothing
+description: A session that leaves plan items remaining offers no organizing, and names what is left
+tags: [implement]
+context:
+  scaffold_script: fixture.sh
