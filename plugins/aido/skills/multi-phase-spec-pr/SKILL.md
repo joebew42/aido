@@ -104,6 +104,8 @@ Run `git push origin BRANCH_NAME`; per "Pushing Changes" in `git-workflow.md`, t
 Create a draft PR with these sections:
 
 ### Required Sections
+Write each section as `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` describes.
+
 - **Context**: highlights the change we want to introduce, keeping a high-level description (not too detailed or technical)
 - **This PR**: describes the introduced changes, keeping a high-level description (not too detailed or technical)
 - **Roadmap**: outlines all the steps required to be implemented in the following PRs
