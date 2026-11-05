@@ -10,6 +10,8 @@ Create or update a draft pull request for the current feature.
 `SPEC.md` and `SPEC.md.draft` stand for the spec file and its draft: resolve them first, per "The
 Specification File" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`.
 
+Load `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` and follow it in everything you write for a person.
+
 ## Step 0: Load Guidelines
 
 Load `${CLAUDE_PLUGIN_ROOT}/guidelines/git-workflow.md` — the source of truth for the **pushing** and **branch** conventions used below — `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md` and `${CLAUDE_PLUGIN_ROOT}/guidelines/github-issues.md`, and check the host repository's agent instruction files (see `project-conventions.md`) for any PR conventions of its own.
@@ -28,7 +30,7 @@ acceptance-criteria step below.
 
 Before anything leaves this machine, use `AskUserQuestion` to ask:
 
-> "Would you like to verify the implementation against the specification before pushing? `/aido:verify` runs from a fresh context and changes nothing."
+> "Should I check the implementation against the specification before pushing? `/aido:verify` starts fresh and changes nothing."
 
 Options:
 - **Verify** — run `/aido:verify` on the current branch
@@ -36,7 +38,7 @@ Options:
 
 After **Verify**, once the report is shown, use `AskUserQuestion` to ask:
 
-> "Based on this report, how would you like to proceed?"
+> "How should I continue after this report?"
 
 - **Proceed** — continue at Step 1. Every item the report lists under its deviations, other than deferred criteria, counts as acknowledged: keep them for the **Deviations** section of the description
 - **Address findings** — stop here, before anything is pushed, and let the user make changes (they can re-run `/aido:4-create-pr` when ready)
@@ -96,13 +98,13 @@ When a template is chosen:
 ### Default Sections
 
 **Context** - high-level description of WHY this change is needed
-- keep it descriptive and concise
+- keep it descriptive
 - focus on the problem or need being addressed
 - **NO bullet lists unless absolutely necessary**
 - use narrative/paragraph style
 
 **This PR** - high-level description of WHAT changes are introduced
-- keep it descriptive and concise
+- keep it descriptive
 - focus on the solution approach, not commit-by-commit details
 - **NO detailed list of commits or files changed**
 - **NO detailed technical implementation**
@@ -132,8 +134,7 @@ The format rules (narrative vs. bullets, Context style) apply to the Default Sec
 - [ ] **NO detailed list of files changed**
 - [ ] **NO information about testing or tests**
 - [ ] **DO NOT hard-wrap prose** — in PR/issue bodies GitHub renders a single newline as a line break, so fixed-column wrapping makes the rendered text choppy and stops it reflowing. One line per paragraph. (Code blocks and lists exempt.)
-- [ ] **Use less verbose and less convoluted language** — a reader should get the context and the purpose of the PR quickly, without unpacking long or complicated sentences
-- [ ] keep tone descriptive and concise
+- [ ] **Follow `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md`**, so a reader gets the context and the purpose of the PR quickly
 - [ ] if follow-up PR: mention previous PR in Context section
 - [ ] if follow-up PR: include updated Roadmap section
 - [ ] if `## Progress` records a **deferred acceptance criterion**: it is named in a **Not Included** section
@@ -162,7 +163,7 @@ Before creating the PR, use `AskUserQuestion` to present the draft title and des
 > **Description:**
 > [proposed description]
 >
-> Would you like to adjust anything before I create it? Also, should this be a **draft** or **ready for review**?"
+> Should I change anything before creating it, and should it be a **draft** or **ready for review**?"
 
 **Wait for the user's response before creating the PR.**
 

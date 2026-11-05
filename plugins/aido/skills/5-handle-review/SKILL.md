@@ -10,6 +10,8 @@ Plan and implement changes based on PR review and comments.
 `SPEC.md` and `SPEC.md.draft` stand for the spec file and its draft: resolve them first, per "The
 Specification File" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`.
 
+Load `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` and follow it in everything you write for a person.
+
 ## Step 0: Load Context
 
 Before any implementation work:
@@ -30,7 +32,7 @@ Before any implementation work:
 1. fetch the reviews and comments from the PR
 2. do an analysis of all comments and present a proposed approach for each one
 3. **use `AskUserQuestion` to confirm before implementing anything** — wait for explicit approval
-   - Question: "How would you like to proceed with the review feedback?"
+   - Question: "Which review feedback should I implement?"
    - Options: **Approve all** / **Pick specific items** / **Cancel**
 4. implement each approved change, run quality checks, then commit separately
 5. do NOT add comments to the PR - the user will handle communication with reviewers

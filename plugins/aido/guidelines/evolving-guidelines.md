@@ -56,8 +56,7 @@ fill a quota.
    - when neither exists, the candidate proposes creating the file the repository is more likely to
      want — `AGENTS.md` if other agent tools are used here, `CLAUDE.md` otherwise
 
-5. **Ask with `AskUserQuestion`:** "These conventions could be added to this repository's agent
-   instruction files. Which should I add?" — multi-select, one option per candidate:
+5. **Ask with `AskUserQuestion`:** "Which of these conventions should I add to this repository's agent instruction files?" — multi-select, one option per candidate:
    - present **at most 2**, and only those that cleared the test — zero is a valid and common
      answer; never pad to reach a number, and with zero, skip the question
    - each option names the target file, and its preview shows the exact text to add

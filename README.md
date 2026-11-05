@@ -232,8 +232,8 @@ deliberately run the workflow fully unsupervised.
 | --- | --- |
 | `/aido:verify` | Check a branch or PR against the agreed requirements from a fresh context. |
 | `/aido:stabilize` | Take over a PR, remote branch, or local changes created outside this workflow. |
-| `/aido:map-architecture` | Build or update a slim index of domain areas and building blocks. |
-| `/aido:assess-architecture` | Assess architecture area by area and park selected refactoring opportunities, which `/aido:1-plan` offers when a planned change fits them. |
+| `/aido:map-architecture` | Build or update a slim map of domain areas and building blocks. |
+| `/aido:assess-architecture` | Assess architecture area by area and save selected refactoring ideas, which `/aido:1-plan` offers when a planned change fits them. |
 | `/aido:resolve-migration-conflict` | Resolve migration conflicts after a rebase, with any migration tool. |
 
 ---
@@ -279,6 +279,7 @@ Skills load their guidance from [`plugins/aido/guidelines/`](plugins/aido/guidel
 | `testing-principles.md` | Test structure, collaboration tests, and flaky-test prevention. |
 | `project-conventions.md` | Discovering host repository conventions in `CLAUDE.md` and `AGENTS.md`. |
 | `specification.md` | Specification structure and acceptance criteria. |
+| `language.md` | Writing for people so it is understood on first read. |
 | `repository-alignment.md` | Checking specifications against the repository and handling conflicts. |
 | `systemic-refactoring.md` | Looking beyond changed lines when a design check runs. |
 | `evolving-guidelines.md` | Proposing conventions back to the host repository after a PR or phase. |

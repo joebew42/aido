@@ -18,6 +18,8 @@ look for bugs, style or design problems unless they make a requirement unmet.
 `SPEC.md` stands for the spec file: resolve it per "The Specification File" in
 `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`.
 
+Load `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` and follow it in everything you write for a person.
+
 ## Step 0: Load Context
 
 Load `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md` and
@@ -66,6 +68,8 @@ Launch one `Agent` with `model: "fable"`. Brief it with:
   text of the PR description and its linked issues
 - the host repository's agent instruction files to read, and how to run a single test
 - "The Verification Brief" below, copied in full — the subagent has not loaded this skill
+- `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md`, copied in full, so what it returns follows it. The
+  sections and labels it is asked for stay as they are
 - nothing else from this session: no summary of the work and no opinion of it
 
 If `fable` is unavailable or the call is denied, run the same brief in a subagent with the session's

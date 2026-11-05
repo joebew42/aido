@@ -11,7 +11,8 @@ install it.
 - `plugins/aido/guidelines/` — the guidelines the skills load
 - `plugins/aido/.claude-plugin/icon.png` — the plugin's marketplace icon
 - `plugins/aido/hooks/hooks.json` — the plugin's hooks, each running a script next to it
-- `tests/` — checks for the hook scripts; run `tests/hooks.sh`, which needs `jq`
+- `tests/` — checks for the hook scripts and the skills; run `tests/hooks.sh`, which needs `jq`, and
+  `tests/skills.sh`
 - `plugins/aido/evals/` — eval cases that measure the skills' behaviour against plain Claude Code.
   After changing a skill's behaviour, run them as `docs/evals.md` describes, and commit the results it
   updates with the change. `tests/test_evals.py` checks the runner for free

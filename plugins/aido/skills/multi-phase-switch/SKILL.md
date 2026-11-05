@@ -7,6 +7,8 @@ disable-model-invocation: false
 
 Switch to the main plan branch for a multi-phase feature.
 
+Load `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` and follow it in everything you write for a person.
+
 ## Process
 
 1. **Find the main plan branch:**
@@ -15,7 +17,7 @@ Switch to the main plan branch for a multi-phase feature.
 
 2. **If no main plan branch is found:**
    - inform the user that no main plan branch was detected
-   - use `AskUserQuestion` with question: "No main plan branch was detected. Would you like to create one?" and options:
+   - use `AskUserQuestion` with question: "No main plan branch exists. Should I create one?" and options:
      - **Yes — run `/aido:multi-phase-spec-pr`**
      - **No — stop**
    - stop after the user responds
@@ -25,6 +27,6 @@ Switch to the main plan branch for a multi-phase feature.
    - confirm the switch to the user
 
 4. **If multiple main plan branches are found:**
-   - use `AskUserQuestion` with question: "Multiple main plan branches were found. Which one would you like to switch to?" and one option per branch (label = branch name)
+   - use `AskUserQuestion` with question: "Several main plan branches exist. Which one should I switch to?" and one option per branch (label = branch name)
    - switch to the chosen branch: `git checkout <branch-name>`
    - confirm the switch to the user

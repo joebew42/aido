@@ -1,5 +1,5 @@
 ---
-description: Assesses the current repository's architecture area by area for evidence-backed systemic refactorings (duplicated knowledge, misplaced ownership, reinvented abstractions, crossed boundaries) and parks the findings the user picks as refactoring opportunities, for a later planned change to pull in. Invoked when the user wants to assess the architecture, find refactoring opportunities across the codebase, or runs /aido:assess-architecture.
+description: Assesses the current repository's architecture area by area for evidence-backed systemic refactorings (duplicated knowledge, misplaced ownership, reinvented abstractions, crossed boundaries) and saves the findings the user picks as refactoring ideas, for a later planned change to pull in. Invoked when the user wants to assess the architecture, find refactoring opportunities across the codebase, or runs /aido:assess-architecture.
 disable-model-invocation: false
 ---
 
@@ -12,6 +12,8 @@ include them, so each refactoring is made as part of a working feature.
 This skill reads the repository and never edits it. It writes only the opportunity files the user
 explicitly chose, which live outside the repository.
 
+Load `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` and follow it in everything you write for a person.
+
 ## Step 0: Load Context
 
 - identify `<repo-name>` and the index directory as defined in **Index Location and Shape** in
@@ -21,11 +23,10 @@ explicitly chose, which live outside the repository.
   rules each finding is judged by, and `${CLAUDE_PLUGIN_ROOT}/guidelines/project-conventions.md`, then gather the host repository's conventions as it
   describes
 - run `git fetch origin`
-- **no index** → `AskUserQuestion`: "This repo has no architecture index yet. The assessment needs
-  one." — options **Run /aido:map-architecture first** / **Cancel**. On the first, run that skill, then
+- **no index** → `AskUserQuestion`: "This repository has no map of its architecture, and the assessment needs one. Should I build it first?" — options **Run /aido:map-architecture first** / **Cancel**. On the first, run that skill, then
   continue here
 - **index stale** (see **Staleness** under **Index Location and Shape**) →
-  `AskUserQuestion`: "The index was built `<n>` commits ago." — options **Update it first
+  `AskUserQuestion`: "The architecture map is `<n>` commits old. Should I update it first?" — options **Update it first
   (Recommended)** / **Assess with it as is**
 
 ## Step 1: Choose the Scope
@@ -45,6 +46,8 @@ Launch one `Agent` per area with `model: "fable"`, in parallel. Brief each with:
   reading them whole
 - `systemic-refactoring.md` and the rules it points to in `code-standards.md`, copied
   — the subagent has not loaded the guidelines
+- `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md`, copied in full, so what it returns follows it. The
+  sections and labels it is asked for stay as they are
 - to apply it inside the area **and** across its boundary with other areas (e.g. the same rule
   enforced in this area and another)
 - to treat the index as a map only — read the code before claiming anything
@@ -84,19 +87,18 @@ result.
 
 Ask which of the numbered candidates shown in Step 3 to park:
 
-- **4 candidates or fewer** → multi-select `AskUserQuestion`: "Which of these should I park as
-  refactoring opportunities?" — one option per title
-- **more than 4** → `AskUserQuestion`: "Which of these should I park as refactoring opportunities?"
+- **4 candidates or fewer** → multi-select `AskUserQuestion`: "Which of these should I save for later?" — one option per title
+- **more than 4** → `AskUserQuestion`: "Which of these should I save for later?"
   — options **All** / **None** / **By number** (the user types the numbers)
 
 Park each picked candidate as **Parking an opportunity** in `systemic-refactoring.md` describes. Its
 **Category** names the design smell, and its **Impact** is why it matters. When a file with the same
-evidence already exists, show it and `AskUserQuestion`: "`<file>` looks like the same opportunity."
+evidence already exists, show it and `AskUserQuestion`: "`<file>` looks like the same refactoring idea. What should I do?"
 — options **Skip** / **Replace it**.
 
 ## Step 5: Report
 
-List each opportunity parked with its file path, each skipped candidate with the reason, each
+List each refactoring idea saved with its file path, each skipped candidate with the reason, each
 dropped finding with the reason, and any step that fell back from `fable` to the session model.
 
 ## STOP — Skill Complete

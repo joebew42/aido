@@ -8,6 +8,8 @@ disable-model-invocation: false
 Resolve database migration conflicts after rebasing with the main/master branch. The steps are
 tool-agnostic: the commands come from the host repository.
 
+Load `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` and follow it in everything you write for a person.
+
 ## When to Use This Skill
 
 Use this skill when:
