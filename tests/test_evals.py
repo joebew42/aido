@@ -10,8 +10,7 @@ sys.path.insert(0, str(Path(__file__).parent))
 import evals
 
 EVALS = Path(__file__).parent.parent / "plugins" / "aido" / "evals"
-SLICE = EVALS / "implement-connects-the-slice-early" / "graders"
-TEST_FIRST = EVALS / "implement-writes-the-test-first" / "graders"
+FINISHED = EVALS / "implement-finishes-the-feature" / "graders"
 
 
 def line(**fields):
@@ -74,7 +73,7 @@ class RegexGraders(unittest.TestCase):
         return evals.grade_regex(meta, evals.Run(trace=text, last_message="", workspace=None))
 
     def test_suite_green_needs_real_test_output(self):
-        green = SLICE / "suite-ends-green.md"
+        green = FINISHED / "suite-ends-green.md"
 
         self.assertTrue(self.grade(green, GREEN))
         self.assertTrue(self.grade(green, line(type="tool_result", content="Pay rent\nall passed")))
@@ -238,6 +237,31 @@ class Report(unittest.TestCase):
     def test_a_document_without_the_markers_is_refused(self):
         with self.assertRaises(ValueError):
             evals.replace_results("no markers here", "new")
+
+
+class ImplementCases(unittest.TestCase):
+    def checks_of(self, name):
+        case = EVALS / name
+        graders = {path.stem for path in (case / "graders").glob("*.md")}
+        return graders | set(evals.shell_checks(case))
+
+    def test_the_order_cases_have_only_their_order_check_so_they_stop_early(self):
+        for name in (
+            "implement-connects-the-slice-early",
+            "implement-grows-an-inside-out-item-by-layer",
+            "implement-writes-the-test-first",
+        ):
+            with self.subTest(name):
+                checks = self.checks_of(name)
+                has_order_check = (EVALS / name / "order.json").is_file()
+
+                self.assertEqual(checks, set())
+                self.assertTrue(has_order_check)
+
+    def test_one_small_case_checks_the_finished_feature(self):
+        checks = self.checks_of("implement-finishes-the-feature")
+
+        self.assertEqual(checks, {"suite-ends-green", "behaves-as-specified", "inner-units-have-tests"})
 
 
 class CaseDocumentation(unittest.TestCase):

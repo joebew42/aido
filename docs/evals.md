@@ -48,8 +48,9 @@ python3 tests/test_evals.py
 
 | Cases | What they check |
 | --- | --- |
-| `implement-connects-the-slice-early` | Given an outside-in item, does the agent connect the feature before writing the edge cases, give the inner units their own tests, and does it work? |
-| `implement-grows-an-inside-out-item-by-layer` | Given an inside-out item, does the agent grow the domain before the entry point, and does it work? |
+| `implement-connects-the-slice-early` | Given an outside-in item, does the agent connect the feature before writing the edge cases? |
+| `implement-grows-an-inside-out-item-by-layer` | Given an inside-out item, does the agent grow the domain before the entry point? |
+| `implement-finishes-the-feature` | Given a one-slice feature, does the agent finish it with the suite green and its inner units tested, and does it work? |
 | `implement-writes-the-test-first` | Does the test change before the code? |
 | `plan-names-each-items-mode` | Does each feature item in a plan name its mode and reason, with something to cite or an unknown? |
 | `plan-stops-before-code` | Does planning wait for you instead of writing code? |
