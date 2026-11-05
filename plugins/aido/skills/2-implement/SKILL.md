@@ -301,7 +301,7 @@ user chose to skip it:
    - record any key decisions made during implementation (e.g., design choices, deviations from spec)
    - list **Deferred refactorings**, each with every field under **What every finding states** in
      `systemic-refactoring.md`, its evidence as `path` — `Symbol`, and why it was deferred
-   - if the user skipped the final Systemic Design Checkpoint, say so
+   - if the user skipped the final Systemic Design Checkpoint, say so in plain words: "the final design review was skipped"
    - keep it brief — this is a handoff note for the next session
 
 2. **Commit the progress update** (per the `SPEC.md` rule in `git-workflow.md` Special Cases):

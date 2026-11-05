@@ -1,5 +1,5 @@
 ---
-description: Assesses the current repository's architecture area by area for evidence-backed systemic refactorings (duplicated knowledge, misplaced ownership, reinvented abstractions, crossed boundaries) and parks the findings the user picks as refactoring opportunities, for a later planned change to pull in. Invoked when the user wants to assess the architecture, find refactoring opportunities across the codebase, or runs /aido:assess-architecture.
+description: Assesses the current repository's architecture area by area for evidence-backed systemic refactorings (duplicated knowledge, misplaced ownership, reinvented abstractions, crossed boundaries) and saves the findings the user picks as refactoring ideas, for a later planned change to pull in. Invoked when the user wants to assess the architecture, find refactoring opportunities across the codebase, or runs /aido:assess-architecture.
 disable-model-invocation: false
 ---
 
@@ -96,7 +96,7 @@ evidence already exists, show it and `AskUserQuestion`: "`<file>` looks like the
 
 ## Step 5: Report
 
-List each opportunity parked with its file path, each skipped candidate with the reason, each
+List each refactoring idea saved with its file path, each skipped candidate with the reason, each
 dropped finding with the reason, and any step that fell back from `fable` to the session model.
 
 ## STOP — Skill Complete

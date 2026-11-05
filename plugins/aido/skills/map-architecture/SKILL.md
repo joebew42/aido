@@ -1,5 +1,5 @@
 ---
-description: Builds or refreshes a slim architecture index of the current repository — its domain areas and the building blocks in each (infrastructure, application services, collaborators, aggregates, value objects, domain services) — stored locally under ~/.claude/repos/. Invoked when the user wants to map the architecture, warm up or update the architecture index, or runs /aido:map-architecture.
+description: Builds or refreshes a slim map of the current repository's architecture — its domain areas and the building blocks in each (infrastructure, application services, collaborators, aggregates, value objects, domain services) — stored locally under ~/.claude/repos/. Invoked when the user wants to map the architecture, warm up or update the architecture map or index, or runs /aido:map-architecture.
 disable-model-invocation: false
 ---
 
