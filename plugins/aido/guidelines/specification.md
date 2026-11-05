@@ -66,7 +66,7 @@ GitHub Issue: <repo link>/#<NUMBER>   (or omit)
 
 ## Acceptance criteria
 
-- AC1: <one checkable statement>
+- AC1: When <trigger>, <what happens>.
 - AC2 (manual): <one statement only a person can confirm>
 
 ## Alignment decisions
@@ -91,11 +91,19 @@ criteria are written and approved before any planning. How the change is built b
 `## Plan` and `## Design notes`. A skill may add sections of its own after the title (for
 example, where the original work came from), but the required sections keep their names and order.
 
+**The specification is quick to read.** It follows `language.md`. Context and Intent aim for about 3
+sentences each, and may run over when the content needs it. File names and symbols stay in the plan,
+unless a criterion is about that file.
+
 ### Acceptance Criteria
 
 - number them `AC1`, `AC2`, … in order; an ID is never renumbered or reused, even when a criterion
   is changed or deferred — other sections and the commit history refer to it
 - each one is a single, specific statement that can be checked — a behaviour, not a task
+- a criterion that describes behaviour with a trigger uses a when/then shape: `AC1: When a task is
+  completed, it moves to the Done list.` One with no trigger stays one plain sentence: `AC2 (manual):
+  The Done list is easy to scan.`
+- aim for about 20 words, and go over only when the criterion would otherwise stop being checkable
 - a criterion an automated test can check is **automatable** and carries no marker; one that only
   a person can confirm (documentation reads well, a screen looks right) is **manual**, marked
   `(manual)` after its ID
@@ -114,7 +122,8 @@ engineer chose to proceed with, one line each, so that later checks do not raise
 
 Each item in `## Plan` names the criteria it serves, in parentheses after its title — e.g.
 `1. **domain — let a list be shared** (AC1, AC3)`. Every criterion is served by at least one item.
-An item that serves none (an enabling refactoring) says so: `(enabling)`.
+An item that serves none (an enabling refactoring) says so: `(enabling)`. Items use short sentences,
+and keep the criteria, mode and reason these rules ask for.
 
 The plan of a feature or a phase also follows these rules. The phases of a main plan, written by
 `/aido:multi-phase-spec-pr`, do not: they only name the criteria they deliver.
