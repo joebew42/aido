@@ -219,6 +219,9 @@ Tell the user, briefly:
 
 Mention that `/aido:assess-architecture` can turn the index into reviewed refactoring findings.
 
+Then end as "Ending a Skill" in `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` describes. When `/aido:1-plan`
+started this skill, return to it, adding no block.
+
 ## STOP — Skill Complete
 
 Do NOT refactor anything, open issues, or edit the repository.

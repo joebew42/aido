@@ -100,6 +100,8 @@ evidence already exists, show it and `AskUserQuestion`: "`<file>` looks like the
 
 List each refactoring idea saved with its file path, each skipped candidate with the reason, each
 dropped finding with the reason, and any step that fell back from `fable` to the session model.
+Then end as "Ending a Skill" in `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` describes. When no finding was
+found, end the same way.
 
 ## STOP — Skill Complete
 

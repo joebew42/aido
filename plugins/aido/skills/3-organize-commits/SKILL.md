@@ -128,3 +128,6 @@ Continue as the user chose in Step 2, without asking again:
 
 - **Create the PR** → once the final checklist holds, invoke `/aido:4-create-pr`. This answer approves only starting that skill: its verification offer, the push approval and the review of the PR all still happen. If the checklist can't hold, do not start it, and tell the user why
 - **Stop here**, or no answer → as **Hand-off outcomes** in `${CLAUDE_PLUGIN_ROOT}/skills/1-plan/SKILL.md` describes
+
+Then end as "Ending a Skill" in `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` describes. When
+`/aido:resolve-migration-conflict` started this skill, add no block.

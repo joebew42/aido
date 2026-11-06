@@ -480,3 +480,6 @@ to continue", without asking again:
 
 **Do NOT implement anything in this skill.** Do NOT write any code — implementation happens only in
 `/aido:2-implement`.
+
+Whenever this skill ends, including on **Cancel**, **Reject it** or after setting up worktrees, end as
+"Ending a Skill" in `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` describes.

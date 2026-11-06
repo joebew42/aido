@@ -30,3 +30,6 @@ Load `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` and follow it in everything 
    - use `AskUserQuestion` with question: "Several main plan branches exist. Which one should I switch to?" and one option per branch (label = branch name)
    - switch to the chosen branch: `git checkout <branch-name>`
    - confirm the switch to the user
+
+Whenever this skill ends, including on **No — stop**, end as "Ending a Skill" in `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md`
+describes.

@@ -140,6 +140,9 @@ with `SendMessage`, and wait for it to return again. When nobody answers, or the
 asked, stop the loop: name the paused item, its question, and the items not yet run. Tick nothing for
 the paused item, record the items left, and offer nothing else.
 
+**Whenever the loop ends before "STOP — Skill Complete"**, after a failed check, at the end of a range
+or on a paused question, end as item 4 of "STOP — Skill Complete" describes.
+
 ## Child Mode
 
 A child implements plan item `<N>` and nothing else:
@@ -150,7 +153,7 @@ A child implements plan item `<N>` and nothing else:
 - **never edit `SPEC.md`**. Wherever this skill says to record something in it, put it in the results
   instead
 - skip the final Systemic Design Checkpoint and "STOP — Skill Complete". End by returning what "Child
-  Results" lists
+  Results" lists, adding no ending block
 - **a child can't ask the user.** Wherever this skill says to ask with `AskUserQuestion`, end your
   turn by returning the question instead: the item's number, the question, and each option with what
   it does. Return nothing else, and carry on from the answer the orchestrator sends back
@@ -407,3 +410,7 @@ user chose to skip it:
      still happen. If the work can't finish cleanly, do not start it, and tell the user why
    - **Stop here**, or no answer → tell the user that implementation is complete, then act as
      **Hand-off outcomes** in `${CLAUDE_PLUGIN_ROOT}/skills/1-plan/SKILL.md` describes
+
+4. **End** as "Ending a Skill" in `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` describes, also when the
+   session stops early. With plan items left, `Needs you` names only running `/aido:2-implement`
+   again, or `/aido:2-implement loop` for an orchestrator

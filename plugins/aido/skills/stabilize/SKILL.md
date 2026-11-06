@@ -168,3 +168,6 @@ than writing them anew.
 
 **Do NOT implement anything, organize commits, or create a PR in this skill.** Implementation happens
 only in `/aido:2-implement`, which offers the steps after it.
+
+Whenever this skill ends, including when it stops early, end as
+"Ending a Skill" in `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` describes.

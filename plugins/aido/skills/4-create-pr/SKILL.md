@@ -196,3 +196,6 @@ Report each issue opened or commented on with its URL, and each skipped criterio
 ## Step 5: Suggest Repository Conventions
 
 After creating the PR, follow the process in `${CLAUDE_PLUGIN_ROOT}/guidelines/evolving-guidelines.md`. It only proposes additions to this repository's `CLAUDE.md` or `AGENTS.md`, chosen by the user through `AskUserQuestion`.
+
+Then end as "Ending a Skill" in `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` describes, with the PR's URL
+in `Done`. If the skill stops early, such as when the push is declined, end the same way.

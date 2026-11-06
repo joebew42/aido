@@ -16,6 +16,19 @@ for skill in "$root"/plugins/aido/skills/*/SKILL.md; do
   fi
 done
 
+ending_rule='"Ending a Skill" in `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md`'
+
+for skill in "$root"/plugins/aido/skills/*/SKILL.md; do
+  name="$(basename "$(dirname "$skill")")"
+
+  if tr -s ' \n' ' ' < "$skill" | grep -qF "$ending_rule"; then
+    echo "ok   - $name ends with the ending block"
+  else
+    echo "FAIL - $name ends with the ending block"
+    failures=$((failures + 1))
+  fi
+done
+
 plugin="$root/plugins/aido"
 
 report() {
