@@ -423,7 +423,9 @@ describes. Then ask two questions in one `AskUserQuestion` call:
 
 "Once it is approved, how should we continue?" — options:
 
-- **Implement here** (recommended) — start `/aido:2-implement` in this directory
+- **Implement in a fresh context** (recommended) — commit the specification, then you run `/clear`
+  and `/aido:2-implement`, so implementing starts without the planning conversation
+- **Implement here** — start `/aido:2-implement` in this directory
 - **Implement in a worktree** — a separate working copy, so this directory stays clean for other work
 - **Stop here** — commit the specification and go no further
 
@@ -435,9 +437,14 @@ Every skill that offers the next one with a question — this one, `/aido:stabil
 `/aido:2-implement` and `/aido:3-organize-commits` — acts on these answers the same way, once its own
 work is done:
 
+- **… in a fresh context** → finish this skill's own work, including its commits, start nothing, and
+  tell the user to run `/clear`, then the next skill. A skill can't run `/clear` itself
 - **Stop here** → start nothing. Tell the user they can run the next skill later, and that running it
   in a new session gives it a fresh context
 - **nobody answered the question, or it couldn't be asked** → start nothing
+
+The fresh-context option carries the recommendation whenever continuing would, and is not recommended
+when continuing isn't.
 
 ## Step 7: Prepare the Feature Branch
 
@@ -467,6 +474,7 @@ Only proceed here when all of these hold:
 The branch is created and the specification is committed. Continue as the user chose in "Choose how
 to continue", without asking again:
 
+- **Implement in a fresh context** → as **Hand-off outcomes** above describes
 - **Implement here** → invoke the `/aido:2-implement` skill
 - **Implement in a worktree**:
   1. A branch can be checked out in only one place, so return this directory to the default branch:

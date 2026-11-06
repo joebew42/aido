@@ -107,6 +107,12 @@ skills/verify/SKILL.md|it returns a report and adds no ending block
 skills/1-plan/SKILL.md|it returns a report and adds no ending block
 skills/2-implement/SKILL.md|it returns a report and adds no ending block
 skills/assess-architecture/SKILL.md|it returns a report and adds no ending block
+skills/1-plan/SKILL.md|**Implement in a fresh context**
+skills/1-plan/SKILL.md|finish this skill's own work, including its commits, start nothing, and tell the user to run `/clear`, then the next skill
+skills/1-plan/SKILL.md|The fresh-context option carries the recommendation whenever continuing would, and is not recommended when continuing isn't
+skills/stabilize/SKILL.md|keep **Implement in a fresh context**
+skills/2-implement/SKILL.md|**Organize in a fresh context**
+skills/3-organize-commits/SKILL.md|**Create the PR in a fresh context**
 EOF_PHRASES
 
 if [ "$failures" -eq 0 ]; then

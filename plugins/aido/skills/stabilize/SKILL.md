@@ -161,7 +161,7 @@ Tell the user the branch is ready, then ask "Choose how to continue" from Step 6
 and **Hand-off outcomes** do. Ask nothing else about the handoff.
 
 In carry-over mode, leave out **Implement in a worktree**, because the uncommitted original changes
-live in this working directory. `/aido:2-implement` then adjusts and commits those changes rather
+live in this working directory, and keep **Implement in a fresh context**, which stays in it. `/aido:2-implement` then adjusts and commits those changes rather
 than writing them anew.
 
 ## STOP — Skill Complete

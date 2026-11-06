@@ -270,9 +270,9 @@ options **Run the review** / **Skip it**:
 
 In the same `AskUserQuestion` call, offer the next step, following "each approval also settles the
 choice that follows it" in `/aido:1-plan`. "STOP — Skill Complete" acts on the answer: "Once
-implementation is complete, should I organize the commits?" — options **Organize the commits**
-(recommended) / **Stop here**. The question names each criterion recorded as `deferred`, so the user
-doesn't continue without noticing it.
+implementation is complete, should I organize the commits?" — options **Organize in a fresh context**
+(recommended) / **Organize the commits** / **Stop here**. The question names each criterion recorded
+as `deferred`, so the user doesn't continue without noticing it.
 
 On **Run the review**, launch one `Agent` with `model: "fable"`. Brief it with:
 
@@ -408,6 +408,8 @@ user chose to skip it:
    - **Organize the commits** → once the progress update is committed, invoke
      `/aido:3-organize-commits`. This answer approves only starting that skill: all of its own questions
      still happen. If the work can't finish cleanly, do not start it, and tell the user why
+   - **Organize in a fresh context** → once the progress update is committed, act as
+     **Hand-off outcomes** in `${CLAUDE_PLUGIN_ROOT}/skills/1-plan/SKILL.md` describes
    - **Stop here**, or no answer → tell the user that implementation is complete, then act as
      **Hand-off outcomes** in `${CLAUDE_PLUGIN_ROOT}/skills/1-plan/SKILL.md` describes
 
