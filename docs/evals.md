@@ -73,8 +73,8 @@ python3 tests/test_skills.py
 python3 tests/test_evals.py
 ```
 
-`tests/skills.sh` fails when a skill or guideline names a section that doesn't exist, or when a listed
-approval question or evidence rule is removed. `tests/test_evals.py` checks the runner itself.
+`tests/skills.sh` fails when a skill or guideline names a section that doesn't exist, when a skill
+doesn't refer to the ending block, or when a listed approval question or evidence rule is removed. `tests/test_evals.py` checks the runner itself.
 
 | Cases | What they check |
 | --- | --- |
@@ -87,7 +87,8 @@ approval question or evidence rule is removed. `tests/test_evals.py` checks the 
 | `organize-follows-a-mode-change-in-progress` | When `## Progress` records a change to outside-in, is the history slice-shaped? |
 | `organize-shapes-an-inside-out-part` | Is an inside-out part's history inside-out, with its acceptance tests last? |
 | `organize-without-a-plan` | With no specification, plan or mode, is the history inside-out? |
-| `implement-offers-to-organize` | Once every plan item is done, does the agent ask whether to organize the commits, name a deferred criterion, and wait instead of starting? |
+| `implement-offers-to-organize` | Once every plan item is done, does the agent ask whether to organize the commits, recommend a fresh context, name a deferred criterion, and wait instead of starting? |
+| `implement-offers-a-fresh-context` | When you choose a fresh context, does the agent start nothing, tell you to run `/clear` and the next skill, and end with the ending block? |
 | `implement-partial-session-offers-nothing` | With plan items left, does the agent name them, without offering to organize? |
 | `implement-loops-over-the-plan` | In loop mode, does each plan item run in its own child, with the orchestrator recording it in `## Progress`? |
 | `implement-loop-stops-on-an-unanswered-question` | In loop mode, when nobody answers a child's question, does the loop stop and name the paused item and the items left? |
