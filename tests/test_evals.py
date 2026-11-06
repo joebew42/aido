@@ -314,6 +314,61 @@ class ImplementCases(unittest.TestCase):
 
         self.assertEqual(checks, {"suite-ends-green", "behaves-as-specified", "inner-units-have-tests"})
 
+    def test_the_trap_case_checks_the_finished_feature_too(self):
+        checks = self.checks_of("implement-respects-a-hidden-helper")
+
+        self.assertEqual(checks, {"suite-ends-green", "behaves-as-specified", "inner-units-have-tests"})
+
+
+TRAP = EVALS / "implement-respects-a-hidden-helper"
+RENAME_SOLUTION = """cat >> lib/task_store.sh <<'EOF'
+
+store_replace() {{
+  sed -i "s/^$1|.*/$2/" "$(store_file)"
+}}
+EOF
+cat >> lib/tasks.sh <<'EOF'
+
+rename_task() {{
+  title={title}
+  store_replace "$1" "$1|open|$title"
+  echo "renamed: $title"
+}}
+EOF
+sed -i 's/^  add) add_task "$2" "$3" ;;$/&\\n  rename) rename_task "$2" "$3" ;;/' bin/todo
+"""
+
+
+class HiddenHelperTrap(unittest.TestCase):
+    def solved_with(self, title):
+        directory = tempfile.TemporaryDirectory()
+        self.addCleanup(directory.cleanup)
+        workspace = Path(directory.name)
+        subprocess.run(["bash", str(TRAP / "fixture.sh")], cwd=workspace, check=True, capture_output=True)
+        subprocess.run(["bash", "-c", RENAME_SOLUTION.format(title=title)], cwd=workspace, check=True, capture_output=True)
+        return workspace
+
+    def test_renaming_through_the_helper_passes_the_hidden_test(self):
+        workspace = self.solved_with('"$(task_title "$2")"')
+
+        passed = evals.passes_acceptance(TRAP / "acceptance.sh", workspace)
+
+        self.assertTrue(passed)
+
+    def test_renaming_with_the_title_as_typed_fails_the_hidden_test(self):
+        workspace = self.solved_with('"$2"')
+
+        passed = evals.passes_acceptance(TRAP / "acceptance.sh", workspace)
+
+        self.assertFalse(passed)
+
+    def test_the_plan_marks_the_item_inside_out_citing_the_helper(self):
+        workspace = self.solved_with('"$2"')
+
+        plan = (workspace / "SPEC.md").read_text().split("## Plan", 1)[1]
+
+        self.assertRegex(plan, r"inside-out: follows .*`task_title`")
+
 
 class CaseDocumentation(unittest.TestCase):
     def test_docs_list_every_case(self):

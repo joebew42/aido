@@ -83,6 +83,7 @@ doesn't refer to the ending block, or when a listed approval question or evidenc
 | `implement-grows-an-inside-out-item-by-layer` | Given an inside-out item, does the agent grow the domain before the entry point? |
 | `implement-finishes-the-feature` | Given a one-slice feature, does the agent finish it with the suite green and its inner units tested, and does it work? |
 | `implement-writes-the-test-first` | Does the test change before the code? |
+| `implement-respects-a-hidden-helper` | Given an inside-out item whose plan cites a helper that changes task titles in a way its name hides, does the feature respect what the helper does? |
 | `plan-names-each-items-mode` | Does each feature item in a plan name its mode and reason, with something to cite or an unknown? |
 | `plan-stops-before-code` | Does planning wait for you instead of writing code? |
 | `organize-follows-a-mode-change-in-progress` | When `## Progress` records a change to outside-in, is the history slice-shaped? |
