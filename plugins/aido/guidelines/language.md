@@ -35,6 +35,14 @@ applies. Say the specific thing, in short sentences.
 A question must make sense alone, because the dialog may be all the user can see. Name what it is
 about, and say what each option does.
 
+## Showing What Changed
+
+When a skill asks the user to approve a document they have already seen, such as a draft, a
+specification, a plan or a proposal, show a short plain-language list of what changed since the user
+last saw it: "Added AC4: an empty title is refused". Leave out what did not change, because the full
+file is on disk. The first time a document is shown, show it whole. When the user asks to see the
+whole document, show it whole.
+
 ## Interaction Style
 
 - when a question is ambiguous or several approaches are valid, present the options with
