@@ -117,6 +117,7 @@ guidelines/tdd.md|In every mode, write the real implementation straight away: no
 guidelines/tdd.md|set aside the unit's production changes
 guidelines/tdd.md|run its new tests, and confirm each one fails for the right reason. Then restore the changes
 guidelines/tdd.md|**REFACTOR**, once per unit, with all tests green
+skills/2-implement/SKILL.md|A child in loop mode doesn't present them
 guidelines/tdd.md|`inside-out`: write the tests for every behaviour the plan gives the unit, together, then the code
 guidelines/tdd.md|`outside-in` and `in-unit`: write **one** test for the next behaviour
 EOF_PHRASES
