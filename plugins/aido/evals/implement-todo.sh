@@ -1,6 +1,7 @@
 # Shared by the implement-* cases that build on a small TODO app: the app on trunk, and a feature
 # branch whose first commit is the specification the case reads from stdin. `todo_app` is one script,
-# and `layered_todo_app` is split into an entry point in `bin/` and its layers in `lib/`.
+# and `layered_todo_app` is split into an entry point in `bin/` and its layers in `lib/`. A case that
+# changes the layered app on trunk writes `layered_todo_files`, changes them, then runs `publish_trunk`.
 
 todo_app() {
   git init -q -b trunk .
@@ -35,6 +36,11 @@ EOF
 }
 
 layered_todo_app() {
+  layered_todo_files
+  publish_trunk feat-complete-a-task
+}
+
+layered_todo_files() {
   git init -q -b trunk .
   git config user.name "Fixture"
   git config user.email "fixture@example.com"
@@ -88,6 +94,9 @@ EOF
 
   chmod +x bin/todo test_todo.sh
   printf '.fixture/\ntasks.db\n' > .gitignore
+}
+
+publish_trunk() {
   git add . && git commit -q -m "feat: add tasks"
 
   git init -q --bare .fixture/origin.git
@@ -95,7 +104,7 @@ EOF
   git push -q origin trunk
   git remote set-head origin trunk
 
-  git switch -q -c feat-complete-a-task
+  git switch -q -c "$1"
 }
 
 spec_with() {
