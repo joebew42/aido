@@ -28,6 +28,7 @@ Paid evals cost time and money, so most changes don't need them.
 | Every change | The free checks, below | Free, seconds |
 | A risky change to a skill, when you ask for it | One run of the matching case | About $0.50 to $2, a few minutes |
 | From time to time, such as before a release | The full round, recorded and committed | About $15 and 15 minutes for the four main `implement-*` cases, and about $40 for every case |
+| A risky change to how agents implement, when you ask for it | A comparison with `--baseline main`, recorded and committed | About $22 for the four main `implement-*` cases and $8 for `implement-respects-a-hidden-helper`, because both arms load aido |
 
 The one-run check stops as soon as a check fails with aido:
 
@@ -118,6 +119,9 @@ Changes since the last report:
 - **With and without aido:** the difference between them is what aido adds on that check
 - **This change and Baseline:** in a comparison, the difference is what the change did to aido on that
   check
+- **Mean mutation score:** in a case with hidden behaviour tests, the share of one-line breakages of
+  the agent's code that its own tests catch. Only breakages the hidden tests catch count, so 1.00 means
+  its tests caught every breakage that mattered
 - **Mean cost and turns:** what the result cost. Compare cost rather than turns, because an agent
   batching its work takes fewer turns for the same work
 - **`stopped early`:** the run ended once its order check was settled, as intended
