@@ -263,8 +263,8 @@ Recorded 2026-11-06 on plugin version 4.7.0 against `main` at plugin version 4.6
 | inner-units-have-tests | 3/3 | 3/3 |
 | suite-ends-green | 3/3 | 3/3 |
 | Mean mutation score | 1.00 | 1.00 |
-| Mean cost | $1.54 | $1.25 |
-| Mean turns | 29 | 33 |
+| Mean cost | $1.17 | $1.40 |
+| Mean turns | 34 | 30 |
 
 #### implement-writes-the-test-first
 

@@ -103,32 +103,32 @@
   },
   "implement-respects-a-hidden-helper": {
     "baseline": {
-      "cost": 3.739933,
+      "cost": 4.1949114000000005,
       "graders": {
         "behaves-as-specified": "3/3",
         "inner-units-have-tests": "3/3",
         "suite-ends-green": "3/3"
       },
       "invalid_runs": 0,
-      "mean_cost": 1.2466443333333335,
+      "mean_cost": 1.3983038,
       "mean_mutation_score": 1.0,
-      "mean_turns": 33.333333333333336,
+      "mean_turns": 29.666666666666668,
       "score": 1.0,
       "valid_runs": 3
     },
     "baseline_ref": "main",
     "baseline_version": "4.6.0",
     "current": {
-      "cost": 4.621338850000001,
+      "cost": 3.51535595,
       "graders": {
         "behaves-as-specified": "3/3",
         "inner-units-have-tests": "3/3",
         "suite-ends-green": "3/3"
       },
       "invalid_runs": 0,
-      "mean_cost": 1.5404462833333337,
+      "mean_cost": 1.1717853166666667,
       "mean_mutation_score": 1.0,
-      "mean_turns": 29.333333333333332,
+      "mean_turns": 34.333333333333336,
       "score": 1.0,
       "valid_runs": 3
     },
