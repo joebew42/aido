@@ -34,6 +34,8 @@ WATCH_INTERVAL_SECONDS = 0.2
 STOP_GRACE_SECONDS = 30
 RESULTS_START = "<!-- evals:results:start -->"
 RESULTS_END = "<!-- evals:results:end -->"
+COMPARISON_START = "<!-- evals:comparison:start -->"
+COMPARISON_END = "<!-- evals:comparison:end -->"
 
 
 @dataclass(frozen=True)
@@ -529,6 +531,15 @@ def plugin_results(report_dir):
     return Results(report_dir / "latest.json", report_dir.parent / "evals.md", (RESULTS_START, RESULTS_END), PLUGIN_ARMS)
 
 
+def comparison_results(report_dir, arms):
+    """A comparison with a baseline: `comparison.json`, and its own section of `evals.md`."""
+    return Results(report_dir / "comparison.json", report_dir.parent / "evals.md", (COMPARISON_START, COMPARISON_END), arms)
+
+
+def plugin_version(plugin):
+    return json.loads((plugin / ".claude-plugin" / "plugin.json").read_text())["version"]
+
+
 def update_report(results, cases, runs, runs_per_arm, plugin_version, details=None):
     """Compares the finished runs with the last report, then records each case that may be."""
     path, document, arms = results.path, results.document, results.arms
@@ -585,6 +596,7 @@ def main():
     parser.add_argument("--model", default="opus")
     parser.add_argument("--max-cost-usd", type=float, default=5.0, help="start no new run past this; runs in flight finish")
     parser.add_argument("--plugin-dir", type=Path, help="run the with-aido arm on this copy of the plugin, recording nothing")
+    parser.add_argument("--baseline", metavar="REF", help="run the second arm on the plugin as committed at this git ref, instead of without aido, and record the comparison in its own section")
     parser.add_argument("--stop-at-first-failure", action="store_true", help="start no new run once a check fails with aido, and record no case that failed")
     parser.add_argument("--output-dir", type=Path, default=PLUGIN / "evals" / "results" / datetime.now().strftime("%Y%m%dT%H%M%S"))
     parser.add_argument("--report-dir", type=Path, default=ROOT / "docs" / "evals", help="where latest.json lives; evals.md sits next to this directory")
@@ -594,8 +606,21 @@ def main():
     if args.regrade:
         return regrade(args.regrade, args.report_dir)
 
-    arms = plugin_arms(args.plugin_dir or PLUGIN)
+    current = args.plugin_dir or PLUGIN
+    if not args.baseline:
+        return run_round(args, plugin_arms(current), plugin_results(args.report_dir))
+    with tempfile.TemporaryDirectory(prefix="aido-baseline-") as directory:
+        try:
+            baseline = baseline_copy(args.baseline, Path(directory))
+        except ValueError as error:
+            parser.error(str(error))
+        arms = baseline_arms(current, baseline)
+        details = {"baseline_ref": args.baseline, "baseline_version": plugin_version(baseline)}
+        return run_round(args, arms, comparison_results(args.report_dir, arms), details)
 
+
+def run_round(args, arms, results, details=None):
+    """Runs every job of every chosen case, then records what may be recorded."""
     cases = [c for c in sorted((PLUGIN / "evals").iterdir()) if (c / "case.yaml").is_file() and fnmatch.fnmatch(c.name, args.case)]
     (args.output_dir / "traces").mkdir(parents=True, exist_ok=True)
 
@@ -623,7 +648,8 @@ def main():
 
     report = {
         "started": args.output_dir.name,
-        "plugin_version": json.loads((PLUGIN / ".claude-plugin" / "plugin.json").read_text())["version"],
+        "plugin_version": plugin_version(PLUGIN),
+        **(details or {}),
         "runs_requested": len(jobs),
         "runs_skipped": len(jobs) - len(runs),
         "cost": spent[0],
@@ -646,7 +672,7 @@ def main():
     stopped_for_failure = args.stop_at_first_failure and failed.is_set()
     if not args.plugin_dir:
         kept = without_failed_cases(runs, arms) if args.stop_at_first_failure else runs
-        update_report(plugin_results(args.report_dir), cases, kept, args.runs, report["plugin_version"])
+        update_report(results, cases, kept, args.runs, report["plugin_version"], details)
 
     return 2 if report["runs_skipped"] or stopped_for_failure or any(not run["valid"] for run in runs) else 0
 

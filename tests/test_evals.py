@@ -548,6 +548,39 @@ class BaselineCopy(unittest.TestCase):
                 evals.baseline_copy("no-such-ref", root)
 
 
+class ComparingWithABaseline(unittest.TestCase):
+    def test_the_second_arm_runs_the_plugin_from_the_baseline_ref(self):
+        root = stand_in_project(self)
+        commit_the_plugin(root)
+        (root / "plugin" / ".claude-plugin" / "plugin.json").write_text('{"version": "2.0.0"}')
+
+        status, summary, _ = run_main(root, "--baseline", "HEAD", "--concurrency", "6")
+
+        self.assertEqual(status, 0, [run["problems"] for run in summary["runs"]])
+        self.assertEqual(plugin_versions_seen(root), ["1.0.0"] * 3 + ["2.0.0"] * 3)
+
+    def test_a_full_comparison_is_recorded_in_its_own_section_naming_the_baseline_ref(self):
+        root = stand_in_project(self)
+        commit_the_plugin(root)
+
+        _, _, latest = run_main(root, "--baseline", "HEAD", "--concurrency", "6")
+
+        document = (root / "docs" / "evals.md").read_text()
+        self.assertFalse(latest.exists())
+        self.assertEqual(generated_section(document, evals.RESULTS_START, evals.RESULTS_END), "")
+        self.assertIn("#### a-case", generated_section(document, evals.COMPARISON_START, evals.COMPARISON_END))
+        self.assertIn("`HEAD`", generated_section(document, evals.COMPARISON_START, evals.COMPARISON_END))
+
+    def test_a_comparison_with_fewer_runs_is_not_recorded(self):
+        root = stand_in_project(self)
+        commit_the_plugin(root)
+
+        run_main(root, "--baseline", "HEAD", "--runs", "2", "--concurrency", "6")
+
+        document = (root / "docs" / "evals.md").read_text()
+        self.assertEqual(generated_section(document, evals.COMPARISON_START, evals.COMPARISON_END), "")
+
+
 class FailuresThatStopARound(unittest.TestCase):
     def test_a_failed_check_in_the_with_aido_arm_counts(self):
         run = {"case": "a", "arm": "with", "valid": True, "graders": {"x": True, "y": False}}
@@ -558,6 +591,15 @@ class FailuresThatStopARound(unittest.TestCase):
         run = {"case": "a", "arm": "without", "valid": True, "graders": {"x": False}}
 
         self.assertFalse(evals.fails_a_check(run))
+
+    def test_in_a_comparison_only_the_current_tree_counts(self):
+        arms = evals.baseline_arms(Path("current"), Path("baseline"))
+        current = {"case": "a", "arm": "current", "valid": True, "graders": {"x": False}}
+        baseline = {"case": "a", "arm": "baseline", "valid": True, "graders": {"x": False}}
+
+        counted = (evals.fails_a_check(current, arms), evals.fails_a_check(baseline, arms))
+
+        self.assertEqual(counted, (True, False))
 
     def test_an_invalid_run_does_not_count(self):
         run = {"case": "a", "arm": "with", "valid": False, "graders": {}}
@@ -618,6 +660,11 @@ def stand_in_project(test, order=("first", "second"), extra_files=None, ending="
     stand_in.parent.mkdir()
     stand_in.write_text(f"""#!/bin/sh
 printf '%s\\n' "$@" >> {root}/arguments
+previous=""
+for argument in "$@"; do
+  if [ "$previous" = "--plugin-dir" ]; then printf '%s\\n' "$(cat "$argument/.claude-plugin/plugin.json")" >> {root}/plugins-seen; fi
+  previous="$argument"
+done
 trap 'echo {json.dumps(interrupted)}; exit 0' INT
 case "$*" in
   *--plugin-dir*) echo {json.dumps(with_plugin)} ;;
@@ -645,6 +692,14 @@ def commit_the_plugin(root):
     git("-c", "user.name=Test", "-c", "user.email=test@example.com", "commit", "-q", "-m", "the baseline")
 
 
+def plugin_versions_seen(root):
+    return sorted(json.loads(line)["version"] for line in (root / "plugins-seen").read_text().splitlines())
+
+
+def generated_section(document, start, end):
+    return document[document.index(start) + len(start):document.index(end)].strip()
+
+
 def plugin_arm(plugin):
     return evals.plugin_arms(plugin)[0]
 
@@ -652,9 +707,9 @@ def plugin_arm(plugin):
 def run_main(root, *options):
     report = root / "docs" / "evals"
     report.mkdir(parents=True, exist_ok=True)
-    (root / "docs" / "evals.md").write_text(f"{evals.RESULTS_START}\n{evals.RESULTS_END}\n")
+    (root / "docs" / "evals.md").write_text(f"{evals.RESULTS_START}\n{evals.RESULTS_END}\n{evals.COMPARISON_START}\n{evals.COMPARISON_END}\n")
     argv = ["evals.py", "--output-dir", str(root / "out"), "--report-dir", str(report), *options]
-    with mock.patch.object(evals, "PLUGIN", root / "plugin"), mock.patch.object(sys, "argv", argv):
+    with mock.patch.object(evals, "ROOT", root), mock.patch.object(evals, "PLUGIN", root / "plugin"), mock.patch.object(sys, "argv", argv):
         with mock.patch("builtins.print"):
             status = evals.main()
     summary = json.loads((root / "out" / "summary.json").read_text())
