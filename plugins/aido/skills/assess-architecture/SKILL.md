@@ -59,7 +59,6 @@ Launch one `Agent` per area with `model: "fable"`, in parallel. Brief each with:
   ### <title, plain language, no prefix>
   - **Category:** duplicated knowledge | misplaced ownership | reinvented abstraction | crossed boundary
   - **Size:** S | M | L
-  - **Impact:** why it matters for the design
   - every field under **What every finding states** in `systemic-refactoring.md`
   ```
 
@@ -92,7 +91,7 @@ Ask which of the numbered candidates shown in Step 3 to park:
   — options **All** / **None** / **By number** (the user types the numbers)
 
 Park each picked candidate as **Parking an opportunity** in `systemic-refactoring.md` describes. Its
-**Category** names the design smell, and its **Impact** is why it matters. When a file with the same
+**Category** names the design smell. When a file with the same
 evidence already exists, show it and `AskUserQuestion`: "`<file>` looks like the same refactoring idea. What should I do?"
 — options **Skip** / **Replace it**.
 

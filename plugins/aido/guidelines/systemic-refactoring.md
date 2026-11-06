@@ -47,6 +47,8 @@ discover behaviour, the systemic check decides how widely to look before settlin
 - **Confidence** — high, medium or low, as defined below
 - **What would change it** — the evidence that would change the conclusion
 - **Recommendation** — the smallest useful refactoring
+- **Why it matters** — what the problem costs the design if it stays, such as a rule changed in
+  two places
 - **Risk** — behaviour or consumers that could be affected
 
 **Confidence** rests on the strength of the evidence, not on how plausible the finding sounds:
@@ -99,7 +101,7 @@ tracked as an issue. The session parks one worth keeping, until a planned change
   <what kind of problem it is, and the Observation>
 
   ## Why it matters
-  <why it is important to resolve>
+  <the Why it matters field>
 
   ## Finding
   <Evidence, Competing explanations, Assumptions, Confidence, What would change it and Risk>
