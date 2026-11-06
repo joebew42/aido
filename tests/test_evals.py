@@ -1,5 +1,6 @@
 import json
 import os
+import subprocess
 import sys
 import tempfile
 import unittest
@@ -495,6 +496,28 @@ class ChoosingThePlugin(unittest.TestCase):
         self.assertFalse(latest.exists())
 
 
+class BaselineCopy(unittest.TestCase):
+    def test_holds_the_plugin_as_committed_at_the_ref(self):
+        root = stand_in_project(self)
+        commit_the_plugin(root)
+        (root / "plugin" / ".claude-plugin" / "plugin.json").write_text('{"version": "2.0.0"}')
+        directory = Path(tempfile.mkdtemp(dir=root))
+
+        with mock.patch.object(evals, "ROOT", root), mock.patch.object(evals, "PLUGIN", root / "plugin"):
+            copy = evals.baseline_copy("HEAD", directory)
+
+        self.assertEqual(json.loads((copy / ".claude-plugin" / "plugin.json").read_text()), {"version": "1.0.0"})
+        self.assertTrue((copy / "evals" / "a-case" / "prompt.md").is_file())
+
+    def test_an_unknown_ref_is_refused(self):
+        root = stand_in_project(self)
+        commit_the_plugin(root)
+
+        with mock.patch.object(evals, "ROOT", root), mock.patch.object(evals, "PLUGIN", root / "plugin"):
+            with self.assertRaisesRegex(ValueError, "no-such-ref"):
+                evals.baseline_copy("no-such-ref", root)
+
+
 class FailuresThatStopARound(unittest.TestCase):
     def test_a_failed_check_in_the_with_aido_arm_counts(self):
         run = {"case": "a", "arm": "with", "valid": True, "graders": {"x": True, "y": False}}
@@ -582,6 +605,14 @@ echo {json.dumps(finished)}
     path.start()
     test.addCleanup(path.stop)
     return root
+
+
+def commit_the_plugin(root):
+    """Makes the stand-in project a repository whose last commit holds the plugin as it is now."""
+    git = lambda *arguments: subprocess.run(["git", "-C", str(root), *arguments], check=True, capture_output=True)
+    git("init", "-q")
+    git("add", "plugin")
+    git("-c", "user.name=Test", "-c", "user.email=test@example.com", "commit", "-q", "-m", "the baseline")
 
 
 def plugin_arm(plugin):

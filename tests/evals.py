@@ -8,12 +8,14 @@ than a low score: invalid runs are left out of the scores, and the command exits
 import argparse
 import concurrent.futures
 import fnmatch
+import io
 import json
 import os
 import re
 import shutil
 import signal
 import subprocess
+import tarfile
 import tempfile
 import threading
 import time
@@ -356,6 +358,17 @@ def snapshot(workspace):
 def allowed_tools(names):
     """File edits stay inside the workspace. Bash is confined only by whatever sandbox runs this."""
     return ["Edit(./**)" if name in ("Edit", "Write") else name for name in names]
+
+
+def baseline_copy(ref, directory):
+    """Extracts the plugin as committed at `ref` into `directory`, and returns where it landed."""
+    inside = PLUGIN.relative_to(ROOT)
+    archive = subprocess.run(["git", "-C", str(ROOT), "archive", "--format=tar", ref, str(inside)], capture_output=True)
+    if archive.returncode != 0:
+        raise ValueError(f"cannot read {inside} at {ref}: {archive.stderr.decode(errors='replace').strip()}")
+    with tarfile.open(fileobj=io.BytesIO(archive.stdout)) as tar:
+        tar.extractall(directory, filter="data")
+    return directory / inside
 
 
 def run_case(case, arm, index, model, output_dir):
