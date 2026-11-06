@@ -234,6 +234,13 @@ class Report(unittest.TestCase):
 
         self.assertEqual(updated, f"before\n{evals.RESULTS_START}\nnew\n{evals.RESULTS_END}\nafter\n")
 
+    def test_results_can_replace_another_generated_section(self):
+        document = f"{evals.RESULTS_START}\nkept\n{evals.RESULTS_END}\n<!-- b:start -->\nold\n<!-- b:end -->\n"
+
+        updated = evals.replace_results(document, "new", ("<!-- b:start -->", "<!-- b:end -->"))
+
+        self.assertEqual(updated, f"{evals.RESULTS_START}\nkept\n{evals.RESULTS_END}\n<!-- b:start -->\nnew\n<!-- b:end -->\n")
+
     def test_a_document_without_the_markers_is_refused(self):
         with self.assertRaises(ValueError):
             evals.replace_results("no markers here", "new")

@@ -462,11 +462,12 @@ def show_score(score):
     return "n/a" if score is None else f"{score:.2f}"
 
 
-def replace_results(document, results):
-    start, end = document.find(RESULTS_START), document.find(RESULTS_END)
+def replace_results(document, results, markers=(RESULTS_START, RESULTS_END)):
+    opening, closing = markers
+    start, end = document.find(opening), document.find(closing)
     if start < 0 or end < start:
-        raise ValueError(f"expected the markers {RESULTS_START} and {RESULTS_END}")
-    return f"{document[:start]}{RESULTS_START}\n{results}\n{document[end:]}"
+        raise ValueError(f"expected the markers {opening} and {closing}")
+    return f"{document[:start]}{opening}\n{results}\n{document[end:]}"
 
 
 def table_row(measure, cells):
@@ -494,10 +495,13 @@ def render_report(report, arms=PLUGIN_ARMS):
     return "\n".join(lines).rstrip()
 
 
-def update_report(report_dir, cases, runs, runs_per_arm, plugin_version, arms=PLUGIN_ARMS):
+def report_files(report_dir):
+    """Where the with/without results live: `latest.json`, and `evals.md` next to its directory."""
+    return report_dir / "latest.json", report_dir.parent / "evals.md"
+
+
+def update_report(path, document, cases, runs, runs_per_arm, plugin_version, arms=PLUGIN_ARMS, markers=(RESULTS_START, RESULTS_END)):
     """Compares the finished runs with the last report, then records each case that may be."""
-    path = report_dir / "latest.json"
-    document = report_dir.parent / "evals.md"
     previous = json.loads(path.read_text()) if path.is_file() else {}
     recorded = {}
     for case in cases:
@@ -516,9 +520,9 @@ def update_report(report_dir, cases, runs, runs_per_arm, plugin_version, arms=PL
     for line in changes(previous, recorded, arms) or ["none"]:
         print(f"  {line}")
     merged = merge_report(previous, recorded)
-    report_dir.mkdir(parents=True, exist_ok=True)
+    path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(merged, indent=2, sort_keys=True) + "\n")
-    document.write_text(replace_results(document.read_text(), render_report(merged, arms)))
+    document.write_text(replace_results(document.read_text(), render_report(merged, arms), markers))
     print(f"\nUpdated the results in {document}. Commit them with the change they measure.")
 
 
@@ -535,7 +539,7 @@ def regrade(output_dir, report_dir):
     summary.write_text(json.dumps(report, indent=2))
     cases = [PLUGIN / "evals" / name for name in names]
     per_arm = report["runs_requested"] // (len(PLUGIN_ARMS) * len(cases))
-    update_report(report_dir, cases, report["runs"], per_arm, report["plugin_version"])
+    update_report(*report_files(report_dir), cases, report["runs"], per_arm, report["plugin_version"])
     for name, summaries in report["cases"].items():
         print(f"\n{name}")
         for arm, arm_summary in summaries.items():
@@ -612,7 +616,7 @@ def main():
     stopped_for_failure = args.stop_at_first_failure and failed.is_set()
     if not args.plugin_dir:
         kept = without_failed_cases(runs, arms) if args.stop_at_first_failure else runs
-        update_report(args.report_dir, cases, kept, args.runs, report["plugin_version"], arms)
+        update_report(*report_files(args.report_dir), cases, kept, args.runs, report["plugin_version"], arms)
 
     return 2 if report["runs_skipped"] or stopped_for_failure or any(not run["valid"] for run in runs) else 0
 
