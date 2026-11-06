@@ -207,9 +207,12 @@ Grow each unit through the cycle in `tdd.md`, at the step size its mode calls fo
 specified:
 
 ```
-inside-out:          the unit's tests → the code → check that the tests can fail → refactor
-outside-in, in-unit: one test → its code → next test … → check that the tests can fail → refactor
+contract, mapping, DTO: the unit's tests → the code → check that the tests can fail → refactor
+every other unit:       one test → its code → next test … → check that the tests can fail → refactor
 ```
+
+Tests are written together only for a contract, a mapping or a DTO that relies on no existing code.
+Any other unit, also in an `inside-out` item, grows one test at a time.
 
 In a single session, present each test cycle as its own reviewable increment so the user can follow
 along and supervise step by step. Do not race ahead to the finished implementation. A child in loop
@@ -374,10 +377,11 @@ The `## Progress` section of `SPEC.md` is a handoff note for the next session. K
 ## Red Flags to Watch For
 
 If you catch yourself doing any of these, STOP immediately:
-- ❌ Breaking the cycle in `tdd.md`: code before its tests, more than one failing test in an
-  `outside-in` or `in-unit` unit, a hardcoded value to pass a test, or logic no test demands
-- ❌ Taking a step that doesn't match your uncertainty: writing a unit's tests together when you don't
-  yet see its design
+- ❌ Breaking the cycle in `tdd.md`: code before its tests, more than one failing test in a
+  unit that isn't a contract, a mapping or a DTO, a hardcoded value to pass a test, or logic no test
+  demands
+- ❌ Taking a step that doesn't match your uncertainty: writing a unit's tests together when it isn't a
+  contract, a mapping or a DTO, or when it relies on existing code
 - ❌ Committing a unit whose new tests were never seen failing with its production changes set aside
 - ❌ Committing without the per-commit gate, or against the commit message rules
 - ❌ Merging two pieces of code because they look alike, without confirming they share a business meaning

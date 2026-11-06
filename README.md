@@ -177,7 +177,7 @@ exists. Implementation and commit organization then follow it.
 
 | What's unknown | Mode | How it is built | History |
 | --- | --- | --- | --- |
-| Nothing: it follows existing code or a known contract | `inside-out` | Test-first, layer by layer | Inside-out, acceptance tests last |
+| Nothing: it follows existing code or a known contract | `inside-out` | Layer by layer, one test at a time where it relies on existing code | Inside-out, acceptance tests last |
 | How the parts fit, or what an interface should be | `outside-in` | One test at a time, in tracer bullet slices | One group of commits per slice |
 | Logic within one unit | `in-unit` | One test at a time in that unit | As inside-out |
 

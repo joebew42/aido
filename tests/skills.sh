@@ -118,8 +118,9 @@ guidelines/tdd.md|set aside the unit's production changes
 guidelines/tdd.md|run its new tests, and confirm each one fails for the right reason. Then restore the changes
 guidelines/tdd.md|**REFACTOR**, once per unit, with all tests green
 skills/2-implement/SKILL.md|A child in loop mode doesn't present them
-guidelines/tdd.md|`inside-out`: write the tests for every behaviour the plan gives the unit, together, then the code
-guidelines/tdd.md|`outside-in` and `in-unit`: write **one** test for the next behaviour
+guidelines/tdd.md|a unit that is a contract, a mapping or a DTO, and relies on no existing code: write the tests for every behaviour the plan gives it, together, then the code
+guidelines/tdd.md|every other unit, in every mode, including an `inside-out` unit that relies on existing code: write **one** test for the next behaviour
+skills/2-implement/SKILL.md|Tests are written together only for a contract, a mapping or a DTO that relies on no existing code
 EOF_PHRASES
 
 if [ "$failures" -eq 0 ]; then
