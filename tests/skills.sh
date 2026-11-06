@@ -90,6 +90,10 @@ guidelines/language.md|end the last message with a short block labelled `Done`, 
 guidelines/language.md|Leave out `Done` or `Decided` when it has nothing to say. `Needs you` always stays, and reads "nothing" when nothing needs the user
 guidelines/language.md|When the result is a report, show the report unchanged, and let the block list only what needs the user
 guidelines/language.md|A skill that another skill started, and that returns to it, adds no block
+skills/verify/SKILL.md|it returns a report and adds no ending block
+skills/1-plan/SKILL.md|it returns a report and adds no ending block
+skills/2-implement/SKILL.md|it returns a report and adds no ending block
+skills/assess-architecture/SKILL.md|it returns a report and adds no ending block
 EOF_PHRASES
 
 if [ "$failures" -eq 0 ]; then
