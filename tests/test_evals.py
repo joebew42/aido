@@ -429,7 +429,7 @@ class CutOffRuns(unittest.TestCase):
         root = stand_in_project(self, extra_files={"acceptance.sh": "true\n", "prompt.md": no_bash}, ending="error_max_turns")
         (root / "out" / "traces").mkdir(parents=True)
 
-        run = evals.run_case(root / "plugin" / "evals" / "a-case", "with", 0, "m", root / "out")
+        run = evals.run_case(root / "plugin" / "evals" / "a-case", plugin_arm(root), 0, "m", root / "out")
 
         self.assertTrue(run["cut_off"])
         self.assertTrue(run["valid"], run["problems"])
@@ -474,7 +474,7 @@ class ChoosingThePlugin(unittest.TestCase):
         root = stand_in_project(self)
         (root / "out" / "traces").mkdir(parents=True)
 
-        evals.run_case(root / "plugin" / "evals" / "a-case", "with", 0, "m", root / "out", plugin=root / "a-broken-copy")
+        evals.run_case(root / "plugin" / "evals" / "a-case", plugin_arm(root / "a-broken-copy"), 0, "m", root / "out")
 
         self.assertIn(str(root / "a-broken-copy"), (root / "arguments").read_text().splitlines())
 
@@ -577,6 +577,10 @@ echo {json.dumps(finished)}
     return root
 
 
+def plugin_arm(plugin):
+    return evals.plugin_arms(plugin)[0]
+
+
 def run_main(root, *options):
     report = root / "docs" / "evals"
     report.mkdir(parents=True, exist_ok=True)
@@ -593,7 +597,7 @@ class StoppingARun(unittest.TestCase):
     def run_stand_in(self, order=("first", "second"), extra_files=None):
         root = stand_in_project(self, order, extra_files)
         (root / "out" / "traces").mkdir(parents=True)
-        return evals.run_case(root / "plugin" / "evals" / "a-case", "with", 0, "m", root / "out")
+        return evals.run_case(root / "plugin" / "evals" / "a-case", plugin_arm(root), 0, "m", root / "out")
 
     def test_a_run_with_only_an_order_check_stops_once_it_is_settled(self):
         run = self.run_stand_in()

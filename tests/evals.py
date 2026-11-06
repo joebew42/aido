@@ -34,6 +34,21 @@ RESULTS_START = "<!-- evals:results:start -->"
 RESULTS_END = "<!-- evals:results:end -->"
 
 
+@dataclass(frozen=True)
+class Arm:
+    name: str
+    label: str
+    plugin: Path | None
+
+
+def plugin_arms(plugin):
+    """Runs on `plugin`, then on plain Claude Code. The first arm is the one being measured."""
+    return (Arm("with", "With aido", plugin), Arm("without", "Without aido", None))
+
+
+PLUGIN_ARMS = plugin_arms(PLUGIN)
+
+
 @dataclass
 class Run:
     trace: str
@@ -146,12 +161,12 @@ def was_cut_off(final):
     return final.get("subtype") == "error_max_turns"
 
 
-def fails_a_check(run):
-    return run["arm"] == "with" and run["valid"] and not all(run["graders"].values())
+def fails_a_check(run, arms=PLUGIN_ARMS):
+    return run["arm"] == arms[0].name and run["valid"] and not all(run["graders"].values())
 
 
-def without_failed_cases(runs):
-    failed = {run["case"] for run in runs if fails_a_check(run)}
+def without_failed_cases(runs, arms=PLUGIN_ARMS):
+    failed = {run["case"] for run in runs if fails_a_check(run, arms)}
     return [run for run in runs if run["case"] not in failed]
 
 
@@ -343,7 +358,7 @@ def allowed_tools(names):
     return ["Edit(./**)" if name in ("Edit", "Write") else name for name in names]
 
 
-def run_case(case, arm, index, model, output_dir, plugin=None):
+def run_case(case, arm, index, model, output_dir):
     meta, prompt = parse_frontmatter((case / "prompt.md").read_text())
     config = parse_mapping((case / "case.yaml").read_text())
     tools = meta.get("allowed_tools", [])
@@ -355,8 +370,8 @@ def run_case(case, arm, index, model, output_dir, plugin=None):
             "--model", model, "--output-format", "stream-json", "--verbose", "--permission-mode", "dontAsk",
             "--max-turns", str(meta.get("max_turns", 30)), "--allowedTools", *allowed_tools(tools),
         ]
-        if arm == "with":
-            arguments += ["--plugin-dir", str(plugin or PLUGIN)]
+        if arm.plugin:
+            arguments += ["--plugin-dir", str(arm.plugin)]
         order_file = case / "order.json"
         watch = OrderWatch(workspace, json.loads(order_file.read_text())) if order_file.is_file() else None
         grader_paths = sorted((case / "graders").glob("*.md"))
@@ -365,18 +380,18 @@ def run_case(case, arm, index, model, output_dir, plugin=None):
             isolated_command(prompt, *arguments), workspace, meta.get("timeout_seconds", 600), watch, stop_when_settled=not needs_the_end,
         )
 
-        trace_path = output_dir / "traces" / f"{case.name}-{arm}-{index}.jsonl"
+        trace_path = output_dir / "traces" / f"{case.name}-{arm.name}-{index}.jsonl"
         trace_path.write_text(trace)
         final = next((e for e in events(trace) if e.get("type") == "result"), {})
         run = Run(trace, str(final.get("result", "")), workspace, snapshot(workspace) - before)
-        found = problems(trace, with_plugin=arm == "with", needs_bash="Bash" in tools and not stopped)
+        found = problems(trace, with_plugin=arm.plugin is not None, needs_bash="Bash" in tools and not stopped)
         graders = {path.stem: grade(path, run) for path in grader_paths} if not found else {}
         if watch and not found:
             graders[watch.spec["name"]] = watch.passed()
         if not found:
             graders.update({name: passes_acceptance(script, workspace) for name, script in shell_checks(case).items()})
         return {
-            "case": case.name, "arm": arm, "valid": not found, "stopped": stopped, "cut_off": was_cut_off(final), "problems": found, "graders": graders,
+            "case": case.name, "arm": arm.name, "valid": not found, "stopped": stopped, "cut_off": was_cut_off(final), "problems": found, "graders": graders,
             "score": sum(graders.values()) / len(graders) if graders else None,
             "cost": final.get("total_cost_usd", 0) or 0, "turns": final.get("num_turns"),
             "model": next((e.get("model") for e in events(trace) if e.get("subtype") == "init"), None),
@@ -401,24 +416,24 @@ def summarise(runs, arm):
     }
 
 
-def recordable(runs, runs_per_arm):
+def recordable(runs, runs_per_arm, arms=PLUGIN_ARMS):
     """A quick or broken run must not replace the figures the next change gets compared with."""
     if runs_per_arm < MIN_RUNS_TO_RECORD or not all(run["valid"] for run in runs):
         return False
-    return all(sum(run["arm"] == arm for run in runs) == runs_per_arm for arm in ("with", "without"))
+    return all(sum(run["arm"] == arm.name for run in runs) == runs_per_arm for arm in arms)
 
 
 def merge_report(previous, recorded):
     return {**previous, **recorded}
 
 
-def changes(previous, current):
+def changes(previous, current, arms=PLUGIN_ARMS):
     found = []
     for name, entry in current.items():
         if name not in previous:
             found.append(f"{name}: no earlier report")
             continue
-        for arm in ("with", "without"):
+        for arm in (arm.name for arm in arms):
             old, new = previous[name][arm], entry[arm]
             if old["score"] != new["score"]:
                 found.append(f"{name} [{arm}]: score {show_score(old['score'])} -> {show_score(new['score'])}")
@@ -454,28 +469,32 @@ def replace_results(document, results):
     return f"{document[:start]}{RESULTS_START}\n{results}\n{document[end:]}"
 
 
-def render_report(report):
+def table_row(measure, cells):
+    return f"| {measure} | {' | '.join(cells)} |"
+
+
+def render_report(report, arms=PLUGIN_ARMS):
     lines = []
     for name, entry in sorted(report.items()):
         models = ", ".join(entry["models"])
-        with_arm, without_arm = entry["with"], entry["without"]
+        summaries = [entry[arm.name] for arm in arms]
         lines += [
             f"#### {name}", "",
             f"Recorded {entry['recorded']} on plugin version {entry['plugin_version']} with {models}, "
             f"{entry['runs_per_arm']} runs per arm.", "",
-            "| Measure | With aido | Without aido |", "| --- | --- | --- |",
-            f"| Score | {show_score(with_arm['score'])} | {show_score(without_arm['score'])} |",
+            table_row("Measure", [arm.label for arm in arms]), table_row("---", ["---"] * len(arms)),
+            table_row("Score", [show_score(summary["score"]) for summary in summaries]),
         ]
-        for grader in sorted({*with_arm["graders"], *without_arm["graders"]}):
-            lines.append(f"| {grader} | {with_arm['graders'].get(grader, 'none')} | {without_arm['graders'].get(grader, 'none')} |")
+        for grader in sorted({grader for summary in summaries for grader in summary["graders"]}):
+            lines.append(table_row(grader, [summary["graders"].get(grader, "none") for summary in summaries]))
         lines += [
-            f"| Mean cost | ${with_arm['mean_cost']:.2f} | ${without_arm['mean_cost']:.2f} |",
-            f"| Mean turns | {with_arm['mean_turns']:.0f} | {without_arm['mean_turns']:.0f} |", "",
+            table_row("Mean cost", [f"${summary['mean_cost']:.2f}" for summary in summaries]),
+            table_row("Mean turns", [f"{summary['mean_turns']:.0f}" for summary in summaries]), "",
         ]
     return "\n".join(lines).rstrip()
 
 
-def update_report(report_dir, cases, runs, runs_per_arm, plugin_version):
+def update_report(report_dir, cases, runs, runs_per_arm, plugin_version, arms=PLUGIN_ARMS):
     """Compares the finished runs with the last report, then records each case that may be."""
     path = report_dir / "latest.json"
     document = report_dir.parent / "evals.md"
@@ -483,23 +502,23 @@ def update_report(report_dir, cases, runs, runs_per_arm, plugin_version):
     recorded = {}
     for case in cases:
         selected = [run for run in runs if run["case"] == case.name]
-        if not recordable(selected, runs_per_arm):
+        if not recordable(selected, runs_per_arm, arms):
             print(f"\nNot recording {case.name}: it needs {MIN_RUNS_TO_RECORD} or more valid runs per arm.")
             continue
         recorded[case.name] = {
             "recorded": date.today().isoformat(), "plugin_version": plugin_version,
             "models": sorted({run["model"] for run in selected if run["model"]}), "runs_per_arm": runs_per_arm,
-            "with": summarise(selected, "with"), "without": summarise(selected, "without"),
+            **{arm.name: summarise(selected, arm.name) for arm in arms},
         }
     if not recorded:
         return
     print("\nChanges since the last report:")
-    for line in changes(previous, recorded) or ["none"]:
+    for line in changes(previous, recorded, arms) or ["none"]:
         print(f"  {line}")
     merged = merge_report(previous, recorded)
     report_dir.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(merged, indent=2, sort_keys=True) + "\n")
-    document.write_text(replace_results(document.read_text(), render_report(merged)))
+    document.write_text(replace_results(document.read_text(), render_report(merged, arms)))
     print(f"\nUpdated the results in {document}. Commit them with the change they measure.")
 
 
@@ -510,16 +529,16 @@ def regrade(output_dir, report_dir):
         regrade_run(run, PLUGIN / "evals")
     names = sorted({run["case"] for run in report["runs"]})
     report["cases"] = {
-        name: {arm: summarise([r for r in report["runs"] if r["case"] == name], arm) for arm in ("with", "without")}
+        name: {arm.name: summarise([r for r in report["runs"] if r["case"] == name], arm.name) for arm in PLUGIN_ARMS}
         for name in names
     }
     summary.write_text(json.dumps(report, indent=2))
     cases = [PLUGIN / "evals" / name for name in names]
-    per_arm = report["runs_requested"] // (2 * len(cases))
+    per_arm = report["runs_requested"] // (len(PLUGIN_ARMS) * len(cases))
     update_report(report_dir, cases, report["runs"], per_arm, report["plugin_version"])
-    for name, arms in report["cases"].items():
+    for name, summaries in report["cases"].items():
         print(f"\n{name}")
-        for arm, arm_summary in arms.items():
+        for arm, arm_summary in summaries.items():
             print(f"  {arm:8} score {show_score(arm_summary['score'])}  {arm_summary['graders']}")
     return 0
 
@@ -541,6 +560,8 @@ def main():
     if args.regrade:
         return regrade(args.regrade, args.report_dir)
 
+    arms = plugin_arms(args.plugin_dir or PLUGIN)
+
     cases = [c for c in sorted((PLUGIN / "evals").iterdir()) if (c / "case.yaml").is_file() and fnmatch.fnmatch(c.name, args.case)]
     (args.output_dir / "traces").mkdir(parents=True, exist_ok=True)
 
@@ -553,15 +574,15 @@ def main():
         with lock:
             if spent[0] >= args.max_cost_usd or (args.stop_at_first_failure and failed.is_set()):
                 return None
-        run = run_case(case, arm, index, args.model, args.output_dir, args.plugin_dir)
+        run = run_case(case, arm, index, args.model, args.output_dir)
         with lock:
             spent[0] += run["cost"]
-        if fails_a_check(run):
+        if fails_a_check(run, arms):
             failed.set()
-        print(f"{case.name} [{arm} {index}] {describe_run(run)}", flush=True)
+        print(f"{case.name} [{arm.name} {index}] {describe_run(run)}", flush=True)
         return run
 
-    jobs = [(case, arm, index) for case in cases for index in range(args.runs) for arm in ("with", "without")]
+    jobs = [(case, arm, index) for case in cases for index in range(args.runs) for arm in arms]
     with concurrent.futures.ThreadPoolExecutor(args.concurrency) as pool:
         finished = list(pool.map(attempt, jobs))
     runs = [run for run in finished if run]
@@ -574,7 +595,7 @@ def main():
         "cost": spent[0],
         "models": sorted({run["model"] for run in runs if run["model"]}),
         "cases": {
-            case.name: {arm: summarise([r for r in runs if r["case"] == case.name], arm) for arm in ("with", "without")}
+            case.name: {arm.name: summarise([r for r in runs if r["case"] == case.name], arm.name) for arm in arms}
             for case in cases
         },
         "runs": runs,
@@ -582,15 +603,16 @@ def main():
     (args.output_dir / "summary.json").write_text(json.dumps(report, indent=2))
 
     print(f"\nModels: {report['models']}  Cost: ${spent[0]:.2f}  Results: {args.output_dir}")
-    for name, arms in report["cases"].items():
+    for name, summaries in report["cases"].items():
         print(f"\n{name}")
-        for arm, summary in arms.items():
+        for arm, summary in summaries.items():
             score = "n/a" if summary["score"] is None else f"{summary['score']:.2f}"
             print(f"  {arm:8} score {score}  valid {summary['valid_runs']}  invalid {summary['invalid_runs']}  {summary['graders']}")
 
     stopped_for_failure = args.stop_at_first_failure and failed.is_set()
     if not args.plugin_dir:
-        update_report(args.report_dir, cases, without_failed_cases(runs) if args.stop_at_first_failure else runs, args.runs, report["plugin_version"])
+        kept = without_failed_cases(runs, arms) if args.stop_at_first_failure else runs
+        update_report(args.report_dir, cases, kept, args.runs, report["plugin_version"], arms)
 
     return 2 if report["runs_skipped"] or stopped_for_failure or any(not run["valid"] for run in runs) else 0
 
