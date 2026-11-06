@@ -403,6 +403,5 @@ user chose to skip it:
    - **Organize the commits** → once the progress update is committed, invoke
      `/aido:3-organize-commits`. This answer approves only starting that skill: all of its own questions
      still happen. If the work can't finish cleanly, do not start it, and tell the user why
-   - **Stop here** → tell the user that implementation is complete, that they can run
-     `/aido:3-organize-commits` later, and that running it in a new session gives it a fresh context
-   - **nobody answered the question, or it couldn't be asked** → start nothing
+   - **Stop here**, or no answer → tell the user that implementation is complete, then act as
+     **Hand-off outcomes** in `${CLAUDE_PLUGIN_ROOT}/skills/1-plan/SKILL.md` describes

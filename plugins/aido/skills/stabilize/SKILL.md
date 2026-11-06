@@ -158,7 +158,7 @@ normally inside-out, citing the original work>
 
 Tell the user the branch is ready, then ask "Choose how to continue" from Step 6 of
 `${CLAUDE_PLUGIN_ROOT}/skills/1-plan/SKILL.md` with `AskUserQuestion`, and continue as its Step 8
-does. Ask nothing else about the handoff.
+and **Hand-off outcomes** do. Ask nothing else about the handoff.
 
 In carry-over mode, leave out **Implement in a worktree**, because the uncommitted original changes
 live in this working directory. `/aido:2-implement` then adjusts and commits those changes rather

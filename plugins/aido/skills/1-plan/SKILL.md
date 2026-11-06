@@ -420,6 +420,16 @@ Ask two questions in one `AskUserQuestion` call:
 
 Step 8 acts on the answer.
 
+### Hand-off outcomes
+
+Every skill that offers the next one with a question — this one, `/aido:stabilize`,
+`/aido:2-implement` and `/aido:3-organize-commits` — acts on these answers the same way, once its own
+work is done:
+
+- **Stop here** → start nothing. Tell the user they can run the next skill later, and that running it
+  in a new session gives it a fresh context
+- **nobody answered the question, or it couldn't be asked** → start nothing
+
 ## Step 7: Prepare the Feature Branch
 
 Only proceed here when all of these hold:
@@ -455,7 +465,7 @@ to continue", without asking again:
   2. Create a worktree from the feature branch: `git worktree add ../<repo-name>-<branch-slug> <branch-name>`
   3. Inform the user of the worktree path
   4. Instruct them to open that directory and run `/aido:2-implement` there, then stop
-- **Stop here** → tell the user they can run `/aido:2-implement` whenever they are ready
+- **Stop here**, or no answer → as **Hand-off outcomes** above describes
 
 ## STOP — Skill Complete
 
