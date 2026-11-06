@@ -113,6 +113,12 @@ skills/1-plan/SKILL.md|The fresh-context option carries the recommendation whene
 skills/stabilize/SKILL.md|keep **Implement in a fresh context**
 skills/2-implement/SKILL.md|**Organize in a fresh context**
 skills/3-organize-commits/SKILL.md|**Create the PR in a fresh context**
+guidelines/tdd.md|In every mode, write the real implementation straight away: no hardcoded value to pass a test, and no test whose only job is to force generalizing one
+guidelines/tdd.md|set aside the unit's production changes
+guidelines/tdd.md|run its new tests, and confirm each one fails for the right reason. Then restore the changes
+guidelines/tdd.md|**REFACTOR**, once per unit, with all tests green
+guidelines/tdd.md|`inside-out`: write the tests for every behaviour the plan gives the unit, together, then the code
+guidelines/tdd.md|`outside-in` and `in-unit`: write **one** test for the next behaviour
 EOF_PHRASES
 
 if [ "$failures" -eq 0 ]; then
