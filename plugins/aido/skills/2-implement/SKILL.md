@@ -158,7 +158,6 @@ A child implements plan item `<N>` and nothing else:
   turn by returning the question instead: the item's number, the question, and each option with what
   it does. Return nothing else, and carry on from the answer the orchestrator sends back
 - wherever this skill says to tell the user something, put it in the results instead
-- don't present each test cycle for review, as "MANDATORY: Tests Before Code" says
 
 ### Child Results
 
@@ -214,9 +213,8 @@ every other unit:       one test → its code → next test … → check that t
 Tests are written together only for a contract, a mapping or a DTO that relies on no existing code.
 Any other unit, also in an `inside-out` item, grows one test at a time.
 
-In a single session, present each test cycle as its own reviewable increment so the user can follow
-along and supervise step by step. Do not race ahead to the finished implementation. A child in loop
-mode doesn't present them: nobody follows along, and the orchestrator checks what it returns.
+Work through each unit without stopping to present each test cycle, in every mode. Once a unit is
+committed, tell the user in a few lines what it does and which tests cover it.
 
 In REFACTOR, once per unit, also check:
 

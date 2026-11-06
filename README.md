@@ -130,8 +130,8 @@ The name **aido** means **"AI do"** and echoes `sudo`: the agent acts on your sa
   and pull request pass through explicit checkpoints.
 - **Specification before code.** Work starts from an approved specification and plan, with a lighter
   route available for small changes.
-- **Test-driven, reviewable steps.** Implementation writes the tests before the code, in increments
-  that are easy to inspect, and checks that each unit's tests fail without its code.
+- **Test-driven, unit by unit.** Implementation writes the tests before the code, checks that each
+  unit's tests fail without its code, and sums up each unit once it is committed.
 - **Engineering practices built in.** Clean architecture, focused tests, deliberate refactoring, and
   a tidy history are part of the workflow.
 - **Your repository's conventions win.** aido reads `CLAUDE.md`, `AGENTS.md`, and the codebase

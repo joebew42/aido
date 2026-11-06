@@ -332,7 +332,7 @@ per arm. The cuts were measured together, not one at a time.
 | The real implementation straight away, with no fake value and no triangulation | Kept |
 | Each unit's tests set aside its code and are seen failing, instead of watching each test fail | Kept |
 | Refactoring once per unit, instead of after every test | Kept |
-| A child in loop mode doesn't present each test cycle | Kept. No case runs loop mode, so nothing measured it |
+| No test cycle presented for review, in any mode, instead of only in loop mode | Kept. Widened from loop mode to every mode after this comparison, so it isn't measured yet |
 | An `inside-out` unit's tests written together | Narrowed: only for a contract, a mapping or a DTO that relies on no existing code |
 
 | Case | Outcomes, cuts and `main` | Mean cost with the cuts | `main` |
