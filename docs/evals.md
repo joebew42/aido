@@ -302,6 +302,56 @@ rule said the opposite, and its check failed: `connects-before-the-edge-cases`,
 `grows-the-domain-before-the-entry-point`, `test-before-code` and `inner-units-have-tests`. That is one
 run each, so it is good evidence rather than proof.
 
+### What the step checks guard
+
+A step check passes when the agent follows a step, not when the result is better. Each one stays only
+because it guards an outcome:
+
+| Step check | The outcome it guards |
+| --- | --- |
+| `test-before-code` | Tests that catch breakages of the code, which the mean mutation score measures. A test written after its code may never have failed. Without aido it passed 2/3 |
+| `grows-the-domain-before-the-entry-point` | Inner units that have tests of their own, which `inner-units-have-tests` measures. Without aido this check and that outcome were both 0/3 |
+| `connects-before-the-edge-cases` | A feature that behaves as specified when the plan is wrong about how the parts fit: the wrong assumption shows at the first slice, before the edge cases build on it. No case has a wrong plan yet, so nothing measures this outcome directly |
+
+So no step check was removed. `connects-before-the-edge-cases` misses edge-case code that doesn't
+name its case: in one run, the agent wired the entry point first, but its first edge case was a bare
+`return 1`, and the run ran out of turns before the check could settle.
+
+### What the TDD cuts did
+
+Version 4.7.0 cut five steps from `/aido:2-implement` and `tdd.md` that looked like ceremony for an
+agent. It was compared with `main`, at version 4.6.0, on 2026-11-06, with claude-opus-5-5 and 3 runs
+per arm. The cuts were measured together, not one at a time.
+
+| Cut | Decision |
+| --- | --- |
+| The real implementation straight away, with no fake value and no triangulation | Kept |
+| Each unit's tests set aside its code and are seen failing, instead of watching each test fail | Kept |
+| Refactoring once per unit, instead of after every test | Kept |
+| A child in loop mode doesn't present each test cycle | Kept. No case runs loop mode, so nothing measured it |
+| An `inside-out` unit's tests written together | Narrowed: only for a contract, a mapping or a DTO that relies on no existing code |
+
+| Case | Outcomes, cuts and `main` | Mean cost with the cuts | `main` |
+| --- | --- | --- | --- |
+| `implement-connects-the-slice-early` | Its order check: 2/3 and 3/3. The failed run ran out of turns, as above | $0.92 | $0.90 |
+| `implement-finishes-the-feature` | All 3/3 in both, mutation score 1.00 in both | $1.55 | $1.46 |
+| `implement-grows-an-inside-out-item-by-layer` | Its order check: 3/3 and 1/3 | $0.79 | $0.94 |
+| `implement-writes-the-test-first` | Its order check: 3/3 in both | $0.33 | $0.30 |
+| `implement-respects-a-hidden-helper`, before narrowing | All 3/3 in both, mutation score 1.00 in both | $1.54 | $1.25 |
+| `implement-respects-a-hidden-helper`, after narrowing | All 3/3 in both, mutation score 1.00 in both | $1.17 | $1.40 |
+
+No outcome was worse with the cuts, so none was restored. On the trap case, `main` was right just as
+often but 24% cheaper, so writing a unit's tests together was narrowed. Code that already exists may
+not do what its name says, and a run after each test is what shows it. With the narrowed rule, the
+trap case cost 16% less than `main`.
+
+The cuts didn't measurably cut the cost. Across the four main cases it was flat, $3.59 against
+$3.60, and only the inside-out case was cheaper. These figures can't show a saving well. Three of the
+cases stop as soon as their order check is settled. `implement-finishes-the-feature` ran out of turns
+in 5 of its 6 runs, so both arms stopped at the same limit. Single runs of the trap case cost between
+$0.71 and $2.15 within one arm, which is wider than the gap between the arms. A fair cost figure needs
+cases that run to the end, with a higher turn limit.
+
 ### What the verify results don't show
 
 Plain Claude Code also spotted the test that couldn't fail, in all three runs. It then called the

@@ -378,6 +378,15 @@ class CaseDocumentation(unittest.TestCase):
 
         self.assertEqual(missing, [])
 
+    def test_docs_name_what_each_step_check_guards(self):
+        docs = (EVALS.parent.parent.parent / "docs" / "evals.md").read_text()
+        section = docs.partition("### What the step checks guard\n")[2].partition("\n### ")[0]
+
+        checks = [json.loads(order.read_text())["name"] for order in EVALS.glob("*/order.json")]
+        missing = [check for check in checks if f"`{check}`" not in section]
+
+        self.assertEqual(missing, [])
+
 
 class JudgeVerdict(unittest.TestCase):
     def test_the_last_line_decides_after_the_reasoning(self):
