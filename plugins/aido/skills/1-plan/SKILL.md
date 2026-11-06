@@ -359,7 +359,8 @@ current code:
 
 - **the code no longer shows the problem** → remove the file and tell the user
 - **no opportunity fits** → say so in one line and continue
-- **some still hold** → show each one's refactoring, design smell and why it matters, then ask which
+- **some still hold** → show each one as **Showing a finding** in `systemic-refactoring.md` describes, from its file's
+  `## Refactoring` and `## Why it matters`, then ask which
   to pull in:
   - **4 or fewer** → multi-select `AskUserQuestion`: "These saved refactoring ideas fit this work. Which should I include?" — one option per title
   - **more than 4** → the same question, with options **All** / **None** / **By number** (the user
@@ -409,7 +410,8 @@ Each one pulled in becomes an **enabling** plan item that names its file. The re
 ### Approve the plan
 
 The specification is already approved, so show only `## Plan` and `## Design notes`, not the approved
-specification. After a change, show what changed, as "Showing What Changed" in `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md`
+specification, with each finding in the notes shown as **Showing a finding** in `systemic-refactoring.md`
+describes. After a change, show what changed, as "Showing What Changed" in `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md`
 describes. Then ask two questions in one `AskUserQuestion` call:
 
 - "Is the plan approved?" — options **Approve the plan** / **Change it** (ask what to change, update

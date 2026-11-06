@@ -74,8 +74,8 @@ Confirm each finding before presenting it, as **Evidence before action** in
 `systemic-refactoring.md` describes. A finding the code does not support is dropped, and is not
 offered for parking.
 
-Number every confirmed candidate across all areas and show them grouped by area: title, category,
-size and evidence count, then the full detail of each. Close with the dropped findings, each with
+Number every confirmed candidate across all areas and show them grouped by area: one line per candidate, with its size, as
+**Showing a finding** in `systemic-refactoring.md` describes. Close with the dropped findings, each with
 the reason it was dropped and outside the numbering, the rejected hypotheses, and which areas had no
 findings.
 

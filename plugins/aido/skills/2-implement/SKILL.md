@@ -244,9 +244,10 @@ Run it inline, on green, scoped to the evidence the cycle surfaced:
 2. classify it: **fix now**, **refactor now**, **defer** or **no action**
 3. apply fix-now and refactor-now changes in small steps, re-running the relevant tests after each
 4. before a refactoring that touches another module, ask with `AskUserQuestion`, showing the
-   finding with every field under **What every finding states** in `systemic-refactoring.md` —
+   finding as **Showing a finding** in `systemic-refactoring.md` describes —
    options **Refactor now** / **Defer** / **No action**
-5. note deferred findings for the `## Progress` handoff, with those same fields, and park them as
+5. note deferred findings for the `## Progress` handoff, with every field under **What every finding states** in
+   `systemic-refactoring.md`, and park them as
    **Parking an opportunity** in `systemic-refactoring.md` describes, then return to RED
 
 ### Before completion — `fable` subagent
@@ -292,7 +293,7 @@ Then, in this session:
 
 1. confirm each finding before acting on it, as **Evidence before action** in
    `systemic-refactoring.md` describes
-2. present the findings; ask with `AskUserQuestion` before any that touch another module
+2. present the findings as **Showing a finding** in `systemic-refactoring.md` describes; ask with `AskUserQuestion` before any that touch another module
 3. apply the accepted ones on green, in small steps, re-running the relevant tests after each
 4. record the deferred ones for the `## Progress` handoff, and park them as **Parking an
    opportunity** in `systemic-refactoring.md` describes

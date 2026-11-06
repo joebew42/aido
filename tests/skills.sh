@@ -85,6 +85,7 @@ skills/1-plan/SKILL.md|show only `## Plan` and `## Design notes`, not the approv
 guidelines/systemic-refactoring.md|In chat, a finding is shown as one line: its Recommendation and Why it matters
 guidelines/systemic-refactoring.md|When the user asks for a finding in full, show every field
 guidelines/systemic-refactoring.md|A finding recorded in a file keeps every field
+skills/assess-architecture/SKILL.md|one line per candidate, with its size
 EOF_PHRASES
 
 if [ "$failures" -eq 0 ]; then
