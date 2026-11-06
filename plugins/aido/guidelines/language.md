@@ -35,6 +35,14 @@ applies. Say the specific thing, in short sentences.
 A question must make sense alone, because the dialog may be all the user can see. Name what it is
 about, and say what each option does.
 
+## Interaction Style
+
+- when a question is ambiguous or several approaches are valid, present the options with
+  `AskUserQuestion` instead of picking silently
+- whenever a skill asks the user to choose between discrete options (yes/no, A/B, "pick one of
+  these branches"), use `AskUserQuestion`; keep free-text prompts for genuinely open-ended input —
+  IDs, names, links, custom messages, multi-line specifications
+
 ## Shorter Must Not Lose Meaning
 
 Cut words, not what the reader needs. A decision still shows its consequence, a report still shows

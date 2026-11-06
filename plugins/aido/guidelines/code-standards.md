@@ -234,11 +234,3 @@ latest = group_by_list(reject_archived(tasks)).map(newest_task)
   model is a separate refactoring the user decides on. This covers where things live, not bad
   habits: new job handlers and endpoints still stay thin, even when their neighbours are not
 - **Existing tooling**: use project scripts, tasks and admin tooling over new code
-
-## Interaction Style
-
-- when a question is ambiguous or several approaches are valid, present the options with
-  `AskUserQuestion` instead of picking silently
-- whenever a skill asks the user to choose between discrete options (yes/no, A/B, "pick one of
-  these branches"), use `AskUserQuestion`; keep free-text prompts for genuinely open-ended input —
-  IDs, names, links, custom messages, multi-line specifications

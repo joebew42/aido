@@ -274,12 +274,12 @@ Skills load their guidance from [`plugins/aido/guidelines/`](plugins/aido/guidel
 | Guideline | What it covers |
 | --- | --- |
 | `git-workflow.md` | Commit conventions, per-commit gates, branching, and GitHub CLI usage. |
-| `code-standards.md` | Design principles, code quality, comments, and interaction style. |
+| `code-standards.md` | Design principles, code quality and comments. |
 | `tdd.md` | Red–green–refactor, and the modes that let uncertainty choose step size and direction. |
 | `testing-principles.md` | Test structure, collaboration tests, and flaky-test prevention. |
 | `project-conventions.md` | Discovering host repository conventions in `CLAUDE.md` and `AGENTS.md`. |
 | `specification.md` | Specification structure and acceptance criteria. |
-| `language.md` | Writing for people so it is understood on first read. |
+| `language.md` | Writing for people so it is understood on first read, and when to ask with a question dialog. |
 | `repository-alignment.md` | Checking specifications against the repository and handling conflicts. |
 | `systemic-refactoring.md` | Looking beyond changed lines when a design check runs. |
 | `evolving-guidelines.md` | Proposing conventions back to the host repository after a PR or phase. |
