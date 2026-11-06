@@ -16,6 +16,14 @@ Match step size to how much design you must *discover* vs. *conform to*, as "Ste
 
 Load `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` and follow it in everything you write for a person.
 
+**How it was invoked** decides the session's role:
+
+- **nothing, or anything but the two below** → a single session, as this skill describes
+- **`loop`, or `loop <first>-<last>`, such as `loop 7-9`** → this session is the **orchestrator**:
+  it runs each plan item in a child, as "Loop Mode" describes
+- **`item <N>`** → this session is a **child** the orchestrator started for plan item `<N>`, as
+  "Child Mode" describes
+
 ## Step 0: Load Context
 
 Before any implementation work:
@@ -48,8 +56,8 @@ Before writing the first test, make sure you know how to run a single test, the 
 the linter in this project. If you can't determine one of them, ask the user.
 
 - do NOT re-read guideline files during implementation while they are still loaded. After the
-  conversation is compacted they may not be: read them again, and when this skill is invoked again
-  with work in progress, skip Steps 0.5 and 1 and continue from the next unit, using `git log` and
+  conversation is compacted they may not be: read them again, and when a single session invokes
+  this skill again with work in progress, skip Steps 0.5 and 1 and continue from the next unit, using `git log` and
   `SPEC.md` to see where the work stands
 
 ## Step 0.5: Check the Alignment with the Repository
@@ -74,12 +82,86 @@ every session, before anything else is decided:
 
 ## Step 1: Confirm Implementation Scope
 
+An orchestrator or a child skips this step: the argument already chose the items.
+
 After loading context, use `AskUserQuestion` to present the list of plan items from `SPEC.md`,
 each with the acceptance criteria it serves, and ask:
 
 > "Which items should I do in this session? (all / specific items / the next logical one)"
 
 Wait for the user's response before starting implementation.
+
+## Loop Mode
+
+The orchestrator builds nothing itself. Each plan item runs in a fresh child, so it is built with the
+full specification and guidelines in view. Only the orchestrator writes `SPEC.md`.
+
+**Before the first child:** run Step 0 and Step 0.5 once, then choose the items to run, in plan
+order:
+
+- **`loop`** → every plan item not ticked in `## Progress`
+- **a range** → the items in it. Skip those already ticked in `## Progress`, and name them
+- **a range that names an item the plan doesn't have** → don't start the loop, and say why
+
+Show the items it will run, each with the criteria it serves, and ask nothing.
+
+**For each item, in order:**
+
+1. launch one `Agent`, with no model override. Brief it with:
+   - the repository root, the `SPEC.md` path and the item's number
+   - to invoke `/aido:2-implement item <N>` with the `Skill` tool, and follow it
+   - to return only what "Child Results" lists
+2. when it returns, check three things:
+   - its results give each criterion the item serves as `met`, `changed` or `deferred`
+   - the working tree is clean
+   - lint and the whole test suite pass
+3. **all three pass** → record the item in `## Progress` as "What Progress Records" lists, from the
+   child's results, with the item ticked. For a `changed` criterion, also update its wording in
+   `## Acceptance criteria`, keeping its ID. Commit it per the `SPEC.md` rule in `git-workflow.md`
+   Special Cases, then start the next item's child
+4. **one fails** → stop the loop. Report what failed, and the items not yet run. Tick nothing for
+   the failed item, and record the items left
+
+**After the last item it runs:**
+
+- **the plan's last item is done** → ask about the final design review and organizing the commits in
+  one question, as "Before completion" describes. Run the review here, if chosen, then finish as "STOP
+  — Skill Complete" describes. Each item's Progress is already committed
+- **the range ends before the plan does** → record the items left, name them, and say that running
+  `/aido:2-implement loop` again continues them. Ask about neither
+
+**To record the items left**, whenever the loop ends before the plan does, add them to `## Progress`
+as units remaining, with the criteria only they serve as `unchecked`, as "What Progress Records"
+lists. Commit it per the `SPEC.md` rule in `git-workflow.md` Special Cases.
+
+**When a child returns a question** instead of its results, it has paused. Ask the user with
+`AskUserQuestion`, keeping the child's question and options. Then send the answer to that same child
+with `SendMessage`, and wait for it to return again. When nobody answers, or the question can't be
+asked, stop the loop: name the paused item, its question, and the items not yet run. Tick nothing for
+the paused item, record the items left, and offer nothing else.
+
+## Child Mode
+
+A child implements plan item `<N>` and nothing else:
+
+- run Step 0, then go straight to the item, skipping Step 0.5 and Step 1
+- build it as the sections below describe, from "Work in the Item's Mode" to "Commits". Its
+  Acceptance Criteria Check covers the criteria item `<N>` serves
+- **never edit `SPEC.md`**. Wherever this skill says to record something in it, put it in the results
+  instead
+- skip the final Systemic Design Checkpoint and "STOP — Skill Complete". End by returning what "Child
+  Results" lists
+- **a child can't ask the user.** Wherever this skill says to ask with `AskUserQuestion`, end your
+  turn by returning the question instead: the item's number, the question, and each option with what
+  it does. Return nothing else, and carry on from the answer the orchestrator sends back
+- wherever this skill says to tell the user something, put it in the results instead
+
+### Child Results
+
+- the item's number, and the commits it made
+- what "What Progress Records" lists, for this item only, apart from the final design review's note
+- for a `changed` criterion, the wording the user agreed
+- anything this skill told the child to tell the user
 
 ## Work in the Item's Mode
 
@@ -264,6 +346,21 @@ per-class/module commit** with its tests. An outside-in slice grows from the ent
 commit it when it is finished: its units inside-out, then its acceptance test. **Final history
 shaping** is not done here — `/aido:3-organize-commits` owns it.
 
+## What Progress Records
+
+The `## Progress` section of `SPEC.md` is a handoff note for the next session. Keep it brief:
+
+- list each implemented unit of work (checked off)
+- record the slices built for each outside-in item and every mode change, as "Modes and Slices in
+  Progress" in "The Specification Structure" describes
+- note any units remaining (if session ended early)
+- record each result of the Acceptance Criteria Check, as "Acceptance in Progress" in "The
+  Specification Structure" describes
+- record any key decisions made during implementation (e.g., design choices, deviations from spec)
+- list **Deferred refactorings**, each with every field under **What every finding states** in
+  `systemic-refactoring.md`, its evidence as `path` — `Symbol`, and why it was deferred
+- if the user skipped the final Systemic Design Checkpoint, say so in plain words: "the final design review was skipped"
+
 ## Red Flags to Watch For
 
 If you catch yourself doing any of these, STOP immediately:
@@ -293,18 +390,8 @@ When all units of work are implemented and committed, the Acceptance Criteria Ch
 if this session finished the last plan items, the final Systemic Design Checkpoint has run or the
 user chose to skip it:
 
-1. **Update `SPEC.md`** with a `## Progress` section at the bottom:
-   - list each implemented unit of work (checked off)
-   - record the slices built for each outside-in item and every mode change, as "Modes and Slices in
-     Progress" in "The Specification Structure" describes
-   - note any units remaining (if session ended early)
-   - record each result of the Acceptance Criteria Check, as "Acceptance in Progress" in "The
-     Specification Structure" describes
-   - record any key decisions made during implementation (e.g., design choices, deviations from spec)
-   - list **Deferred refactorings**, each with every field under **What every finding states** in
-     `systemic-refactoring.md`, its evidence as `path` — `Symbol`, and why it was deferred
-   - if the user skipped the final Systemic Design Checkpoint, say so in plain words: "the final design review was skipped"
-   - keep it brief — this is a handoff note for the next session
+1. **Update `SPEC.md`** with a `## Progress` section at the bottom, holding what "What Progress
+   Records" lists
 
 2. **Commit the progress update** (per the `SPEC.md` rule in `git-workflow.md` Special Cases):
    - squash or amend into the existing `docs: feature specification` commit if history is not yet pushed

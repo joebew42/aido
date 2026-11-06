@@ -66,6 +66,13 @@ skills/1-plan/SKILL.md|Do NOT implement anything in this skill
 skills/2-implement/SKILL.md|Never record a criterion as met without its evidence
 skills/2-implement/SKILL.md|Should I run a final design review over the whole feature?
 skills/2-implement/SKILL.md|Once implementation is complete, should I organize the commits?
+skills/2-implement/SKILL.md|Only the orchestrator writes `SPEC.md`
+skills/2-implement/SKILL.md|stop the loop. Report what failed, and the items not yet run
+skills/2-implement/SKILL.md|`loop <first>-<last>`, such as `loop 7-9`
+skills/2-implement/SKILL.md|Skip those already ticked in `## Progress`, and name them
+skills/2-implement/SKILL.md|a range that names an item the plan doesn't have** → don't start the loop, and say why
+skills/2-implement/SKILL.md|each with the criteria it serves, and ask nothing
+skills/2-implement/SKILL.md|the range ends before the plan does** → record the items left, name them
 skills/3-organize-commits/SKILL.md|Once the commits are organized, should I create the pull request?
 skills/verify/SKILL.md|Every finding names its evidence
 skills/verify/SKILL.md|are not evidence

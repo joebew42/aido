@@ -213,7 +213,7 @@ deliberately run the workflow fully unsupervised.
 | Skill | Purpose |
 | --- | --- |
 | `/aido:1-plan` | Draft, refine, and plan a feature into `SPEC.md`. |
-| `/aido:2-implement` | Implement the feature using TDD. |
+| `/aido:2-implement` | Implement the feature using TDD. `loop` (or `loop 7-9`) runs each plan item in a fresh subagent. |
 | `/aido:3-organize-commits` | Organize the commit history. |
 | `/aido:4-create-pr` | Create a pull request. |
 | `/aido:5-handle-review` | Handle PR review feedback. |

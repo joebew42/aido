@@ -1,0 +1,6 @@
+schema_version: "1.1"
+name: implement-loop-stops-on-an-unanswered-question
+description: In loop mode, a child's question that nobody answers stops the loop, naming the paused item and the item left
+tags: [implement]
+context:
+  scaffold_script: fixture.sh
