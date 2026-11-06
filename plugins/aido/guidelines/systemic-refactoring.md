@@ -65,6 +65,11 @@ evidence does not have.
 The on-evidence check during implementation writes this reasoning out only for a finding shown to
 the user or recorded as deferred, so routine cycles stay light.
 
+**Showing a finding:** In chat, a finding is shown as one line: its Recommendation and Why it matters,
+such as "Move the due-date check into the task, so the rule lives in one place". When the user asks
+for a finding in full, show every field. A finding recorded in a file keeps every field: the
+specification's `## Design notes` and `## Progress`, and an opportunity's file.
+
 **Classify every finding:**
 
 - **fix now** — a design problem this change introduced
