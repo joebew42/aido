@@ -86,6 +86,10 @@ guidelines/systemic-refactoring.md|In chat, a finding is shown as one line: its 
 guidelines/systemic-refactoring.md|When the user asks for a finding in full, show every field
 guidelines/systemic-refactoring.md|A finding recorded in a file keeps every field
 skills/assess-architecture/SKILL.md|one line per candidate, with its size
+guidelines/language.md|end the last message with a short block labelled `Done`, `Decided` and `Needs you`
+guidelines/language.md|Leave out `Done` or `Decided` when it has nothing to say. `Needs you` always stays, and reads "nothing" when nothing needs the user
+guidelines/language.md|When the result is a report, show the report unchanged, and let the block list only what needs the user
+guidelines/language.md|A skill that another skill started, and that returns to it, adds no block
 EOF_PHRASES
 
 if [ "$failures" -eq 0 ]; then

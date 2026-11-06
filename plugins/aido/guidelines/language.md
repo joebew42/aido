@@ -24,7 +24,8 @@ Some words stay, because they are exact or belong to the reader:
 
 - the project's own domain terms, and technical terms the reader already uses
 - labels with an exact meaning, which skills read: `AC1`, `(manual)`, `met`, `changed`, `deferred`,
-  `unchecked`, `(enabling)`, `inside-out`, `outside-in`, `in-unit`
+  `unchecked`, `(enabling)`, `inside-out`, `outside-in`, `in-unit`, and the ending block's `Done`,
+  `Decided` and `Needs you`
 - names of commands, files and sections, when the reader needs to find them
 
 A rule that asks for specific or technical language, such as `pr-roadmap.md` for roadmap items, still
@@ -50,6 +51,28 @@ whole document, show it whole.
 - whenever a skill asks the user to choose between discrete options (yes/no, A/B, "pick one of
   these branches"), use `AskUserQuestion`; keep free-text prompts for genuinely open-ended input —
   IDs, names, links, custom messages, multi-line specifications
+
+## Ending a Skill
+
+When a skill ends, including when it stops early, end the last message with a short block labelled
+`Done`, `Decided` and `Needs you`, so the user knows where to look:
+
+```
+Done: the plan for sharing a list is committed on `feat-share-lists`.
+Decided: a shared list is read-only for now.
+Needs you: nothing.
+```
+
+- `Done` is what the skill did, `Decided` the choices made along the way, and `Needs you` what the
+  user has to do or decide next, such as a command to run
+- keep each to a line or two. Leave out `Done` or `Decided` when it has nothing to say. `Needs you`
+  always stays, and reads "nothing" when nothing needs the user
+- the block comes last in the message. When the skill starts the next skill in this session, show the
+  block before starting it
+- When the result is a report, show the report unchanged, and let the block list only what needs the
+  user, without repeating the report
+- A skill that another skill started, and that returns to it, adds no block. The skill that started
+  it ends with one
 
 ## Shorter Must Not Lose Meaning
 
