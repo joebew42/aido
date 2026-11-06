@@ -228,6 +228,19 @@ class Report(unittest.TestCase):
         self.assertIn("| check | 1/2 | 1/2 |", text)
         self.assertIn("| Score | 0.75 | 0.50 |", text)
 
+    def test_markdown_shows_the_mean_mutation_score_when_an_arm_has_one(self):
+        entry = case_entry()
+        entry["with"]["mean_mutation_score"] = 0.8
+
+        text = evals.render_report({"a": entry})
+
+        self.assertIn("| Mean mutation score | 0.80 | n/a |\n| Mean cost |", text)
+
+    def test_markdown_leaves_out_the_mutation_score_when_no_arm_has_one(self):
+        text = evals.render_report({"a": case_entry()})
+
+        self.assertNotIn("mutation", text)
+
     def test_a_comparison_names_its_baseline(self):
         entry = case_entry(0.75)
         comparison = {**entry, "current": entry["with"], "baseline": entry["without"], "baseline_ref": "main", "baseline_version": "4.6.0"}
@@ -581,6 +594,119 @@ class ComparingWithABaseline(unittest.TestCase):
         self.assertEqual(generated_section(document, evals.COMPARISON_START, evals.COMPARISON_END), "")
 
 
+HIDDEN_GREETING_TEST = """. lib/greet.sh
+greet ann | grep -q "hello ann" && greet ann | grep -q "bye"
+"""
+
+
+SPEC_COMMIT = """git init -q
+git config user.name Test
+git config user.email test@example.com
+echo spec > SPEC.md
+git add SPEC.md
+git commit -q -m "docs: feature specification"
+"""
+
+
+GREETING = """mkdir -p lib
+cat > lib/greet.sh <<'EOF'
+greet() {{
+{lines}
+}}
+EOF
+"""
+OWN_TEST = """cat > test_greet.sh <<'EOF'
+. lib/greet.sh
+greet ann | grep -q "hello ann"
+EOF
+"""
+HALF_TESTED_FIXTURE = SPEC_COMMIT + GREETING.format(lines='  echo "hello $1"\n  echo "bye"') + OWN_TEST
+
+
+WORDS = """mkdir -p lib
+printf 'HELLO=hello\\nBYE=bye\\n' > lib/words.sh
+"""
+HIDDEN_WORDS_TEST = """. lib/words.sh
+[ "$HELLO" = hello ] && [ "$BYE" = bye ]
+"""
+
+
+class MutantsOfTheAgentsCode(unittest.TestCase):
+    def score(self, fixture, hidden_test=HIDDEN_GREETING_TEST, test_command="sh test_greet.sh"):
+        directory = tempfile.TemporaryDirectory()
+        self.addCleanup(directory.cleanup)
+        workspace = self.workspace = Path(directory.name) / "workspace"
+        workspace.mkdir()
+        subprocess.run(["bash", "-c", fixture], cwd=workspace, check=True, capture_output=True)
+        acceptance = Path(directory.name) / "acceptance.sh"
+        acceptance.write_text(hidden_test)
+        return evals.mutation_score(workspace, acceptance, test_command)
+
+    def test_no_changed_line_gives_no_score(self):
+        score = self.score(SPEC_COMMIT, hidden_test="true\n")
+
+        self.assertIsNone(score)
+
+    def test_a_deleted_line_that_both_tests_notice_is_caught(self):
+        fixture = SPEC_COMMIT + WORDS + f"cat > test_words.sh <<'EOF'\n{HIDDEN_WORDS_TEST}EOF\n"
+
+        score = self.score(fixture, hidden_test=HIDDEN_WORDS_TEST, test_command="sh test_words.sh")
+
+        self.assertEqual(score, 1.0)
+
+    def test_a_deleted_line_that_only_the_hidden_test_notices_is_missed(self):
+        fixture = SPEC_COMMIT + WORDS + "echo '. lib/words.sh; [ \"$HELLO\" = hello ]' > test_words.sh\n"
+
+        score = self.score(fixture, hidden_test=HIDDEN_WORDS_TEST, test_command="sh test_words.sh")
+
+        self.assertEqual(score, 0.5)
+
+    def test_only_lines_written_since_the_specification_are_broken(self):
+        fixture = (
+            "git init -q\ngit config user.name Test\ngit config user.email test@example.com\n"
+            "mkdir lib\necho HELLO=hello > lib/words.sh\ngit add lib\ngit commit -q -m 'feat: hello'\n"
+            "echo spec > SPEC.md\ngit add SPEC.md\ngit commit -q -m 'docs: feature specification'\n"
+            "echo BYE=bye >> lib/words.sh\ngit commit -q -am 'feat: bye'\n"
+            "echo '. lib/words.sh; [ \"$BYE\" = bye ]' > test_words.sh\n"
+        )
+
+        score = self.score(fixture, hidden_test=HIDDEN_WORDS_TEST, test_command="sh test_words.sh")
+
+        self.assertEqual(score, 1.0)
+
+    def test_the_agents_code_is_left_as_it_was(self):
+        fixture = SPEC_COMMIT + WORDS + "echo '. lib/words.sh' > test_words.sh\n"
+
+        self.score(fixture, hidden_test=HIDDEN_WORDS_TEST, test_command="sh test_words.sh")
+
+        left = (self.workspace / "lib" / "words.sh").read_text()
+        self.assertEqual(left, "HELLO=hello\nBYE=bye\n")
+
+    def test_a_deletion_that_breaks_the_syntax_is_not_counted(self):
+        fixture = SPEC_COMMIT + GREETING.format(lines='  echo "hello $1"\n  echo "bye"') + OWN_TEST
+
+        score = self.score(fixture)
+
+        self.assertEqual(score, 0.5)
+
+
+class MutationScore(unittest.TestCase):
+    def test_the_results_show_a_mean_mutation_score_per_arm(self):
+        root = stand_in_project(self, extra_files={
+            "case.yaml": "name: a-case\ncontext:\n  scaffold_script: fixture.sh\n  test_command: sh test_greet.sh\n",
+            "fixture.sh": HALF_TESTED_FIXTURE,
+            "acceptance.sh": HIDDEN_GREETING_TEST,
+            "prompt.md": "---\nallowed_tools: [Read]\n---\n\nDo it.\n",
+        })
+
+        status, summary, latest = run_main(root, "--concurrency", "6")
+
+        self.assertEqual(status, 0, [run["problems"] for run in summary["runs"]])
+        entry = json.loads(latest.read_text())["a-case"]
+        self.assertEqual((entry["with"]["mean_mutation_score"], entry["without"]["mean_mutation_score"]), (0.5, 0.5))
+        self.assertIn("| Mean mutation score | 0.50 | 0.50 |", (root / "docs" / "evals.md").read_text())
+
+
 class FailuresThatStopARound(unittest.TestCase):
     def test_a_failed_check_in_the_with_aido_arm_counts(self):
         run = {"case": "a", "arm": "with", "valid": True, "graders": {"x": True, "y": False}}
@@ -629,6 +755,25 @@ class Summary(unittest.TestCase):
         self.assertEqual(arm["invalid_runs"], 1)
         self.assertEqual(arm["score"], 0.5)
         self.assertEqual(arm["graders"], {"a": "1/2"})
+
+    def test_the_mean_mutation_score_counts_the_valid_runs_that_have_one(self):
+        runs = [
+            {"arm": "with", "valid": True, "score": 1.0, "graders": {}, "cost": 0.1, "mutation_score": 1.0},
+            {"arm": "with", "valid": True, "score": 1.0, "graders": {}, "cost": 0.1, "mutation_score": 0.5},
+            {"arm": "with", "valid": True, "score": 1.0, "graders": {}, "cost": 0.1, "mutation_score": None},
+            {"arm": "with", "valid": False, "score": None, "graders": {}, "cost": 0.1, "mutation_score": 0.0},
+        ]
+
+        arm = evals.summarise(runs, "with")
+
+        self.assertEqual(arm["mean_mutation_score"], 0.75)
+
+    def test_runs_without_a_mutation_score_have_no_mean(self):
+        runs = [{"arm": "with", "valid": True, "score": 1.0, "graders": {}, "cost": 0.1}]
+
+        arm = evals.summarise(runs, "with")
+
+        self.assertNotIn("mean_mutation_score", arm)
 
 
 def stand_in_project(test, order=("first", "second"), extra_files=None, ending="success"):

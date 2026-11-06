@@ -4,3 +4,4 @@ description: A one-slice feature across layers, finished and working, with its i
 tags: [implement]
 context:
   scaffold_script: fixture.sh
+  test_command: for test in $(find . -path ./.git -prune -o -path ./.fixture -prune -o -path ./lib -prune -o -path ./bin -prune -o -type f -name '*test*.sh' -print); do sh "$test" || exit 1; done

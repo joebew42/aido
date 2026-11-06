@@ -36,6 +36,7 @@ RESULTS_START = "<!-- evals:results:start -->"
 RESULTS_END = "<!-- evals:results:end -->"
 COMPARISON_START = "<!-- evals:comparison:start -->"
 COMPARISON_END = "<!-- evals:comparison:end -->"
+AGENT_CODE = ("bin", "lib")
 
 
 @dataclass(frozen=True)
@@ -354,6 +355,64 @@ def passes_acceptance(script, workspace):
         return False
 
 
+def git_output(workspace, *arguments):
+    return subprocess.run(["git", *arguments], cwd=workspace, capture_output=True, text=True).stdout
+
+
+def added_lines(diff):
+    """The (path, line number) of each line a zero-context diff adds."""
+    found, path, number = [], None, 0
+    for line in diff.splitlines():
+        if line.startswith("+++ "):
+            path = line[len("+++ b/"):] if line.startswith("+++ b/") else None
+        elif line.startswith("@@"):
+            number = int(re.search(r"\+(\d+)", line).group(1))
+        elif line.startswith("+") and path:
+            found.append((path, number))
+            number += 1
+    return found
+
+
+def changed_lines(workspace):
+    """The lines the agent wrote in `bin/` and `lib/` since the specification commit, committed or not."""
+    spec = git_output(workspace, "log", "--format=%H", "--grep=^docs: feature specification$").split()
+    if not spec:
+        return []
+    found = added_lines(git_output(workspace, "diff", "-U0", spec[-1], "--", *AGENT_CODE))
+    for path in git_output(workspace, "ls-files", "--others", "--exclude-standard", "--", *AGENT_CODE).splitlines():
+        found += [(path, number) for number in range(1, len((workspace / path).read_text(errors="replace").splitlines()) + 1)]
+    return found
+
+
+def fails(command, workspace):
+    try:
+        return subprocess.run(command, shell=True, cwd=workspace, capture_output=True, timeout=60).returncode != 0
+    except subprocess.TimeoutExpired:
+        return True
+
+
+def parses(file):
+    """A deletion that leaves the shell script unparseable breaks everything, so it tells nothing about the tests."""
+    return subprocess.run(["sh", "-n", str(file)], capture_output=True).returncode == 0
+
+
+def mutation_score(workspace, acceptance, test_command):
+    """The share of one-line deletions in the agent's code that its own tests catch, among those the hidden test catches."""
+    counted = caught = 0
+    for path, number in changed_lines(workspace):
+        file = workspace / path
+        original = file.read_text()
+        lines = original.splitlines(keepends=True)
+        file.write_text("".join(lines[:number - 1] + lines[number:]))
+        try:
+            if parses(file) and not passes_acceptance(acceptance, workspace):
+                counted += 1
+                caught += fails(test_command, workspace)
+        finally:
+            file.write_text(original)
+    return caught / counted if counted else None
+
+
 def snapshot(workspace):
     return {
         str(path.relative_to(workspace))
@@ -410,12 +469,15 @@ def run_case(case, arm, index, model, output_dir):
             graders[watch.spec["name"]] = watch.passed()
         if not found:
             graders.update({name: passes_acceptance(script, workspace) for name, script in shell_checks(case).items()})
+        test_command = config["context"].get("test_command")
+        measurable = not found and test_command and (case / "acceptance.sh").is_file()
         return {
             "case": case.name, "arm": arm.name, "valid": not found, "stopped": stopped, "cut_off": was_cut_off(final), "problems": found, "graders": graders,
             "score": sum(graders.values()) / len(graders) if graders else None,
             "cost": final.get("total_cost_usd", 0) or 0, "turns": final.get("num_turns"),
             "model": next((e.get("model") for e in events(trace) if e.get("subtype") == "init"), None),
             "trace": str(trace_path),
+            "mutation_score": mutation_score(workspace, case / "acceptance.sh", test_command) if measurable else None,
         }
     finally:
         shutil.rmtree(workspace, ignore_errors=True)
@@ -425,7 +487,8 @@ def summarise(runs, arm):
     selected = [run for run in runs if run["arm"] == arm]
     valid = [run for run in selected if run["valid"]]
     names = sorted({name for run in valid for name in run["graders"]})
-    return {
+    mutation_scores = [run["mutation_score"] for run in valid if run.get("mutation_score") is not None]
+    summary = {
         "valid_runs": len(valid),
         "invalid_runs": len(selected) - len(valid),
         "score": sum(run["score"] for run in valid) / len(valid) if valid else None,
@@ -434,6 +497,9 @@ def summarise(runs, arm):
         "mean_cost": sum(run["cost"] for run in selected) / len(selected) if selected else 0,
         "mean_turns": sum(run.get("turns") or 0 for run in selected) / len(selected) if selected else 0,
     }
+    if mutation_scores:
+        summary["mean_mutation_score"] = sum(mutation_scores) / len(mutation_scores)
+    return summary
 
 
 def recordable(runs, runs_per_arm, arms=PLUGIN_ARMS):
@@ -509,6 +575,8 @@ def render_report(report, arms=PLUGIN_ARMS):
         ]
         for grader in sorted({grader for summary in summaries for grader in summary["graders"]}):
             lines.append(table_row(grader, [summary["graders"].get(grader, "none") for summary in summaries]))
+        if any("mean_mutation_score" in summary for summary in summaries):
+            lines.append(table_row("Mean mutation score", [show_score(summary.get("mean_mutation_score")) for summary in summaries]))
         lines += [
             table_row("Mean cost", [f"${summary['mean_cost']:.2f}" for summary in summaries]),
             table_row("Mean turns", [f"{summary['mean_turns']:.0f}" for summary in summaries]), "",
