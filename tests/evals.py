@@ -48,6 +48,11 @@ def plugin_arms(plugin):
     return (Arm("with", "With aido", plugin), Arm("without", "Without aido", None))
 
 
+def baseline_arms(current, baseline):
+    """Runs on the plugin in this tree, then on the plugin as committed at the baseline ref."""
+    return (Arm("current", "This change", current), Arm("baseline", "Baseline", baseline))
+
+
 PLUGIN_ARMS = plugin_arms(PLUGIN)
 
 
@@ -492,9 +497,10 @@ def render_report(report, arms=PLUGIN_ARMS):
     for name, entry in sorted(report.items()):
         models = ", ".join(entry["models"])
         summaries = [entry[arm.name] for arm in arms]
+        against = f" against `{entry['baseline_ref']}` at plugin version {entry['baseline_version']}," if "baseline_ref" in entry else ""
         lines += [
             f"#### {name}", "",
-            f"Recorded {entry['recorded']} on plugin version {entry['plugin_version']} with {models}, "
+            f"Recorded {entry['recorded']} on plugin version {entry['plugin_version']}{against} with {models}, "
             f"{entry['runs_per_arm']} runs per arm.", "",
             table_row("Measure", [arm.label for arm in arms]), table_row("---", ["---"] * len(arms)),
             table_row("Score", [show_score(summary["score"]) for summary in summaries]),
@@ -508,13 +514,24 @@ def render_report(report, arms=PLUGIN_ARMS):
     return "\n".join(lines).rstrip()
 
 
-def report_files(report_dir):
-    """Where the with/without results live: `latest.json`, and `evals.md` next to its directory."""
-    return report_dir / "latest.json", report_dir.parent / "evals.md"
+@dataclass(frozen=True)
+class Results:
+    """One kind of results: the JSON file that keeps them, and the generated section of the document showing them."""
+
+    path: Path
+    document: Path
+    markers: tuple
+    arms: tuple
 
 
-def update_report(path, document, cases, runs, runs_per_arm, plugin_version, arms=PLUGIN_ARMS, markers=(RESULTS_START, RESULTS_END)):
+def plugin_results(report_dir):
+    """The with/without results: `latest.json`, and `evals.md` next to its directory."""
+    return Results(report_dir / "latest.json", report_dir.parent / "evals.md", (RESULTS_START, RESULTS_END), PLUGIN_ARMS)
+
+
+def update_report(results, cases, runs, runs_per_arm, plugin_version, details=None):
     """Compares the finished runs with the last report, then records each case that may be."""
+    path, document, arms = results.path, results.document, results.arms
     previous = json.loads(path.read_text()) if path.is_file() else {}
     recorded = {}
     for case in cases:
@@ -525,7 +542,7 @@ def update_report(path, document, cases, runs, runs_per_arm, plugin_version, arm
         recorded[case.name] = {
             "recorded": date.today().isoformat(), "plugin_version": plugin_version,
             "models": sorted({run["model"] for run in selected if run["model"]}), "runs_per_arm": runs_per_arm,
-            **{arm.name: summarise(selected, arm.name) for arm in arms},
+            **{arm.name: summarise(selected, arm.name) for arm in arms}, **(details or {}),
         }
     if not recorded:
         return
@@ -535,7 +552,7 @@ def update_report(path, document, cases, runs, runs_per_arm, plugin_version, arm
     merged = merge_report(previous, recorded)
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(merged, indent=2, sort_keys=True) + "\n")
-    document.write_text(replace_results(document.read_text(), render_report(merged, arms), markers))
+    document.write_text(replace_results(document.read_text(), render_report(merged, arms), results.markers))
     print(f"\nUpdated the results in {document}. Commit them with the change they measure.")
 
 
@@ -552,7 +569,7 @@ def regrade(output_dir, report_dir):
     summary.write_text(json.dumps(report, indent=2))
     cases = [PLUGIN / "evals" / name for name in names]
     per_arm = report["runs_requested"] // (len(PLUGIN_ARMS) * len(cases))
-    update_report(*report_files(report_dir), cases, report["runs"], per_arm, report["plugin_version"])
+    update_report(plugin_results(report_dir), cases, report["runs"], per_arm, report["plugin_version"])
     for name, summaries in report["cases"].items():
         print(f"\n{name}")
         for arm, arm_summary in summaries.items():
@@ -629,7 +646,7 @@ def main():
     stopped_for_failure = args.stop_at_first_failure and failed.is_set()
     if not args.plugin_dir:
         kept = without_failed_cases(runs, arms) if args.stop_at_first_failure else runs
-        update_report(*report_files(args.report_dir), cases, kept, args.runs, report["plugin_version"], arms)
+        update_report(plugin_results(args.report_dir), cases, kept, args.runs, report["plugin_version"])
 
     return 2 if report["runs_skipped"] or stopped_for_failure or any(not run["valid"] for run in runs) else 0
 

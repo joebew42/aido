@@ -228,6 +228,36 @@ class Report(unittest.TestCase):
         self.assertIn("| check | 1/2 | 1/2 |", text)
         self.assertIn("| Score | 0.75 | 0.50 |", text)
 
+    def test_a_comparison_names_its_baseline(self):
+        entry = case_entry(0.75)
+        comparison = {**entry, "current": entry["with"], "baseline": entry["without"], "baseline_ref": "main", "baseline_version": "4.6.0"}
+        arms = evals.baseline_arms(Path("current"), Path("baseline"))
+
+        text = evals.render_report({"a": comparison}, arms)
+
+        self.assertIn("Recorded 2026-11-04 on plugin version 4.1.0 against `main` at plugin version 4.6.0, with m, 3 runs per arm.", text)
+        self.assertIn("| Measure | This change | Baseline |", text)
+        self.assertIn("| Score | 0.75 | 0.50 |", text)
+
+    def test_a_recorded_comparison_keeps_its_baseline_in_its_own_file_and_section(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            document = root / "evals.md"
+            document.write_text(f"{evals.RESULTS_START}\n{evals.RESULTS_END}\n<!-- b:start -->\n<!-- b:end -->\n")
+            arms = evals.baseline_arms(Path("current"), Path("baseline"))
+            runs = [{"case": "a", "arm": arm.name, "valid": True, "score": 1.0, "graders": {}, "cost": 1.0, "turns": 5, "model": "m"}
+                    for arm in arms for _ in range(3)]
+
+            results = evals.Results(root / "comparison.json", document, ("<!-- b:start -->", "<!-- b:end -->"), arms)
+
+            with mock.patch("builtins.print"):
+                evals.update_report(results, [Path("a")], runs, 3, "4.7.0", {"baseline_ref": "main", "baseline_version": "4.6.0"})
+
+            entry = json.loads(results.path.read_text())["a"]
+            self.assertEqual((entry["baseline_ref"], entry["baseline_version"]), ("main", "4.6.0"))
+            self.assertEqual(sorted(entry), ["baseline", "baseline_ref", "baseline_version", "current", "models", "plugin_version", "recorded", "runs_per_arm"])
+            self.assertIn("against `main` at plugin version 4.6.0", document.read_text().split("<!-- b:start -->")[1])
+
     def test_results_replace_only_the_generated_section(self):
         document = f"before\n{evals.RESULTS_START}\nold\n{evals.RESULTS_END}\nafter\n"
 
