@@ -168,8 +168,8 @@ say so in the final report.
 ### 2b. Confirm the areas
 
 Show the proposed areas as a table, then `AskUserQuestion`: "Does this split into areas look
-right?" — options **Looks right** / **Adjust** (the user describes the changes; apply them and ask
-again). Area boundaries are the decision everything else builds on, so they get a human check.
+right?" — options **Looks right** / **Adjust** (the user describes the changes; apply them, show what
+changed as "Showing What Changed" in `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` describes, and ask again). Area boundaries are the decision everything else builds on, so they get a human check.
 
 ### 2c. Catalogue each area — `sonnet` subagents
 
@@ -218,6 +218,9 @@ Tell the user, briefly:
 - which steps fell back from the planned model to the session model, if any
 
 Mention that `/aido:assess-architecture` can turn the index into reviewed refactoring findings.
+
+Then end as "Ending a Skill" in `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` describes. When `/aido:1-plan`
+started this skill, return to it, adding no block.
 
 ## STOP — Skill Complete
 

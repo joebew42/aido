@@ -75,6 +75,22 @@ alongside its last approval, so this adds no extra stop. Either question names a
 or deferred. Accepting only starts the next skill: every approval inside it still happens, including
 the push. Stopping names the skill to run later, in a new session if you want a fresh context.
 
+Each of these hand-offs, from planning onwards, also offers to continue in a **fresh context**, and
+recommends it whenever it recommends continuing. The skill finishes its own work and commits, then
+tells you to run `/clear` and the next skill. The next skill reads `SPEC.md` and the git history, so it
+doesn't need the earlier conversation, and you start it with an empty context.
+
+Every skill ends the same way, with a short block that tells you where to look:
+
+```text
+Done: the plan for sharing a list is committed on `feat-share-lists`.
+Decided: a shared list is read-only for now.
+Needs you: nothing.
+```
+
+When a skill asks you to approve something you've already seen, it shows only what changed since
+then. A design or refactoring finding is one line in chat, and you can ask for it in full.
+
 ### Recommended Claude Code settings
 
 The guidelines request commits and PRs without AI attribution and no auto-memory. A plugin cannot
@@ -274,12 +290,12 @@ Skills load their guidance from [`plugins/aido/guidelines/`](plugins/aido/guidel
 | Guideline | What it covers |
 | --- | --- |
 | `git-workflow.md` | Commit conventions, per-commit gates, branching, and GitHub CLI usage. |
-| `code-standards.md` | Design principles, code quality, comments, and interaction style. |
+| `code-standards.md` | Design principles, code quality and comments. |
 | `tdd.md` | Red–green–refactor, and the modes that let uncertainty choose step size and direction. |
 | `testing-principles.md` | Test structure, collaboration tests, and flaky-test prevention. |
 | `project-conventions.md` | Discovering host repository conventions in `CLAUDE.md` and `AGENTS.md`. |
 | `specification.md` | Specification structure and acceptance criteria. |
-| `language.md` | Writing for people so it is understood on first read. |
+| `language.md` | Writing for people so it is understood on first read, and when to ask with a question dialog. |
 | `repository-alignment.md` | Checking specifications against the repository and handling conflicts. |
 | `systemic-refactoring.md` | Looking beyond changed lines when a design check runs. |
 | `evolving-guidelines.md` | Proposing conventions back to the host repository after a PR or phase. |

@@ -68,6 +68,16 @@ class StaticChecks(unittest.TestCase):
         self.assertEqual(result.returncode, 1)
         self.assertIn("FAIL - skills/2-implement/SKILL.md keeps: Never record a criterion as met without its evidence", result.stdout)
 
+    def test_a_skill_without_the_ending_block_fails(self):
+        copy = self.copy_of_the_repository()
+        skill = copy / "plugins" / "aido" / "skills" / "verify" / "SKILL.md"
+        self.replace_in(skill, '"Ending a Skill" in', '"Ending" in')
+
+        result = self.run_checks(copy)
+
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("FAIL - verify ends with the ending block", result.stdout)
+
 
 if __name__ == "__main__":
     unittest.main()

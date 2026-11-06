@@ -124,6 +124,9 @@ Write each section as `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` describes.
 - [ ] use a descriptive title instead
 - [ ] create as draft PR (not ready for review)
 
+Once the PR is created, or the skill stops early, end as "Ending a Skill" in `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md`
+describes, with the PR's URL in `Done`.
+
 ## Templates
 
 ### Complete PR Description Template

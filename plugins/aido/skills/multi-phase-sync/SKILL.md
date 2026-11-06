@@ -37,6 +37,8 @@ Load `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` and follow it in everything 
 
 After syncing the main plan, follow the process in `${CLAUDE_PLUGIN_ROOT}/guidelines/evolving-guidelines.md`. It only proposes additions to this repository's `CLAUDE.md` or `AGENTS.md`, chosen by the user through `AskUserQuestion`.
 
+Then end as "Ending a Skill" in `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` describes.
+
 ## Templates
 
 When updating the roadmap, follow the format rules in `${CLAUDE_PLUGIN_ROOT}/guidelines/pr-roadmap.md`.

@@ -165,6 +165,9 @@ Before creating the PR, use `AskUserQuestion` to present the draft title and des
 >
 > Should I change anything before creating it, and should it be a **draft** or **ready for review**?"
 
+When the user asks for changes, show what changed, as "Showing What Changed" in `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md`
+describes, and ask again.
+
 **Wait for the user's response before creating the PR.**
 
 ## Step 4: Assign PR
@@ -193,3 +196,6 @@ Report each issue opened or commented on with its URL, and each skipped criterio
 ## Step 5: Suggest Repository Conventions
 
 After creating the PR, follow the process in `${CLAUDE_PLUGIN_ROOT}/guidelines/evolving-guidelines.md`. It only proposes additions to this repository's `CLAUDE.md` or `AGENTS.md`, chosen by the user through `AskUserQuestion`.
+
+Then end as "Ending a Skill" in `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` describes, with the PR's URL
+in `Done`. If the skill stops early, such as when the push is declined, end the same way.

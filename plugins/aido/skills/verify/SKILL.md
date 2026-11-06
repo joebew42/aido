@@ -69,7 +69,8 @@ Launch one `Agent` with `model: "fable"`. Brief it with:
 - the host repository's agent instruction files to read, and how to run a single test
 - "The Verification Brief" below, copied in full — the subagent has not loaded this skill
 - `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md`, copied in full, so what it returns follows it. The
-  sections and labels it is asked for stay as they are
+  sections and labels it is asked for stay as they are, and it returns a report and adds no ending
+  block
 - nothing else from this session: no summary of the work and no opinion of it
 
 If `fable` is unavailable or the call is denied, run the same brief in a subagent with the session's
@@ -177,4 +178,5 @@ Do not fix anything. What to do with the findings is the engineer's decision.
 
 ## STOP — Skill Complete
 
-If another skill started this one, go back to the step that called it. Otherwise stop here.
+If another skill started this one, go back to the step that called it, adding no block. Otherwise
+end as "Ending a Skill" in `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` describes.

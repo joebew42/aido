@@ -47,6 +47,8 @@ discover behaviour, the systemic check decides how widely to look before settlin
 - **Confidence** — high, medium or low, as defined below
 - **What would change it** — the evidence that would change the conclusion
 - **Recommendation** — the smallest useful refactoring
+- **Why it matters** — what the problem costs the design if it stays, such as a rule changed in
+  two places
 - **Risk** — behaviour or consumers that could be affected
 
 **Confidence** rests on the strength of the evidence, not on how plausible the finding sounds:
@@ -62,6 +64,11 @@ evidence does not have.
 
 The on-evidence check during implementation writes this reasoning out only for a finding shown to
 the user or recorded as deferred, so routine cycles stay light.
+
+**Showing a finding:** In chat, a finding is shown as one line: its Recommendation and Why it matters,
+such as "Move the due-date check into the task, so the rule lives in one place". When the user asks
+for a finding in full, show every field. A finding recorded in a file keeps every field: the
+specification's `## Design notes` and `## Progress`, and an opportunity's file.
 
 **Classify every finding:**
 
@@ -99,7 +106,7 @@ tracked as an issue. The session parks one worth keeping, until a planned change
   <what kind of problem it is, and the Observation>
 
   ## Why it matters
-  <why it is important to resolve>
+  <the Why it matters field>
 
   ## Finding
   <Evidence, Competing explanations, Assumptions, Confidence, What would change it and Risk>

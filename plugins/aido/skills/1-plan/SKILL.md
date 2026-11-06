@@ -155,7 +155,8 @@ in Step 7.
 
 ### Approve the draft
 
-A phase of a multi-phase project has no route to choose. Show the draft, then `AskUserQuestion`: "Is this draft the right starting point? If so, I'll refine it with you next." —
+A phase of a multi-phase project has no route to choose. Show the draft, as "Showing What Changed" in `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md`
+describes, then `AskUserQuestion`: "Is this draft the right starting point? If so, I'll refine it with you next." —
 options **Approve the draft** (continue at Step 3) / **I'll edit it first** (wait for the user, then
 ask again) / **Cancel** (stop, leaving the draft in place).
 
@@ -169,7 +170,8 @@ change is **small and clear** only when all of these hold:
 - it touches one module or area
 - it introduces no new domain concept or abstraction
 
-Show the draft, say whether the change looks small and clear, and why, then `AskUserQuestion`: "Is this draft the right starting point, and how much planning does it need?" — with the route you propose
+Show the draft, as "Showing What Changed" in `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` describes, say
+whether the change looks small and clear, and why, then `AskUserQuestion`: "Is this draft the right starting point, and how much planning does it need?" — with the route you propose
 marked as recommended. The user's choice stands, whatever you propose:
 
 - **Plan it in one step** → continue at "Small-Change Route"
@@ -193,7 +195,8 @@ apart from Step 5.5, so do not ask about the enabling refactoring analysis.
    feature item, its mode and the reason for it, with every criterion served by at least one item, and
    any opportunity pulled in first. After it, add
    this line: `The enabling refactoring analysis was skipped.`
-5. Show the draft, then ask two questions in one `AskUserQuestion` call:
+5. Show what changed in the draft, as "Showing What Changed" in `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md`
+   describes, then ask two questions in one `AskUserQuestion` call:
    - "Do you approve this specification and plan? This is the only approval for this change." — options:
      - **Approve — move it to SPEC.md** — continue with the checks below
      - **Change it** — ask what to change, update the draft, and ask again
@@ -271,7 +274,8 @@ anyway** records the decision in the draft. Do not ask for approval below until 
 
 ### Approve the specification
 
-Summarise what you changed and why, then ask two questions in one `AskUserQuestion` call:
+Summarise what you changed and why, as "Showing What Changed" in `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md`
+describes, then ask two questions in one `AskUserQuestion` call:
 
 - "Is `SPEC.md.draft` ready to become `SPEC.md`?" — options **Approve — move it to SPEC.md** /
   **Keep refining** (ask what to change, and repeat this step)
@@ -324,7 +328,8 @@ Launch one `Agent` with `model: "fable"`. Brief it with:
 - `systemic-refactoring.md` and the rules it points to in `code-standards.md`, copied
   — the subagent has not loaded the guidelines
 - `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md`, copied in full, so what it returns follows it. The
-  sections and labels it is asked for stay as they are
+  sections and labels it is asked for stay as they are, and it returns a report and adds no ending
+  block
 - to search the domain's own vocabulary for where this behaviour belongs, what already implements
   related rules or abstractions, and which boundaries apply — widening only on evidence
 - never to edit files
@@ -355,7 +360,8 @@ current code:
 
 - **the code no longer shows the problem** → remove the file and tell the user
 - **no opportunity fits** → say so in one line and continue
-- **some still hold** → show each one's refactoring, design smell and why it matters, then ask which
+- **some still hold** → show each one as **Showing a finding** in `systemic-refactoring.md` describes, from its file's
+  `## Refactoring` and `## Why it matters`, then ask which
   to pull in:
   - **4 or fewer** → multi-select `AskUserQuestion`: "These saved refactoring ideas fit this work. Which should I include?" — one option per title
   - **more than 4** → the same question, with options **All** / **None** / **By number** (the user
@@ -404,7 +410,10 @@ Each one pulled in becomes an **enabling** plan item that names its file. The re
 
 ### Approve the plan
 
-Ask two questions in one `AskUserQuestion` call:
+The specification is already approved, so show only `## Plan` and `## Design notes`, not the approved
+specification, with each finding in the notes shown as **Showing a finding** in `systemic-refactoring.md`
+describes. After a change, show what changed, as "Showing What Changed" in `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md`
+describes. Then ask two questions in one `AskUserQuestion` call:
 
 - "Is the plan approved?" — options **Approve the plan** / **Change it** (ask what to change, update
   `SPEC.md`, and ask again)
@@ -414,11 +423,28 @@ Ask two questions in one `AskUserQuestion` call:
 
 "Once it is approved, how should we continue?" — options:
 
-- **Implement here** (recommended) — start `/aido:2-implement` in this directory
+- **Implement in a fresh context** (recommended) — commit the specification, then you run `/clear`
+  and `/aido:2-implement`, so implementing starts without the planning conversation
+- **Implement here** — start `/aido:2-implement` in this directory
 - **Implement in a worktree** — a separate working copy, so this directory stays clean for other work
 - **Stop here** — commit the specification and go no further
 
 Step 8 acts on the answer.
+
+### Hand-off outcomes
+
+Every skill that offers the next one with a question — this one, `/aido:stabilize`,
+`/aido:2-implement` and `/aido:3-organize-commits` — acts on these answers the same way, once its own
+work is done:
+
+- **… in a fresh context** → finish this skill's own work, including its commits, start nothing, and
+  tell the user to run `/clear`, then the next skill. A skill can't run `/clear` itself
+- **Stop here** → start nothing. Tell the user they can run the next skill later, and that running it
+  in a new session gives it a fresh context
+- **nobody answered the question, or it couldn't be asked** → start nothing
+
+The fresh-context option carries the recommendation whenever continuing would, and is not recommended
+when continuing isn't.
 
 ## Step 7: Prepare the Feature Branch
 
@@ -448,6 +474,7 @@ Only proceed here when all of these hold:
 The branch is created and the specification is committed. Continue as the user chose in "Choose how
 to continue", without asking again:
 
+- **Implement in a fresh context** → as **Hand-off outcomes** above describes
 - **Implement here** → invoke the `/aido:2-implement` skill
 - **Implement in a worktree**:
   1. A branch can be checked out in only one place, so return this directory to the default branch:
@@ -455,9 +482,12 @@ to continue", without asking again:
   2. Create a worktree from the feature branch: `git worktree add ../<repo-name>-<branch-slug> <branch-name>`
   3. Inform the user of the worktree path
   4. Instruct them to open that directory and run `/aido:2-implement` there, then stop
-- **Stop here** → tell the user they can run `/aido:2-implement` whenever they are ready
+- **Stop here**, or no answer → as **Hand-off outcomes** above describes
 
 ## STOP — Skill Complete
 
 **Do NOT implement anything in this skill.** Do NOT write any code — implementation happens only in
 `/aido:2-implement`.
+
+Whenever this skill ends, including on **Cancel**, **Reject it** or after setting up worktrees, end as
+"Ending a Skill" in `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` describes.

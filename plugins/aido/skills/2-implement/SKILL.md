@@ -140,6 +140,9 @@ with `SendMessage`, and wait for it to return again. When nobody answers, or the
 asked, stop the loop: name the paused item, its question, and the items not yet run. Tick nothing for
 the paused item, record the items left, and offer nothing else.
 
+**Whenever the loop ends before "STOP — Skill Complete"**, after a failed check, at the end of a range
+or on a paused question, end as item 4 of "STOP — Skill Complete" describes.
+
 ## Child Mode
 
 A child implements plan item `<N>` and nothing else:
@@ -150,7 +153,7 @@ A child implements plan item `<N>` and nothing else:
 - **never edit `SPEC.md`**. Wherever this skill says to record something in it, put it in the results
   instead
 - skip the final Systemic Design Checkpoint and "STOP — Skill Complete". End by returning what "Child
-  Results" lists
+  Results" lists, adding no ending block
 - **a child can't ask the user.** Wherever this skill says to ask with `AskUserQuestion`, end your
   turn by returning the question instead: the item's number, the question, and each option with what
   it does. Return nothing else, and carry on from the answer the orchestrator sends back
@@ -244,9 +247,10 @@ Run it inline, on green, scoped to the evidence the cycle surfaced:
 2. classify it: **fix now**, **refactor now**, **defer** or **no action**
 3. apply fix-now and refactor-now changes in small steps, re-running the relevant tests after each
 4. before a refactoring that touches another module, ask with `AskUserQuestion`, showing the
-   finding with every field under **What every finding states** in `systemic-refactoring.md` —
+   finding as **Showing a finding** in `systemic-refactoring.md` describes —
    options **Refactor now** / **Defer** / **No action**
-5. note deferred findings for the `## Progress` handoff, with those same fields, and park them as
+5. note deferred findings for the `## Progress` handoff, with every field under **What every finding states** in
+   `systemic-refactoring.md`, and park them as
    **Parking an opportunity** in `systemic-refactoring.md` describes, then return to RED
 
 ### Before completion — `fable` subagent
@@ -266,9 +270,9 @@ options **Run the review** / **Skip it**:
 
 In the same `AskUserQuestion` call, offer the next step, following "each approval also settles the
 choice that follows it" in `/aido:1-plan`. "STOP — Skill Complete" acts on the answer: "Once
-implementation is complete, should I organize the commits?" — options **Organize the commits**
-(recommended) / **Stop here**. The question names each criterion recorded as `deferred`, so the user
-doesn't continue without noticing it.
+implementation is complete, should I organize the commits?" — options **Organize in a fresh context**
+(recommended) / **Organize the commits** / **Stop here**. The question names each criterion recorded
+as `deferred`, so the user doesn't continue without noticing it.
 
 On **Run the review**, launch one `Agent` with `model: "fable"`. Brief it with:
 
@@ -280,7 +284,8 @@ On **Run the review**, launch one `Agent` with `model: "fable"`. Brief it with:
 - `systemic-refactoring.md` and the rules it points to in `code-standards.md`, copied
   — the subagent has not loaded the guidelines
 - `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md`, copied in full, so what it returns follows it. The
-  sections and labels it is asked for stay as they are
+  sections and labels it is asked for stay as they are, and it returns a report and adds no ending
+  block
 - never to edit files
 - to return only findings, each with its **Classification** and every field under **What every
   finding states** in `systemic-refactoring.md` — or one line saying none were found
@@ -292,7 +297,7 @@ Then, in this session:
 
 1. confirm each finding before acting on it, as **Evidence before action** in
    `systemic-refactoring.md` describes
-2. present the findings; ask with `AskUserQuestion` before any that touch another module
+2. present the findings as **Showing a finding** in `systemic-refactoring.md` describes; ask with `AskUserQuestion` before any that touch another module
 3. apply the accepted ones on green, in small steps, re-running the relevant tests after each
 4. record the deferred ones for the `## Progress` handoff, and park them as **Parking an
    opportunity** in `systemic-refactoring.md` describes
@@ -403,6 +408,11 @@ user chose to skip it:
    - **Organize the commits** → once the progress update is committed, invoke
      `/aido:3-organize-commits`. This answer approves only starting that skill: all of its own questions
      still happen. If the work can't finish cleanly, do not start it, and tell the user why
-   - **Stop here** → tell the user that implementation is complete, that they can run
-     `/aido:3-organize-commits` later, and that running it in a new session gives it a fresh context
-   - **nobody answered the question, or it couldn't be asked** → start nothing
+   - **Organize in a fresh context** → once the progress update is committed, act as
+     **Hand-off outcomes** in `${CLAUDE_PLUGIN_ROOT}/skills/1-plan/SKILL.md` describes
+   - **Stop here**, or no answer → tell the user that implementation is complete, then act as
+     **Hand-off outcomes** in `${CLAUDE_PLUGIN_ROOT}/skills/1-plan/SKILL.md` describes
+
+4. **End** as "Ending a Skill" in `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` describes, also when the
+   session stops early. With plan items left, `Needs you` names only running `/aido:2-implement`
+   again, or `/aido:2-implement loop` for an orchestrator

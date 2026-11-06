@@ -47,7 +47,8 @@ Launch one `Agent` per area with `model: "fable"`, in parallel. Brief each with:
 - `systemic-refactoring.md` and the rules it points to in `code-standards.md`, copied
   — the subagent has not loaded the guidelines
 - `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md`, copied in full, so what it returns follows it. The
-  sections and labels it is asked for stay as they are
+  sections and labels it is asked for stay as they are, and it returns a report and adds no ending
+  block
 - to apply it inside the area **and** across its boundary with other areas (e.g. the same rule
   enforced in this area and another)
 - to treat the index as a map only — read the code before claiming anything
@@ -59,7 +60,6 @@ Launch one `Agent` per area with `model: "fable"`, in parallel. Brief each with:
   ### <title, plain language, no prefix>
   - **Category:** duplicated knowledge | misplaced ownership | reinvented abstraction | crossed boundary
   - **Size:** S | M | L
-  - **Impact:** why it matters for the design
   - every field under **What every finding states** in `systemic-refactoring.md`
   ```
 
@@ -75,8 +75,8 @@ Confirm each finding before presenting it, as **Evidence before action** in
 `systemic-refactoring.md` describes. A finding the code does not support is dropped, and is not
 offered for parking.
 
-Number every confirmed candidate across all areas and show them grouped by area: title, category,
-size and evidence count, then the full detail of each. Close with the dropped findings, each with
+Number every confirmed candidate across all areas and show them grouped by area: one line per candidate, with its size, as
+**Showing a finding** in `systemic-refactoring.md` describes. Close with the dropped findings, each with
 the reason it was dropped and outside the numbering, the rejected hypotheses, and which areas had no
 findings.
 
@@ -92,7 +92,7 @@ Ask which of the numbered candidates shown in Step 3 to park:
   — options **All** / **None** / **By number** (the user types the numbers)
 
 Park each picked candidate as **Parking an opportunity** in `systemic-refactoring.md` describes. Its
-**Category** names the design smell, and its **Impact** is why it matters. When a file with the same
+**Category** names the design smell. When a file with the same
 evidence already exists, show it and `AskUserQuestion`: "`<file>` looks like the same refactoring idea. What should I do?"
 — options **Skip** / **Replace it**.
 
@@ -100,6 +100,8 @@ evidence already exists, show it and `AskUserQuestion`: "`<file>` looks like the
 
 List each refactoring idea saved with its file path, each skipped candidate with the reason, each
 dropped finding with the reason, and any step that fell back from `fable` to the session model.
+Then end as "Ending a Skill" in `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` describes. When no finding was
+found, end the same way.
 
 ## STOP — Skill Complete
 

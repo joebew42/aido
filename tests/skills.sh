@@ -16,6 +16,19 @@ for skill in "$root"/plugins/aido/skills/*/SKILL.md; do
   fi
 done
 
+ending_rule='"Ending a Skill" in `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md`'
+
+for skill in "$root"/plugins/aido/skills/*/SKILL.md; do
+  name="$(basename "$(dirname "$skill")")"
+
+  if tr -s ' \n' ' ' < "$skill" | grep -qF "$ending_rule"; then
+    echo "ok   - $name ends with the ending block"
+  else
+    echo "FAIL - $name ends with the ending block"
+    failures=$((failures + 1))
+  fi
+done
+
 plugin="$root/plugins/aido"
 
 report() {
@@ -78,6 +91,28 @@ skills/verify/SKILL.md|Every finding names its evidence
 skills/verify/SKILL.md|are not evidence
 guidelines/systemic-refactoring.md|Evidence before action
 guidelines/git-workflow.md|every push needs the user's approval
+guidelines/language.md|show a short plain-language list of what changed since the user last saw it
+guidelines/language.md|The first time a document is shown, show it whole
+guidelines/language.md|When the user asks to see the whole document, show it whole
+skills/1-plan/SKILL.md|show only `## Plan` and `## Design notes`, not the approved specification
+guidelines/systemic-refactoring.md|In chat, a finding is shown as one line: its Recommendation and Why it matters
+guidelines/systemic-refactoring.md|When the user asks for a finding in full, show every field
+guidelines/systemic-refactoring.md|A finding recorded in a file keeps every field
+skills/assess-architecture/SKILL.md|one line per candidate, with its size
+guidelines/language.md|end the last message with a short block labelled `Done`, `Decided` and `Needs you`
+guidelines/language.md|Leave out `Done` or `Decided` when it has nothing to say. `Needs you` always stays, and reads "nothing" when nothing needs the user
+guidelines/language.md|When the result is a report, show the report unchanged, and let the block list only what needs the user
+guidelines/language.md|A skill that another skill started, and that returns to it, adds no block
+skills/verify/SKILL.md|it returns a report and adds no ending block
+skills/1-plan/SKILL.md|it returns a report and adds no ending block
+skills/2-implement/SKILL.md|it returns a report and adds no ending block
+skills/assess-architecture/SKILL.md|it returns a report and adds no ending block
+skills/1-plan/SKILL.md|**Implement in a fresh context**
+skills/1-plan/SKILL.md|finish this skill's own work, including its commits, start nothing, and tell the user to run `/clear`, then the next skill
+skills/1-plan/SKILL.md|The fresh-context option carries the recommendation whenever continuing would, and is not recommended when continuing isn't
+skills/stabilize/SKILL.md|keep **Implement in a fresh context**
+skills/2-implement/SKILL.md|**Organize in a fresh context**
+skills/3-organize-commits/SKILL.md|**Create the PR in a fresh context**
 EOF_PHRASES
 
 if [ "$failures" -eq 0 ]; then

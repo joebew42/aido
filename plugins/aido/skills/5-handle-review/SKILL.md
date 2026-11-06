@@ -60,6 +60,9 @@ Apply "Before Every Commit" in `git-workflow.md` before every commit.
 
 After pushing, follow the process in `${CLAUDE_PLUGIN_ROOT}/guidelines/evolving-guidelines.md`. It only proposes additions to this repository's `CLAUDE.md` or `AGENTS.md`, chosen by the user through `AskUserQuestion`.
 
+Then end as "Ending a Skill" in `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` describes. If the user
+declines the push, end the same way, with what is left unpushed in `Needs you`.
+
 Review comments can reveal conventions the codebase holds but hasn't written down. They can also be one reviewer's take on one file — the two look alike at the moment you read them, so run every candidate through the **generality test** in that process before presenting anything. Most review feedback is about *this* code and produces no convention; expect to propose nothing.
 
 Worth examining:

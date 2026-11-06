@@ -1,0 +1,6 @@
+schema_version: "1.1"
+name: implement-offers-a-fresh-context
+description: Once every plan item is done and the user chose a fresh context, implementation starts nothing, tells the user to run /clear then the next skill, and ends with the ending block
+tags: [implement]
+context:
+  scaffold_script: fixture.sh

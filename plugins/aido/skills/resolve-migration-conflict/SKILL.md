@@ -151,6 +151,8 @@ Once all quality checks pass:
 2. Once commits are organized, say that this rewrites the history of `origin/<branch-name>`, then run
    `git push --force origin <branch-name>`; per "Pushing Changes" in `git-workflow.md`, the
    permission prompt asks for the user's approval
+3. End as "Ending a Skill" in `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` describes, also when the
+   skill stops early
 
 ## Common Issues
 
