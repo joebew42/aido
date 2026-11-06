@@ -165,6 +165,9 @@ Before creating the PR, use `AskUserQuestion` to present the draft title and des
 >
 > Should I change anything before creating it, and should it be a **draft** or **ready for review**?"
 
+When the user asks for changes, show what changed, as "Showing What Changed" in `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md`
+describes, and ask again.
+
 **Wait for the user's response before creating the PR.**
 
 ## Step 4: Assign PR

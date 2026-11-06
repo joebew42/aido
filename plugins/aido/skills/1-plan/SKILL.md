@@ -155,7 +155,8 @@ in Step 7.
 
 ### Approve the draft
 
-A phase of a multi-phase project has no route to choose. Show the draft, then `AskUserQuestion`: "Is this draft the right starting point? If so, I'll refine it with you next." —
+A phase of a multi-phase project has no route to choose. Show the draft, as "Showing What Changed" in `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md`
+describes, then `AskUserQuestion`: "Is this draft the right starting point? If so, I'll refine it with you next." —
 options **Approve the draft** (continue at Step 3) / **I'll edit it first** (wait for the user, then
 ask again) / **Cancel** (stop, leaving the draft in place).
 
@@ -169,7 +170,8 @@ change is **small and clear** only when all of these hold:
 - it touches one module or area
 - it introduces no new domain concept or abstraction
 
-Show the draft, say whether the change looks small and clear, and why, then `AskUserQuestion`: "Is this draft the right starting point, and how much planning does it need?" — with the route you propose
+Show the draft, as "Showing What Changed" in `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` describes, say
+whether the change looks small and clear, and why, then `AskUserQuestion`: "Is this draft the right starting point, and how much planning does it need?" — with the route you propose
 marked as recommended. The user's choice stands, whatever you propose:
 
 - **Plan it in one step** → continue at "Small-Change Route"
@@ -193,7 +195,8 @@ apart from Step 5.5, so do not ask about the enabling refactoring analysis.
    feature item, its mode and the reason for it, with every criterion served by at least one item, and
    any opportunity pulled in first. After it, add
    this line: `The enabling refactoring analysis was skipped.`
-5. Show the draft, then ask two questions in one `AskUserQuestion` call:
+5. Show what changed in the draft, as "Showing What Changed" in `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md`
+   describes, then ask two questions in one `AskUserQuestion` call:
    - "Do you approve this specification and plan? This is the only approval for this change." — options:
      - **Approve — move it to SPEC.md** — continue with the checks below
      - **Change it** — ask what to change, update the draft, and ask again
@@ -271,7 +274,8 @@ anyway** records the decision in the draft. Do not ask for approval below until 
 
 ### Approve the specification
 
-Summarise what you changed and why, then ask two questions in one `AskUserQuestion` call:
+Summarise what you changed and why, as "Showing What Changed" in `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md`
+describes, then ask two questions in one `AskUserQuestion` call:
 
 - "Is `SPEC.md.draft` ready to become `SPEC.md`?" — options **Approve — move it to SPEC.md** /
   **Keep refining** (ask what to change, and repeat this step)
@@ -404,7 +408,9 @@ Each one pulled in becomes an **enabling** plan item that names its file. The re
 
 ### Approve the plan
 
-Ask two questions in one `AskUserQuestion` call:
+The specification is already approved, so show only `## Plan` and `## Design notes`, not the approved
+specification. After a change, show what changed, as "Showing What Changed" in `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md`
+describes. Then ask two questions in one `AskUserQuestion` call:
 
 - "Is the plan approved?" — options **Approve the plan** / **Change it** (ask what to change, update
   `SPEC.md`, and ask again)

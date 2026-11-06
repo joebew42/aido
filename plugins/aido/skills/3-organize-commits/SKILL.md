@@ -94,7 +94,7 @@ Before performing any rebase or history rewrite, analyze the current commits and
 >
 > Is this grouping approved?"
 
-Options: **Approve the grouping** / **Adjust it** (ask what to change, update the proposal, and ask again).
+Options: **Approve the grouping** / **Adjust it** (ask what to change, update the proposal, show what changed as "Showing What Changed" in `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` describes, and ask again).
 
 In the same `AskUserQuestion` call, offer the next step, following "each approval also settles the choice that follows it" in `/aido:1-plan`. The answer counts only when the grouping is approved, and "Hand Off" acts on it:
 

@@ -168,8 +168,8 @@ say so in the final report.
 ### 2b. Confirm the areas
 
 Show the proposed areas as a table, then `AskUserQuestion`: "Does this split into areas look
-right?" — options **Looks right** / **Adjust** (the user describes the changes; apply them and ask
-again). Area boundaries are the decision everything else builds on, so they get a human check.
+right?" — options **Looks right** / **Adjust** (the user describes the changes; apply them, show what
+changed as "Showing What Changed" in `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` describes, and ask again). Area boundaries are the decision everything else builds on, so they get a human check.
 
 ### 2c. Catalogue each area — `sonnet` subagents
 

@@ -81,6 +81,7 @@ guidelines/git-workflow.md|every push needs the user's approval
 guidelines/language.md|show a short plain-language list of what changed since the user last saw it
 guidelines/language.md|The first time a document is shown, show it whole
 guidelines/language.md|When the user asks to see the whole document, show it whole
+skills/1-plan/SKILL.md|show only `## Plan` and `## Design notes`, not the approved specification
 EOF_PHRASES
 
 if [ "$failures" -eq 0 ]; then
