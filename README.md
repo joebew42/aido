@@ -48,56 +48,30 @@ Every skill is available as `/aido:<skill>`.
 
 | | Skill | What happens |
 | :--: | --- | --- |
-| **01** | `/aido:1-plan` | Draft, refine, and approve the specification and implementation plan in `SPEC.md`. |
-| **02** | `/aido:2-implement` | Build the feature test by test, checking progress against acceptance criteria. |
+| **01** | `/aido:1-plan` | Draft and approve the specification and plan in `SPEC.md`. |
+| **02** | `/aido:2-implement` | Build the feature test-first, and check every acceptance criterion. |
 | **03** | `/aido:3-organize-commits` | Turn the work into a clean, reviewable commit history. |
-| **04** | `/aido:4-create-pr` | Offer verification, push with your approval, and create the pull request. |
-| **05** | `/aido:5-handle-review` | Evaluate review feedback and address the items you choose. |
+| **04** | `/aido:4-create-pr` | Offer a verification, push with your approval, and open the pull request. |
+| **05** | `/aido:5-handle-review` | Weigh the review feedback and act on the items you pick. |
 
-> **You approve the important decisions.** aido proposes; it does not silently decide what to
-> build, rewrite history, or push on your behalf.
+> **You approve what matters.** aido proposes. It never decides what to build, rewrites history or
+> pushes without asking you.
 
 ### What planning looks like
 
-Start from a GitHub issue, your own `SPEC.md.draft`, or a conversation in which aido interviews you
-and drafts the specification.
+Start from a GitHub issue, your own `SPEC.md.draft`, or a conversation where aido interviews you.
 
 <div align="center">
   <img src="docs/readme/plan-asks-for-the-spec.png" alt="aido planning asks whether to start from a GitHub issue, a draft specification, or a conversation" width="760" />
 </div>
 
-`/aido:1-plan` checks the draft against your repository, refines it with you, and only turns it into
-`SPEC.md` after approval. It then plans the work, creates a branch, and moves into implementation if
-you chose to. A full plan stops for three approvals, of the draft, the specification and the plan,
-each settling the choice that follows it, on top of any questions about what to build. For a small,
-clear change, it can propose a lighter route: a brief specification and plan approved together,
-without the enabling-refactoring analysis.
+`/aido:1-plan` checks the draft against your repository and refines it with you. You approve it three
+times: the draft, the specification and the plan. A small, clear change can take a lighter route,
+where you approve a short specification and plan at once.
 
-Later, `/aido:3-organize-commits` asks whether to revert `SPEC.md` (the default) or keep it in the
-repository docs. `/aido:4-create-pr` offers verification before pushing and can open GitHub issues
-for deferred acceptance criteria you select.
-
-You don't have to remember what comes next. Once every plan item is done, `/aido:2-implement` asks
-whether to organize the commits, and `/aido:3-organize-commits` asks whether to create the PR, each
-alongside its last approval, so this adds no extra stop. Either question names any criteria still open
-or deferred. Accepting only starts the next skill: every approval inside it still happens, including
-the push. Stopping names the skill to run later, in a new session if you want a fresh context.
-
-Each of these hand-offs, from planning onwards, also offers to continue in a **fresh context**, and
-recommends it whenever it recommends continuing. The skill finishes its own work and commits, then
-tells you to run `/clear` and the next skill. The next skill reads `SPEC.md` and the git history, so it
-doesn't need the earlier conversation, and you start it with an empty context.
-
-Every skill ends the same way, with a short block that tells you where to look:
-
-```text
-Done: the plan for sharing a list is committed on `feat-share-lists`.
-Decided: a shared list is read-only for now.
-Needs you: nothing.
-```
-
-When a skill asks you to approve something you've already seen, it shows only what changed since
-then. A design or refactoring finding is one line in chat, and you can ask for it in full.
+Each skill ends by offering the next one, so you don't have to remember the order. It recommends a
+fresh context: run `/clear` and the next skill, which picks up from `SPEC.md` and the git history.
+Every skill ends with a short note on what it did, what it decided, and what it needs from you.
 
 ### Recommended Claude Code settings
 
