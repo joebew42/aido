@@ -96,6 +96,9 @@ check "commit hook denies a tab between git and commit" "$commit_denial" \
 check "memory hook ignores a memory path in another field" "" \
   "$(echo '{"tool_input":{"file_path":"/tmp/notes.md","content":"\"file_path\":\"/home/me/.claude/projects/todo-app/memory/notes.md\""}}' \
     | "$hooks/deny-memory-writes.sh")"
+check "memory hook ignores a Copilot memory path in file content" "" \
+  "$(echo '{"tool_input":{"path":"/tmp/notes.md","file_text":"\"path\":\"/home/me/.claude/projects/todo-app/memory/notes.md\""}}' \
+    | "$hooks/deny-memory-writes.sh")"
 
 check "commit hook denies a Co-Authored-By trailer" "$commit_denial" \
   "$(commit_hook_output 'git commit -m "feat: add lists
@@ -118,6 +121,9 @@ check_script_is_followable "deny-commit-attribution.sh"
 
 check "memory hook denies a write under a project's memory directory" "$memory_denial" \
   "$(memory_hook_output '/home/me/.claude/projects/todo-app/memory/notes.md')"
+check "memory hook denies a Copilot write under a project's memory directory" "$memory_denial" \
+  "$(echo '{"tool_name":"Write","tool_input":{"path":"/home/me/.claude/projects/todo-app/memory/notes.md","file_text":"x"}}' \
+    | "$hooks/deny-memory-writes.sh")"
 check "memory hook allows a write to a project's other files" "" \
   "$(memory_hook_output '/home/me/.claude/projects/todo-app/notes.md')"
 check "memory hook allows a memory directory outside Claude's projects" "" \
@@ -142,6 +148,9 @@ check "memory hook still denies in a repository that has not opted out" "$memory
   "$(in_repo_with_config "" "" deny-memory-writes.sh "$memory_write")"
 check "memory hook allows writes in a repository that opted out" "" \
   "$(in_repo_with_config aido.allowMemoryWrites true deny-memory-writes.sh "$memory_write")"
+check "memory hook allows Copilot writes in a repository that opted out" "" \
+  "$(in_repo_with_config aido.allowMemoryWrites true deny-memory-writes.sh \
+    '{"tool_name":"Write","tool_input":{"path":"/home/me/.claude/projects/todo-app/memory/notes.md"}}')"
 check "an opt-out covers only its own hook" "$memory_denial" \
   "$(in_repo_with_config aido.allowCommitAttribution true deny-memory-writes.sh "$memory_write")"
 
