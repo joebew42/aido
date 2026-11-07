@@ -14,6 +14,9 @@ class StaticChecks(unittest.TestCase):
         copy = Path(directory.name)
         shutil.copytree(ROOT / "plugins" / "aido" / "skills", copy / "plugins" / "aido" / "skills")
         shutil.copytree(ROOT / "plugins" / "aido" / "guidelines", copy / "plugins" / "aido" / "guidelines")
+        shutil.copytree(ROOT / "plugins" / "aido" / "evals", copy / "plugins" / "aido" / "evals", ignore=shutil.ignore_patterns("results"))
+        shutil.copytree(ROOT / "docs" / "readme", copy / "docs" / "readme")
+        shutil.copy(ROOT / "README.md", copy / "README.md")
         (copy / "tests").mkdir()
         shutil.copy(ROOT / "tests" / "skills.sh", copy / "tests" / "skills.sh")
         return copy
@@ -77,6 +80,25 @@ class StaticChecks(unittest.TestCase):
 
         self.assertEqual(result.returncode, 1)
         self.assertIn("FAIL - verify ends with the ending block", result.stdout)
+
+    def test_a_reference_to_a_missing_skill_fails(self):
+        copy = self.copy_of_the_repository()
+        self.replace_in(copy / "README.md", "`/aido:verify`", "`/aido:check`")
+
+        result = self.run_checks(copy)
+
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("FAIL - /aido:check names an existing skill", result.stdout)
+
+    def test_a_skill_grader_matching_no_skill_fails(self):
+        copy = self.copy_of_the_repository()
+        grader = copy / "plugins" / "aido" / "evals" / "implement-offers-to-organize" / "graders" / "starts-no-organizing.md"
+        self.replace_in(grader, "input_match: 'organize-commits'", "input_match: 'tidy-commits'")
+
+        result = self.run_checks(copy)
+
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("FAIL - implement-offers-to-organize/graders/starts-no-organizing.md matches an existing skill", result.stdout)
 
 
 if __name__ == "__main__":

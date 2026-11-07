@@ -124,6 +124,35 @@ guidelines/tdd.md|every other unit, in every mode, including an `inside-out` uni
 skills/2-implement/SKILL.md|Tests are written together only for a contract, a mapping or a DTO that relies on no existing code
 EOF_PHRASES
 
+skill_names="$(
+  for skill in "$plugin"/skills/*/SKILL.md; do
+    basename "$(dirname "$skill")"
+  done
+)"
+
+referencing_files="$(
+  find "$plugin/skills" "$plugin/guidelines" "$plugin/evals" "$root/docs/readme" -type f -not -path "$plugin/evals/results/*" 2>/dev/null
+  for file in "$root/README.md" "$root/AGENTS.md"; do
+    [ -f "$file" ] && echo "$file"
+  done
+)"
+
+skill_references="$(xargs -r grep -hoI '/aido:[0-9a-z][0-9a-z-]*' <<< "$referencing_files" | sort -u)"
+
+while IFS= read -r reference; do
+  [ -n "$reference" ] || continue
+  grep -qxF "${reference#/aido:}" <<< "$skill_names"
+  report $? "$reference names an existing skill"
+done <<< "$skill_references"
+
+for grader in "$plugin"/evals/*/graders/*.md; do
+  [ -f "$grader" ] && grep -qx 'tool: Skill' "$grader" || continue
+  pattern="$(sed -nE "s/^input_match: '(.*)'\$/\1/p" "$grader")"
+  [ -n "$pattern" ] || continue
+  grep -qE "$pattern" <<< "$skill_names"
+  report $? "${grader#"$plugin"/evals/} matches an existing skill"
+done
+
 if [ "$failures" -eq 0 ]; then
   echo "all passed"
 else
