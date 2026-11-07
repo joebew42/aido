@@ -226,10 +226,10 @@ Recorded 2026-11-07 on plugin version 4.7.0 against `main` at plugin version 4.6
 
 | Measure | This change | Baseline |
 | --- | --- | --- |
-| Score | 0.33 | 1.00 |
-| connects-before-the-edge-cases | 1/3 | 3/3 |
-| Mean cost | $0.99 | $0.84 |
-| Mean turns | 35 | 34 |
+| Score | 0.67 | 0.67 |
+| connects-before-the-edge-cases | 2/3 | 2/3 |
+| Mean cost | $0.94 | $0.90 |
+| Mean turns | 34 | 37 |
 
 #### implement-finishes-the-feature
 
@@ -361,21 +361,21 @@ The second comparison, on 2026-11-07, ran with every cut, as recorded in
 
 | Case | Outcomes, cuts and `main` | Mean cost with the cuts | `main` |
 | --- | --- | --- | --- |
-| `implement-connects-the-slice-early` | Its order check: 1/3 and 3/3. Both failed runs wired the entry point first, as above | $0.99 | $0.84 |
+| `implement-connects-the-slice-early`, re-run with the check ignoring case | Its order check: 2/3 in both. Each failed run wired the entry point, then ran out of turns before any edge case | $0.94 | $0.90 |
 | `implement-finishes-the-feature` | All 3/3 in both, mutation score 1.00 in both. No run ran out of turns | $1.18 | $1.69 |
 | `implement-grows-an-inside-out-item-by-layer` | Its order check: 2/3 and 1/3 | $0.95 | $0.88 |
 | `implement-writes-the-test-first` | Its order check: 3/3 in both | $0.36 | $0.28 |
 | `implement-respects-a-hidden-helper` | All 3/3 in both, mutation score 1.00 in both | $0.95 | $1.11 |
 
-Again no outcome was worse, so no cut was restored. The order check that fell to 1/3 missed the
-behaviour rather than the agent skipping it, so it doesn't count against the cuts.
+Again no outcome was worse, so no cut was restored. `implement-connects-the-slice-early` first came out
+1/3 against 3/3, but both failed runs had wired the entry point first, and the check missed their
+`TASK_ALREADY_COMPLETED`. The check now ignores case, and that case alone was run again, for $5.50.
 
 The two cases that run to the end were cheaper with the cuts. `implement-finishes-the-feature`
 cost 30% less, $1.18 against $1.69, in 30 turns against 34. It is the first fair figure for it, because
 no run stopped at the turn limit. The trap case cost 14% less, $0.95 against $1.11, though in 40 turns
-against 36. Across the four main cases, the cuts cost 6% less, $3.48 against $3.69. The cases that stop
-once their order check is settled show no saving, and `implement-connects-the-slice-early` costs more
-only because its two missed runs went on to the turn limit.
+against 36. Across the four main cases, the cuts cost 9% less, $3.43 against $3.75. The cases that stop
+once their order check is settled show no clear saving either way.
 
 These are 3 runs per arm. Single runs of `implement-finishes-the-feature` with the cuts cost between
 $0.75 and $1.88, so the 30% is a hint that points the same way as the trap case, not proof.
