@@ -40,7 +40,7 @@
     <rect x="636" y="456" width="240" height="56" rx="10" fill="#f6f8fa" stroke="#d0d7de"/>
     <text x="756" y="480">3 · Organize commits</text>
     <rect x="84" y="456" width="240" height="56" rx="10" fill="#f6f8fa" stroke="#d0d7de"/>
-    <text x="204" y="480">4 · Create PR</text>
+    <text x="204" y="480">4 · Open PR</text>
     <rect x="10" y="170" width="220" height="56" rx="10" fill="#f6f8fa" stroke="#d0d7de"/>
     <text x="120" y="194">5 · Handle review</text>
   </g>
@@ -48,7 +48,7 @@
     <text x="480" y="80">/aido:1-plan</text>
     <text x="840" y="214">/aido:2-implement</text>
     <text x="756" y="500">/aido:3-organize-commits</text>
-    <text x="204" y="500">/aido:4-create-pr</text>
+    <text x="204" y="500">/aido:4-open-pr</text>
     <text x="120" y="214">/aido:5-handle-review</text>
   </g>
 

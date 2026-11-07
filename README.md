@@ -23,11 +23,11 @@ Hand Claude Code the whole feature while you stay in the loop! Works with any st
   ┌─────────────────────────────────────────────────────────────────────────────────────┘
   ▼
 ┌────────────────────────┐    ┌────────────────────────┐
-│ 4 · Create PR          │    │ 5 · Handle review      │
+│ 4 · Open PR            │    │ 5 · Handle review      │
 │ verifies, pushes and   │ ─▶ │ weighs the feedback,   │
 │ opens the pull request │    │ acts on what you pick  │
 └────────────────────────┘    └────────────────────────┘
-/aido:4-create-pr             /aido:5-handle-review
+/aido:4-open-pr               /aido:5-handle-review
 ```
 
 ---
@@ -51,7 +51,7 @@ Every skill is available as `/aido:<skill>`.
 | **01** | `/aido:1-plan` | Draft and approve the specification and plan in `SPEC.md`. |
 | **02** | `/aido:2-implement` | Build the feature test-first, and check every acceptance criterion. |
 | **03** | `/aido:3-organize-commits` | Turn the work into a clean, reviewable commit history. |
-| **04** | `/aido:4-create-pr` | Offer a verification, push with your approval, and open the pull request. |
+| **04** | `/aido:4-open-pr` | Offer a verification, push with your approval, and open the pull request. |
 | **05** | `/aido:5-handle-review` | Weigh the review feedback and act on the items you pick. |
 
 > **You approve what matters.** aido proposes. It never decides what to build, rewrites history or
@@ -175,7 +175,7 @@ passed during the check, or by your confirmation; otherwise it is **insufficient
 | `/aido:1-plan` | Draft, refine, and plan a feature into `SPEC.md`. |
 | `/aido:2-implement` | Implement the feature using TDD. `loop` (or `loop 7-9`) runs each plan item in a fresh subagent. |
 | `/aido:3-organize-commits` | Organize the commit history. |
-| `/aido:4-create-pr` | Create a pull request. |
+| `/aido:4-open-pr` | Open a pull request. |
 | `/aido:5-handle-review` | Handle PR review feedback. |
 
 ### Multi-phase feature
@@ -205,7 +205,7 @@ passed during the check, or by your confirmation; otherwise it is **insufficient
 1. Write the overall feature specification in `SPEC.md.draft`.
 2. Run `/aido:multi-phase-spec-pr` to create the tracking PR.
 3. For each phase (or independent phases in parallel), run `/aido:1-plan`, `/aido:2-implement`,
-   `/aido:3-organize-commits`, and `/aido:4-create-pr`. Planning can offer parallel worktrees.
+   `/aido:3-organize-commits`, and `/aido:4-open-pr`. Planning can offer parallel worktrees.
 4. Run `/aido:multi-phase-sync` to update the main plan and begin the next phase.
 
 ### Take over existing work
