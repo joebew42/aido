@@ -6,7 +6,7 @@ disable-model-invocation: false
 # Stabilize Existing Work
 
 Take over a change that was started outside this workflow and set it up so `/aido:2-implement`,
-`/aido:3-organize-commits` and `/aido:4-create-pr` can carry it to a clean PR.
+`/aido:3-organize-commits` and `/aido:4-open-pr` can carry it to a clean PR.
 
 `SPEC.md` and `SPEC.md.draft` stand for the spec file and its draft: resolve them first, per "The
 Specification File" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`.
@@ -166,7 +166,7 @@ than writing them anew.
 
 ## STOP — Skill Complete
 
-**Do NOT implement anything, organize commits, or create a PR in this skill.** Implementation happens
+**Do NOT implement anything, organize commits, or open a PR in this skill.** Implementation happens
 only in `/aido:2-implement`, which offers the steps after it.
 
 Whenever this skill ends, including when it stops early, end as
