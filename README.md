@@ -4,9 +4,9 @@
 
 # aido 🥋
 
-**A spec-driven, test-driven engineering workflow for Claude Code.**
+**A spec-driven, test-driven engineering workflow for Claude Code and Copilot CLI.**
 
-Hand Claude Code the whole feature while you stay in the loop! Works with any stack.
+Hand your coding agent the whole feature while you stay in the loop! Works with any stack.
 
 [Get started](#get-started) · [How it works](#how-it-works) · [Skills](#skills) ·
 [Why aido?](#why-aido)
@@ -34,7 +34,7 @@ Hand Claude Code the whole feature while you stay in the loop! Works with any st
 
 ## Get started
 
-Install the plugin in Claude Code, then start planning your first feature:
+### Claude Code
 
 ```text
 /plugin marketplace add joebew42/aido
@@ -42,7 +42,21 @@ Install the plugin in Claude Code, then start planning your first feature:
 /aido:1-plan
 ```
 
-Every skill is available as `/aido:<skill>`.
+### Copilot CLI
+
+Tested with Copilot CLI 1.0.107.
+
+```bash
+copilot plugin marketplace add joebew42/aido
+copilot plugin install aido@aido
+copilot
+```
+
+In the Copilot session, start with `/1-plan`. Copilot uses unqualified skill names (`/<skill>`); if
+another skill has the same name, remove or rename the conflicting skill before invoking aido.
+
+The workflow diagram and skill tables below use Claude Code names (`/aido:<skill>`). In Copilot CLI,
+omit `aido:`.
 
 ### Your first feature, in five steps
 
@@ -85,6 +99,15 @@ can't set these itself, so add this to `~/.claude/settings.json`:
 }
 ```
 
+### Recommended Copilot CLI settings
+
+These settings disable Copilot's own memory and automatic commit attribution:
+
+```bash
+copilot config memory false
+copilot config includeCoAuthoredBy false
+```
+
 ### What the plugin's hooks enforce
 
 | Hook&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | Default | Turn&nbsp;it&nbsp;off&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |
@@ -93,7 +116,18 @@ can't set these itself, so add this to `~/.claude/settings.json`:
 | Block commit messages containing<br>`Co-Authored-By` trailers | on | `git config aido.allowCommitAttribution true` |
 | Block writes to Claude's memory directory | on | `git config aido.allowMemoryWrites true` |
 
-Each opt-out applies to this repository, or everywhere with `--global`. The skills never set them.
+In Claude Code, each opt-out applies to the current repository; add `--global` to apply it everywhere.
+These are your settings to make: the skills never set them.
+
+### Copilot CLI limitations
+
+- Hooks run from the plugin directory, so project-local git opt-outs may not be read. A `--global`
+  opt-out applies to every repository, including in Claude Code; use it only if that is what you want.
+- The memory hook protects Claude's memory directory, not Copilot's memory. Disable Copilot memory
+  with the setting above if you do not want it used.
+- Copilot does not run the compaction reminder hook. After compaction, invoke the current skill again
+  to reload its guidelines.
+- Hooks are safeguards, not a security boundary: a host failure or timeout can prevent enforcement.
 
 ---
 
@@ -163,7 +197,7 @@ passed during the check, or by your confirmation. Otherwise it is **insufficient
 | Tool | Question |
 | --- | --- |
 | `/aido:verify` | **Did we build what we agreed to build?** |
-| `/code-review` | **Does the code have defects?** |
+| `/code-review` (`/review` in Copilot) | **Does the code have defects?** |
 
 ---
 
@@ -219,7 +253,7 @@ passed during the check, or by your confirmation. Otherwise it is **insufficient
 ### Review someone else's PR
 
 Run `/aido:verify <PR number>` to compare it with the agreed requirements. Run `/code-review` to look
-for defects.
+for defects. In Copilot CLI, use `/verify <PR number>` and `/review`.
 
 ### Resolve a migration conflict
 

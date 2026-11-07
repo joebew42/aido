@@ -8,7 +8,7 @@
     {
       "name": "aido",
       "source": "./plugins/aido",
-      "description": "Stack-agnostic, test-driven engineering workflow skills, invoked as /aido:<skill>"
+      "description": "Stack-agnostic, test-driven engineering workflow skills for Claude Code and Copilot CLI"
     }
   ]
 }
