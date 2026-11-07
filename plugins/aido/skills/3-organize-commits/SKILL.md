@@ -127,8 +127,8 @@ After organizing commits, verify ALL of the following:
 Continue as the user chose in Step 2, without asking again:
 
 - **Create the PR** → once the final checklist holds, invoke `/aido:4-create-pr`. This answer approves only starting that skill: its verification offer, the push approval and the review of the PR all still happen. If the checklist can't hold, do not start it, and tell the user why
-- **Create the PR in a fresh context** → once the final checklist holds, act as **Hand-off outcomes** in `${CLAUDE_PLUGIN_ROOT}/skills/1-plan/SKILL.md` describes. If the checklist can't hold, tell the user why
-- **Stop here**, or no answer → as **Hand-off outcomes** in `${CLAUDE_PLUGIN_ROOT}/skills/1-plan/SKILL.md` describes
+- **Create the PR in a fresh context** → once the final checklist holds, act as **Hand-off Outcomes** in `git-workflow.md` describes. If the checklist can't hold, tell the user why
+- **Stop here**, or no answer → as **Hand-off Outcomes** in `git-workflow.md` describes
 
 Then end as "Ending a Skill" in `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` describes. When
 `/aido:resolve-migration-conflict` started this skill, add no block.

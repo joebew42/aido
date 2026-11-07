@@ -96,6 +96,21 @@ without what its later slices add.
 - the very last commit settles what happens to `SPEC.md`: by default a `revert: docs: feature specification` that removes it, or — when the user chooses to keep it — a `docs: move feature specification to <path>` that moves it into the repository's documentation
 - if commits are already pushed, add new commits instead (do not alter commit history)
 
+## Hand-off Outcomes
+
+Every skill that offers the next one with a question — `/aido:1-plan`, `/aido:stabilize`,
+`/aido:2-implement` and `/aido:3-organize-commits` — acts on these answers the same way, once its own
+work is done:
+
+- **… in a fresh context** → finish this skill's own work, including its commits, start nothing, and
+  tell the user to run `/clear`, then the next skill. A skill can't run `/clear` itself
+- **Stop here** → start nothing. Tell the user they can run the next skill later, and that running it
+  in a new session gives it a fresh context
+- **nobody answered the question, or it couldn't be asked** → start nothing
+
+The fresh-context option carries the recommendation whenever continuing would, and is not recommended
+when continuing isn't.
+
 ## Branch Management
 
 ### Branch Naming

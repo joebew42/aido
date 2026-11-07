@@ -417,9 +417,9 @@ user chose to skip it:
      `/aido:3-organize-commits`. This answer approves only starting that skill: all of its own questions
      still happen. If the work can't finish cleanly, do not start it, and tell the user why
    - **Organize in a fresh context** → once the progress update is committed, act as
-     **Hand-off outcomes** in `${CLAUDE_PLUGIN_ROOT}/skills/1-plan/SKILL.md` describes
+     **Hand-off Outcomes** in `git-workflow.md` describes
    - **Stop here**, or no answer → tell the user that implementation is complete, then act as
-     **Hand-off outcomes** in `${CLAUDE_PLUGIN_ROOT}/skills/1-plan/SKILL.md` describes
+     **Hand-off Outcomes** in `git-workflow.md` describes
 
 4. **End** as "Ending a Skill" in `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` describes, also when the
    session stops early. With plan items left, `Needs you` names only running `/aido:2-implement`
