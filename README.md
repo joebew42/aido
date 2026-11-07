@@ -62,10 +62,6 @@ Every skill is available as `/aido:<skill>`.
 > **You approve the important decisions.** aido proposes; it does not silently decide what to
 > build, rewrite history, or push on your behalf.
 
-<div align="center">
-  <img src="docs/readme/human-in-the-loop.svg" alt="At every stage the agent proposes and you decide: approving the draft, spec and plan; deciding on misalignments with your repository; picking what to implement; approving the commit grouping and every push; verifying and approving the PR; picking which review feedback to address" width="900" />
-</div>
-
 ### What planning looks like
 
 Start from a GitHub issue, your own `SPEC.md.draft`, or a conversation in which aido interviews you
