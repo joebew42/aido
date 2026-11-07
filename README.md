@@ -65,9 +65,9 @@ Start from a GitHub issue, your own `SPEC.md.draft`, or a conversation where aid
   <img src="docs/readme/plan-asks-for-the-spec.png" alt="aido planning asks whether to start from a GitHub issue, a draft specification, or a conversation" width="760" />
 </div>
 
-`/aido:1-plan` checks the draft against your repository and refines it with you. You approve it three
-times: the draft, the specification and the plan. A small, clear change can take a lighter route,
-where you approve a short specification and plan at once.
+`/aido:1-plan` checks the draft against your repository and refines it with you. You approve it
+three times: the draft, the specification and the plan. A small, clear change can take a lighter
+route, where you approve a short specification and plan at once.
 
 Each skill ends by offering the next one, so you don't have to remember the order. It recommends a
 fresh context: run `/clear` and the next skill, which picks up from `SPEC.md` and the git history.
@@ -93,28 +93,25 @@ set those preferences itself, so add the following to `~/.claude/settings.json`:
 | Block commit messages containing `Co-Authored-By` trailers | on | `git config aido.allowCommitAttribution true` |
 | Block writes to Claude's memory directory | on | `git config aido.allowMemoryWrites true` |
 
-Each opt-out applies to the current repository; add `--global` to apply it everywhere. These are
-your settings to make: the skills never set them.
+Each opt-out applies to this repository, or everywhere with `--global`. The skills never set them.
 
 ---
 
 ## Why aido?
 
-**Delegate the work, not the judgement.** The agent explores the code, writes the specification, the
-tests and the code, and prepares the commits and the pull request. You decide what gets built, and you
-stay accountable for the result.
+**Delegate the work, not the judgement.** The agent writes the specification, the tests, the code,
+the commits and the pull request. You decide what gets built, and you own the result.
 
 The name **aido** means **"AI do"** and echoes `sudo`: the agent acts on your say-so.
 
 - **Test-driven.** The tests come before the code, and each unit's tests must fail without its code.
-- **Engineering practices built in.** Clean architecture, focused tests, deliberate refactoring and a
-  tidy history.
+- **Engineering practices built in.** Clean architecture, focused tests, deliberate refactoring and
+  a tidy history.
 - **Your repository's conventions win.** aido follows `CLAUDE.md`, `AGENTS.md` and your code, not a
   naming, testing or architecture scheme of its own.
 
-For more on the idea, see
-[AI-Augmented Software Engineering](https://www.sei.cmu.edu/ai-augmented-software-engineering/) from
-Carnegie Mellon University's Software Engineering Institute.
+For more on the idea, see [AI-Augmented Software Engineering](https://www.sei.cmu.edu/ai-augmented-software-engineering/)
+from Carnegie Mellon University.
 
 ---
 
@@ -132,10 +129,9 @@ reads it.
 
 ### Acceptance criteria stay visible
 
-Every plan item names the criteria it serves. Implementation first writes an acceptance test for
-each criterion a test can check, and checks them all before it finishes. A criterion only a person can check is
-marked `(manual)` and needs your confirmation. When one isn't met, you choose: build it, change it or
-defer it. Deferred criteria show up in the PR and can become GitHub issues.
+Every plan item names the criteria it serves. Implementation tests each criterion first, and checks
+them all before it finishes. A criterion only you can check is marked `(manual)`. When one isn't
+met, you build it, change it or defer it. Deferred ones can become GitHub issues.
 
 ### Uncertainty chooses how each part is built
 
@@ -152,18 +148,16 @@ implementation switches the mode and tells you.
 
 ### The repository is part of the conversation
 
-Planning checks the specification against your code, `CLAUDE.md` and `AGENTS.md` before you approve
-it. Implementation checks again at the start of each session, in case the default branch moved. When
-something conflicts, aido shows you the files and recommends revising or rejecting the specification.
-You can still go ahead, and your reason is recorded.
+Planning checks the specification against your code, `CLAUDE.md` and `AGENTS.md`. Implementation
+checks again in case the default branch moved. On a conflict, aido shows the files and recommends
+revising or rejecting the specification. You can still go ahead, and your reason is recorded.
 
 ### Verify what was agreed
 
-`/aido:verify` checks a branch or a PR against what was agreed. It runs in a **fresh context**, so the
-agent that built the change isn't the one judging it, and it changes nothing. A requirement counts as
-**verified** only with a test that passed during the check, or your confirmation; otherwise it is
-**insufficient evidence** or **unmet**. For a PR without a specification, it uses the PR description
-and linked issues, and says the evidence is weaker.
+`/aido:verify` checks a branch or a PR against what was agreed, in a **fresh context**, so the agent
+that built it isn't the judge. It changes nothing. A requirement is **verified** only by a test that
+passed during the check, or by your confirmation; otherwise it is **insufficient evidence** or
+**unmet**. A PR without a specification is checked against its description and linked issues.
 
 | Tool | Question |
 | --- | --- |
@@ -241,8 +235,8 @@ The skills follow the guidelines in [`plugins/aido/guidelines/`](plugins/aido/gu
 
 ## Measuring it
 
-Eval cases compare what agents do with and without aido, so a change to a skill can be measured rather
-than judged by feel. See [how to run and read them, and the current results](docs/evals.md).
+Eval cases compare what agents do with and without aido, or with an earlier version of aido, so a
+change to a skill can be measured rather than judged by feel. See [how to run and read them, and the current results](docs/evals.md).
 
 ---
 
