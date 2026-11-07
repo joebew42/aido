@@ -4,14 +4,9 @@
 
 # aido 🥋
 
-### AI does, you decide.
-
 **A spec-driven, test-driven engineering workflow for Claude Code.**
 
-Hand Claude Code the whole feature — the spec, tests, code, commits, and pull request — while
-**you stay in charge of every decision that matters**.
-
-Works with any stack.
+Hand Claude Code the whole feature while you stay in the loop! Works with any stack.
 
 [Get started](#get-started) · [How it works](#how-it-works) · [Skills](#skills) ·
 [Why aido?](#why-aido)
@@ -327,7 +322,5 @@ than judged by feel. See [how to run and read them, and the current results](doc
 <div align="center">
 
 **aido 🥋**
-
-*AI does, you decide.*
 
 </div>
