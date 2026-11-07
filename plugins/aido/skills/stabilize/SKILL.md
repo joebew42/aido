@@ -6,7 +6,7 @@ disable-model-invocation: false
 # Stabilize Existing Work
 
 Take over a change that was started outside this workflow and set it up so `/aido:2-implement`,
-`/aido:3-organize-commits` and `/aido:4-create-pr` can carry it to a clean PR.
+`/aido:3-organize-commits` and `/aido:4-open-pr` can carry it to a clean PR.
 
 `SPEC.md` and `SPEC.md.draft` stand for the spec file and its draft: resolve them first, per "The
 Specification File" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`.
@@ -158,7 +158,7 @@ normally inside-out, citing the original work>
 
 Tell the user the branch is ready, then ask "Choose how to continue" from Step 6 of
 `${CLAUDE_PLUGIN_ROOT}/skills/1-plan/SKILL.md` with `AskUserQuestion`, and continue as its Step 8
-and **Hand-off outcomes** do. Ask nothing else about the handoff.
+and **Hand-off Outcomes** in `git-workflow.md` do. Ask nothing else about the handoff.
 
 In carry-over mode, leave out **Implement in a worktree**, because the uncommitted original changes
 live in this working directory, and keep **Implement in a fresh context**, which stays in it. `/aido:2-implement` then adjusts and commits those changes rather
@@ -166,7 +166,7 @@ than writing them anew.
 
 ## STOP — Skill Complete
 
-**Do NOT implement anything, organize commits, or create a PR in this skill.** Implementation happens
+**Do NOT implement anything, organize commits, or open a PR in this skill.** Implementation happens
 only in `/aido:2-implement`, which offers the steps after it.
 
 Whenever this skill ends, including when it stops early, end as

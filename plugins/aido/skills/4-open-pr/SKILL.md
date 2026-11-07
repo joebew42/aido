@@ -1,11 +1,11 @@
 ---
-description: Creates or updates a pull request for the current feature. Invoked when the user wants to create a pull request, open a PR, update the draft PR, or runs /aido:4-create-pr.
+description: Opens or updates a pull request for the current feature. Invoked when the user wants to open a pull request, create a PR, update the draft PR, or runs /aido:4-open-pr.
 disable-model-invocation: false
 ---
 
-# Create a Pull Request
+# Open a Pull Request
 
-Create or update a draft pull request for the current feature.
+Open or update a draft pull request for the current feature.
 
 `SPEC.md` and `SPEC.md.draft` stand for the spec file and its draft: resolve them first, per "The
 Specification File" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`.
@@ -41,13 +41,13 @@ After **Verify**, once the report is shown, use `AskUserQuestion` to ask:
 > "How should I continue after this report?"
 
 - **Proceed** — continue at Step 1. Every item the report lists under its deviations, other than deferred criteria, counts as acknowledged: keep them for the **Deviations** section of the description
-- **Address findings** — stop here, before anything is pushed, and let the user make changes (they can re-run `/aido:4-create-pr` when ready)
+- **Address findings** — stop here, before anything is pushed, and let the user make changes (they can re-run `/aido:4-open-pr` when ready)
 
 ## Step 1: Push Changes
 
 A PR needs the branch on origin first. Run `git push origin BRANCH_NAME` (set origin and branch explicitly); per "Pushing Changes" in `git-workflow.md`, the permission prompt asks for the user's approval.
 
-- if the user declines: stop — the PR can't be created until the branch is pushed
+- if the user declines: stop — the PR can't be opened until the branch is pushed
 
 ## Step 2: Write PR Title
 
@@ -152,27 +152,27 @@ For a PR that is part of a multi-phase feature, follow `${CLAUDE_PLUGIN_ROOT}/gu
 2. Copy or adapt phase descriptions from the main plan to ensure consistency
 3. Use technical, specific language that tells reviewers what will actually be implemented
 
-## Step 3.5: Review PR Before Creating
+## Step 3.5: Review PR Before Opening
 
-Before creating the PR, use `AskUserQuestion` to present the draft title and description to the user:
+Before opening the PR, use `AskUserQuestion` to present the draft title and description to the user:
 
-> "Here's the PR I'm about to create:
+> "Here's the PR I'm about to open:
 >
 > **Title:** [proposed title]
 >
 > **Description:**
 > [proposed description]
 >
-> Should I change anything before creating it, and should it be a **draft** or **ready for review**?"
+> Should I change anything before opening it, and should it be a **draft** or **ready for review**?"
 
 When the user asks for changes, show what changed, as "Showing What Changed" in `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md`
 describes, and ask again.
 
-**Wait for the user's response before creating the PR.**
+**Wait for the user's response before opening the PR.**
 
 ## Step 4: Assign PR
 
-After creating the PR:
+After opening the PR:
 
 - [ ] assign the PR author to the PR: `gh pr edit --add-assignee "@me"`
 - [ ] if the host repository's agent instruction files ask for specific labels or reviewers, apply them as they describe; otherwise add none
@@ -195,7 +195,7 @@ Report each issue opened or commented on with its URL, and each skipped criterio
 
 ## Step 5: Suggest Repository Conventions
 
-After creating the PR, follow the process in `${CLAUDE_PLUGIN_ROOT}/guidelines/evolving-guidelines.md`. It only proposes additions to this repository's `CLAUDE.md` or `AGENTS.md`, chosen by the user through `AskUserQuestion`.
+After opening the PR, follow the process in `${CLAUDE_PLUGIN_ROOT}/guidelines/evolving-guidelines.md`. It only proposes additions to this repository's `CLAUDE.md` or `AGENTS.md`, chosen by the user through `AskUserQuestion`.
 
 Then end as "Ending a Skill" in `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` describes, with the PR's URL
 in `Done`. If the skill stops early, such as when the push is declined, end the same way.

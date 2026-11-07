@@ -86,7 +86,8 @@ skills/2-implement/SKILL.md|Skip those already ticked in `## Progress`, and name
 skills/2-implement/SKILL.md|a range that names an item the plan doesn't have** → don't start the loop, and say why
 skills/2-implement/SKILL.md|each with the criteria it serves, and ask nothing
 skills/2-implement/SKILL.md|the range ends before the plan does** → record the items left, name them
-skills/3-organize-commits/SKILL.md|Once the commits are organized, should I create the pull request?
+skills/3-organize-commits/SKILL.md|Once the commits are organized, should I open the pull request?
+skills/4-open-pr/SKILL.md|# Open a Pull Request
 skills/verify/SKILL.md|Every finding names its evidence
 skills/verify/SKILL.md|are not evidence
 guidelines/systemic-refactoring.md|Evidence before action
@@ -108,11 +109,11 @@ skills/1-plan/SKILL.md|it returns a report and adds no ending block
 skills/2-implement/SKILL.md|it returns a report and adds no ending block
 skills/assess-architecture/SKILL.md|it returns a report and adds no ending block
 skills/1-plan/SKILL.md|**Implement in a fresh context**
-skills/1-plan/SKILL.md|finish this skill's own work, including its commits, start nothing, and tell the user to run `/clear`, then the next skill
-skills/1-plan/SKILL.md|The fresh-context option carries the recommendation whenever continuing would, and is not recommended when continuing isn't
+guidelines/git-workflow.md|finish this skill's own work, including its commits, start nothing, and tell the user to run `/clear`, then the next skill
+guidelines/git-workflow.md|The fresh-context option carries the recommendation whenever continuing would, and is not recommended when continuing isn't
 skills/stabilize/SKILL.md|keep **Implement in a fresh context**
 skills/2-implement/SKILL.md|**Organize in a fresh context**
-skills/3-organize-commits/SKILL.md|**Create the PR in a fresh context**
+skills/3-organize-commits/SKILL.md|**Open the PR in a fresh context**
 guidelines/tdd.md|In every mode, write the real implementation straight away: no hardcoded value to pass a test, and no test whose only job is to force generalizing one
 guidelines/tdd.md|set aside the unit's production changes
 guidelines/tdd.md|run its new tests, and confirm each one fails for the right reason. Then restore the changes
@@ -122,6 +123,35 @@ guidelines/tdd.md|a unit that is a contract, a mapping or a DTO, and relies on n
 guidelines/tdd.md|every other unit, in every mode, including an `inside-out` unit that relies on existing code: write **one** test for the next behaviour
 skills/2-implement/SKILL.md|Tests are written together only for a contract, a mapping or a DTO that relies on no existing code
 EOF_PHRASES
+
+skill_names="$(
+  for skill in "$plugin"/skills/*/SKILL.md; do
+    basename "$(dirname "$skill")"
+  done
+)"
+
+referencing_files="$(
+  find "$plugin/skills" "$plugin/guidelines" "$plugin/evals" "$root/docs/readme" -type f -not -path "$plugin/evals/results/*" 2>/dev/null
+  for file in "$root/README.md" "$root/AGENTS.md"; do
+    [ -f "$file" ] && echo "$file"
+  done
+)"
+
+skill_references="$(xargs -r grep -hoI '/aido:[0-9a-z][0-9a-z-]*' <<< "$referencing_files" | sort -u)"
+
+while IFS= read -r reference; do
+  [ -n "$reference" ] || continue
+  grep -qxF "${reference#/aido:}" <<< "$skill_names"
+  report $? "$reference names an existing skill"
+done <<< "$skill_references"
+
+for grader in "$plugin"/evals/*/graders/*.md; do
+  [ -f "$grader" ] && grep -qx 'tool: Skill' "$grader" || continue
+  pattern="$(sed -nE "s/^input_match: '(.*)'\$/\1/p" "$grader")"
+  [ -n "$pattern" ] || continue
+  grep -qE "$pattern" <<< "$skill_names"
+  report $? "${grader#"$plugin"/evals/} matches an existing skill"
+done
 
 if [ "$failures" -eq 0 ]; then
   echo "all passed"

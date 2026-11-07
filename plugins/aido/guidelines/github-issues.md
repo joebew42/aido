@@ -37,5 +37,5 @@ same problem." — options **Skip** / **Comment on #<n>** (posting the point's b
   for `refactor`, apply it; never create a label without asking
 - write the body to a temporary file in the scratchpad and run
   `gh issue create --title "<title>" --body-file <file> [--label "<label>"]`
-- follow `language.md`, and the PR description rules in `/aido:4-create-pr` that apply to any GitHub
+- follow `language.md`, and the PR description rules in `/aido:4-open-pr` that apply to any GitHub
   body: no hard-wrapped prose; no reference to Claude Code
