@@ -9,7 +9,8 @@ stay the same.
   options, and wait for the user's answer. If asking is unavailable, stop rather than assuming
   approval.
 - Use `task` for `Agent`, retaining any requirement for a fresh subagent. Omit the model names in the
-  skills and use the host's default.
+  skills and use the host's default. When a skill may need to resume the same child, start it with
+  `mode: background`, retain its agent ID, and use `read_agent` to get its results.
 - Use `skill` for the `Skill` tool. Invoke aido skills by their unqualified names, such as `1-plan`.
   Check that the loaded skill's base directory is in this plugin; if another skill took precedence,
   stop and tell the user.
