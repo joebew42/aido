@@ -1,7 +1,7 @@
 ---
 type: tool_used
 tool: Skill
-input_match: 'create-pr'
+input_match: 'open-pr'
 min: 0
 max: 0
 ---
