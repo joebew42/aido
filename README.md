@@ -130,8 +130,8 @@ The name **aido** means **"AI do"** and echoes `sudo`: the agent acts on your sa
   and pull request pass through explicit checkpoints.
 - **Specification before code.** Work starts from an approved specification and plan, with a lighter
   route available for small changes.
-- **Test-driven, reviewable steps.** Implementation grows through red–green–refactor, in increments
-  that are easy to inspect.
+- **Test-driven, unit by unit.** Implementation writes the tests before the code, checks that each
+  unit's tests fail without its code, and sums up each unit once it is committed.
 - **Engineering practices built in.** Clean architecture, focused tests, deliberate refactoring, and
   a tidy history are part of the workflow.
 - **Your repository's conventions win.** aido reads `CLAUDE.md`, `AGENTS.md`, and the codebase
@@ -177,9 +177,9 @@ exists. Implementation and commit organization then follow it.
 
 | What's unknown | Mode | How it is built | History |
 | --- | --- | --- | --- |
-| Nothing: it follows existing code or a known contract | `inside-out` | Test-first, layer by layer | Inside-out, acceptance tests last |
-| How the parts fit, or what an interface should be | `outside-in` | Strict TDD, in tracer bullet slices | One group of commits per slice |
-| Logic within one unit | `in-unit` | Strict TDD in that unit | As inside-out |
+| Nothing: it follows existing code or a known contract | `inside-out` | Layer by layer, one test at a time where it relies on existing code | Inside-out, acceptance tests last |
+| How the parts fit, or what an interface should be | `outside-in` | One test at a time, in tracer bullet slices | One group of commits per slice |
+| Logic within one unit | `in-unit` | One test at a time in that unit | As inside-out |
 
 A part is inside-out only if the plan can cite what it conforms to. When the plan proves wrong,
 implementation changes the mode, tells you, and records it.
@@ -291,7 +291,7 @@ Skills load their guidance from [`plugins/aido/guidelines/`](plugins/aido/guidel
 | --- | --- |
 | `git-workflow.md` | Commit conventions, per-commit gates, branching, and GitHub CLI usage. |
 | `code-standards.md` | Design principles, code quality and comments. |
-| `tdd.md` | Red–green–refactor, and the modes that let uncertainty choose step size and direction. |
+| `tdd.md` | Tests before code, and the modes that let uncertainty choose step size and direction. |
 | `testing-principles.md` | Test structure, collaboration tests, and flaky-test prevention. |
 | `project-conventions.md` | Discovering host repository conventions in `CLAUDE.md` and `AGENTS.md`. |
 | `specification.md` | Specification structure and acceptance criteria. |

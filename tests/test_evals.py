@@ -1,5 +1,6 @@
 import json
 import os
+import subprocess
 import sys
 import tempfile
 import unittest
@@ -103,6 +104,15 @@ class OrderOfWork(unittest.TestCase):
         (workspace / "bin/todo").write_text("complete) complete_task ;;")
         watch.tick()
         (workspace / "lib/tasks.sh").write_text("echo already_completed")
+        watch.tick()
+
+        self.assertTrue(watch.passed())
+
+    def test_an_edge_case_named_in_capitals_counts_as_an_edge_case(self):
+        workspace, watch = self.watch("implement-connects-the-slice-early")
+        (workspace / "bin/todo").write_text("complete) complete_task ;;")
+        watch.tick()
+        (workspace / "lib/tasks.sh").write_text("TASK_ALREADY_COMPLETED=3")
         watch.tick()
 
         self.assertTrue(watch.passed())
@@ -227,12 +237,62 @@ class Report(unittest.TestCase):
         self.assertIn("| check | 1/2 | 1/2 |", text)
         self.assertIn("| Score | 0.75 | 0.50 |", text)
 
+    def test_markdown_shows_the_mean_mutation_score_when_an_arm_has_one(self):
+        entry = case_entry()
+        entry["with"]["mean_mutation_score"] = 0.8
+
+        text = evals.render_report({"a": entry})
+
+        self.assertIn("| Mean mutation score | 0.80 | n/a |\n| Mean cost |", text)
+
+    def test_markdown_leaves_out_the_mutation_score_when_no_arm_has_one(self):
+        text = evals.render_report({"a": case_entry()})
+
+        self.assertNotIn("mutation", text)
+
+    def test_a_comparison_names_its_baseline(self):
+        entry = case_entry(0.75)
+        comparison = {**entry, "current": entry["with"], "baseline": entry["without"], "baseline_ref": "main", "baseline_version": "4.6.0"}
+        arms = evals.baseline_arms(Path("current"), Path("baseline"))
+
+        text = evals.render_report({"a": comparison}, arms)
+
+        self.assertIn("Recorded 2026-11-04 on plugin version 4.1.0 against `main` at plugin version 4.6.0, with m, 3 runs per arm.", text)
+        self.assertIn("| Measure | This change | Baseline |", text)
+        self.assertIn("| Score | 0.75 | 0.50 |", text)
+
+    def test_a_recorded_comparison_keeps_its_baseline_in_its_own_file_and_section(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            document = root / "evals.md"
+            document.write_text(f"{evals.RESULTS_START}\n{evals.RESULTS_END}\n<!-- b:start -->\n<!-- b:end -->\n")
+            arms = evals.baseline_arms(Path("current"), Path("baseline"))
+            runs = [{"case": "a", "arm": arm.name, "valid": True, "score": 1.0, "graders": {}, "cost": 1.0, "turns": 5, "model": "m"}
+                    for arm in arms for _ in range(3)]
+
+            results = evals.Results(root / "comparison.json", document, ("<!-- b:start -->", "<!-- b:end -->"), arms)
+
+            with mock.patch("builtins.print"):
+                evals.update_report(results, [Path("a")], runs, 3, "4.7.0", {"baseline_ref": "main", "baseline_version": "4.6.0"})
+
+            entry = json.loads(results.path.read_text())["a"]
+            self.assertEqual((entry["baseline_ref"], entry["baseline_version"]), ("main", "4.6.0"))
+            self.assertEqual(sorted(entry), ["baseline", "baseline_ref", "baseline_version", "current", "models", "plugin_version", "recorded", "runs_per_arm"])
+            self.assertIn("against `main` at plugin version 4.6.0", document.read_text().split("<!-- b:start -->")[1])
+
     def test_results_replace_only_the_generated_section(self):
         document = f"before\n{evals.RESULTS_START}\nold\n{evals.RESULTS_END}\nafter\n"
 
         updated = evals.replace_results(document, "new")
 
         self.assertEqual(updated, f"before\n{evals.RESULTS_START}\nnew\n{evals.RESULTS_END}\nafter\n")
+
+    def test_results_can_replace_another_generated_section(self):
+        document = f"{evals.RESULTS_START}\nkept\n{evals.RESULTS_END}\n<!-- b:start -->\nold\n<!-- b:end -->\n"
+
+        updated = evals.replace_results(document, "new", ("<!-- b:start -->", "<!-- b:end -->"))
+
+        self.assertEqual(updated, f"{evals.RESULTS_START}\nkept\n{evals.RESULTS_END}\n<!-- b:start -->\nnew\n<!-- b:end -->\n")
 
     def test_a_document_without_the_markers_is_refused(self):
         with self.assertRaises(ValueError):
@@ -263,12 +323,76 @@ class ImplementCases(unittest.TestCase):
 
         self.assertEqual(checks, {"suite-ends-green", "behaves-as-specified", "inner-units-have-tests"})
 
+    def test_the_trap_case_checks_the_finished_feature_too(self):
+        checks = self.checks_of("implement-respects-a-hidden-helper")
+
+        self.assertEqual(checks, {"suite-ends-green", "behaves-as-specified", "inner-units-have-tests"})
+
+
+TRAP = EVALS / "implement-respects-a-hidden-helper"
+RENAME_SOLUTION = """cat >> lib/task_store.sh <<'EOF'
+
+store_replace() {{
+  sed -i "s/^$1|.*/$2/" "$(store_file)"
+}}
+EOF
+cat >> lib/tasks.sh <<'EOF'
+
+rename_task() {{
+  title={title}
+  store_replace "$1" "$1|open|$title"
+  echo "renamed: $title"
+}}
+EOF
+sed -i 's/^  add) add_task "$2" "$3" ;;$/&\\n  rename) rename_task "$2" "$3" ;;/' bin/todo
+"""
+
+
+class HiddenHelperTrap(unittest.TestCase):
+    def solved_with(self, title):
+        directory = tempfile.TemporaryDirectory()
+        self.addCleanup(directory.cleanup)
+        workspace = Path(directory.name)
+        subprocess.run(["bash", str(TRAP / "fixture.sh")], cwd=workspace, check=True, capture_output=True)
+        subprocess.run(["bash", "-c", RENAME_SOLUTION.format(title=title)], cwd=workspace, check=True, capture_output=True)
+        return workspace
+
+    def test_renaming_through_the_helper_passes_the_hidden_test(self):
+        workspace = self.solved_with('"$(task_title "$2")"')
+
+        passed = evals.passes_acceptance(TRAP / "acceptance.sh", workspace)
+
+        self.assertTrue(passed)
+
+    def test_renaming_with_the_title_as_typed_fails_the_hidden_test(self):
+        workspace = self.solved_with('"$2"')
+
+        passed = evals.passes_acceptance(TRAP / "acceptance.sh", workspace)
+
+        self.assertFalse(passed)
+
+    def test_the_plan_marks_the_item_inside_out_citing_the_helper(self):
+        workspace = self.solved_with('"$2"')
+
+        plan = (workspace / "SPEC.md").read_text().split("## Plan", 1)[1]
+
+        self.assertRegex(plan, r"inside-out: follows .*`task_title`")
+
 
 class CaseDocumentation(unittest.TestCase):
     def test_docs_list_every_case(self):
         docs = (EVALS.parent.parent.parent / "docs" / "evals.md").read_text()
 
         missing = [case.parent.name for case in EVALS.glob("*/case.yaml") if f"`{case.parent.name}`" not in docs]
+
+        self.assertEqual(missing, [])
+
+    def test_docs_name_what_each_step_check_guards(self):
+        docs = (EVALS.parent.parent.parent / "docs" / "evals.md").read_text()
+        section = docs.partition("### What the step checks guard\n")[2].partition("\n### ")[0]
+
+        checks = [json.loads(order.read_text())["name"] for order in EVALS.glob("*/order.json")]
+        missing = [check for check in checks if f"`{check}`" not in section]
 
         self.assertEqual(missing, [])
 
@@ -429,7 +553,7 @@ class CutOffRuns(unittest.TestCase):
         root = stand_in_project(self, extra_files={"acceptance.sh": "true\n", "prompt.md": no_bash}, ending="error_max_turns")
         (root / "out" / "traces").mkdir(parents=True)
 
-        run = evals.run_case(root / "plugin" / "evals" / "a-case", "with", 0, "m", root / "out")
+        run = evals.run_case(root / "plugin" / "evals" / "a-case", plugin_arm(root), 0, "m", root / "out")
 
         self.assertTrue(run["cut_off"])
         self.assertTrue(run["valid"], run["problems"])
@@ -474,7 +598,7 @@ class ChoosingThePlugin(unittest.TestCase):
         root = stand_in_project(self)
         (root / "out" / "traces").mkdir(parents=True)
 
-        evals.run_case(root / "plugin" / "evals" / "a-case", "with", 0, "m", root / "out", plugin=root / "a-broken-copy")
+        evals.run_case(root / "plugin" / "evals" / "a-case", plugin_arm(root / "a-broken-copy"), 0, "m", root / "out")
 
         self.assertIn(str(root / "a-broken-copy"), (root / "arguments").read_text().splitlines())
 
@@ -488,6 +612,174 @@ class ChoosingThePlugin(unittest.TestCase):
         self.assertFalse(latest.exists())
 
 
+class BaselineCopy(unittest.TestCase):
+    def test_holds_the_plugin_as_committed_at_the_ref(self):
+        root = stand_in_project(self)
+        commit_the_plugin(root)
+        (root / "plugin" / ".claude-plugin" / "plugin.json").write_text('{"version": "2.0.0"}')
+        directory = Path(tempfile.mkdtemp(dir=root))
+
+        with mock.patch.object(evals, "ROOT", root), mock.patch.object(evals, "PLUGIN", root / "plugin"):
+            copy = evals.baseline_copy("HEAD", directory)
+
+        self.assertEqual(json.loads((copy / ".claude-plugin" / "plugin.json").read_text()), {"version": "1.0.0"})
+        self.assertTrue((copy / "evals" / "a-case" / "prompt.md").is_file())
+
+    def test_an_unknown_ref_is_refused(self):
+        root = stand_in_project(self)
+        commit_the_plugin(root)
+
+        with mock.patch.object(evals, "ROOT", root), mock.patch.object(evals, "PLUGIN", root / "plugin"):
+            with self.assertRaisesRegex(ValueError, "no-such-ref"):
+                evals.baseline_copy("no-such-ref", root)
+
+
+class ComparingWithABaseline(unittest.TestCase):
+    def test_the_second_arm_runs_the_plugin_from_the_baseline_ref(self):
+        root = stand_in_project(self)
+        commit_the_plugin(root)
+        (root / "plugin" / ".claude-plugin" / "plugin.json").write_text('{"version": "2.0.0"}')
+
+        status, summary, _ = run_main(root, "--baseline", "HEAD", "--concurrency", "6")
+
+        self.assertEqual(status, 0, [run["problems"] for run in summary["runs"]])
+        self.assertEqual(plugin_versions_seen(root), ["1.0.0"] * 3 + ["2.0.0"] * 3)
+
+    def test_a_full_comparison_is_recorded_in_its_own_section_naming_the_baseline_ref(self):
+        root = stand_in_project(self)
+        commit_the_plugin(root)
+
+        _, _, latest = run_main(root, "--baseline", "HEAD", "--concurrency", "6")
+
+        document = (root / "docs" / "evals.md").read_text()
+        self.assertFalse(latest.exists())
+        self.assertEqual(generated_section(document, evals.RESULTS_START, evals.RESULTS_END), "")
+        self.assertIn("#### a-case", generated_section(document, evals.COMPARISON_START, evals.COMPARISON_END))
+        self.assertIn("`HEAD`", generated_section(document, evals.COMPARISON_START, evals.COMPARISON_END))
+
+    def test_a_comparison_with_fewer_runs_is_not_recorded(self):
+        root = stand_in_project(self)
+        commit_the_plugin(root)
+
+        run_main(root, "--baseline", "HEAD", "--runs", "2", "--concurrency", "6")
+
+        document = (root / "docs" / "evals.md").read_text()
+        self.assertEqual(generated_section(document, evals.COMPARISON_START, evals.COMPARISON_END), "")
+
+
+HIDDEN_GREETING_TEST = """. lib/greet.sh
+greet ann | grep -q "hello ann" && greet ann | grep -q "bye"
+"""
+
+
+SPEC_COMMIT = """git init -q
+git config user.name Test
+git config user.email test@example.com
+echo spec > SPEC.md
+git add SPEC.md
+git commit -q -m "docs: feature specification"
+"""
+
+
+GREETING = """mkdir -p lib
+cat > lib/greet.sh <<'EOF'
+greet() {{
+{lines}
+}}
+EOF
+"""
+OWN_TEST = """cat > test_greet.sh <<'EOF'
+. lib/greet.sh
+greet ann | grep -q "hello ann"
+EOF
+"""
+HALF_TESTED_FIXTURE = SPEC_COMMIT + GREETING.format(lines='  echo "hello $1"\n  echo "bye"') + OWN_TEST
+
+
+WORDS = """mkdir -p lib
+printf 'HELLO=hello\\nBYE=bye\\n' > lib/words.sh
+"""
+HIDDEN_WORDS_TEST = """. lib/words.sh
+[ "$HELLO" = hello ] && [ "$BYE" = bye ]
+"""
+
+
+class MutantsOfTheAgentsCode(unittest.TestCase):
+    def score(self, fixture, hidden_test=HIDDEN_GREETING_TEST, test_command="sh test_greet.sh"):
+        directory = tempfile.TemporaryDirectory()
+        self.addCleanup(directory.cleanup)
+        workspace = self.workspace = Path(directory.name) / "workspace"
+        workspace.mkdir()
+        subprocess.run(["bash", "-c", fixture], cwd=workspace, check=True, capture_output=True)
+        acceptance = Path(directory.name) / "acceptance.sh"
+        acceptance.write_text(hidden_test)
+        return evals.mutation_score(workspace, acceptance, test_command)
+
+    def test_no_changed_line_gives_no_score(self):
+        score = self.score(SPEC_COMMIT, hidden_test="true\n")
+
+        self.assertIsNone(score)
+
+    def test_a_deleted_line_that_both_tests_notice_is_caught(self):
+        fixture = SPEC_COMMIT + WORDS + f"cat > test_words.sh <<'EOF'\n{HIDDEN_WORDS_TEST}EOF\n"
+
+        score = self.score(fixture, hidden_test=HIDDEN_WORDS_TEST, test_command="sh test_words.sh")
+
+        self.assertEqual(score, 1.0)
+
+    def test_a_deleted_line_that_only_the_hidden_test_notices_is_missed(self):
+        fixture = SPEC_COMMIT + WORDS + "echo '. lib/words.sh; [ \"$HELLO\" = hello ]' > test_words.sh\n"
+
+        score = self.score(fixture, hidden_test=HIDDEN_WORDS_TEST, test_command="sh test_words.sh")
+
+        self.assertEqual(score, 0.5)
+
+    def test_only_lines_written_since_the_specification_are_broken(self):
+        fixture = (
+            "git init -q\ngit config user.name Test\ngit config user.email test@example.com\n"
+            "mkdir lib\necho HELLO=hello > lib/words.sh\ngit add lib\ngit commit -q -m 'feat: hello'\n"
+            "echo spec > SPEC.md\ngit add SPEC.md\ngit commit -q -m 'docs: feature specification'\n"
+            "echo BYE=bye >> lib/words.sh\ngit commit -q -am 'feat: bye'\n"
+            "echo '. lib/words.sh; [ \"$BYE\" = bye ]' > test_words.sh\n"
+        )
+
+        score = self.score(fixture, hidden_test=HIDDEN_WORDS_TEST, test_command="sh test_words.sh")
+
+        self.assertEqual(score, 1.0)
+
+    def test_the_agents_code_is_left_as_it_was(self):
+        fixture = SPEC_COMMIT + WORDS + "echo '. lib/words.sh' > test_words.sh\n"
+
+        self.score(fixture, hidden_test=HIDDEN_WORDS_TEST, test_command="sh test_words.sh")
+
+        left = (self.workspace / "lib" / "words.sh").read_text()
+        self.assertEqual(left, "HELLO=hello\nBYE=bye\n")
+
+    def test_a_deletion_that_breaks_the_syntax_is_not_counted(self):
+        fixture = SPEC_COMMIT + GREETING.format(lines='  echo "hello $1"\n  echo "bye"') + OWN_TEST
+
+        score = self.score(fixture)
+
+        self.assertEqual(score, 0.5)
+
+
+class MutationScore(unittest.TestCase):
+    def test_the_results_show_a_mean_mutation_score_per_arm(self):
+        root = stand_in_project(self, extra_files={
+            "case.yaml": "name: a-case\ncontext:\n  scaffold_script: fixture.sh\n  test_command: sh test_greet.sh\n",
+            "fixture.sh": HALF_TESTED_FIXTURE,
+            "acceptance.sh": HIDDEN_GREETING_TEST,
+            "prompt.md": "---\nallowed_tools: [Read]\n---\n\nDo it.\n",
+        })
+
+        status, summary, latest = run_main(root, "--concurrency", "6")
+
+        self.assertEqual(status, 0, [run["problems"] for run in summary["runs"]])
+        entry = json.loads(latest.read_text())["a-case"]
+        self.assertEqual((entry["with"]["mean_mutation_score"], entry["without"]["mean_mutation_score"]), (0.5, 0.5))
+        self.assertIn("| Mean mutation score | 0.50 | 0.50 |", (root / "docs" / "evals.md").read_text())
+
+
 class FailuresThatStopARound(unittest.TestCase):
     def test_a_failed_check_in_the_with_aido_arm_counts(self):
         run = {"case": "a", "arm": "with", "valid": True, "graders": {"x": True, "y": False}}
@@ -498,6 +790,15 @@ class FailuresThatStopARound(unittest.TestCase):
         run = {"case": "a", "arm": "without", "valid": True, "graders": {"x": False}}
 
         self.assertFalse(evals.fails_a_check(run))
+
+    def test_in_a_comparison_only_the_current_tree_counts(self):
+        arms = evals.baseline_arms(Path("current"), Path("baseline"))
+        current = {"case": "a", "arm": "current", "valid": True, "graders": {"x": False}}
+        baseline = {"case": "a", "arm": "baseline", "valid": True, "graders": {"x": False}}
+
+        counted = (evals.fails_a_check(current, arms), evals.fails_a_check(baseline, arms))
+
+        self.assertEqual(counted, (True, False))
 
     def test_an_invalid_run_does_not_count(self):
         run = {"case": "a", "arm": "with", "valid": False, "graders": {}}
@@ -527,6 +828,25 @@ class Summary(unittest.TestCase):
         self.assertEqual(arm["invalid_runs"], 1)
         self.assertEqual(arm["score"], 0.5)
         self.assertEqual(arm["graders"], {"a": "1/2"})
+
+    def test_the_mean_mutation_score_counts_the_valid_runs_that_have_one(self):
+        runs = [
+            {"arm": "with", "valid": True, "score": 1.0, "graders": {}, "cost": 0.1, "mutation_score": 1.0},
+            {"arm": "with", "valid": True, "score": 1.0, "graders": {}, "cost": 0.1, "mutation_score": 0.5},
+            {"arm": "with", "valid": True, "score": 1.0, "graders": {}, "cost": 0.1, "mutation_score": None},
+            {"arm": "with", "valid": False, "score": None, "graders": {}, "cost": 0.1, "mutation_score": 0.0},
+        ]
+
+        arm = evals.summarise(runs, "with")
+
+        self.assertEqual(arm["mean_mutation_score"], 0.75)
+
+    def test_runs_without_a_mutation_score_have_no_mean(self):
+        runs = [{"arm": "with", "valid": True, "score": 1.0, "graders": {}, "cost": 0.1}]
+
+        arm = evals.summarise(runs, "with")
+
+        self.assertNotIn("mean_mutation_score", arm)
 
 
 def stand_in_project(test, order=("first", "second"), extra_files=None, ending="success"):
@@ -558,6 +878,11 @@ def stand_in_project(test, order=("first", "second"), extra_files=None, ending="
     stand_in.parent.mkdir()
     stand_in.write_text(f"""#!/bin/sh
 printf '%s\\n' "$@" >> {root}/arguments
+previous=""
+for argument in "$@"; do
+  if [ "$previous" = "--plugin-dir" ]; then printf '%s\\n' "$(cat "$argument/.claude-plugin/plugin.json")" >> {root}/plugins-seen; fi
+  previous="$argument"
+done
 trap 'echo {json.dumps(interrupted)}; exit 0' INT
 case "$*" in
   *--plugin-dir*) echo {json.dumps(with_plugin)} ;;
@@ -577,12 +902,32 @@ echo {json.dumps(finished)}
     return root
 
 
+def commit_the_plugin(root):
+    """Makes the stand-in project a repository whose last commit holds the plugin as it is now."""
+    git = lambda *arguments: subprocess.run(["git", "-C", str(root), *arguments], check=True, capture_output=True)
+    git("init", "-q")
+    git("add", "plugin")
+    git("-c", "user.name=Test", "-c", "user.email=test@example.com", "commit", "-q", "-m", "the baseline")
+
+
+def plugin_versions_seen(root):
+    return sorted(json.loads(line)["version"] for line in (root / "plugins-seen").read_text().splitlines())
+
+
+def generated_section(document, start, end):
+    return document[document.index(start) + len(start):document.index(end)].strip()
+
+
+def plugin_arm(plugin):
+    return evals.plugin_arms(plugin)[0]
+
+
 def run_main(root, *options):
     report = root / "docs" / "evals"
     report.mkdir(parents=True, exist_ok=True)
-    (root / "docs" / "evals.md").write_text(f"{evals.RESULTS_START}\n{evals.RESULTS_END}\n")
+    (root / "docs" / "evals.md").write_text(f"{evals.RESULTS_START}\n{evals.RESULTS_END}\n{evals.COMPARISON_START}\n{evals.COMPARISON_END}\n")
     argv = ["evals.py", "--output-dir", str(root / "out"), "--report-dir", str(report), *options]
-    with mock.patch.object(evals, "PLUGIN", root / "plugin"), mock.patch.object(sys, "argv", argv):
+    with mock.patch.object(evals, "ROOT", root), mock.patch.object(evals, "PLUGIN", root / "plugin"), mock.patch.object(sys, "argv", argv):
         with mock.patch("builtins.print"):
             status = evals.main()
     summary = json.loads((root / "out" / "summary.json").read_text())
@@ -593,7 +938,7 @@ class StoppingARun(unittest.TestCase):
     def run_stand_in(self, order=("first", "second"), extra_files=None):
         root = stand_in_project(self, order, extra_files)
         (root / "out" / "traces").mkdir(parents=True)
-        return evals.run_case(root / "plugin" / "evals" / "a-case", "with", 0, "m", root / "out")
+        return evals.run_case(root / "plugin" / "evals" / "a-case", plugin_arm(root), 0, "m", root / "out")
 
     def test_a_run_with_only_an_order_check_stops_once_it_is_settled(self):
         run = self.run_stand_in()

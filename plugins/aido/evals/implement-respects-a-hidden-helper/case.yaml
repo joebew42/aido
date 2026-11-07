@@ -1,0 +1,7 @@
+schema_version: "1.1"
+name: implement-respects-a-hidden-helper
+description: An inside-out item whose plan cites an existing helper that changes task titles in a way its name hides
+tags: [implement, inside-out, trap]
+context:
+  scaffold_script: fixture.sh
+  test_command: for test in $(find . -path ./.git -prune -o -path ./.fixture -prune -o -path ./lib -prune -o -path ./bin -prune -o -type f -name '*test*.sh' -print); do sh "$test" || exit 1; done

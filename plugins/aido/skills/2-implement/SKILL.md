@@ -5,8 +5,8 @@ disable-model-invocation: false
 
 # Implement the Feature
 
-Incrementally implement the feature based on specifications using **test-driven development, one
-test at a time**, in the mode each plan item names.
+Incrementally implement the feature based on specifications using **test-driven development**, in
+the mode each plan item names.
 
 `SPEC.md` and `SPEC.md.draft` stand for the spec file and its draft: resolve them first, per "The
 Specification File" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`.
@@ -190,7 +190,7 @@ outside-in item has one goal post per slice. Before growing the units of a plan 
 - [ ] run it and confirm it fails for the **right reason** — the behaviour is missing, not the test
       broken
 - [ ] keep it red as the goal post while the units behind it are grown in the item's mode; it does
-      not count against "one failing test at a time" in the inner loop
+      not count against the inner loop's failing tests
 - [ ] it stays **uncommitted** while red, and the per-commit gate does not cover it: the units
       committed meanwhile need their own tests and the existing suite green, not the goal post
 - [ ] it is committed once green, where "Shape by Mode" in `git-workflow.md` says: with its slice for
@@ -200,35 +200,41 @@ outside-in item has one goal post per slice. Before growing the units of a plan 
 When the item's criterion is already covered by a test that predates this feature, name it and move
 on — do not write a duplicate.
 
-## MANDATORY: One Test at a Time
+## MANDATORY: Tests Before Code
 
-Grow each unit through the cycle in `tdd.md`, one behavior per micro-cycle and at the step size its
-mode calls for, until it is fully specified:
+Grow each unit through the cycle in `tdd.md`, at the step size its mode calls for, until it is fully
+specified:
 
 ```
-RED (one test) → GREEN (minimum code) → REFACTOR (on green) → next test
+contract, mapping, DTO: the unit's tests → the code → check that the tests can fail → refactor
+every other unit:       one test → its code → next test … → check that the tests can fail → refactor
 ```
 
-Present each micro-cycle as its own reviewable increment so the user can follow along and
-supervise step by step. Do not race ahead to the finished implementation.
+Tests are written together only for a contract, a mapping or a DTO that relies on no existing code.
+Any other unit, also in an `inside-out` item, grows one test at a time.
 
-In REFACTOR, also check:
+Work through each unit without stopping to present each test cycle, in every mode. Once a unit is
+committed, tell the user in a few lines what it does and which tests cover it.
+
+In REFACTOR, once per unit, also check:
 
 - the Dependency Rule — no outward dependency introduced (application or domain code naming
   anything in infrastructure), and no decision-making left in infrastructure
 - conformance to the guidelines loaded in Step 0 (do not re-read them)
-- whether this cycle revealed a possibly shared concept, a duplicated business rule or a boundary
-  crossing. If so, run a **Systemic Design Checkpoint** (below) before the next RED
 
-**Unit done:** when every behavior the plan gives that unit has a test and all are green. Commit
-the unit, then move to the next unit.
+Whenever a test cycle or the refactoring reveals a possibly shared concept, a duplicated business rule
+or a boundary crossing, run a **Systemic Design Checkpoint** (below) on green, before going on.
+
+**Unit done:** when every behavior the plan gives that unit has a test, all are green, they failed
+with its production changes set aside, and it is refactored. Commit the unit, then move to the next
+unit.
 
 ## Systemic Design Checkpoint
 
 The REFACTOR step looks at the code just written; this checkpoint looks beyond it. The rules —
 what to look for, the evidence rule, what every finding states, the four outcomes, the boundaries
 and when to stop — are in
-`${CLAUDE_PLUGIN_ROOT}/guidelines/systemic-refactoring.md`. Read it the first time a checkpoint runs. It runs in test-first and strict-TDD mode alike, and **never**
+`${CLAUDE_PLUGIN_ROOT}/guidelines/systemic-refactoring.md`. Read it the first time a checkpoint runs. It runs in every mode alike, and **never**
 as a broad scan after every cycle.
 
 ### Starting context
@@ -251,7 +257,7 @@ Run it inline, on green, scoped to the evidence the cycle surfaced:
    options **Refactor now** / **Defer** / **No action**
 5. note deferred findings for the `## Progress` handoff, with every field under **What every finding states** in
    `systemic-refactoring.md`, and park them as
-   **Parking an opportunity** in `systemic-refactoring.md` describes, then return to RED
+   **Parking an opportunity** in `systemic-refactoring.md` describes, then carry on with the unit
 
 ### Before completion — `fable` subagent
 
@@ -369,10 +375,12 @@ The `## Progress` section of `SPEC.md` is a handoff note for the next session. K
 ## Red Flags to Watch For
 
 If you catch yourself doing any of these, STOP immediately:
-- ❌ Breaking the cycle in `tdd.md`: code before its failing test, more than one failing test, or
-  logic no test demands
-- ❌ Taking a step that doesn't match your uncertainty: jumping ahead when you don't yet see the
-  design, or faking and triangulating when you already know what to type
+- ❌ Breaking the cycle in `tdd.md`: code before its tests, more than one failing test in a
+  unit that isn't a contract, a mapping or a DTO, a hardcoded value to pass a test, or logic no test
+  demands
+- ❌ Taking a step that doesn't match your uncertainty: writing a unit's tests together when it isn't a
+  contract, a mapping or a DTO, or when it relies on existing code
+- ❌ Committing a unit whose new tests were never seen failing with its production changes set aside
 - ❌ Committing without the per-commit gate, or against the commit message rules
 - ❌ Merging two pieces of code because they look alike, without confirming they share a business meaning
 - ❌ Cleaning up unrelated modules during a systemic checkpoint
