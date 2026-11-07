@@ -46,8 +46,8 @@ Every skill is available as `/aido:<skill>`.
 
 ### Your first feature, in five steps
 
-| | Skill | What happens |
-| :--: | --- | --- |
+| | Skill&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | What happens |
+| :--: | :--- | :--- |
 | **01** | `/aido:1-plan` | Draft and approve the specification and plan in `SPEC.md`. |
 | **02** | `/aido:2-implement` | Build the feature test-first, and check every acceptance criterion. |
 | **03** | `/aido:3-organize-commits` | Turn the work into a clean, reviewable commit history. |
@@ -87,10 +87,10 @@ set those preferences itself, so add the following to `~/.claude/settings.json`:
 
 ### What the plugin's hooks enforce
 
-| Hook | Default | Turn it off |
-| --- | --- | --- |
+| Hook&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | Default | Turn&nbsp;it&nbsp;off&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |
+| :--- | :--- | :--- |
 | Ask for your approval before every `git push` | on | not available |
-| Block commit messages containing `Co-Authored-By` trailers | on | `git config aido.allowCommitAttribution true` |
+| Block commit messages containing<br>`Co-Authored-By` trailers | on | `git config aido.allowCommitAttribution true` |
 | Block writes to Claude's memory directory | on | `git config aido.allowMemoryWrites true` |
 
 Each opt-out applies to this repository, or everywhere with `--global`. The skills never set them.
@@ -137,8 +137,8 @@ met, you build it, change it or defer it. Deferred ones can become GitHub issues
 
 Each plan item names its mode and why, so you can challenge it before any code exists.
 
-| What's unknown | Mode | How it is built | History |
-| --- | --- | --- | --- |
+| What's unknown | Mode&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | How it is built | History |
+| :--- | :--- | :--- | :--- |
 | Nothing: it follows existing code or a known contract | `inside-out` | Layer by layer, one test at a time where it relies on existing code | Inside-out, acceptance tests last |
 | How the parts fit, or what an interface should be | `outside-in` | One test at a time, in tracer bullet slices | One group of commits per slice |
 | Logic within one unit | `in-unit` | One test at a time in that unit | As inside-out |
@@ -170,8 +170,8 @@ passed during the check, or by your confirmation; otherwise it is **insufficient
 
 ### Single-phase feature
 
-| Skill | Purpose |
-| --- | --- |
+| Skill&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | Purpose |
+| :--- | :--- |
 | `/aido:1-plan` | Draft, refine, and plan a feature into `SPEC.md`. |
 | `/aido:2-implement` | Implement the feature using TDD. `loop` (or `loop 7-9`) runs each plan item in a fresh subagent. |
 | `/aido:3-organize-commits` | Organize the commit history. |
@@ -180,16 +180,16 @@ passed during the check, or by your confirmation; otherwise it is **insufficient
 
 ### Multi-phase feature
 
-| Skill | Purpose |
-| --- | --- |
+| Skill&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | Purpose |
+| :--- | :--- |
 | `/aido:multi-phase-spec-pr` | Create the specification tracking PR. |
 | `/aido:multi-phase-switch` | Switch to the main plan branch. |
 | `/aido:multi-phase-sync` | Sync the main plan with progress. |
 
 ### Utilities
 
-| Skill | Purpose |
-| --- | --- |
+| Skill&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | Purpose |
+| :--- | :--- |
 | `/aido:verify` | Check a branch or PR against the agreed requirements from a fresh context. |
 | `/aido:stabilize` | Take over a PR, remote branch, or local changes created outside this workflow. |
 | `/aido:map-architecture` | Build or update a slim map of domain areas and building blocks. |
