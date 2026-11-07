@@ -19,20 +19,20 @@ Works with any stack.
 </div>
 
 ```text
-  ┌──────────────────────────┐     ┌──────────────────────────┐     ┌──────────────────────────┐
-  │ 1 · Plan                 │     │ 2 · Implement            │     │ 3 · Organize commits     │ ─┐
-  │ drafts the spec and      │ ──▶ │ builds it test by test,  │ ──▶ │ shapes a clean,          │  │
-  │ plans the work           │     │ checks the criteria      │     │ reviewable history       │  │
-  └──────────────────────────┘     └──────────────────────────┘     └──────────────────────────┘  │
-    /aido:1-plan                     /aido:2-implement                /aido:3-organize-commits    │
-    ┌─────────────────────────────────────────────────────────────────────────────────────────────┘
-    ▼
-  ┌──────────────────────────┐     ┌──────────────────────────┐
-  │ 4 · Create PR            │     │ 5 · Handle review        │
-  │ verifies, pushes and     │ ──▶ │ weighs the feedback,     │
-  │ opens the pull request   │     │ addresses what you pick  │
-  └──────────────────────────┘     └──────────────────────────┘
-    /aido:4-create-pr                /aido:5-handle-review
+┌─ 1 ─────────────────┐    ┌─ 2 ─────────────────┐    ┌─ 3 ─────────────────┐
+│ Plan                │    │ Implement           │    │ Organize commits    │ ─┐
+│ drafts the spec and │ ─▶ │ builds test-first,  │ ─▶ │ shapes a clean,     │  │
+│ plans the work      │    │ checks the criteria │    │ reviewable history  │  │
+└─────────────────────┘    └─────────────────────┘    └─────────────────────┘  │
+/aido:1-plan               /aido:2-implement          /aido:3-organize-commits │
+  ┌────────────────────────────────────────────────────────────────────────────┘
+  ▼
+┌─ 4 ─────────────────┐    ┌─ 5 ─────────────────┐
+│ Create PR           │    │ Handle review       │
+│ verifies, pushes,   │ ─▶ │ weighs feedback,    │
+│ opens the PR        │    │ acts on your picks  │
+└─────────────────────┘    └─────────────────────┘
+/aido:4-create-pr          /aido:5-handle-review
 ```
 
 ---
