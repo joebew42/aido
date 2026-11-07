@@ -18,6 +18,23 @@ Works with any stack.
 
 </div>
 
+```text
+  ┌──────────────────────────┐     ┌──────────────────────────┐     ┌──────────────────────────┐
+  │ 1 · Plan                 │     │ 2 · Implement            │     │ 3 · Organize commits     │ ─┐
+  │ drafts the spec and      │ ──▶ │ builds it test by test,  │ ──▶ │ shapes a clean,          │  │
+  │ plans the work           │     │ checks the criteria      │     │ reviewable history       │  │
+  └──────────────────────────┘     └──────────────────────────┘     └──────────────────────────┘  │
+    /aido:1-plan                     /aido:2-implement                /aido:3-organize-commits    │
+    ┌─────────────────────────────────────────────────────────────────────────────────────────────┘
+    ▼
+  ┌──────────────────────────┐     ┌──────────────────────────┐
+  │ 4 · Create PR            │     │ 5 · Handle review        │
+  │ verifies, pushes and     │ ──▶ │ weighs the feedback,     │
+  │ opens the pull request   │     │ addresses what you pick  │
+  └──────────────────────────┘     └──────────────────────────┘
+    /aido:4-create-pr                /aido:5-handle-review
+```
+
 ---
 
 ## Get started
