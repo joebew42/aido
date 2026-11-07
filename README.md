@@ -4,14 +4,9 @@
 
 # aido 🥋
 
-### AI does, you decide.
-
 **A spec-driven, test-driven engineering workflow for Claude Code.**
 
-Hand Claude Code the whole feature — the spec, tests, code, commits, and pull request — while
-**you stay in charge of every decision that matters**.
-
-Works with any stack.
+Hand Claude Code the whole feature while you stay in the loop! Works with any stack.
 
 [Get started](#get-started) · [How it works](#how-it-works) · [Skills](#skills) ·
 [Why aido?](#why-aido)
@@ -53,56 +48,30 @@ Every skill is available as `/aido:<skill>`.
 
 | | Skill | What happens |
 | :--: | --- | --- |
-| **01** | `/aido:1-plan` | Draft, refine, and approve the specification and implementation plan in `SPEC.md`. |
-| **02** | `/aido:2-implement` | Build the feature test by test, checking progress against acceptance criteria. |
+| **01** | `/aido:1-plan` | Draft and approve the specification and plan in `SPEC.md`. |
+| **02** | `/aido:2-implement` | Build the feature test-first, and check every acceptance criterion. |
 | **03** | `/aido:3-organize-commits` | Turn the work into a clean, reviewable commit history. |
-| **04** | `/aido:4-create-pr` | Offer verification, push with your approval, and create the pull request. |
-| **05** | `/aido:5-handle-review` | Evaluate review feedback and address the items you choose. |
+| **04** | `/aido:4-create-pr` | Offer a verification, push with your approval, and open the pull request. |
+| **05** | `/aido:5-handle-review` | Weigh the review feedback and act on the items you pick. |
 
-> **You approve the important decisions.** aido proposes; it does not silently decide what to
-> build, rewrite history, or push on your behalf.
+> **You approve what matters.** aido proposes. It never decides what to build, rewrites history or
+> pushes without asking you.
 
 ### What planning looks like
 
-Start from a GitHub issue, your own `SPEC.md.draft`, or a conversation in which aido interviews you
-and drafts the specification.
+Start from a GitHub issue, your own `SPEC.md.draft`, or a conversation where aido interviews you.
 
 <div align="center">
   <img src="docs/readme/plan-asks-for-the-spec.png" alt="aido planning asks whether to start from a GitHub issue, a draft specification, or a conversation" width="760" />
 </div>
 
-`/aido:1-plan` checks the draft against your repository, refines it with you, and only turns it into
-`SPEC.md` after approval. It then plans the work, creates a branch, and moves into implementation if
-you chose to. A full plan stops for three approvals, of the draft, the specification and the plan,
-each settling the choice that follows it, on top of any questions about what to build. For a small,
-clear change, it can propose a lighter route: a brief specification and plan approved together,
-without the enabling-refactoring analysis.
+`/aido:1-plan` checks the draft against your repository and refines it with you. You approve it
+three times: the draft, the specification and the plan. A small, clear change can take a lighter
+route, where you approve a short specification and plan at once.
 
-Later, `/aido:3-organize-commits` asks whether to revert `SPEC.md` (the default) or keep it in the
-repository docs. `/aido:4-create-pr` offers verification before pushing and can open GitHub issues
-for deferred acceptance criteria you select.
-
-You don't have to remember what comes next. Once every plan item is done, `/aido:2-implement` asks
-whether to organize the commits, and `/aido:3-organize-commits` asks whether to create the PR, each
-alongside its last approval, so this adds no extra stop. Either question names any criteria still open
-or deferred. Accepting only starts the next skill: every approval inside it still happens, including
-the push. Stopping names the skill to run later, in a new session if you want a fresh context.
-
-Each of these hand-offs, from planning onwards, also offers to continue in a **fresh context**, and
-recommends it whenever it recommends continuing. The skill finishes its own work and commits, then
-tells you to run `/clear` and the next skill. The next skill reads `SPEC.md` and the git history, so it
-doesn't need the earlier conversation, and you start it with an empty context.
-
-Every skill ends the same way, with a short block that tells you where to look:
-
-```text
-Done: the plan for sharing a list is committed on `feat-share-lists`.
-Decided: a shared list is read-only for now.
-Needs you: nothing.
-```
-
-When a skill asks you to approve something you've already seen, it shows only what changed since
-then. A design or refactoring finding is one line in chat, and you can ask for it in full.
+Each skill ends by offering the next one, so you don't have to remember the order. It recommends a
+fresh context: run `/clear` and the next skill, which picks up from `SPEC.md` and the git history.
+Every skill ends with a short note on what it did, what it decided, and what it needs from you.
 
 ### Recommended Claude Code settings
 
@@ -124,35 +93,25 @@ set those preferences itself, so add the following to `~/.claude/settings.json`:
 | Block commit messages containing `Co-Authored-By` trailers | on | `git config aido.allowCommitAttribution true` |
 | Block writes to Claude's memory directory | on | `git config aido.allowMemoryWrites true` |
 
-Each opt-out applies to the current repository; add `--global` to apply it everywhere. These are
-your settings to make: the skills never set them.
+Each opt-out applies to this repository, or everywhere with `--global`. The skills never set them.
 
 ---
 
 ## Why aido?
 
-**AI-augmented engineering means delegating work without delegating judgement.**
-
-The agent explores the codebase, proposes a specification, writes tests and implementation, and
-prepares commits and pull requests. The engineer decides what gets built, approves consequential
-choices, and remains accountable for the result.
+**Delegate the work, not the judgement.** The agent writes the specification, the tests, the code,
+the commits and the pull request. You decide what gets built, and you own the result.
 
 The name **aido** means **"AI do"** and echoes `sudo`: the agent acts on your say-so.
 
-- **The engineer decides; the agent proposes.** The specification, plan, commit grouping, pushes,
-  and pull request pass through explicit checkpoints.
-- **Specification before code.** Work starts from an approved specification and plan, with a lighter
-  route available for small changes.
-- **Test-driven, unit by unit.** Implementation writes the tests before the code, checks that each
-  unit's tests fail without its code, and sums up each unit once it is committed.
-- **Engineering practices built in.** Clean architecture, focused tests, deliberate refactoring, and
-  a tidy history are part of the workflow.
-- **Your repository's conventions win.** aido reads `CLAUDE.md`, `AGENTS.md`, and the codebase
-  rather than imposing a new naming, testing, or architecture scheme.
+- **Test-driven.** The tests come before the code, and each unit's tests must fail without its code.
+- **Engineering practices built in.** Clean architecture, focused tests, deliberate refactoring and
+  a tidy history.
+- **Your repository's conventions win.** aido follows `CLAUDE.md`, `AGENTS.md` and your code, not a
+  naming, testing or architecture scheme of its own.
 
-For broader context, see
-[AI-Augmented Software Engineering](https://www.sei.cmu.edu/ai-augmented-software-engineering/) from
-Carnegie Mellon University's Software Engineering Institute.
+For more on the idea, see [AI-Augmented Software Engineering](https://www.sei.cmu.edu/ai-augmented-software-engineering/)
+from Carnegie Mellon University.
 
 ---
 
@@ -160,33 +119,23 @@ Carnegie Mellon University's Software Engineering Institute.
 
 ### One specification connects the whole workflow
 
-`SPEC.md` is the shared reference for the feature. Planning writes the specification, design notes,
-and plan; implementation records progress; PR creation draws on it; review checks feedback against
-it; and `/aido:verify` compares the code with the agreed requirements.
+`SPEC.md` holds the feature: why (**Context**), what (**Intent**), what not (**Out of scope**), and
+numbered **Acceptance criteria** (`AC1`, `AC2`, …). Planning adds how, as a plan. Every later skill
+reads it.
 
 <div align="center">
   <img src="docs/readme/spec-at-the-center.svg" alt="SPEC.md at the center: planning writes it, implementation reads and updates it, organizing commits reverts it or moves it into the docs, the PR is written from it, review reads it without changing it, and verification checks the code against it" width="900" />
 </div>
 
-Each specification identifies **Context** (why), **Intent** (what), **Out of scope** (what not), and
-numbered **Acceptance criteria** (`AC1`, `AC2`, …). The specification describes what and why; the
-plan describes how; progress notes record what happened.
-
 ### Acceptance criteria stay visible
 
-- **Planning** proposes missing criteria and links every plan item to the criteria it serves.
-- **Implementation** writes acceptance tests first, keeps them red while developing the supporting
-  code with TDD in the mode the plan gives each part, and checks every criterion before completion.
-  Criteria requiring human judgement
-  are marked `(manual)` and require your confirmation. When a criterion is not met, you choose to
-  implement it, change it, or defer it.
-- **Verification** checks the criteria again in a fresh context. Deferred criteria appear in the PR
-  and can become GitHub issues.
+Every plan item names the criteria it serves. Implementation tests each criterion first, and checks
+them all before it finishes. A criterion only you can check is marked `(manual)`. When one isn't
+met, you build it, change it or defer it. Deferred ones can become GitHub issues.
 
 ### Uncertainty chooses how each part is built
 
-Every feature item in a plan names its mode and why, so you can challenge the choice before any code
-exists. Implementation and commit organization then follow it.
+Each plan item names its mode and why, so you can challenge it before any code exists.
 
 | What's unknown | Mode | How it is built | History |
 | --- | --- | --- | --- |
@@ -194,44 +143,26 @@ exists. Implementation and commit organization then follow it.
 | How the parts fit, or what an interface should be | `outside-in` | One test at a time, in tracer bullet slices | One group of commits per slice |
 | Logic within one unit | `in-unit` | One test at a time in that unit | As inside-out |
 
-A part is inside-out only if the plan can cite what it conforms to. When the plan proves wrong,
-implementation changes the mode, tells you, and records it.
+A part is inside-out only if the plan can cite what it follows. When the plan proves wrong,
+implementation switches the mode and tells you.
 
 ### The repository is part of the conversation
 
-A specification may be internally clear but incompatible with the existing codebase. `/aido:1-plan`
-checks for conflicts before approval, and `/aido:2-implement` checks again at the start of each
-session in case the default branch has changed.
+Planning checks the specification against your code, `CLAUDE.md` and `AGENTS.md`. Implementation
+checks again in case the default branch moved. On a conflict, aido shows the files and recommends
+revising or rejecting the specification. You can still go ahead, and your reason is recorded.
 
-Significant conflicts include contradictions with `CLAUDE.md` or `AGENTS.md`, crossing architectural
-boundaries, or changing behaviour other code depends on. aido explains the conflict, points to the
-relevant files, and recommends revising or rejecting the specification. You can still intentionally
-proceed; your decision and reasoning are recorded.
+### Verify what was agreed
 
-### Verify what was agreed, not just what was implemented
-
-Run `/aido:verify` against the current branch or a PR. It runs from a **fresh context**, so the
-agent that built the change is not the one judging it, and it changes nothing. It reports each
-requirement as **verified**, **insufficient evidence**, or **unmet**, with deviations listed
-separately.
-
-Verification requires a test that actually passed during the check or a recorded human confirmation;
-progress-note claims are not enough. It also removes the behaviour in a throwaway worktree to confirm
-the test fails without it, since the same agent probably wrote both. For a PR without a specification, verification falls back to
-the PR description and linked issues and explicitly notes that the evidence is weaker.
-
-`/aido:verify` complements Claude Code's `/code-review`:
+`/aido:verify` checks a branch or a PR against what was agreed, in a **fresh context**, so the agent
+that built it isn't the judge. It changes nothing. A requirement is **verified** only by a test that
+passed during the check, or by your confirmation; otherwise it is **insufficient evidence** or
+**unmet**. A PR without a specification is checked against its description and linked issues.
 
 | Tool | Question |
 | --- | --- |
 | `/aido:verify` | **Did we build what we agreed to build?** |
 | `/code-review` | **Does the code have defects?** |
-
-### You remain in the loop
-
-The agent stops before decisions that matter: approving a specification, choosing a cross-module
-refactoring, rewriting history, or pushing changes. Those gates are only bypassed if you
-deliberately run the workflow fully unsupervised.
 
 ---
 
@@ -298,36 +229,19 @@ was open.
 
 ## Engineering guidelines
 
-Skills load their guidance from [`plugins/aido/guidelines/`](plugins/aido/guidelines/).
-
-| Guideline | What it covers |
-| --- | --- |
-| `git-workflow.md` | Commit conventions, per-commit gates, branching, and GitHub CLI usage. |
-| `code-standards.md` | Design principles, code quality and comments. |
-| `tdd.md` | Tests before code, and the modes that let uncertainty choose step size and direction. |
-| `testing-principles.md` | Test structure, collaboration tests, and flaky-test prevention. |
-| `project-conventions.md` | Discovering host repository conventions in `CLAUDE.md` and `AGENTS.md`. |
-| `specification.md` | Specification structure and acceptance criteria. |
-| `language.md` | Writing for people so it is understood on first read, and when to ask with a question dialog. |
-| `repository-alignment.md` | Checking specifications against the repository and handling conflicts. |
-| `systemic-refactoring.md` | Looking beyond changed lines when a design check runs. |
-| `evolving-guidelines.md` | Proposing conventions back to the host repository after a PR or phase. |
-| `pr-roadmap.md` | Roadmap format for multi-phase PRs. |
-| `github-issues.md` | Turning selected follow-ups into issues without duplicating open ones. |
+The skills follow the guidelines in [`plugins/aido/guidelines/`](plugins/aido/guidelines/).
 
 ---
 
 ## Measuring it
 
-Eval cases compare what agents do with and without aido, so a change to a skill can be measured rather
-than judged by feel. See [how to run and read them, and the current results](docs/evals.md).
+Eval cases compare what agents do with and without aido, or with an earlier version of aido, so a
+change to a skill can be measured rather than judged by feel. See [how to run and read them, and the current results](docs/evals.md).
 
 ---
 
 <div align="center">
 
 **aido 🥋**
-
-*AI does, you decide.*
 
 </div>
