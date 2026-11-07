@@ -235,22 +235,7 @@ was open.
 
 ## Engineering guidelines
 
-Skills load their guidance from [`plugins/aido/guidelines/`](plugins/aido/guidelines/).
-
-| Guideline | What it covers |
-| --- | --- |
-| `git-workflow.md` | Commit conventions, per-commit gates, branching, and GitHub CLI usage. |
-| `code-standards.md` | Design principles, code quality and comments. |
-| `tdd.md` | Tests before code, and the modes that let uncertainty choose step size and direction. |
-| `testing-principles.md` | Test structure, collaboration tests, and flaky-test prevention. |
-| `project-conventions.md` | Discovering host repository conventions in `CLAUDE.md` and `AGENTS.md`. |
-| `specification.md` | Specification structure and acceptance criteria. |
-| `language.md` | Writing for people so it is understood on first read, and when to ask with a question dialog. |
-| `repository-alignment.md` | Checking specifications against the repository and handling conflicts. |
-| `systemic-refactoring.md` | Looking beyond changed lines when a design check runs. |
-| `evolving-guidelines.md` | Proposing conventions back to the host repository after a PR or phase. |
-| `pr-roadmap.md` | Roadmap format for multi-phase PRs. |
-| `github-issues.md` | Turning selected follow-ups into issues without duplicating open ones. |
+The skills follow the guidelines in [`plugins/aido/guidelines/`](plugins/aido/guidelines/).
 
 ---
 
