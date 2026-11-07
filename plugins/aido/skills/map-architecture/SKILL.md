@@ -5,6 +5,9 @@ disable-model-invocation: false
 
 # Map the Architecture
 
+In Copilot CLI, resolve `${CLAUDE_PLUGIN_ROOT}` as two directories above the skill base directory,
+then load `${CLAUDE_PLUGIN_ROOT}/guidelines/copilot-cli.md`.
+
 Build (**warm-up**) or refresh (**update**) a slim map of the current repository. Design checks then
 know *where* to look, instead of searching from scratch. The index is only a map: the code is the
 truth, and every reader checks what it reads against the code.

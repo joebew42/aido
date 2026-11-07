@@ -5,6 +5,9 @@ disable-model-invocation: false
 
 # Open a Pull Request
 
+In Copilot CLI, resolve `${CLAUDE_PLUGIN_ROOT}` as two directories above the skill base directory,
+then load `${CLAUDE_PLUGIN_ROOT}/guidelines/copilot-cli.md`.
+
 Open or update a draft pull request for the current feature.
 
 Resolve `SPEC.md` and `SPEC.md.draft` first, as "The Specification File" in

@@ -5,6 +5,9 @@ disable-model-invocation: false
 
 # Resolve Migration Conflict
 
+In Copilot CLI, resolve `${CLAUDE_PLUGIN_ROOT}` as two directories above the skill base directory,
+then load `${CLAUDE_PLUGIN_ROOT}/guidelines/copilot-cli.md`.
+
 Resolve database migration conflicts after a rebase onto the main/master branch. The steps work with
 any migration tool. The commands come from the host repository.
 

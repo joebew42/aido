@@ -44,6 +44,17 @@ on_one_line() {
   tr -s ' \n' ' ' < "$1"
 }
 
+copilot_rule='In Copilot CLI, resolve `${CLAUDE_PLUGIN_ROOT}` as two directories above the skill base directory, then load `${CLAUDE_PLUGIN_ROOT}/guidelines/copilot-cli.md`.'
+
+for skill in "$plugin"/skills/*/SKILL.md; do
+  name="$(basename "$(dirname "$skill")")"
+  if [ -f "$plugin/guidelines/copilot-cli.md" ] && on_one_line "$skill" | grep -qF "$copilot_rule"; then
+    report 0 "$name loads the Copilot CLI guidance"
+  else
+    report 1 "$name loads the Copilot CLI guidance"
+  fi
+done
+
 section_exists() {
   local name="$1" file="$2"
   [ -f "$file" ] || return 1

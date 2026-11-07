@@ -5,6 +5,9 @@ disable-model-invocation: false
 
 # Verify
 
+In Copilot CLI, resolve `${CLAUDE_PLUGIN_ROOT}` as two directories above the skill base directory,
+then load `${CLAUDE_PLUGIN_ROOT}/guidelines/copilot-cli.md`.
+
 Answer one question: **did we build what we agreed to build?** The target is the current branch or a
 PR. No PR needs to exist.
 

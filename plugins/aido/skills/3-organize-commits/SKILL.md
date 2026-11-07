@@ -5,6 +5,9 @@ disable-model-invocation: false
 
 # Organize the Commits
 
+In Copilot CLI, resolve `${CLAUDE_PLUGIN_ROOT}` as two directories above the skill base directory,
+then load `${CLAUDE_PLUGIN_ROOT}/guidelines/copilot-cli.md`.
+
 Turn the branch's commits into a clean, logical history that follows the project's conventions.
 
 Resolve `SPEC.md` and `SPEC.md.draft` first, as "The Specification File" in

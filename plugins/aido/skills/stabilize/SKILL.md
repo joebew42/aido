@@ -5,6 +5,9 @@ disable-model-invocation: false
 
 # Stabilize Existing Work
 
+In Copilot CLI, resolve `${CLAUDE_PLUGIN_ROOT}` as two directories above the skill base directory,
+then load `${CLAUDE_PLUGIN_ROOT}/guidelines/copilot-cli.md`.
+
 Take over a change started outside this workflow. Set it up so `/aido:2-implement`,
 `/aido:3-organize-commits` and `/aido:4-open-pr` can carry it to a clean PR.
 

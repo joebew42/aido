@@ -5,6 +5,9 @@ disable-model-invocation: false
 
 # Create Multi-Phase Specification PR
 
+In Copilot CLI, resolve `${CLAUDE_PLUGIN_ROOT}` as two directories above the skill base directory,
+then load `${CLAUDE_PLUGIN_ROOT}/guidelines/copilot-cli.md`.
+
 Create a draft PR that holds the main specification of a multi-phase feature and tracks its progress.
 
 Resolve `SPEC.md` and `SPEC.md.draft` first, as "The Specification File" in

@@ -5,6 +5,9 @@ disable-model-invocation: false
 
 # Sync Multi-Phase Plan
 
+In Copilot CLI, resolve `${CLAUDE_PLUGIN_ROOT}` as two directories above the skill base directory,
+then load `${CLAUDE_PLUGIN_ROOT}/guidelines/copilot-cli.md`.
+
 Update the main plan PR from the state of each phase PR.
 
 Load `${CLAUDE_PLUGIN_ROOT}/guidelines/git-workflow.md`.

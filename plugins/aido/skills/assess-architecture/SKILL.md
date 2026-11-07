@@ -5,6 +5,9 @@ disable-model-invocation: false
 
 # Assess the Architecture
 
+In Copilot CLI, resolve `${CLAUDE_PLUGIN_ROOT}` as two directories above the skill base directory,
+then load `${CLAUDE_PLUGIN_ROOT}/guidelines/copilot-cli.md`.
+
 Review the repository's design area by area, apart from any feature. Park the findings the user picks
 as refactoring opportunities. `/aido:1-plan` offers them when a planned change can include them, so
 each refactoring is made as part of a working feature.
