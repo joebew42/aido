@@ -100,26 +100,19 @@ your settings to make: the skills never set them.
 
 ## Why aido?
 
-**AI-augmented engineering means delegating work without delegating judgement.**
-
-The agent explores the codebase, proposes a specification, writes tests and implementation, and
-prepares commits and pull requests. The engineer decides what gets built, approves consequential
-choices, and remains accountable for the result.
+**Delegate the work, not the judgement.** The agent explores the code, writes the specification, the
+tests and the code, and prepares the commits and the pull request. You decide what gets built, and you
+stay accountable for the result.
 
 The name **aido** means **"AI do"** and echoes `sudo`: the agent acts on your say-so.
 
-- **The engineer decides; the agent proposes.** The specification, plan, commit grouping, pushes,
-  and pull request pass through explicit checkpoints.
-- **Specification before code.** Work starts from an approved specification and plan, with a lighter
-  route available for small changes.
-- **Test-driven, unit by unit.** Implementation writes the tests before the code, checks that each
-  unit's tests fail without its code, and sums up each unit once it is committed.
-- **Engineering practices built in.** Clean architecture, focused tests, deliberate refactoring, and
-  a tidy history are part of the workflow.
-- **Your repository's conventions win.** aido reads `CLAUDE.md`, `AGENTS.md`, and the codebase
-  rather than imposing a new naming, testing, or architecture scheme.
+- **Test-driven.** The tests come before the code, and each unit's tests must fail without its code.
+- **Engineering practices built in.** Clean architecture, focused tests, deliberate refactoring and a
+  tidy history.
+- **Your repository's conventions win.** aido follows `CLAUDE.md`, `AGENTS.md` and your code, not a
+  naming, testing or architecture scheme of its own.
 
-For broader context, see
+For more on the idea, see
 [AI-Augmented Software Engineering](https://www.sei.cmu.edu/ai-augmented-software-engineering/) from
 Carnegie Mellon University's Software Engineering Institute.
 
@@ -129,33 +122,24 @@ Carnegie Mellon University's Software Engineering Institute.
 
 ### One specification connects the whole workflow
 
-`SPEC.md` is the shared reference for the feature. Planning writes the specification, design notes,
-and plan; implementation records progress; PR creation draws on it; review checks feedback against
-it; and `/aido:verify` compares the code with the agreed requirements.
+`SPEC.md` holds the feature: why (**Context**), what (**Intent**), what not (**Out of scope**), and
+numbered **Acceptance criteria** (`AC1`, `AC2`, …). Planning adds how, as a plan. Every later skill
+reads it.
 
 <div align="center">
   <img src="docs/readme/spec-at-the-center.svg" alt="SPEC.md at the center: planning writes it, implementation reads and updates it, organizing commits reverts it or moves it into the docs, the PR is written from it, review reads it without changing it, and verification checks the code against it" width="900" />
 </div>
 
-Each specification identifies **Context** (why), **Intent** (what), **Out of scope** (what not), and
-numbered **Acceptance criteria** (`AC1`, `AC2`, …). The specification describes what and why; the
-plan describes how; progress notes record what happened.
-
 ### Acceptance criteria stay visible
 
-- **Planning** proposes missing criteria and links every plan item to the criteria it serves.
-- **Implementation** writes acceptance tests first, keeps them red while developing the supporting
-  code with TDD in the mode the plan gives each part, and checks every criterion before completion.
-  Criteria requiring human judgement
-  are marked `(manual)` and require your confirmation. When a criterion is not met, you choose to
-  implement it, change it, or defer it.
-- **Verification** checks the criteria again in a fresh context. Deferred criteria appear in the PR
-  and can become GitHub issues.
+Every plan item names the criteria it serves. Implementation first writes an acceptance test for
+each criterion a test can check, and checks them all before it finishes. A criterion only a person can check is
+marked `(manual)` and needs your confirmation. When one isn't met, you choose: build it, change it or
+defer it. Deferred criteria show up in the PR and can become GitHub issues.
 
 ### Uncertainty chooses how each part is built
 
-Every feature item in a plan names its mode and why, so you can challenge the choice before any code
-exists. Implementation and commit organization then follow it.
+Each plan item names its mode and why, so you can challenge it before any code exists.
 
 | What's unknown | Mode | How it is built | History |
 | --- | --- | --- | --- |
@@ -163,44 +147,28 @@ exists. Implementation and commit organization then follow it.
 | How the parts fit, or what an interface should be | `outside-in` | One test at a time, in tracer bullet slices | One group of commits per slice |
 | Logic within one unit | `in-unit` | One test at a time in that unit | As inside-out |
 
-A part is inside-out only if the plan can cite what it conforms to. When the plan proves wrong,
-implementation changes the mode, tells you, and records it.
+A part is inside-out only if the plan can cite what it follows. When the plan proves wrong,
+implementation switches the mode and tells you.
 
 ### The repository is part of the conversation
 
-A specification may be internally clear but incompatible with the existing codebase. `/aido:1-plan`
-checks for conflicts before approval, and `/aido:2-implement` checks again at the start of each
-session in case the default branch has changed.
+Planning checks the specification against your code, `CLAUDE.md` and `AGENTS.md` before you approve
+it. Implementation checks again at the start of each session, in case the default branch moved. When
+something conflicts, aido shows you the files and recommends revising or rejecting the specification.
+You can still go ahead, and your reason is recorded.
 
-Significant conflicts include contradictions with `CLAUDE.md` or `AGENTS.md`, crossing architectural
-boundaries, or changing behaviour other code depends on. aido explains the conflict, points to the
-relevant files, and recommends revising or rejecting the specification. You can still intentionally
-proceed; your decision and reasoning are recorded.
+### Verify what was agreed
 
-### Verify what was agreed, not just what was implemented
-
-Run `/aido:verify` against the current branch or a PR. It runs from a **fresh context**, so the
-agent that built the change is not the one judging it, and it changes nothing. It reports each
-requirement as **verified**, **insufficient evidence**, or **unmet**, with deviations listed
-separately.
-
-Verification requires a test that actually passed during the check or a recorded human confirmation;
-progress-note claims are not enough. It also removes the behaviour in a throwaway worktree to confirm
-the test fails without it, since the same agent probably wrote both. For a PR without a specification, verification falls back to
-the PR description and linked issues and explicitly notes that the evidence is weaker.
-
-`/aido:verify` complements Claude Code's `/code-review`:
+`/aido:verify` checks a branch or a PR against what was agreed. It runs in a **fresh context**, so the
+agent that built the change isn't the one judging it, and it changes nothing. A requirement counts as
+**verified** only with a test that passed during the check, or your confirmation; otherwise it is
+**insufficient evidence** or **unmet**. For a PR without a specification, it uses the PR description
+and linked issues, and says the evidence is weaker.
 
 | Tool | Question |
 | --- | --- |
 | `/aido:verify` | **Did we build what we agreed to build?** |
 | `/code-review` | **Does the code have defects?** |
-
-### You remain in the loop
-
-The agent stops before decisions that matter: approving a specification, choosing a cross-module
-refactoring, rewriting history, or pushing changes. Those gates are only bypassed if you
-deliberately run the workflow fully unsupervised.
 
 ---
 
