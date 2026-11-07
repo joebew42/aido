@@ -147,6 +147,7 @@ guidelines/specification.md|A refactoring's code is never renumbered or reused
 guidelines/specification.md|<added by implementation, when the user accepts a refactoring>
 guidelines/systemic-refactoring.md|the specification's `## Design notes`, `## Refactorings` and `## Progress`
 guidelines/language.md|`(enabling)`, `r1`, `inside-out`
+guidelines/copilot-cli.md|Only an answer from a person is approval
 guidelines/language.md|show a short plain-language list of what changed since the user last saw it
 guidelines/language.md|The first time a document is shown, show it whole
 guidelines/language.md|When the user asks to see the whole document, show it whole

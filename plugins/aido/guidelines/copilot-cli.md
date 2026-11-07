@@ -6,8 +6,8 @@ stay the same.
 - Resolve every `${CLAUDE_PLUGIN_ROOT}` path against the plugin root identified in the skill. Do not
   rely on an environment variable.
 - Use `ask_user` wherever a skill or guideline says `AskUserQuestion`. Keep its questions and
-  options, and wait for the user's answer. If asking is unavailable, stop rather than assuming
-  approval.
+  options, and wait for the user's answer. Only an answer from a person is approval. If asking is
+  unavailable or no person answers, stop rather than assuming approval.
 - Use `task` for `Agent`, retaining any requirement for a fresh subagent. Omit the model names in the
   skills and use the host's default. When a skill may need to resume the same child, start it with
   `mode: background`, retain its agent ID, and use `read_agent` to get its results.

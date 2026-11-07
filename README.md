@@ -121,6 +121,8 @@ These are your settings to make: the skills never set them.
 
 ### Copilot CLI limitations
 
+- Avoid Autopilot and `--no-ask-user` when human approval matters: they can continue or make
+  decisions without asking you.
 - Hooks run from the plugin directory, so project-local git opt-outs may not be read. A `--global`
   opt-out applies to every repository, including in Claude Code; use it only if that is what you want.
 - The memory hook protects Claude's memory directory, not Copilot's memory. Disable Copilot memory
