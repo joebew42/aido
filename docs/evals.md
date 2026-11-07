@@ -320,7 +320,8 @@ because it guards an outcome:
 So no step check was removed. `connects-before-the-edge-cases` misses edge-case code that doesn't
 name its case in lower case. In one run, the agent wired the entry point first, but its first edge case
 was a bare `return 1`. In two later runs, it was named `TASK_ALREADY_COMPLETED`, which the check's
-`already` doesn't match. Each of these runs then ran out of turns before the check could settle.
+`already` doesn't match. Each of these runs then ran out of turns before the check could settle. The
+check now ignores case, which catches the second kind, but not a bare `return 1`.
 
 ### What the TDD cuts did
 

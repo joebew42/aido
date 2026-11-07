@@ -108,6 +108,15 @@ class OrderOfWork(unittest.TestCase):
 
         self.assertTrue(watch.passed())
 
+    def test_an_edge_case_named_in_capitals_counts_as_an_edge_case(self):
+        workspace, watch = self.watch("implement-connects-the-slice-early")
+        (workspace / "bin/todo").write_text("complete) complete_task ;;")
+        watch.tick()
+        (workspace / "lib/tasks.sh").write_text("TASK_ALREADY_COMPLETED=3")
+        watch.tick()
+
+        self.assertTrue(watch.passed())
+
     def test_building_the_edge_cases_before_connecting_fails(self):
         workspace, watch = self.watch("implement-connects-the-slice-early")
         (workspace / "lib/tasks.sh").write_text("echo already_completed")
