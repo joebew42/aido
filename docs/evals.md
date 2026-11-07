@@ -222,18 +222,18 @@ case compares the plugin in this tree with the plugin at the named ref.
 <!-- evals:comparison:start -->
 #### implement-connects-the-slice-early
 
-Recorded 2026-11-06 on plugin version 4.7.0 against `main` at plugin version 4.6.0, with claude-opus-5-5, 3 runs per arm.
+Recorded 2026-11-07 on plugin version 4.7.0 against `main` at plugin version 4.6.0, with claude-opus-5-5, 3 runs per arm.
 
 | Measure | This change | Baseline |
 | --- | --- | --- |
-| Score | 0.67 | 1.00 |
-| connects-before-the-edge-cases | 2/3 | 3/3 |
-| Mean cost | $0.92 | $0.90 |
-| Mean turns | 28 | 36 |
+| Score | 0.33 | 1.00 |
+| connects-before-the-edge-cases | 1/3 | 3/3 |
+| Mean cost | $0.99 | $0.84 |
+| Mean turns | 35 | 34 |
 
 #### implement-finishes-the-feature
 
-Recorded 2026-11-06 on plugin version 4.7.0 against `main` at plugin version 4.6.0, with claude-opus-5-5, 3 runs per arm.
+Recorded 2026-11-07 on plugin version 4.7.0 against `main` at plugin version 4.6.0, with claude-opus-5-5, 3 runs per arm.
 
 | Measure | This change | Baseline |
 | --- | --- | --- |
@@ -242,23 +242,23 @@ Recorded 2026-11-06 on plugin version 4.7.0 against `main` at plugin version 4.6
 | inner-units-have-tests | 3/3 | 3/3 |
 | suite-ends-green | 3/3 | 3/3 |
 | Mean mutation score | 1.00 | 1.00 |
-| Mean cost | $1.55 | $1.46 |
-| Mean turns | 36 | 31 |
+| Mean cost | $1.18 | $1.69 |
+| Mean turns | 30 | 34 |
 
 #### implement-grows-an-inside-out-item-by-layer
 
-Recorded 2026-11-06 on plugin version 4.7.0 against `main` at plugin version 4.6.0, with claude-opus-5-5, 3 runs per arm.
+Recorded 2026-11-07 on plugin version 4.7.0 against `main` at plugin version 4.6.0, with claude-opus-5-5, 3 runs per arm.
 
 | Measure | This change | Baseline |
 | --- | --- | --- |
-| Score | 1.00 | 0.33 |
-| grows-the-domain-before-the-entry-point | 3/3 | 1/3 |
-| Mean cost | $0.79 | $0.94 |
-| Mean turns | 32 | 34 |
+| Score | 0.67 | 0.33 |
+| grows-the-domain-before-the-entry-point | 2/3 | 1/3 |
+| Mean cost | $0.95 | $0.88 |
+| Mean turns | 43 | 39 |
 
 #### implement-respects-a-hidden-helper
 
-Recorded 2026-11-06 on plugin version 4.7.0 against `main` at plugin version 4.6.0, with claude-opus-5-5, 3 runs per arm.
+Recorded 2026-11-07 on plugin version 4.7.0 against `main` at plugin version 4.6.0, with claude-opus-5-5, 3 runs per arm.
 
 | Measure | This change | Baseline |
 | --- | --- | --- |
@@ -267,19 +267,19 @@ Recorded 2026-11-06 on plugin version 4.7.0 against `main` at plugin version 4.6
 | inner-units-have-tests | 3/3 | 3/3 |
 | suite-ends-green | 3/3 | 3/3 |
 | Mean mutation score | 1.00 | 1.00 |
-| Mean cost | $1.17 | $1.40 |
-| Mean turns | 34 | 30 |
+| Mean cost | $0.95 | $1.11 |
+| Mean turns | 40 | 36 |
 
 #### implement-writes-the-test-first
 
-Recorded 2026-11-06 on plugin version 4.7.0 against `main` at plugin version 4.6.0, with claude-opus-5-5, 3 runs per arm.
+Recorded 2026-11-07 on plugin version 4.7.0 against `main` at plugin version 4.6.0, with claude-opus-5-5, 3 runs per arm.
 
 | Measure | This change | Baseline |
 | --- | --- | --- |
 | Score | 1.00 | 1.00 |
 | test-before-code | 3/3 | 3/3 |
-| Mean cost | $0.33 | $0.30 |
-| Mean turns | 12 | 11 |
+| Mean cost | $0.36 | $0.28 |
+| Mean turns | 12 | 10 |
 <!-- evals:comparison:end -->
 
 ### What the shorter runs saved
@@ -318,22 +318,26 @@ because it guards an outcome:
 | `connects-before-the-edge-cases` | A feature that behaves as specified when the plan is wrong about how the parts fit: the wrong assumption shows at the first slice, before the edge cases build on it. No case has a wrong plan yet, so nothing measures this outcome directly |
 
 So no step check was removed. `connects-before-the-edge-cases` misses edge-case code that doesn't
-name its case: in one run, the agent wired the entry point first, but its first edge case was a bare
-`return 1`, and the run ran out of turns before the check could settle.
+name its case in lower case. In one run, the agent wired the entry point first, but its first edge case
+was a bare `return 1`. In two later runs, it was named `TASK_ALREADY_COMPLETED`, which the check's
+`already` doesn't match. Each of these runs then ran out of turns before the check could settle.
 
 ### What the TDD cuts did
 
 Version 4.7.0 cut five steps from `/aido:2-implement` and `tdd.md` that looked like ceremony for an
-agent. It was compared with `main`, at version 4.6.0, on 2026-11-06, with claude-opus-5-5 and 3 runs
-per arm. The cuts were measured together, not one at a time.
+agent. It was compared with `main`, at version 4.6.0, with claude-opus-5-5 and 3 runs per arm. The
+cuts were measured together, not one at a time.
 
 | Cut | Decision |
 | --- | --- |
 | The real implementation straight away, with no fake value and no triangulation | Kept |
 | Each unit's tests set aside its code and are seen failing, instead of watching each test fail | Kept |
 | Refactoring once per unit, instead of after every test | Kept |
-| No test cycle presented for review, in any mode, instead of only in loop mode | Kept. Widened from loop mode to every mode after this comparison, so it isn't measured yet |
+| No test cycle presented for review, in any mode, instead of only in loop mode | Kept. Widened after the first comparison, and measured in the second |
 | An `inside-out` unit's tests written together | Narrowed: only for a contract, a mapping or a DTO that relies on no existing code |
+
+The first comparison, on 2026-11-06, ran while a single session still presented each test cycle. Every
+eval run is a single session, so it measured the other four cuts only:
 
 | Case | Outcomes, cuts and `main` | Mean cost with the cuts | `main` |
 | --- | --- | --- | --- |
@@ -345,16 +349,35 @@ per arm. The cuts were measured together, not one at a time.
 | `implement-respects-a-hidden-helper`, after narrowing | All 3/3 in both, mutation score 1.00 in both | $1.17 | $1.40 |
 
 No outcome was worse with the cuts, so none was restored. On the trap case, `main` was right just as
-often but 24% cheaper, so writing a unit's tests together was narrowed. Code that already exists may
+often but 19% cheaper, so writing a unit's tests together was narrowed. Code that already exists may
 not do what its name says, and a run after each test is what shows it. With the narrowed rule, the
-trap case cost 16% less than `main`.
+trap case cost 16% less than `main`. Across the four main cases the cost was flat, $3.59 against $3.60,
+but `implement-finishes-the-feature` ran out of turns in 5 of its 6 runs, so both arms stopped at the
+same limit.
 
-The cuts didn't measurably cut the cost. Across the four main cases it was flat, $3.59 against
-$3.60, and only the inside-out case was cheaper. These figures can't show a saving well. Three of the
-cases stop as soon as their order check is settled. `implement-finishes-the-feature` ran out of turns
-in 5 of its 6 runs, so both arms stopped at the same limit. Single runs of the trap case cost between
-$0.71 and $2.15 within one arm, which is wider than the gap between the arms. A fair cost figure needs
-cases that run to the end, with a higher turn limit.
+The second comparison, on 2026-11-07, ran with every cut, as recorded in
+[Compared with an earlier version](#compared-with-an-earlier-version):
+
+| Case | Outcomes, cuts and `main` | Mean cost with the cuts | `main` |
+| --- | --- | --- | --- |
+| `implement-connects-the-slice-early` | Its order check: 1/3 and 3/3. Both failed runs wired the entry point first, as above | $0.99 | $0.84 |
+| `implement-finishes-the-feature` | All 3/3 in both, mutation score 1.00 in both. No run ran out of turns | $1.18 | $1.69 |
+| `implement-grows-an-inside-out-item-by-layer` | Its order check: 2/3 and 1/3 | $0.95 | $0.88 |
+| `implement-writes-the-test-first` | Its order check: 3/3 in both | $0.36 | $0.28 |
+| `implement-respects-a-hidden-helper` | All 3/3 in both, mutation score 1.00 in both | $0.95 | $1.11 |
+
+Again no outcome was worse, so no cut was restored. The order check that fell to 1/3 missed the
+behaviour rather than the agent skipping it, so it doesn't count against the cuts.
+
+The two cases that run to the end were cheaper with the cuts. `implement-finishes-the-feature`
+cost 30% less, $1.18 against $1.69, in 30 turns against 34. It is the first fair figure for it, because
+no run stopped at the turn limit. The trap case cost 14% less, $0.95 against $1.11, though in 40 turns
+against 36. Across the four main cases, the cuts cost 6% less, $3.48 against $3.69. The cases that stop
+once their order check is settled show no saving, and `implement-connects-the-slice-early` costs more
+only because its two missed runs went on to the turn limit.
+
+These are 3 runs per arm. Single runs of `implement-finishes-the-feature` with the cuts cost between
+$0.75 and $1.88, so the 30% is a hint that points the same way as the trap case, not proof.
 
 ### What the verify results don't show
 
