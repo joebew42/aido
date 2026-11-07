@@ -87,6 +87,7 @@ skills/2-implement/SKILL.md|a range that names an item the plan doesn't have** â
 skills/2-implement/SKILL.md|each with the criteria it serves, and ask nothing
 skills/2-implement/SKILL.md|the range ends before the plan does** â†’ record the items left, name them
 skills/3-organize-commits/SKILL.md|Once the commits are organized, should I create the pull request?
+skills/4-open-pr/SKILL.md|# Open a Pull Request
 skills/verify/SKILL.md|Every finding names its evidence
 skills/verify/SKILL.md|are not evidence
 guidelines/systemic-refactoring.md|Evidence before action
