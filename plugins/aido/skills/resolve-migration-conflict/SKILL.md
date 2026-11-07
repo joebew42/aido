@@ -147,7 +147,7 @@ chore: rename migration after rebase with main
 
 Once all quality checks pass:
 
-1. Run `/aido:3-organize-commits` to reorganize the commit history, without its offer to create the PR
+1. Run `/aido:3-organize-commits` to reorganize the commit history, without its offer to open the PR
 2. Once commits are organized, say that this rewrites the history of `origin/<branch-name>`, then run
    `git push --force origin <branch-name>`; per "Pushing Changes" in `git-workflow.md`, the
    permission prompt asks for the user's approval
