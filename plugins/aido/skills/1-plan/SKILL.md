@@ -5,8 +5,8 @@ disable-model-invocation: false
 
 # Plan
 
-In Copilot CLI, resolve `${CLAUDE_PLUGIN_ROOT}` as two directories above the skill base directory,
-then load `${CLAUDE_PLUGIN_ROOT}/guidelines/copilot-cli.md`.
+In Copilot CLI, **before any other action**, resolve `${CLAUDE_PLUGIN_ROOT}` as two directories above
+the skill base directory, then load `${CLAUDE_PLUGIN_ROOT}/guidelines/copilot-cli.md` and follow it.
 
 Turn a feature or phase into an approved specification and plan in `SPEC.md`. Then hand off to
 `/aido:2-implement`.

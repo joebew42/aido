@@ -5,8 +5,8 @@ disable-model-invocation: false
 
 # Implement the Feature
 
-In Copilot CLI, resolve `${CLAUDE_PLUGIN_ROOT}` as two directories above the skill base directory,
-then load `${CLAUDE_PLUGIN_ROOT}/guidelines/copilot-cli.md`.
+In Copilot CLI, **before any other action**, resolve `${CLAUDE_PLUGIN_ROOT}` as two directories above
+the skill base directory, then load `${CLAUDE_PLUGIN_ROOT}/guidelines/copilot-cli.md` and follow it.
 
 Build the feature from its specification, one small step at a time, with **test-driven
 development**, in the mode each plan item names.

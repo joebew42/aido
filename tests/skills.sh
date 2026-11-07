@@ -44,7 +44,7 @@ on_one_line() {
   tr -s ' \n' ' ' < "$1"
 }
 
-copilot_rule='In Copilot CLI, resolve `${CLAUDE_PLUGIN_ROOT}` as two directories above the skill base directory, then load `${CLAUDE_PLUGIN_ROOT}/guidelines/copilot-cli.md`.'
+copilot_rule='In Copilot CLI, **before any other action**, resolve `${CLAUDE_PLUGIN_ROOT}` as two directories above the skill base directory, then load `${CLAUDE_PLUGIN_ROOT}/guidelines/copilot-cli.md` and follow it.'
 
 for skill in "$plugin"/skills/*/SKILL.md; do
   name="$(basename "$(dirname "$skill")")"

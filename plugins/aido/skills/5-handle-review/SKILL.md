@@ -5,8 +5,8 @@ disable-model-invocation: false
 
 # Handle PR Review
 
-In Copilot CLI, resolve `${CLAUDE_PLUGIN_ROOT}` as two directories above the skill base directory,
-then load `${CLAUDE_PLUGIN_ROOT}/guidelines/copilot-cli.md`.
+In Copilot CLI, **before any other action**, resolve `${CLAUDE_PLUGIN_ROOT}` as two directories above
+the skill base directory, then load `${CLAUDE_PLUGIN_ROOT}/guidelines/copilot-cli.md` and follow it.
 
 Plan and make the changes a PR's review and comments ask for.
 
