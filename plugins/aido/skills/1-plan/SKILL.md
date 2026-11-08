@@ -19,8 +19,8 @@ file and its draft, which Step 1 resolves. "The Specification File" in
 `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md` holds the rules for both: their names, which is
 committed, and that they never exist together.
 
-The stages are strictly in order. Each approval also settles the choice that follows it, in the same
-`AskUserQuestion` call, so the user is interrupted once per stage:
+The stages are strictly in order. Each approval also settles the choice that follows it, as "Asking
+Questions" in `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` describes:
 
 1. **Draft** — the first version lands in `SPEC.md.draft`; the user approves it as the starting
    point and chooses the route

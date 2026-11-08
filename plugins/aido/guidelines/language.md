@@ -36,6 +36,9 @@ applies. Say the specific thing, in short sentences.
 A question must make sense alone, because the dialog may be all the user can see. Name what it is
 about, and say what each option does.
 
+**An approval also settles the choice that follows it.** Ask both in the same `AskUserQuestion` call,
+so the user is interrupted once per stage. The second answer counts only on approval.
+
 ## Showing What Changed
 
 When a skill asks the user to approve a document they have already seen, such as a draft, a

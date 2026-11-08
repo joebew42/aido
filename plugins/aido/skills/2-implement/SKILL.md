@@ -303,8 +303,8 @@ options **Run the review** / **Skip it**:
 - on **Skip it**, launch nothing: note the skip for the `## Progress` handoff and go on to
   completion
 
-In the same `AskUserQuestion` call, offer the next step, following "each approval also settles the
-choice that follows it" in `/aido:1-plan`. "STOP — Skill Complete" acts on the answer: "Once
+In the same `AskUserQuestion` call, offer the next step, as "Asking Questions" in
+`${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` describes. "STOP — Skill Complete" acts on the answer: "Once
 implementation is complete, should I organize the commits?" — options **Organize in a fresh context**
 (recommended) / **Organize the commits** / **Stop here**. The question names each criterion recorded
 as `deferred`, so the user doesn't continue without noticing it.
