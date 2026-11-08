@@ -26,6 +26,8 @@ fill a quota.
    - the host repository's `CLAUDE.md` and `AGENTS.md`, including nested ones
    - the plugin's guidelines in this `guidelines/` directory — the workflow already applies them in
      every repository, so restating one adds nothing
+   - a rule already there in different words counts as covered — a near-duplicate is worse than
+     nothing, because two phrasings of one rule invite drift between them
 
 3. **Apply the generality test — discard anything that fails:**
 
@@ -71,10 +73,4 @@ fill a quota.
 **Skip this step if:**
 - the work was trivial or routine
 - no new patterns or conventions emerged
-- all practices are already documented
-- the insight is specific to this feature or ticket rather than to how code is written in this
-  repository
-- it restates an existing rule, in the repository's files or the plugin's guidelines, in different
-  words — a near-duplicate is worse than nothing, because two phrasings of one rule invite drift
-  between them
-- it emerged from a single occurrence and has not yet been seen a second time
+- no candidate survives step 2 and the generality test in step 3
