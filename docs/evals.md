@@ -11,8 +11,8 @@ Each case runs **with aido** and **without aido**, which answers two questions:
 - does aido add anything over plain Claude Code?
 - did your change to a skill make the agent's work better or worse?
 
-Evals only cover the situations they have a case for, so a good score doesn't prove that aido is good
-in general.
+Evals only cover the situations they have a case for. A good score doesn't prove that aido is good in
+general.
 
 ## How to run them
 
@@ -36,9 +36,9 @@ The one-run check stops as soon as a check fails with aido:
 python3 tests/evals.py --case implement-connects-the-slice-early --runs 1 --stop-at-first-failure
 ```
 
-It records nothing. Three runs catch more than one: if a change makes a check pass only half the time,
-one run catches it 50% of the time and three runs 87.5%. So a passing one-run check doesn't clear a
-change, and the full round is still what you compare against.
+It records nothing. Three runs catch more than one. If a change makes a check pass only half the time,
+one run catches it 50% of the time, and three runs 87.5%. So a passing one-run check doesn't clear a
+change. The full round is still what you compare against.
 
 The full round needs a higher cost limit:
 
@@ -61,8 +61,8 @@ is to ask Claude Code to run it with its sandbox on. You don't need to change an
 | `--baseline <ref>` | off | Runs the second arm on the plugin as committed at this git ref, instead of without aido. With 3 or more valid runs per arm, it records the comparison in [Compared with an earlier version](#compared-with-an-earlier-version), and never in the results with and without aido |
 | `--regrade <output-dir>` | off | Judges a run's saved reports again, running no agents. Use it after changing a rubric |
 
-A case that has only an order check stops as soon as that check is settled, so its run doesn't carry on
-to the end. Any other check needs a finished run, so its case runs to the end. The checks on finished
+A case with only an order check stops as soon as that check is settled. Any other check needs a
+finished run, so its case runs to the end. The checks on finished
 work for an outside-in feature are in `implement-finishes-the-feature`. They used to be in each
 `implement-*` case that checks an order.
 
@@ -75,8 +75,9 @@ python3 tests/test_skills.py
 python3 tests/test_evals.py
 ```
 
-`tests/skills.sh` fails when a skill or guideline names a section that doesn't exist, when a skill
-doesn't refer to the ending block, or when a listed approval question or evidence rule is removed. `tests/test_evals.py` checks the runner itself.
+`tests/skills.sh` fails in three cases: a skill or guideline names a section that doesn't exist, a
+skill doesn't refer to the ending block, or a listed approval question or evidence rule is removed.
+`tests/test_evals.py` checks the runner itself.
 
 | Cases | What they check |
 | --- | --- |
@@ -108,8 +109,8 @@ doesn't refer to the ending block, or when a listed approval question or evidenc
 
 Plain Claude Code isn't expected to suggest conventions after a review. So
 `handle-review-suggests-nothing` should pass without aido, and
-`handle-review-asks-about-a-convention-seen-once` should fail without it: the first shows that aido
-adds no noise, and the second what it adds.
+`handle-review-asks-about-a-convention-seen-once` should fail without it. The first shows that aido
+adds no noise. The second shows what it adds.
 
 Runs have no `AskUserQuestion` tool, because nobody is there to answer. A skill's question shows up as
 text in the final message, so a case about a question grades that message.
@@ -309,8 +310,8 @@ Measured on 2026-11-05 with claude-opus-5-5, 3 runs per arm.
 | The three cases plus `implement-finishes-the-feature` | $15.96 | $14.69 (92%) |
 
 So a check on one order is much cheaper, but the full round is only about 8% cheaper. The new case
-costs about $1.80 per run with aido, and about $0.66 of that is the final design review, which it doesn't
-check.
+costs about $1.80 per run with aido. About $0.66 of that is the final design review, which the case
+doesn't check.
 
 The shortened cases still fail when the behaviour breaks. Each ran once against a copy of the plugin whose
 rule said the opposite, and its check failed: `connects-before-the-edge-cases`,
@@ -364,9 +365,9 @@ eval run is a single session, so it measured the other four cuts only:
 No outcome was worse with the cuts, so none was restored. On the trap case, `main` was right just as
 often but 19% cheaper, so writing a unit's tests together was narrowed. Code that already exists may
 not do what its name says, and a run after each test is what shows it. With the narrowed rule, the
-trap case cost 16% less than `main`. Across the four main cases the cost was flat, $3.59 against $3.60,
-but `implement-finishes-the-feature` ran out of turns in 5 of its 6 runs, so both arms stopped at the
-same limit.
+trap case cost 16% less than `main`. Across the four main cases, the cost was flat: $3.59 against
+$3.60. But `implement-finishes-the-feature` ran out of turns in 5 of its 6 runs, so both arms stopped
+at the same limit.
 
 The second comparison, on 2026-11-07, ran with every cut, as recorded in
 [Compared with an earlier version](#compared-with-an-earlier-version):
@@ -380,7 +381,7 @@ The second comparison, on 2026-11-07, ran with every cut, as recorded in
 | `implement-respects-a-hidden-helper` | All 3/3 in both, mutation score 1.00 in both | $0.95 | $1.11 |
 
 Again no outcome was worse, so no cut was restored. `implement-connects-the-slice-early` first came out
-1/3 against 3/3, but both failed runs had wired the entry point first, and the check missed their
+1/3 against 3/3. But both failed runs had wired the entry point first, and the check missed their
 `TASK_ALREADY_COMPLETED`. The check now ignores case, and that case alone was run again, for $5.50.
 
 The two cases that run to the end were cheaper with the cuts. `implement-finishes-the-feature`
@@ -397,13 +398,13 @@ $0.75 and $1.88, so the 30% is a hint that points the same way as the trap case,
 Plain Claude Code also spotted the test that couldn't fail, in all three runs. It then called the
 criterion verified because it had checked the behaviour by hand. So the 3/3 against 0/3 measures how
 strictly each one treats evidence, not whether it noticed the problem. Plain Claude Code also tested
-beyond the criteria and found real bugs with unusual task names, which verification doesn't look for
+beyond the criteria and found real bugs with unusual task names. Verification doesn't look for those,
 by design. That is the job of `/code-review`.
 
 ## Why not `claude plugin eval`?
 
 The cases follow the format of `claude plugin eval`, the official tool. It can't run the `order.json`,
-`acceptance.sh` and `checks/<name>.sh` checks, which only this runner understands. On Ubuntu
-its sandbox also failed for us: Bash couldn't start at all under the default AppArmor settings, and
-with those settings off, every write failed with `Read-only file system`. This runner doesn't use that
+`acceptance.sh` and `checks/<name>.sh` checks, which only this runner understands. On Ubuntu its
+sandbox also failed for us. Bash couldn't start at all under the default AppArmor settings. With those
+settings off, every write failed with `Read-only file system`. This runner doesn't use that
 sandbox, which is why it needs one of its own around it.
