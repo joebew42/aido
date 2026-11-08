@@ -195,7 +195,7 @@ like plan items:
 ### Items in Progress
 
 `## Progress` ticks each item that is done, plan item or refactoring alike, on one line with its code
-and title, so every skill reads the same line to know what is left:
+and title, so `/aido:2-implement` reads the same line to know what is left:
 
 - `- [x] <code>. <title>`, such as `- [x] 3. list the open tasks` or `- [x] r1. <title>`
 
