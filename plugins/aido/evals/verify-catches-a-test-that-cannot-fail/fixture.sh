@@ -67,7 +67,7 @@ case "$1" in
       echo "already completed"
       exit 1
     fi
-    sed -i "s/^$2 open$/$2 done/" tasks.txt
+    perl -pi -e "s/^$2 open$/$2 done/" tasks.txt
     ;;
 esac
 EOF
