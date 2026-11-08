@@ -94,6 +94,10 @@ guidelines/systemic-refactoring.md|Evidence before action
 guidelines/git-workflow.md|every push needs the user's approval
 guidelines/specification.md|An item is done only when its line is ticked
 guidelines/specification.md|`- [x] r1. <title>`
+guidelines/specification.md|A refactoring's code is never renumbered or reused
+guidelines/specification.md|<added by implementation, when the user accepts a refactoring>
+guidelines/systemic-refactoring.md|the specification's `## Design notes`, `## Refactorings` and `## Progress`
+guidelines/language.md|`(enabling)`, `r1`, `inside-out`
 guidelines/language.md|show a short plain-language list of what changed since the user last saw it
 guidelines/language.md|The first time a document is shown, show it whole
 guidelines/language.md|When the user asks to see the whole document, show it whole
