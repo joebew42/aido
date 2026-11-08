@@ -45,11 +45,9 @@ Apply "Before Every Commit" in `git-workflow.md` before every commit.
 ## Important Conventions
 
 - **DO NOT** modify `SPEC.md` during review (spec is already approved)
-- **DO NOT** reorganize/rebase/squash commits (branch is already pushed)
-- **Only append new commits** - let review changes be visible for transparency
-- Only rewrite history if explicitly requested by user
-- **Create one commit per change** - each review feedback item should result in a separate commit
-- Follow git commit conventions from the loaded `git-workflow.md`
+- the branch is already pushed: add new commits, as "Special Cases" in `git-workflow.md` describes,
+  so the review changes stay visible. Rewrite history only when the user asks
+- **create one commit per change**: each review feedback item gets its own commit
 
 ## Suggest Repository Conventions
 

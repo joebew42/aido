@@ -77,9 +77,8 @@ these that has one, reading the specification as "Reading the Approved Specifica
 
 ## History Management
 
-- if some commits are already pushed, **add** new commits instead of rewriting history
-- if history is not pushed, you may reset/reorganize the existing commits
-- **pushing or force pushing needs the user's approval**, which the permission prompt asks for, per "Pushing Changes" in `git-workflow.md`; say first when the push would rewrite history
+- history that is not pushed may be reset and reorganized. Once commits are pushed, add new ones, as "Special Cases" in `git-workflow.md` describes
+- a push or force push follows "Pushing Changes" in `git-workflow.md`. Say first when the push would rewrite history
 
 ## Step 2: Propose Commit Structure Before Reorganizing
 

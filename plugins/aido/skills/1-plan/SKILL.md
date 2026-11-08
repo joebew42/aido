@@ -257,9 +257,9 @@ Acceptance criteria, in that order. It states what and why; how belongs to `## P
 
 Run the alignment check on the rewritten draft, as
 `${CLAUDE_PLUGIN_ROOT}/guidelines/repository-alignment.md` describes, using the context already
-loaded. When a significant misalignment comes up, the draft is the specification it talks about:
-**Revise** updates the draft, **Reject** stops here and leaves the draft in place, and **Proceed
-anyway** records the decision in the draft. Do not ask for approval below until this is settled.
+loaded. When a significant misalignment comes up, ask as "When It Is Significant" in
+`${CLAUDE_PLUGIN_ROOT}/guidelines/repository-alignment.md` describes, with the draft as the
+specification it talks about. Do not ask for approval below until this is settled.
 
 ### Approve the specification
 
@@ -433,11 +433,12 @@ Only proceed here when all of these hold:
 ### Branch Creation Checklist
 
 - [ ] branch out to a new branch from the default branch
-- [ ] name it per the **Branch Naming** rules in `git-workflow.md` — GitHub Issue → `issue-NUMBER-feat-...`, no issue → `feat-...`; include `feat` only for new features
+- [ ] name it as "Branch Naming" in `git-workflow.md` describes
 
 ### Commit the Specification
 
-- [ ] commit `SPEC.md` with the exact message `docs: feature specification` (other commit conventions per `git-workflow.md`)
+- [ ] commit `SPEC.md` as `docs: feature specification`, as "Special Cases" in `git-workflow.md`
+      describes
 - [ ] if, after a clash, the user chose to record the spec file name, record and commit it as "The
       Specification File" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md` describes
 

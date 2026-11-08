@@ -77,8 +77,9 @@ every session, before anything else is decided:
 4. **something relevant** → read those changes against the specification and its plan, following
    `${CLAUDE_PLUGIN_ROOT}/guidelines/repository-alignment.md`:
    - a significant misalignment, including a constraint planning missed, pauses implementation until
-     the user chooses. **Revise** and **Proceed anyway** change `SPEC.md`: commit it per the `SPEC.md`
-     rule in `git-workflow.md` Special Cases. **Reject** stops the skill
+     the user chooses, as "When It Is Significant" in
+     `${CLAUDE_PLUGIN_ROOT}/guidelines/repository-alignment.md` describes. Commit a change to `SPEC.md`
+     per the `SPEC.md` rule in "Special Cases" in `git-workflow.md`. **Reject it** stops the skill
    - a lesser mismatch does not stop the session: mention it, and handle it when its plan item comes
      up
 
@@ -449,9 +450,7 @@ has run, now or in an earlier session, or the user chose to skip it:
    Acceptance Criteria Check, the units remaining, the deferred refactorings and the final design
    review's note. When `SPEC.md` has no `## Progress` section yet, add it at the bottom
 
-2. **Commit the progress update** (per the `SPEC.md` rule in `git-workflow.md` Special Cases):
-   - squash or amend into the existing `docs: feature specification` commit if history is not yet pushed
-   - if already pushed, add a new `docs: update feature specification` commit
+2. **Commit the progress update**, per the `SPEC.md` rule in "Special Cases" in `git-workflow.md`
 
 3. **Hand off**, without asking again:
    - **plan items or refactorings remain** → name them, and say that running `/aido:2-implement` or
