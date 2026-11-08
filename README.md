@@ -70,13 +70,13 @@ three times: the draft, the specification and the plan. A small, clear change ca
 route, where you approve a short specification and plan at once.
 
 Each skill ends by offering the next one, so you don't have to remember the order. It recommends a
-fresh context: run `/clear` and the next skill, which picks up from `SPEC.md` and the git history.
-Every skill ends with a short note on what it did, what it decided, and what it needs from you.
+fresh context: run `/clear`, then the next skill. That skill picks up from `SPEC.md` and the git
+history. Every skill ends with a short note: what it did, what it decided, and what it needs from you.
 
 ### Recommended Claude Code settings
 
-The guidelines request commits and PRs without AI attribution and no auto-memory. A plugin cannot
-set those preferences itself, so add the following to `~/.claude/settings.json`:
+The guidelines ask for commits and PRs without AI attribution, and for no auto-memory. A plugin
+can't set these itself, so add this to `~/.claude/settings.json`:
 
 ```json
 {
@@ -143,9 +143,9 @@ Each plan item names its mode and why, so you can challenge it before any code e
 | How the parts fit, or what an interface should be | `outside-in` | In tracer bullet slices | One group of commits per slice |
 | Logic within one unit | `in-unit` | In that unit | As inside-out |
 
-In every mode, how many tests come before the code follows "Step Size" in
-[`tdd.md`](plugins/aido/guidelines/tdd.md). A part is inside-out only if the plan can cite what it follows. When the plan proves wrong,
-implementation switches the mode and tells you.
+In every mode, "Step Size" in [`tdd.md`](plugins/aido/guidelines/tdd.md) decides how many tests come
+before the code. A part is inside-out only if the plan can cite what it follows. When the plan proves
+wrong, implementation switches the mode and tells you.
 
 ### The repository is part of the conversation
 
@@ -157,7 +157,7 @@ revising or rejecting the specification. You can still go ahead, and your reason
 
 `/aido:verify` checks a branch or a PR against what was agreed, in a **fresh context**, so the agent
 that built it isn't the judge. It changes nothing. A requirement is **verified** only by a test that
-passed during the check, or by your confirmation; otherwise it is **insufficient evidence** or
+passed during the check, or by your confirmation. Otherwise it is **insufficient evidence** or
 **unmet**. A PR without a specification is checked against its description and linked issues.
 
 | Tool | Question |
@@ -174,7 +174,7 @@ passed during the check, or by your confirmation; otherwise it is **insufficient
 | Skill&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | Purpose |
 | :--- | :--- |
 | `/aido:1-plan` | Draft, refine, and plan a feature into `SPEC.md`. |
-| `/aido:2-implement` | Implement the feature using TDD. `loop` (or `loop 7-9`) runs each plan item in a fresh subagent. The final design review adds the refactorings you accept to the spec's `## Refactorings`, as `r1`, `r2`, …, and `loop r1` (or `loop r1-r3`) runs them the same way. |
+| `/aido:2-implement` | Implement the feature using TDD. `loop` (or `loop 7-9`) runs each plan item in a fresh subagent. The final design review adds the refactorings you accept to the spec's `## Refactorings`, as `r1`, `r2`, …. `loop r1` (or `loop r1-r3`) runs them the same way. |
 | `/aido:3-organize-commits` | Organize the commit history. |
 | `/aido:4-open-pr` | Open a pull request. |
 | `/aido:5-handle-review` | Handle PR review feedback. |
@@ -194,7 +194,7 @@ passed during the check, or by your confirmation; otherwise it is **insufficient
 | `/aido:verify` | Check a branch or PR against the agreed requirements from a fresh context. |
 | `/aido:stabilize` | Take over a PR, remote branch, or local changes created outside this workflow. |
 | `/aido:map-architecture` | Build or update a slim map of domain areas and building blocks. |
-| `/aido:assess-architecture` | Assess architecture area by area and save selected refactoring ideas, which `/aido:1-plan` offers when a planned change fits them. |
+| `/aido:assess-architecture` | Assess the architecture area by area, and save the refactoring ideas you pick. `/aido:1-plan` offers them when a planned change fits. |
 | `/aido:resolve-migration-conflict` | Resolve migration conflicts after a rebase, with any migration tool. |
 
 ---
@@ -218,8 +218,8 @@ passed during the check, or by your confirmation; otherwise it is **insufficient
 
 ### Review someone else's PR
 
-Run `/aido:verify <PR number>` to compare it with the agreed requirements, and `/code-review` to
-inspect for defects.
+Run `/aido:verify <PR number>` to compare it with the agreed requirements. Run `/code-review` to look
+for defects.
 
 ### Resolve a migration conflict
 
@@ -236,8 +236,9 @@ The skills follow the guidelines in [`plugins/aido/guidelines/`](plugins/aido/gu
 
 ## Measuring it
 
-Eval cases compare what agents do with and without aido, or with an earlier version of aido, so a
-change to a skill can be measured rather than judged by feel. See [how to run and read them, and the current results](docs/evals.md).
+Eval cases compare what agents do with aido, without it, or with an earlier version of it. So a
+change to a skill is measured, not judged by feel. See
+[how to run and read them, and the current results](docs/evals.md).
 
 ---
 
