@@ -1,0 +1,6 @@
+schema_version: "1.1"
+name: organize-runs-the-tests-once
+description: Organizing the commits runs the tests once, on the final commit, and the history still ends green
+tags: [organize]
+context:
+  scaffold_script: fixture.sh
