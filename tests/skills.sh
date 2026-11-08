@@ -163,6 +163,13 @@ guidelines/tdd.md|every other unit, in every mode, including an `inside-out` uni
 skills/2-implement/SKILL.md|Tests are written together only for a contract, a mapping or a DTO that relies on no existing code
 EOF_PHRASES
 
+for skill in "$plugin"/skills/*/SKILL.md; do
+  name="$(basename "$(dirname "$skill")")"
+  [ "$name" = "5-handle-review" ] && continue
+  ! grep -qF 'evolving-guidelines.md' "$skill"
+  report $? "only 5-handle-review suggests conventions, not $name"
+done
+
 skill_names="$(
   for skill in "$plugin"/skills/*/SKILL.md; do
     basename "$(dirname "$skill")"
