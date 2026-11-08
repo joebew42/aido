@@ -1,9 +1,9 @@
 # Evolving Guidelines
 
-After completing a PR or phase, review the work for conventions worth writing down in the host
-repository's own agent instruction files — its `CLAUDE.md` or `AGENTS.md`. These are the **only**
-targets: the plugin's guidelines are not edited from a host repository, and the installed plugin
-copy is replaced on every update.
+After handling a PR's review, look in its review comments for conventions worth writing down in
+the host repository's own agent instruction files — its `CLAUDE.md` or `AGENTS.md`. These are the
+**only** targets: the plugin's guidelines are not edited from a host repository, and the installed
+plugin copy is replaced on every update.
 
 **Proposing nothing is the normal outcome.** Most work — even large, interesting, well-executed
 work — produces no new convention. A convention is a rule that will change how *future, unrelated*
@@ -17,7 +17,7 @@ fill a quota.
 
 ## Process
 
-1. **Analyze the work completed:**
+1. **Analyze the review comments and the fixes they led to:**
    - look for coding patterns, naming conventions, architectural decisions, or workflow improvements
      specific to this repository
    - identify practices that could benefit future work here
