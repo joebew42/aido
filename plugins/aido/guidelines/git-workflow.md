@@ -11,6 +11,8 @@ This is the per-commit gate, including for review fixes. It also applies before 
 - when a value, constant, flag or API is changed or removed, search for all references to the old form, including comments and documentation, and update them in the same change
 - read the diff and delete every comment it introduces that "Comments" in `code-standards.md` doesn't allow
 
+One exception: `/aido:3-organize-commits` runs the relevant tests once, on the final commit, instead of at each commit. The commits it reshapes were tested while they were built. The rest of this gate still applies to each of its commits.
+
 ### Commit Message Format
 - use always lower case
 - use semantic commit prefixes (feat, refactor, chore, style, docs, test)
