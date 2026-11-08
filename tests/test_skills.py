@@ -131,6 +131,16 @@ class StaticChecks(unittest.TestCase):
         self.assertEqual(result.returncode, 1)
         self.assertIn("FAIL - 5-handle-review gives the review guidance before its ending", result.stdout)
 
+    def test_a_finding_with_an_old_field_fails(self):
+        copy = self.copy_of_the_repository()
+        guideline = copy / "plugins" / "aido" / "guidelines" / "specification.md"
+        guideline.write_text(guideline.read_text() + "\n- **Competing explanations:** …\n")
+
+        result = self.run_checks(copy)
+
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("FAIL - guidelines/specification.md records a finding in the five fields", result.stdout)
+
 
 if __name__ == "__main__":
     unittest.main()

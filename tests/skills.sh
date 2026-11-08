@@ -135,7 +135,10 @@ guidelines/language.md|show a short plain-language list of what changed since th
 guidelines/language.md|The first time a document is shown, show it whole
 guidelines/language.md|When the user asks to see the whole document, show it whole
 skills/1-plan/SKILL.md|show only `## Plan` and `## Design notes`, not the approved specification
-guidelines/systemic-refactoring.md|In chat, a finding is shown as one line: its Recommendation and Why it matters
+guidelines/systemic-refactoring.md|In chat, a finding is shown as one line: its Change and Why
+guidelines/systemic-refactoring.md|**Change** — the smallest useful refactoring - **Why** — what the code shows, and what it costs if it stays
+guidelines/systemic-refactoring.md|**Where** — `path` — `Symbol`, one line each - **Confidence** — high, medium or low, as defined below, with its reason when it isn't high - **Risk** —
+guidelines/systemic-refactoring.md|These shape the finding and its confidence. They are not written down
 guidelines/systemic-refactoring.md|When the user asks for a finding in full, show every field
 guidelines/systemic-refactoring.md|A finding recorded in a file keeps every field
 skills/assess-architecture/SKILL.md|one line per candidate, with its size
@@ -175,6 +178,16 @@ for skill in "$plugin"/skills/*/SKILL.md; do
     report $? "only 5-handle-review suggests conventions, not $name"
   fi
 done
+
+old_fields='^ *- \*\*(Observation|Competing explanations|Assumptions|What would change it|Recommendation|Why it matters)[:*]'
+old_format="$(grep -rlE "$old_fields" "$plugin/skills" "$plugin/guidelines" "$plugin/evals" --exclude-dir=results)"
+if [ -z "$old_format" ]; then
+  report 0 "every finding is recorded in the five fields"
+fi
+while IFS= read -r file; do
+  [ -n "$file" ] || continue
+  report 1 "${file#"$plugin"/} records a finding in the five fields"
+done <<< "$old_format"
 
 handle_review="$plugin/skills/5-handle-review/SKILL.md"
 guidance_line="$(grep -n -m1 -F 'Worth examining' "$handle_review" | cut -d: -f1)"
