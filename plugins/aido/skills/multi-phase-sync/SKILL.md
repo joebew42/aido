@@ -5,7 +5,7 @@ disable-model-invocation: false
 
 # Sync Multi-Phase Plan
 
-Update the main plan PR based on the status of individual phase PRs.
+Update the main plan PR from the state of each phase PR.
 
 Load `${CLAUDE_PLUGIN_ROOT}/guidelines/git-workflow.md`.
 
@@ -13,25 +13,26 @@ Load `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` and follow it in everything 
 
 ## Process
 
-1. switch to the branch with the main plan of the feature
-2. rebase the main plan branch onto `origin/<default-branch>`:
+1. switch to the feature's main plan branch
+2. rebase it onto `origin/<default-branch>`:
    - run `git fetch origin`
    - run `git rebase origin/<default-branch>`
-3. check the status of all phase PRs:
-   - read the current main plan PR description with `gh pr view --json body`
-   - extract all PR numbers already referenced in the roadmap (e.g. `(#41)`)
-   - for each extracted PR number, fetch its latest state directly: `gh pr view <NUMBER> --json number,title,state,headRefName,mergedAt`
+3. check the state of every phase PR:
+   - read the main plan PR's description with `gh pr view --json body`
+   - take every PR number the roadmap already names, such as `(#41)`
+   - fetch each one's latest state directly:
+     `gh pr view <NUMBER> --json number,title,state,headRefName,mergedAt`
    - find no PR by searching, as "Using GitHub CLI" in `git-workflow.md` says
-4. based on the status of phase PRs, update:
-   - the main plan PR description with current roadmap status
-   - the specification if needed based on learnings from completed phases
-5. delete local branches for any phase PRs that have been merged:
-   - use `gh pr view <PR_NUMBER> --json headRefName` to get the branch name for each merged PR
-   - delete the local branch with `git branch -D <branch_name>` (skip if branch doesn't exist locally)
-6. if all phases are merged and the specification is fully implemented:
-   - close the main plan PR using `gh pr close <PR_NUMBER> --comment "All phases completed and merged."`
+4. from those states, update:
+   - the main plan PR's description, with the roadmap's current state
+   - the specification, if the finished phases taught something it needs
+5. delete the local branch of each merged phase PR:
+   - get its name with `gh pr view <PR_NUMBER> --json headRefName`
+   - delete it with `git branch -D <branch_name>`. Skip it if it doesn't exist locally
+6. when every phase is merged and the specification is fully built:
+   - close the main plan PR with `gh pr close <PR_NUMBER> --comment "All phases completed and merged."`
    - delete the local main plan branch with `git branch -D <main_plan_branch>`
-7. if there are remaining phases, ask the user about possible changes or clarifications needed in the specification
+7. when phases remain, ask the user whether the specification needs changes or clarifications
 8. end as "Ending a Skill" in `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` describes.
 
 ## Templates
