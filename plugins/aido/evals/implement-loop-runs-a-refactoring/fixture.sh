@@ -34,17 +34,13 @@ The enabling refactoring analysis was skipped.
 
 ### r1. name the task line format once
 
-- **Observation:** `add` writes a task as `<id> open`, and `complete` matches that same format again
-  to rewrite it
-- **Evidence:** `todo.sh` — `add`; `todo.sh` — `complete`
-- **Competing explanations:** no change needed, as there are only two commands. Settled because the
-  format is one rule, and a third command would copy it again
-- **Assumptions:** none
+- **Change:** one function that builds a task line from an id and a state, used by both commands
+- **Why:** `add` writes a task as `<id> open`, and `complete` matches that same format again to
+  rewrite it, so the format is changed in two places
+- **Where:**
+  - `todo.sh` — `add`
+  - `todo.sh` — `complete`
 - **Confidence:** high
-- **What would change it:** the two formats meaning different things
-- **Recommendation:** one function that builds a task line from an id and a state, used by both
-  commands
-- **Why it matters:** the task line format is changed in two places
 - **Risk:** `tasks.txt` must keep the same lines
 
 ## Progress
