@@ -1,0 +1,5 @@
+{
+  "name": "ticks-item-1-before-item-2",
+  "before": { "paths": ["SPEC.md"], "contains": "(?i)\\[x\\][^\\n]*(\\b1\\.|complete)" },
+  "after": { "paths": ["todo.sh"], "contains": "list" }
+}

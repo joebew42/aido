@@ -133,6 +133,25 @@ class OrderOfWork(unittest.TestCase):
 
         self.assertFalse(watch.passed())
 
+    def test_ticking_item_1_before_building_item_2_passes(self):
+        workspace, watch = self.watch("implement-records-each-item")
+        (workspace / "SPEC.md").write_text("## Progress\n\n- [x] 1. complete a task\n")
+        watch.tick()
+        (workspace / "todo.sh").write_text('  list) grep " open$" tasks.txt ;;')
+        watch.tick()
+
+        self.assertTrue(watch.passed())
+
+    def test_building_item_2_before_ticking_item_1_fails(self):
+        workspace, watch = self.watch("implement-records-each-item")
+        (workspace / "SPEC.md").write_text("## Plan\n\n1. **complete a task** (AC1)\n")
+        (workspace / "todo.sh").write_text('  list) grep " open$" tasks.txt ;;')
+        watch.tick()
+        (workspace / "SPEC.md").write_text("## Progress\n\n- [x] 1. complete a task\n")
+        watch.tick()
+
+        self.assertFalse(watch.passed())
+
     def test_never_connecting_fails(self):
         workspace, watch = self.watch("implement-connects-the-slice-early")
         (workspace / "bin/todo").write_text("add) add_task ;;")
@@ -310,6 +329,7 @@ class ImplementCases(unittest.TestCase):
             "implement-connects-the-slice-early",
             "implement-grows-an-inside-out-item-by-layer",
             "implement-writes-the-test-first",
+            "implement-records-each-item",
         ):
             with self.subTest(name):
                 checks = self.checks_of(name)
