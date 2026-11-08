@@ -20,9 +20,10 @@ Load `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` and follow it in everything 
 
 - **nothing, or anything but the two below** → a single session, as this skill describes
 - **`loop`, or `loop <first>-<last>`, such as `loop 7-9`** → this session is the **orchestrator**:
-  it runs each plan item in a child, as "Loop Mode" describes
-- **`item <N>`** → this session is a **child** the orchestrator started for plan item `<N>`, as
-  "Child Mode" describes
+  it runs each plan item in a child, as "Loop Mode" describes. `loop r<N>`, or `loop r<first>-r<last>`,
+  such as `loop r1-r3`, runs refactorings from `## Refactorings` the same way
+- **`item <N>`** → this session is a **child** the orchestrator started for plan item `<N>`, or for
+  refactoring `r<N>`, as "Child Mode" describes
 
 ## Step 0: Load Context
 
@@ -84,8 +85,9 @@ every session, before anything else is decided:
 
 An orchestrator or a child skips this step: the argument already chose the items.
 
-After loading context, use `AskUserQuestion` to present the list of plan items from `SPEC.md`,
-each with the acceptance criteria it serves, and ask:
+After loading context, use `AskUserQuestion` to present every unfinished plan item, then every
+unfinished refactoring in `## Refactorings`, each plan item with the acceptance criteria it serves. The
+first of them is the next logical one. Ask:
 
 > "Which items should I do in this session? (all / specific items / the next logical one)"
 
@@ -99,36 +101,44 @@ full specification and guidelines in view. Only the orchestrator writes `SPEC.md
 **Before the first child:** run Step 0 and Step 0.5 once, then choose the items to run, in plan
 order:
 
-- **`loop`** → every plan item not ticked in `## Progress`
+- **`loop`** → every plan item not done, then every refactoring not done, as "Items in Progress" in
+  `specification.md` describes
 - **a range** → the items in it. Skip those already ticked in `## Progress`, and name them
+- **`r<N>`, or a range of refactorings** → those refactorings, in the same way
 - **a range that names an item the plan doesn't have** → don't start the loop, and say why
+- **a refactoring code `## Refactorings` doesn't have** → don't start the loop, and say why
 
 Show the items it will run, each with the criteria it serves, and ask nothing.
 
 **For each item, in order:**
 
 1. launch one `Agent`, with no model override. Brief it with:
-   - the repository root, the `SPEC.md` path and the item's number
-   - to invoke `/aido:2-implement item <N>` with the `Skill` tool, and follow it
+   - the repository root, the `SPEC.md` path and the item's number, or the refactoring's code
+   - to invoke `/aido:2-implement item <N>` with the `Skill` tool, and follow it. For a refactoring,
+     `<N>` is its code, such as `item r1`
    - to return only what "Child Results" lists
 2. when it returns, check three things:
-   - its results give each criterion the item serves as `met`, `changed` or `deferred`
+   - its results give each criterion the item serves as `met`, `changed` or `deferred`. A refactoring
+     serves none
    - the working tree is clean
    - lint and the whole test suite pass
 3. **all three pass** → record the item in `## Progress` as "What Progress Records" lists, from the
-   child's results, with the item ticked. For a `changed` criterion, also update its wording in
-   `## Acceptance criteria`, keeping its ID. Commit it per the `SPEC.md` rule in `git-workflow.md`
+   child's results, with the item ticked as "Items in Progress" in `specification.md` describes. For a `changed` criterion, also update its wording in
+   `## Acceptance criteria`, keeping its ID. Add each refactoring the child planned for later to
+   `## Refactorings`, with the next free code. Commit it per the `SPEC.md` rule in `git-workflow.md`
    Special Cases, then start the next item's child
 4. **one fails** → stop the loop. Report what failed, and the items not yet run. Tick nothing for
    the failed item, and record the items left
 
 **After the last item it runs:**
 
-- **the plan's last item is done** → ask about the final design review and organizing the commits in
-  one question, as "Before completion" describes. Run the review here, if chosen, then finish as "STOP
-  — Skill Complete" describes. Each item's Progress is already committed
+- **every plan item and refactoring is done** → ask about the final design review and organizing the
+  commits in one question, as "Before completion" describes. Once the review has run, it asks only
+  about organizing. Run the review here, if chosen, then finish as "STOP — Skill Complete" describes.
+  Each item's Progress is already committed
 - **the range ends before the plan does** → record the items left, name them, and say that running
-  `/aido:2-implement loop` again continues them. Ask about neither
+  `/aido:2-implement loop` again continues them. Ask about neither. Refactorings not done count as
+  items left
 
 **To record the items left**, whenever the loop ends before the plan does, add them to `## Progress`
 as units remaining, with the criteria only they serve as `unchecked`, as "What Progress Records"
@@ -145,7 +155,7 @@ or on a paused question, end as item 4 of "STOP — Skill Complete" describes.
 
 ## Child Mode
 
-A child implements plan item `<N>` and nothing else:
+A child implements plan item `<N>`, or refactoring `r<N>`, and nothing else:
 
 - run Step 0, then go straight to the item, skipping Step 0.5 and Step 1
 - build it as the sections below describe, from "Work in the Item's Mode" to "Commits". Its
@@ -164,6 +174,8 @@ A child implements plan item `<N>` and nothing else:
 - the item's number, and the commits it made
 - what "What Progress Records" lists, for this item only, apart from the final design review's note
 - for a `changed` criterion, the wording the user agreed
+- each refactoring planned for later, with every field under **What every finding states** in
+  `systemic-refactoring.md`
 - anything this skill told the child to tell the user
 
 ## Work in the Item's Mode
@@ -174,6 +186,11 @@ not ask.
 
 In an `outside-in` item, connect the first slice through the real entry point before writing any edge
 case: the entry point calls the feature while the only behaviour it reaches is the first slice's.
+
+A refactoring from `## Refactorings` has no mode, and no goal post. Build it within **Boundaries** in
+`systemic-refactoring.md`. Before changing code that no test covers, add the test first. Then change it
+in small steps, with the tests green after each, and commit it as "Committing systemic refactorings"
+describes.
 
 **When the plan proves wrong**, change the part's mode rather than carrying on with one that has
 stopped fitting: an inside-out part hides an unknown, or an outside-in part turns out to have nothing
@@ -254,7 +271,10 @@ Run it inline, on green, scoped to the evidence the cycle surfaced:
 3. apply fix-now and refactor-now changes in small steps, re-running the relevant tests after each
 4. before a refactoring that touches another module, ask with `AskUserQuestion`, showing the
    finding as **Showing a finding** in `systemic-refactoring.md` describes —
-   options **Refactor now** / **Defer** / **No action**
+   options **Refactor now** / **Plan it for later** / **Defer** / **No action**. On **Plan it for
+   later**, add it to `## Refactorings` with the next free code, as "Refactorings" in
+   `specification.md` describes, commit it per the `SPEC.md` rule in `git-workflow.md` Special Cases,
+   and carry on with the unit
 5. note deferred findings for the `## Progress` handoff, with every field under **What every finding states** in
    `systemic-refactoring.md`, and park them as
    **Parking an opportunity** in `systemic-refactoring.md` describes, then carry on with the unit
@@ -262,9 +282,10 @@ Run it inline, on green, scoped to the evidence the cycle surfaced:
 ### Before completion — `fable` subagent
 
 Run it after the Acceptance Criteria Check below, so it reviews the code that the check may have
-added. Once every plan item is implemented — not at the end of a partial session — the checkpoint is due
-over the whole feature. It can take long and is not always needed, so ask first —
-`AskUserQuestion`: "Should I run a final design review over the whole feature?" —
+added. Once every plan item and refactoring is done — not at the end of a partial session — the
+checkpoint is due over the whole feature. It runs once: when `## Progress` says it ran or was skipped,
+it is not offered again, and the question below offers only the next step. It can take long and is not
+always needed, so ask first — `AskUserQuestion`: "Should I run a final design review over the whole feature?" —
 options **Run the review** / **Skip it**:
 
 - mark **Run the review** as recommended when the diff against the default branch touches more than one
@@ -303,10 +324,15 @@ Then, in this session:
 
 1. confirm each finding before acting on it, as **Evidence before action** in
    `systemic-refactoring.md` describes
-2. present the findings as **Showing a finding** in `systemic-refactoring.md` describes; ask with `AskUserQuestion` before any that touch another module
-3. apply the accepted ones on green, in small steps, re-running the relevant tests after each
+2. present the findings as **Showing a finding** in `systemic-refactoring.md` describes, and ask with
+   `AskUserQuestion` what to do with each — options **Plan it for later** / **Defer** / **No action**
+3. add each one planned for later to `## Refactorings` with the next free code, as "Refactorings" in
+   `specification.md` describes. Change no code: each one is built later, like a plan item
 4. record the deferred ones for the `## Progress` handoff, and park them as **Parking an
    opportunity** in `systemic-refactoring.md` describes
+5. when any are planned, note it for the `## Progress` handoff, then finish as "STOP — Skill
+   Complete" describes. Refactorings now remain, so the answer about organizing the commits is not
+   acted on: the session that finishes them asks again
 
 ### Committing systemic refactorings
 
@@ -326,6 +352,8 @@ not only the plan.
 - every plan item is implemented → every criterion in `SPEC.md`
 - a partial session → only the criteria whose plan items are all done; the rest are recorded as
   `unchecked`
+- a criterion already recorded as `met`, `changed` or `deferred` keeps that result. A session that
+  builds only refactorings re-runs the tests that cover the criteria, and asks nothing again
 
 **For each criterion:**
 
@@ -362,6 +390,8 @@ shaping** is not done here — `/aido:3-organize-commits` owns it.
 The `## Progress` section of `SPEC.md` is a handoff note for the next session. Keep it brief:
 
 - list each implemented unit of work (checked off)
+- tick each item that is done, plan item or refactoring, as "Items in Progress" in
+  `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md` describes
 - record the slices built for each outside-in item and every mode change, as "Modes and Slices in
   Progress" in "The Specification Structure" describes
 - note any units remaining (if session ended early)
@@ -371,6 +401,8 @@ The `## Progress` section of `SPEC.md` is a handoff note for the next session. K
 - list **Deferred refactorings**, each with every field under **What every finding states** in
   `systemic-refactoring.md`, its evidence as `path` — `Symbol`, and why it was deferred
 - if the user skipped the final Systemic Design Checkpoint, say so in plain words: "the final design review was skipped"
+- if the final design review planned refactorings, say so with their codes: "the final design review
+  ran and recorded r1, r2"
 
 ## Red Flags to Watch For
 
@@ -396,12 +428,13 @@ If you catch yourself doing any of these, STOP immediately:
   without its evidence
 - ❌ Changing an acceptance criterion without the user's agreement
 - ❌ Implementing past a significant misalignment the user has not decided on
+- ❌ Applying a refactoring the final design review found, instead of adding it to `## Refactorings`
 
 ## STOP — Skill Complete
 
 When all units of work are implemented and committed, the Acceptance Criteria Check is done — and,
-if this session finished the last plan items, the final Systemic Design Checkpoint has run or the
-user chose to skip it:
+if this session finished the last plan items or refactorings, the final Systemic Design Checkpoint
+has run, now or in an earlier session, or the user chose to skip it:
 
 1. **Update `SPEC.md`** with a `## Progress` section at the bottom, holding what "What Progress
    Records" lists
@@ -411,8 +444,9 @@ user chose to skip it:
    - if already pushed, add a new `docs: update feature specification` commit
 
 3. **Hand off**, without asking again:
-   - **plan items remain** → name them, and say that running `/aido:2-implement` again continues them.
-     Do not call the implementation complete, and do not offer or mention organizing the commits
+   - **plan items or refactorings remain** → name them, and say that running `/aido:2-implement` or
+     `/aido:2-implement loop` continues them. Do not call the implementation complete, and do not
+     offer or mention organizing the commits
    - **Organize the commits** → once the progress update is committed, invoke
      `/aido:3-organize-commits`. This answer approves only starting that skill: all of its own questions
      still happen. If the work can't finish cleanly, do not start it, and tell the user why
@@ -422,5 +456,5 @@ user chose to skip it:
      **Hand-off Outcomes** in `git-workflow.md` describes
 
 4. **End** as "Ending a Skill" in `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` describes, also when the
-   session stops early. With plan items left, `Needs you` names only running `/aido:2-implement`
-   again, or `/aido:2-implement loop` for an orchestrator
+   session stops early. With plan items or refactorings left, `Needs you` names only running
+   `/aido:2-implement` or `/aido:2-implement loop`

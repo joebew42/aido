@@ -24,8 +24,8 @@ Some words stay, because they are exact or belong to the reader:
 
 - the project's own domain terms, and technical terms the reader already uses
 - labels with an exact meaning, which skills read: `AC1`, `(manual)`, `met`, `changed`, `deferred`,
-  `unchecked`, `(enabling)`, `inside-out`, `outside-in`, `in-unit`, and the ending block's `Done`,
-  `Decided` and `Needs you`
+  `unchecked`, `(enabling)`, `r1`, `inside-out`, `outside-in`, `in-unit`, and the ending block's
+  `Done`, `Decided` and `Needs you`
 - names of commands, files and sections, when the reader needs to find them
 
 A rule that asks for specific or technical language, such as `pr-roadmap.md` for roadmap items, still

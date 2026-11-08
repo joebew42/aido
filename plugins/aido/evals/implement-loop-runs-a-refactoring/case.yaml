@@ -1,0 +1,6 @@
+schema_version: "1.1"
+name: implement-loop-runs-a-refactoring
+description: With every plan item done, `loop r1` builds refactoring r1 in a child, the orchestrator ticks it in Progress, and organizing is offered with no second design review
+tags: [implement]
+context:
+  scaffold_script: fixture.sh

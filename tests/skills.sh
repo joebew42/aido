@@ -86,12 +86,37 @@ skills/2-implement/SKILL.md|Skip those already ticked in `## Progress`, and name
 skills/2-implement/SKILL.md|a range that names an item the plan doesn't have** → don't start the loop, and say why
 skills/2-implement/SKILL.md|each with the criteria it serves, and ask nothing
 skills/2-implement/SKILL.md|the range ends before the plan does** → record the items left, name them
+skills/2-implement/SKILL.md|options **Refactor now** / **Plan it for later** / **Defer** / **No action**
+skills/2-implement/SKILL.md|Change no code: each one is built later, like a plan item
+skills/2-implement/SKILL.md|"the final design review ran and recorded r1, r2"
+skills/2-implement/SKILL.md|it is not offered again
+skills/2-implement/SKILL.md|**plan items or refactorings remain**
+skills/2-implement/SKILL.md|options **Plan it for later** / **Defer** / **No action**
+guidelines/systemic-refactoring.md|fix now and refactor now also collapse into one outcome: **planned**
+skills/2-implement/SKILL.md|`loop r<N>`, or `loop r<first>-r<last>`, such as `loop r1-r3`
+skills/2-implement/SKILL.md|every plan item not done, then every refactoring not done
+skills/2-implement/SKILL.md|a refactoring code `## Refactorings` doesn't have** → don't start the loop, and say why
+skills/2-implement/SKILL.md|every unfinished plan item, then every unfinished refactoring
+skills/2-implement/SKILL.md|A refactoring from `## Refactorings` has no mode
+skills/2-implement/SKILL.md|tick each item that is done, plan item or refactoring
+skills/2-implement/SKILL.md|a criterion already recorded as `met`, `changed` or `deferred` keeps that result
+skills/2-implement/SKILL.md|**every plan item and refactoring is done**
+skills/2-implement/SKILL.md|Once every plan item and refactoring is done
 skills/3-organize-commits/SKILL.md|Once the commits are organized, should I open the pull request?
+skills/3-organize-commits/SKILL.md|Always mark **Open the PR in a fresh context** as recommended, whatever `## Progress` says
+guidelines/git-workflow.md|A refactoring from `## Refactorings` always gets its own `refactor:` commit, after the feature commits, even when it only reshapes the feature's new code
 skills/4-open-pr/SKILL.md|# Open a Pull Request
 skills/verify/SKILL.md|Every finding names its evidence
+skills/verify/SKILL.md|a change that a refactoring in `## Refactorings` explains is planned, and is not a deviation. It is never evidence that something is met
 skills/verify/SKILL.md|are not evidence
 guidelines/systemic-refactoring.md|Evidence before action
 guidelines/git-workflow.md|every push needs the user's approval
+guidelines/specification.md|An item is done only when its line is ticked
+guidelines/specification.md|`- [x] r1. <title>`
+guidelines/specification.md|A refactoring's code is never renumbered or reused
+guidelines/specification.md|<added by implementation, when the user accepts a refactoring>
+guidelines/systemic-refactoring.md|the specification's `## Design notes`, `## Refactorings` and `## Progress`
+guidelines/language.md|`(enabling)`, `r1`, `inside-out`
 guidelines/language.md|show a short plain-language list of what changed since the user last saw it
 guidelines/language.md|The first time a document is shown, show it whole
 guidelines/language.md|When the user asks to see the whole document, show it whole

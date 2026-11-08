@@ -81,6 +81,10 @@ GitHub Issue: <repo link>/#<NUMBER>   (or omit)
 
 <added by planning, when the enabling refactoring analysis ran>
 
+## Refactorings
+
+<added by implementation, when the user accepts a refactoring>
+
 ## Progress
 
 <added by implementation>
@@ -152,6 +156,32 @@ The plan of a feature or a phase also follows these rules. The phases of a main 
 4. **repeat a task monthly** (AC4) — in-unit: the month-end rule is unsettled. Touches domain
 ```
 
+### Refactorings
+
+`## Refactorings` holds the refactorings the user accepted during implementation, to be built later,
+like plan items:
+
+- each one has a code, `r1`, `r2`, …, in the order they are recorded. A refactoring's code is never
+  renumbered or reused, like a criterion's ID
+- each one keeps every field under **What every finding states** in `systemic-refactoring.md`
+- each one is a `refactor:` item: it serves no criterion and has no mode. It is done once its line is
+  ticked, as "Items in Progress" describes
+- refactorings found by planning stay plan items, marked `(enabling)`, with no `r` code
+
+```markdown
+### r1. <title>
+
+- **Observation:** …
+- **Evidence:** `lib/tasks.sh` — `add_task`
+- **Competing explanations:** …
+- **Assumptions:** none
+- **Confidence:** high
+- **What would change it:** …
+- **Recommendation:** …
+- **Why it matters:** …
+- **Risk:** …
+```
+
 ### Acceptance in Progress
 
 `## Progress` records each criterion that has been checked, one line each:
@@ -161,6 +191,16 @@ The plan of a feature or a phase also follows these rules. The phases of a main 
 - `AC3: changed — <what changed and why>` (the criterion in `## Acceptance criteria` is updated too)
 - `AC4: deferred — <why>`
 - `AC5: unchecked` — its plan items are not done yet
+
+### Items in Progress
+
+`## Progress` ticks each item that is done, plan item or refactoring alike, on one line with its code
+and title, so `/aido:2-implement` reads the same line to know what is left:
+
+- `- [x] <code>. <title>`, such as `- [x] 3. list the open tasks` or `- [x] r1. <title>`
+
+An item is done only when its line is ticked. An item not done yet has no line, or an unticked one:
+`- [ ] 4. <title>`.
 
 ### Modes and Slices in Progress
 

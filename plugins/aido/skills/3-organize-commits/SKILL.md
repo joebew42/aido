@@ -102,7 +102,7 @@ In the same `AskUserQuestion` call, offer the next step, following "each approva
 
 Options: **Open the PR in a fresh context** (recommended) / **Open the PR** / **Stop here**.
 
-Read `## Progress` first, as "Acceptance in Progress" in `specification.md` describes. The question names each criterion recorded as `unchecked` or `deferred`, so the user doesn't continue without noticing it. While any is `unchecked`, its plan items aren't done, so mark neither **Open the PR** nor **Open the PR in a fresh context** as recommended.
+Read `## Progress` first, as "Acceptance in Progress" in `specification.md` describes. The question names each criterion recorded as `unchecked` or `deferred`, so the user doesn't continue without noticing it. Always mark **Open the PR in a fresh context** as recommended, whatever `## Progress` says: organizing the commits does its own job, and whether the plan is finished is not its call.
 
 When `/aido:resolve-migration-conflict` runs this skill, make no offer: ask only about the grouping, and return to its "Wrap Up" when the commits are organized.
 
