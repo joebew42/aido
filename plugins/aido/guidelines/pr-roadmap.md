@@ -2,11 +2,13 @@
 
 ## Multi-Phase PR Context
 
-When a PR is part of a multi-phase feature, the Context section should reference the main plan PR by number (e.g., `#40`) rather than an external ticket. This keeps reviewers within GitHub and gives them direct access to the full feature specification without needing access to an external tracker.
+In a PR that is part of a multi-phase feature, the Context section refers to the main plan PR by
+number (e.g. `#40`), not to an external ticket. Reviewers stay in GitHub, one click from the full
+feature specification.
 
 ## PR Roadmap Format
 
-Use roadmap sections in PRs that are part of a multi-phase feature.
+A PR that is part of a multi-phase feature has a roadmap section.
 
 ### Item Format
 
@@ -21,13 +23,14 @@ Use roadmap sections in PRs that are part of a multi-phase feature.
 
 ### Writing Good Roadmap Descriptions
 
-- use specific, implementation-focused language — state what will be built or changed
-- describe what the system will do, not vague outcomes
-- include technical details when they clarify the phase (e.g., "API support", "keep completed tasks for 30 days")
-- match language and terminology from the main feature specification
+- say what will be built or changed, in specific words
+- describe what the system will do, not a vague outcome
+- add technical details when they clarify the phase (e.g. "API support", "keep completed tasks for 30
+  days")
+- use the words of the main feature specification
 
-**API prefixes** — when the project exposes several APIs and a step changes one of them, prefix
-the step with that API's name (e.g. `PublicAPI:`), using the names the project already uses.
+**API prefixes** — when the project exposes several APIs and a step changes one, prefix the step
+with that API's name as the project already calls it (e.g. `PublicAPI:`).
 
 ### Example
 

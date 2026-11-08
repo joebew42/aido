@@ -1,9 +1,9 @@
 # Opening GitHub Issues
 
-How a skill turns points the user picks into GitHub issues. Nothing is opened in bulk, and nothing is
-opened without the user choosing it.
+How a skill turns the points the user picks into GitHub issues. Nothing is opened in bulk, or without
+the user choosing it.
 
-The skill first shows the points, numbered, and then supplies:
+The skill shows the points, numbered, then supplies:
 
 - the **points**, each with its title and body
 - the **label** to look for on each point, if any
@@ -32,8 +32,8 @@ same problem." — options **Skip** / **Comment on #<n>** (posting the point's b
 ## Open the Issues
 
 - labels: `gh label list --search <label>`. If the repo has a matching label, such as `refactoring`
-  for `refactor`, apply it; never create a label without asking
+  for `refactor`, apply it. Never create a label without asking
 - write the body to a temporary file in the scratchpad and run
   `gh issue create --title "<title>" --body-file <file> [--label "<label>"]`
 - follow `language.md`, and the PR description rules in `/aido:4-open-pr` that apply to any GitHub
-  body: no hard-wrapped prose; no reference to Claude Code
+  body: no hard-wrapped prose, and no reference to Claude Code

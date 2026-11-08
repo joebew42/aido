@@ -1,8 +1,8 @@
 # Repository Alignment
 
-A specification can be clear and complete and still conflict with the repository it is meant for.
-The **alignment check** compares the two, and stops the workflow when the conflict is serious. The
-skill that runs the check says when it runs; this guideline says how.
+A specification can be clear and complete, and still conflict with its repository. The **alignment
+check** compares the two, and stops the workflow when the conflict is serious. The skill says when
+it runs. This guideline says how.
 
 ## What the Check Looks At
 
@@ -16,10 +16,10 @@ Compare the specification with the host repository's:
 
 Read the host repository's conventions as `project-conventions.md` describes, and the code the
 specification touches. Widen only when a conflict points somewhere wider. Every conflict names the
-files it rests on, checked against the current code; what only looks inconsistent is not a conflict.
+files it rests on, checked against the current code. What only looks inconsistent is not a conflict.
 
-A conflict already listed under `## Alignment decisions` in the specification has been decided: do
-not raise it again.
+A conflict listed under `## Alignment decisions` in the specification is decided: don't raise it
+again.
 
 ## What Counts as Significant
 
@@ -30,16 +30,16 @@ A misalignment is **significant** when the specification:
   the repository states itself)
 - changes behaviour other code relies on
 
-A specification that does one of these on purpose is still significant: intentional architectural
-changes and refactorings are possible, but they need an informed decision.
+Doing one of these on purpose is still significant. Architectural changes and refactorings are
+possible, but they need an informed decision.
 
-Any lesser mismatch is ordinary refinement. Fix it, or ask about it like any other question, and do
-not stop the workflow for it.
+A lesser mismatch is ordinary refinement. Fix it, or ask about it like any other question, without
+stopping the workflow.
 
 ## When It Is Significant
 
-The default is to reject the specification as it stands, and nothing moves forward without an
-explicit choice:
+The default is to reject the specification as it stands. Nothing moves forward without the user's
+choice:
 
 1. explain each conflict and its implications, citing the files that show it
 2. recommend rejecting or revising the specification

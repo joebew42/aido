@@ -4,28 +4,37 @@
 
 ### Before Every Commit
 
-This is the per-commit gate, including for review fixes. It also applies before marking a task complete.
+This is the per-commit gate. It applies to every commit, review fixes included, and before marking a
+task complete:
 
 - linting is clean
-- the relevant tests pass with no regressions. Relevant means the unit's own tests, its collaborators' tests, and the tests of every file the change edited (`git diff --name-only origin/<default-branch>...HEAD`), not only the file directly modified and not the enclosing directory, whose unrelated failures can't be told from a regression
-- when a value, constant, flag or API is changed or removed, search for all references to the old form, including comments and documentation, and update them in the same change
-- read the diff and delete every comment it introduces that "Comments" in `code-standards.md` doesn't allow
+- the relevant tests pass with no regressions. Relevant means the unit's own tests, its
+  collaborators' tests, and the tests of every file the change edited
+  (`git diff --name-only origin/<default-branch>...HEAD`). Not only the file directly modified, and
+  not the enclosing directory, whose unrelated failures can't be told from a regression
+- when a value, constant, flag or API is changed or removed, search for every reference to the old
+  form, comments and documentation included, and update them in the same change
+- read the diff, and delete every comment it adds that "Comments" in `code-standards.md` doesn't
+  allow
 
-One exception: `/aido:3-organize-commits` runs the relevant tests once, on the final commit, instead of at each commit. The commits it reshapes were tested while they were built. The rest of this gate still applies to each of its commits.
+One exception: `/aido:3-organize-commits` runs the relevant tests once, on the final commit, instead
+of at each commit. The commits it reshapes were tested while they were built. The rest of the gate
+still applies to each of its commits.
 
 ### Commit Message Format
-- use always lower case
-- use semantic commit prefixes (feat, refactor, chore, style, docs, test)
-- changes that touch test files only should be prefixed as "test"
-- use commit subject line only (no body copy)
-- do not add any reference to Claude Code
-- do not add Co-Authored-By trailers, unless the host repository requires them
+
+- always lower case
+- a semantic prefix: feat, refactor, chore, style, docs, test
+- `test` for a change that touches only test files
+- a subject line only, with no body
+- no reference to Claude Code
+- no Co-Authored-By trailers, unless the host repository requires them
 
 #### Conventional-commit scopes
 
-Use a scope only when the host repository defines its own (see `project-conventions.md`) — for
-example, one scope per public API it exposes. When it does, a commit confined to one of those areas
-carries the scope, and application-code commits stay unscoped:
+Use a scope only when the host repository defines its own (see `project-conventions.md`), such as one
+per public API it exposes. Then a commit confined to one of those areas carries the scope, and
+application-code commits stay unscoped:
 
 ```
 feat(public-api): expose the completion state on the task type
@@ -33,6 +42,7 @@ test(public-api): cover the task completion transitions
 ```
 
 ### Examples
+
 ```
 feat: add endpoint to share a todo list
 refactor: extract due date validation to separate service
@@ -47,18 +57,18 @@ Resolve it once per skill run with `git symbolic-ref --short refs/remotes/origin
 `origin/` prefix. If that fails, use the `HEAD branch` line of `git remote show origin`.
 
 ## Pushing Changes
-- every push needs the user's approval, and a hook asks for it when the push runs. Do not also ask
+
+- every push needs the user's approval, and a hook asks for it when the push runs. Don't also ask
   with `AskUserQuestion`: run the push, and the permission prompt is the question
-- if the user declines, do not retry the push or try another way of pushing. Stop and say what is
-  left unpushed
-- always set the origin and the branch name explicitly
-- example: `git push origin feature-branch-name`
+- if the user declines, don't retry the push or push another way. Stop, and say what is left
+  unpushed
+- always name the remote and the branch: `git push origin feature-branch-name`
 - never set `aido.allowCommitAttribution` or `aido.allowMemoryWrites`: those opt-outs are the user's
   to set
 
 ## Using GitHub CLI
-- use the github command line when interacting with GitHub
-- examples: fetching PR info, creating PRs, etc.
+
+- use `gh` for everything on GitHub, such as reading or creating PRs
 - never use `gh pr list --search`: it can return PRs from other repositories. Read a PR you know
   with `gh pr view <NUMBER>`, and list recent ones with `gh pr list --state <state> --limit <n>`
 
@@ -74,56 +84,71 @@ Read one PR's review comments with these two calls:
 ## Commit Organization Strategy
 
 ### General Principles
-- organize commits so that tests and code changes are committed together
-- keep commits per class or module (e.g., if changing `SomeService`, include `SomeService` tests in same commit)
-- when multiple service classes are changed as part of the same feature, give each service its own commit — even if the changes are similar (e.g., `ServiceA` and `ServiceB` both get a one-line update: two commits, not one)
-- use inside-out strategy: commit most internal parts first, end with outer parts, within the shape
-  each part's mode gives it (see "Shape by Mode" below)
-- request or acceptance tests should be committed last, except for an outside-in part's
-- keep API-layer changes in their own commit, separate from application code (models, services) — if the project defines API scopes, the API commit carries one (see "Conventional-commit scopes" above)
-- implementations of collaborators (e.g. `PostgresqlTaskRepository`; see "Collaborators and their implementations" in `code-standards.md`) go in their own commit, after application code and before API-layer commits
-- database migrations and any generated schema snapshot go in their own commit, separate from model and application code — even when a migration and its model are created together, split them
-- commit **stand-alone** refactoring separately with a `refactor:` prefix — that is any refactoring of code that existed before the feature, even when the feature motivated it (an enabling refactoring planned up front, or a systemic one found while implementing); it lands before the feature commits that depend on it. Refactoring the feature's own new code stays inside that feature's commit
-- A refactoring from `## Refactorings` always gets its own `refactor:` commit, after the feature commits, even when it only reshapes the feature's new code (see "Refactorings" in `specification.md`)
+
+- commit tests with the code they cover
+- one commit per class or module: a change to `SomeService` goes with the `SomeService` tests
+- give each changed service its own commit, even when the changes are alike: a one-line change to
+  `ServiceA` and to `ServiceB` is two commits
+- inside-out: the innermost parts first, the outer parts last, within the shape each part's mode
+  gives it (see "Shape by Mode" below)
+- request or acceptance tests go last, except for an outside-in part's
+- API-layer changes get their own commit, apart from application code (models, services). If the
+  project defines API scopes, that commit carries one (see "Conventional-commit scopes" above)
+- implementations of collaborators, such as `PostgresqlTaskRepository` (see "Collaborators and their
+  implementations" in `code-standards.md`), get their own commit, after application code and before
+  API-layer commits
+- database migrations and any generated schema snapshot get their own commit, apart from model and
+  application code, even when a migration and its model were created together
+- **stand-alone** refactoring gets its own `refactor:` commit. That is any refactoring of code that
+  existed before the feature, even when the feature motivated it: an enabling refactoring planned up
+  front, or one found while implementing. It lands before the feature commits that depend on it.
+  Refactoring the feature's own new code stays in that feature's commit
+- A refactoring from `## Refactorings` always gets its own `refactor:` commit, after the feature
+  commits, even when it only reshapes the feature's new code (see "Refactorings" in
+  `specification.md`)
 
 ### Shape by Mode
 
 Each part of a plan has a mode (see "The Modes" in `tdd.md`), which shapes its commits:
 
-- **`inside-out` and `in-unit`** — the principles above, with the part's acceptance tests last, after
-  any slices
-- **`outside-in`** — one group of commits per slice, in slice order. Each group is inside-out within
-  and closed by the slice's acceptance test, committed once it is green. The history is slice-shaped
-  rather than literally outside-in, because an outer commit calling code from a later commit would
-  fail the per-commit gate
-- **no plan, specification or mode** — inside-out, which also covers older specifications
+- **`inside-out` and `in-unit`** — the principles above, with the part's acceptance tests last
+- **`outside-in`** — one group of commits per slice, in slice order. Each group is inside-out, and
+  closed by the slice's acceptance test once it is green. The history is slice-shaped, not literally
+  outside-in, because an outer commit calling code from a later commit would fail the per-commit gate
+- **no plan, specification or mode** — inside-out. This also covers older specifications
 
 Thin slices can produce several schema changes. While they are unpushed, squash a part's schema
 changes into one migration commit, in the first slice that needs it.
 
-A phase merges only as a complete set of slices: merged partway, an outside-in phase could ship
+A phase merges only as a complete set of slices. Merged partway, an outside-in phase could ship
 without what its later slices add.
 
 ### Special Cases
-- the feature specification — `SPEC.md`, or the file named per "The Specification File" in `specification.md` — is committed as `docs: feature specification`, and that commit should always be the **first** in history
-- squash later `SPEC.md` edits into that original docs commit **only while history is unpushed**; once it is pushed, add a new `docs: update feature specification` commit instead
-- the very last commit settles what happens to `SPEC.md`: by default a `revert: docs: feature specification` that removes it, or — when the user chooses to keep it — a `docs: move feature specification to <path>` that moves it into the repository's documentation
-- if commits are already pushed, add new commits instead (do not alter commit history)
+
+- the feature specification, `SPEC.md` or the file named per "The Specification File" in
+  `specification.md`, is committed as `docs: feature specification`. That commit is always the
+  **first** in history
+- while history is unpushed, squash later `SPEC.md` edits into that commit. Once it is pushed, add a
+  `docs: update feature specification` commit instead
+- the very last commit settles what happens to `SPEC.md`. By default it is a
+  `revert: docs: feature specification` that removes it. When the user chooses to keep it, it is a
+  `docs: move feature specification to <path>` that moves it into the repository's documentation
+- once commits are pushed, add new commits instead of rewriting history
 
 ## Hand-off Outcomes
 
-Every skill that offers the next one with a question — `/aido:1-plan`, `/aido:stabilize`,
-`/aido:2-implement` and `/aido:3-organize-commits` — acts on these answers the same way, once its own
-work is done:
+Every skill that offers the next one with a question (`/aido:1-plan`, `/aido:stabilize`,
+`/aido:2-implement` and `/aido:3-organize-commits`) acts on the answer the same way, once its own work
+is done:
 
 - **start the next skill here**, such as **Implement here**, **Organize the commits** or **Open the
-  PR** → once this skill's own work is done, invoke the next skill. The answer approves only starting
-  it: all of that skill's own questions and approvals still happen. If this skill's work can't finish
-  cleanly, start nothing, and tell the user why
+  PR** → invoke the next skill. The answer approves only starting it: all of that skill's own
+  questions and approvals still happen. If this skill's work can't finish cleanly, start nothing, and
+  tell the user why
 - **… in a fresh context** → finish this skill's own work, including its commits, start nothing, and
   tell the user to run `/clear`, then the next skill. A skill can't run `/clear` itself
-- **Stop here** → start nothing. Tell the user they can run the next skill later, and that running it
-  in a new session gives it a fresh context
+- **Stop here** → start nothing. Tell the user they can run the next skill later, and that a new
+  session gives it a fresh context
 - **nobody answered the question, or it couldn't be asked** → start nothing
 
 The fresh-context option carries the recommendation whenever continuing would, and is not recommended
@@ -132,25 +157,29 @@ when continuing isn't.
 ## Branch Management
 
 ### Branch Naming
-- if the host repository defines its own branch naming, follow it; otherwise:
+
+- follow the host repository's branch naming, if it has one. Otherwise:
   - **GitHub Issue ID** → `issue-NUMBER-feat-CHANGE_TITLE` (e.g. `issue-42-feat-shared-lists`)
   - **no issue** → `feat-CHANGE_TITLE`
 - include `feat` only when the change is a new feature
-- for multi-phase main plan branches, use `issue-NUMBER-main-plan-FEATURE_NAME`, or `main-plan-FEATURE_NAME` without an issue
-- delete local branches that refer to already merged PRs
+- a multi-phase main plan branch is `issue-NUMBER-main-plan-FEATURE_NAME`, or
+  `main-plan-FEATURE_NAME` without an issue
+- delete local branches whose PRs are merged
 
 ### Worktree Branch Discipline
 
-When using `git worktree` for parallel phases, always verify the active branch with `git branch --show-current` before starting implementation. The worktree directory name (e.g. `todo-app-phase-3-reminders`) does not guarantee the correct branch is checked out — it may still point to the main-plan branch or another branch from a previous session. Committing implementation work to the wrong branch (e.g. the main-plan branch) requires a force push to recover, which is disruptive.
+In a `git worktree` for a parallel phase, check the branch with `git branch --show-current` before
+implementing. The directory name, such as `todo-app-phase-3-reminders`, doesn't guarantee the right
+branch: it may still be on the main-plan branch, or on one from an earlier session. Work committed to
+the wrong branch takes a force push to recover.
 
 ### History Rewrites
 
-When performing a destructive history rewrite (`git reset --hard`, rebase, cherry-pick rebuild),
-**rely on `git reflog` for recovery** — do NOT create temporary backup branches/tags. The reflog
-already preserves the prior tip; an extra backup ref is redundant and clutters the branch list.
+Before a destructive history rewrite (`git reset --hard`, rebase, cherry-pick rebuild), **rely on
+`git reflog` for recovery**. Do NOT create backup branches or tags: the reflog already keeps the old
+tip, and an extra ref clutters the branch list.
 
 ### Syncing with Main/Master Branch
-- **use `git rebase` over `git merge`** when aligning changes between main/master branch and feature branch
-- this keeps commit history clean and linear
-- example: `git rebase main` or `git rebase master`
-- avoid merge commits when syncing feature branches with main/master
+
+- **use `git rebase`, not `git merge`**, to bring the default branch into a feature branch, e.g.
+  `git rebase main`. The history stays linear, with no merge commits
