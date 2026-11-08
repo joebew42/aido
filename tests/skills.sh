@@ -106,6 +106,8 @@ skills/2-implement/SKILL.md|**Item done:** once every unit of a plan item or a r
 skills/2-implement/SKILL.md|its units, any mode change, the slices built and the key decisions
 skills/2-implement/SKILL.md|commit that before starting the next item
 skills/2-implement/SKILL.md|A child puts all this in its results instead, and the orchestrator records it
+skills/2-implement/SKILL.md|**Finish `## Progress`**. Each item done is already recorded there
+skills/2-implement/SKILL.md|the results of the Acceptance Criteria Check, the units remaining, the deferred refactorings and the final design review's note
 skills/3-organize-commits/SKILL.md|Once the commits are organized, should I open the pull request?
 skills/3-organize-commits/SKILL.md|Always mark **Open the PR in a fresh context** as recommended, whatever `## Progress` says
 skills/3-organize-commits/SKILL.md|Run no tests for a commit made here, not even an outside-in slice's acceptance test

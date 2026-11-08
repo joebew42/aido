@@ -443,8 +443,10 @@ When all units of work are implemented and committed, the Acceptance Criteria Ch
 if this session finished the last plan items or refactorings, the final Systemic Design Checkpoint
 has run, now or in an earlier session, or the user chose to skip it:
 
-1. **Update `SPEC.md`** with a `## Progress` section at the bottom, holding what "What Progress
-   Records" lists
+1. **Finish `## Progress`**. Each item done is already recorded there, as "Item done" describes, so
+   do not write it again. Add what is left of what "What Progress Records" lists: the results of the
+   Acceptance Criteria Check, the units remaining, the deferred refactorings and the final design
+   review's note. When `SPEC.md` has no `## Progress` section yet, add it at the bottom
 
 2. **Commit the progress update** (per the `SPEC.md` rule in `git-workflow.md` Special Cases):
    - squash or amend into the existing `docs: feature specification` commit if history is not yet pushed
