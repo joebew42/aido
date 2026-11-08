@@ -361,8 +361,8 @@ current code:
 - **the code no longer shows the problem** → remove the file and tell the user
 - **no opportunity fits** → say so in one line and continue
 - **some still hold** → show each one as **Showing a finding** in `systemic-refactoring.md` describes, from its file's
-  `## Refactoring` and `## Why it matters`, then ask which
-  to pull in:
+  **Change** and **Why** (`## Refactoring` and `## Why it matters` in a file parked before these
+  fields), then ask which to pull in:
   - **4 or fewer** → multi-select `AskUserQuestion`: "These saved refactoring ideas fit this work. Which should I include?" — one option per title
   - **more than 4** → the same question, with options **All** / **None** / **By number** (the user
     types the numbers)
