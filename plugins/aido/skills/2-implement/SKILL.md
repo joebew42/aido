@@ -457,9 +457,8 @@ has run, now or in an earlier session, or the user chose to skip it:
    - **plan items or refactorings remain** → name them, and say that running `/aido:2-implement` or
      `/aido:2-implement loop` continues them. Do not call the implementation complete, and do not
      offer or mention organizing the commits
-   - **Organize the commits** → once the progress update is committed, invoke
-     `/aido:3-organize-commits`. This answer approves only starting that skill: all of its own questions
-     still happen. If the work can't finish cleanly, do not start it, and tell the user why
+   - **Organize the commits** → once the progress update is committed, start
+     `/aido:3-organize-commits`, as **Hand-off Outcomes** in `git-workflow.md` describes
    - **Organize in a fresh context** → once the progress update is committed, act as
      **Hand-off Outcomes** in `git-workflow.md` describes
    - **Stop here**, or no answer → tell the user that implementation is complete, then act as

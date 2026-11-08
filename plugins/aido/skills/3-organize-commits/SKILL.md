@@ -147,7 +147,7 @@ After organizing commits, verify ALL of the following:
 
 Continue as the user chose in Step 2, without asking again:
 
-- **Open the PR** → once the final checklist holds, invoke `/aido:4-open-pr`. This answer approves only starting that skill: its verification offer, the push approval and the review of the PR all still happen. If the checklist can't hold, do not start it, and tell the user why
+- **Open the PR** → once the final checklist holds, start `/aido:4-open-pr`, as **Hand-off Outcomes** in `git-workflow.md` describes. Its verification offer, the push approval and the review of the PR all still happen. If the checklist can't hold, tell the user why
 - **Open the PR in a fresh context** → once the final checklist holds, act as **Hand-off Outcomes** in `git-workflow.md` describes. If the checklist can't hold, tell the user why
 - **Stop here**, or no answer → as **Hand-off Outcomes** in `git-workflow.md` describes
 

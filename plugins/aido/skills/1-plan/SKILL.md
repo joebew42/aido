@@ -411,8 +411,8 @@ describes. Then ask two questions in one `AskUserQuestion` call:
 
 "Once it is approved, how should we continue?" — options:
 
-- **Implement in a fresh context** (recommended) — commit the specification, then you run `/clear`
-  and `/aido:2-implement`, so implementing starts without the planning conversation
+- **Implement in a fresh context** (recommended) — commit the specification, so implementing starts
+  without the planning conversation
 - **Implement here** — start `/aido:2-implement` in this directory
 - **Implement in a worktree** — a separate working copy, so this directory stays clean for other work
 - **Stop here** — commit the specification and go no further
@@ -447,7 +447,8 @@ The branch is created and the specification is committed. Continue as the user c
 to continue", without asking again:
 
 - **Implement in a fresh context** → as **Hand-off Outcomes** in `git-workflow.md` describes
-- **Implement here** → invoke the `/aido:2-implement` skill
+- **Implement here** → start `/aido:2-implement`, as **Hand-off Outcomes** in `git-workflow.md`
+  describes
 - **Implement in a worktree**:
   1. A branch can be checked out in only one place, so return this directory to the default branch:
      `git switch <default-branch>`

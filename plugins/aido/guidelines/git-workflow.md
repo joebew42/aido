@@ -116,6 +116,10 @@ Every skill that offers the next one with a question — `/aido:1-plan`, `/aido:
 `/aido:2-implement` and `/aido:3-organize-commits` — acts on these answers the same way, once its own
 work is done:
 
+- **start the next skill here**, such as **Implement here**, **Organize the commits** or **Open the
+  PR** → once this skill's own work is done, invoke the next skill. The answer approves only starting
+  it: all of that skill's own questions and approvals still happen. If this skill's work can't finish
+  cleanly, start nothing, and tell the user why
 - **… in a fresh context** → finish this skill's own work, including its commits, start nothing, and
   tell the user to run `/clear`, then the next skill. A skill can't run `/clear` itself
 - **Stop here** → start nothing. Tell the user they can run the next skill later, and that running it
