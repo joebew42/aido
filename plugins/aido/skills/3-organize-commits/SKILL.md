@@ -116,6 +116,19 @@ makes.
 
 When it passes, check the Final Checklist, then hand off as the user chose, with no further test run.
 
+When it fails, fix the commit that broke it, so every commit stays sound, as "History Management"
+allows:
+
+- **the history is not pushed** → find the first commit where the run fails, fix it there, and
+  rebuild the commits after it. To find it, run the same tests on earlier commits, for example with
+  `git bisect run`, taking the default branch as passing. Each rebuilt commit keeps the gate above
+- **the commits are already pushed** → add a fix commit instead of rewriting history. It goes before
+  the `SPEC.md` outcome commit when that one is not pushed yet
+
+Then run the relevant tests again, once, on the final commit. When the same tests also fail on the
+default branch, the failure is not this branch's: fix nothing, and tell the user. When the run still
+can't pass, stop, and tell the user which commit fails and why: the Final Checklist does not hold.
+
 ## Final Checklist
 
 After organizing commits, verify ALL of the following:
