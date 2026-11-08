@@ -60,7 +60,7 @@ The chosen outcome becomes the **last** commit of the proposed structure below:
 
 ## Commit Organization Rules
 
-All commit-organization rules are defined in `git-workflow.md` (loaded above); this skill **applies** them to an existing working tree / history. Its "Before Every Commit" gate applies to every commit made here. The very last commit is the `SPEC.md` outcome chosen in Step 1.
+All commit-organization rules are defined in `git-workflow.md` (loaded above); this skill **applies** them to an existing working tree / history. Its "Before Every Commit" gate applies to every commit made here, except the test run. Run no tests for a commit made here, not even an outside-in slice's acceptance test: the commits were tested while they were built. Linting, the search for old references and the comment clean-up still apply to every commit. The tests run once, at the end, as "Run the Tests Once" describes. The very last commit is the `SPEC.md` outcome chosen in Step 1.
 
 This skill owns **final history shaping** (reordering, splitting, the `SPEC.md` outcome); `/aido:2-implement` produced the per-unit working commits.
 
@@ -108,6 +108,27 @@ When `/aido:resolve-migration-conflict` runs this skill, make no offer: ask only
 
 **Wait for user approval before starting the rebase.** The rebase is destructive and hard to undo — getting alignment first avoids rework.
 
+## Run the Tests Once
+
+Once the new history is settled, run the relevant tests once, on the final commit. "Before Every
+Commit" in `git-workflow.md` says which tests are relevant. This is the only test run this skill
+makes.
+
+When it passes, check the Final Checklist, then hand off as the user chose, with no further test run.
+
+When it fails, fix the commit that broke it, so every commit stays sound, as "History Management"
+allows:
+
+- **the history is not pushed** → find the first commit where the run fails, fix it there, and
+  rebuild the commits after it. To find it, run the same tests on earlier commits, for example with
+  `git bisect run`, taking the default branch as passing. Each rebuilt commit keeps the gate above
+- **the commits are already pushed** → add a fix commit instead of rewriting history. It goes before
+  the `SPEC.md` outcome commit when that one is not pushed yet
+
+Then run the relevant tests again, once, on the final commit. When the same tests also fail on the
+default branch, the failure is not this branch's: fix nothing, and tell the user. When the run still
+can't pass, stop, and tell the user which commit fails and why: the Final Checklist does not hold.
+
 ## Final Checklist
 
 After organizing commits, verify ALL of the following:
@@ -119,8 +140,8 @@ After organizing commits, verify ALL of the following:
 - [ ] Every commit message follows "Commit Message Format" in `git-workflow.md`
 - [ ] The order and grouping follow "Commit Organization Strategy" in `git-workflow.md`, with each part
       shaped by the mode "Follow What Was Actually Built" gives it
-- [ ] "Before Every Commit" in `git-workflow.md` holds
-- [ ] All tests pass
+- [ ] "Before Every Commit" in `git-workflow.md` holds for every commit, apart from its test run
+- [ ] The relevant tests passed in the one run "Run the Tests Once" describes
 
 ## Hand Off
 

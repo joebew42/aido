@@ -104,6 +104,14 @@ skills/2-implement/SKILL.md|**every plan item and refactoring is done**
 skills/2-implement/SKILL.md|Once every plan item and refactoring is done
 skills/3-organize-commits/SKILL.md|Once the commits are organized, should I open the pull request?
 skills/3-organize-commits/SKILL.md|Always mark **Open the PR in a fresh context** as recommended, whatever `## Progress` says
+skills/3-organize-commits/SKILL.md|Run no tests for a commit made here, not even an outside-in slice's acceptance test
+skills/3-organize-commits/SKILL.md|Linting, the search for old references and the comment clean-up still apply to every commit
+skills/3-organize-commits/SKILL.md|run the relevant tests once, on the final commit
+skills/3-organize-commits/SKILL.md|hand off as the user chose, with no further test run
+skills/3-organize-commits/SKILL.md|find the first commit where the run fails, fix it there, and rebuild the commits after it
+skills/3-organize-commits/SKILL.md|add a fix commit instead of rewriting history
+skills/3-organize-commits/SKILL.md|Then run the relevant tests again, once, on the final commit
+guidelines/git-workflow.md|`/aido:3-organize-commits` runs the relevant tests once, on the final commit, instead of at each commit
 guidelines/git-workflow.md|A refactoring from `## Refactorings` always gets its own `refactor:` commit, after the feature commits, even when it only reshapes the feature's new code
 skills/4-open-pr/SKILL.md|# Open a Pull Request
 skills/verify/SKILL.md|Every finding names its evidence
