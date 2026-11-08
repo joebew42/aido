@@ -100,6 +100,8 @@ skills/2-implement/SKILL.md|every unfinished plan item, then every unfinished re
 skills/2-implement/SKILL.md|A refactoring from `## Refactorings` has no mode
 skills/2-implement/SKILL.md|tick each item that is done, plan item or refactoring
 skills/2-implement/SKILL.md|a criterion already recorded as `met`, `changed` or `deferred` keeps that result
+skills/2-implement/SKILL.md|**every plan item and refactoring is done**
+skills/2-implement/SKILL.md|Once every plan item and refactoring is done
 skills/3-organize-commits/SKILL.md|Once the commits are organized, should I open the pull request?
 skills/4-open-pr/SKILL.md|# Open a Pull Request
 skills/verify/SKILL.md|Every finding names its evidence

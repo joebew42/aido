@@ -132,11 +132,13 @@ Show the items it will run, each with the criteria it serves, and ask nothing.
 
 **After the last item it runs:**
 
-- **the plan's last item is done** → ask about the final design review and organizing the commits in
-  one question, as "Before completion" describes. Run the review here, if chosen, then finish as "STOP
-  — Skill Complete" describes. Each item's Progress is already committed
+- **every plan item and refactoring is done** → ask about the final design review and organizing the
+  commits in one question, as "Before completion" describes. Once the review has run, it asks only
+  about organizing. Run the review here, if chosen, then finish as "STOP — Skill Complete" describes.
+  Each item's Progress is already committed
 - **the range ends before the plan does** → record the items left, name them, and say that running
-  `/aido:2-implement loop` again continues them. Ask about neither
+  `/aido:2-implement loop` again continues them. Ask about neither. Refactorings not done count as
+  items left
 
 **To record the items left**, whenever the loop ends before the plan does, add them to `## Progress`
 as units remaining, with the criteria only they serve as `unchecked`, as "What Progress Records"
@@ -280,11 +282,10 @@ Run it inline, on green, scoped to the evidence the cycle surfaced:
 ### Before completion — `fable` subagent
 
 Run it after the Acceptance Criteria Check below, so it reviews the code that the check may have
-added. Once every plan item is implemented — not at the end of a partial session — the checkpoint is due
-over the whole feature. It runs once: when `## Progress` says it ran or was skipped, it is not offered
-again, and the question below offers only the next step. It can take long and is not always needed,
-so ask first —
-`AskUserQuestion`: "Should I run a final design review over the whole feature?" —
+added. Once every plan item and refactoring is done — not at the end of a partial session — the
+checkpoint is due over the whole feature. It runs once: when `## Progress` says it ran or was skipped,
+it is not offered again, and the question below offers only the next step. It can take long and is not
+always needed, so ask first — `AskUserQuestion`: "Should I run a final design review over the whole feature?" —
 options **Run the review** / **Skip it**:
 
 - mark **Run the review** as recommended when the diff against the default branch touches more than one
@@ -432,8 +433,8 @@ If you catch yourself doing any of these, STOP immediately:
 ## STOP — Skill Complete
 
 When all units of work are implemented and committed, the Acceptance Criteria Check is done — and,
-if this session finished the last plan items, the final Systemic Design Checkpoint has run or the
-user chose to skip it:
+if this session finished the last plan items or refactorings, the final Systemic Design Checkpoint
+has run, now or in an earlier session, or the user chose to skip it:
 
 1. **Update `SPEC.md`** with a `## Progress` section at the bottom, holding what "What Progress
    Records" lists
