@@ -93,6 +93,13 @@ skills/2-implement/SKILL.md|it is not offered again
 skills/2-implement/SKILL.md|**plan items or refactorings remain**
 skills/2-implement/SKILL.md|options **Plan it for later** / **Defer** / **No action**
 guidelines/systemic-refactoring.md|fix now and refactor now also collapse into one outcome: **planned**
+skills/2-implement/SKILL.md|`loop r<N>`, or `loop r<first>-r<last>`, such as `loop r1-r3`
+skills/2-implement/SKILL.md|every plan item not done, then every refactoring not done
+skills/2-implement/SKILL.md|a refactoring code `## Refactorings` doesn't have** → don't start the loop, and say why
+skills/2-implement/SKILL.md|every unfinished plan item, then every unfinished refactoring
+skills/2-implement/SKILL.md|A refactoring from `## Refactorings` has no mode
+skills/2-implement/SKILL.md|tick each item that is done, plan item or refactoring
+skills/2-implement/SKILL.md|a criterion already recorded as `met`, `changed` or `deferred` keeps that result
 skills/3-organize-commits/SKILL.md|Once the commits are organized, should I open the pull request?
 skills/4-open-pr/SKILL.md|# Open a Pull Request
 skills/verify/SKILL.md|Every finding names its evidence

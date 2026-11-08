@@ -20,9 +20,10 @@ Load `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` and follow it in everything 
 
 - **nothing, or anything but the two below** → a single session, as this skill describes
 - **`loop`, or `loop <first>-<last>`, such as `loop 7-9`** → this session is the **orchestrator**:
-  it runs each plan item in a child, as "Loop Mode" describes
-- **`item <N>`** → this session is a **child** the orchestrator started for plan item `<N>`, as
-  "Child Mode" describes
+  it runs each plan item in a child, as "Loop Mode" describes. `loop r<N>`, or `loop r<first>-r<last>`,
+  such as `loop r1-r3`, runs refactorings from `## Refactorings` the same way
+- **`item <N>`** → this session is a **child** the orchestrator started for plan item `<N>`, or for
+  refactoring `r<N>`, as "Child Mode" describes
 
 ## Step 0: Load Context
 
@@ -84,8 +85,9 @@ every session, before anything else is decided:
 
 An orchestrator or a child skips this step: the argument already chose the items.
 
-After loading context, use `AskUserQuestion` to present the list of plan items from `SPEC.md`,
-each with the acceptance criteria it serves, and ask:
+After loading context, use `AskUserQuestion` to present every unfinished plan item, then every
+unfinished refactoring in `## Refactorings`, each plan item with the acceptance criteria it serves. The
+first of them is the next logical one. Ask:
 
 > "Which items should I do in this session? (all / specific items / the next logical one)"
 
@@ -99,20 +101,25 @@ full specification and guidelines in view. Only the orchestrator writes `SPEC.md
 **Before the first child:** run Step 0 and Step 0.5 once, then choose the items to run, in plan
 order:
 
-- **`loop`** → every plan item not done, as "Items in Progress" in `specification.md` describes
+- **`loop`** → every plan item not done, then every refactoring not done, as "Items in Progress" in
+  `specification.md` describes
 - **a range** → the items in it. Skip those already ticked in `## Progress`, and name them
+- **`r<N>`, or a range of refactorings** → those refactorings, in the same way
 - **a range that names an item the plan doesn't have** → don't start the loop, and say why
+- **a refactoring code `## Refactorings` doesn't have** → don't start the loop, and say why
 
 Show the items it will run, each with the criteria it serves, and ask nothing.
 
 **For each item, in order:**
 
 1. launch one `Agent`, with no model override. Brief it with:
-   - the repository root, the `SPEC.md` path and the item's number
-   - to invoke `/aido:2-implement item <N>` with the `Skill` tool, and follow it
+   - the repository root, the `SPEC.md` path and the item's number, or the refactoring's code
+   - to invoke `/aido:2-implement item <N>` with the `Skill` tool, and follow it. For a refactoring,
+     `<N>` is its code, such as `item r1`
    - to return only what "Child Results" lists
 2. when it returns, check three things:
-   - its results give each criterion the item serves as `met`, `changed` or `deferred`
+   - its results give each criterion the item serves as `met`, `changed` or `deferred`. A refactoring
+     serves none
    - the working tree is clean
    - lint and the whole test suite pass
 3. **all three pass** → record the item in `## Progress` as "What Progress Records" lists, from the
@@ -146,7 +153,7 @@ or on a paused question, end as item 4 of "STOP — Skill Complete" describes.
 
 ## Child Mode
 
-A child implements plan item `<N>` and nothing else:
+A child implements plan item `<N>`, or refactoring `r<N>`, and nothing else:
 
 - run Step 0, then go straight to the item, skipping Step 0.5 and Step 1
 - build it as the sections below describe, from "Work in the Item's Mode" to "Commits". Its
@@ -177,6 +184,11 @@ not ask.
 
 In an `outside-in` item, connect the first slice through the real entry point before writing any edge
 case: the entry point calls the feature while the only behaviour it reaches is the first slice's.
+
+A refactoring from `## Refactorings` has no mode, and no goal post. Build it within **Boundaries** in
+`systemic-refactoring.md`. Before changing code that no test covers, add the test first. Then change it
+in small steps, with the tests green after each, and commit it as "Committing systemic refactorings"
+describes.
 
 **When the plan proves wrong**, change the part's mode rather than carrying on with one that has
 stopped fitting: an inside-out part hides an unknown, or an outside-in part turns out to have nothing
@@ -339,6 +351,8 @@ not only the plan.
 - every plan item is implemented → every criterion in `SPEC.md`
 - a partial session → only the criteria whose plan items are all done; the rest are recorded as
   `unchecked`
+- a criterion already recorded as `met`, `changed` or `deferred` keeps that result. A session that
+  builds only refactorings re-runs the tests that cover the criteria, and asks nothing again
 
 **For each criterion:**
 
@@ -375,7 +389,7 @@ shaping** is not done here — `/aido:3-organize-commits` owns it.
 The `## Progress` section of `SPEC.md` is a handoff note for the next session. Keep it brief:
 
 - list each implemented unit of work (checked off)
-- tick each plan item that is done, as "Items in Progress" in
+- tick each item that is done, plan item or refactoring, as "Items in Progress" in
   `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md` describes
 - record the slices built for each outside-in item and every mode change, as "Modes and Slices in
   Progress" in "The Specification Structure" describes
