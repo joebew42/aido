@@ -5,23 +5,26 @@ disable-model-invocation: false
 
 # Assess the Architecture
 
-Review the repository's design area by area, independent of any feature, and park the findings the
-user picks as refactoring opportunities. `/aido:1-plan` offers them when a planned change can
-include them, so each refactoring is made as part of a working feature.
+Review the repository's design area by area, apart from any feature. Park the findings the user picks
+as refactoring opportunities. `/aido:1-plan` offers them when a planned change can include them, so
+each refactoring is made as part of a working feature.
 
 This skill reads the repository and never edits it. It writes only the opportunity files the user
-explicitly chose, which live outside the repository.
+explicitly picked, which live outside the repository.
 
 Load `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` and follow it in everything you write for a person.
 
 ## Step 0: Load Context
 
-- identify `<repo-name>` and the index directory as defined in **Index Location and Shape** in
-  `${CLAUDE_PLUGIN_ROOT}/skills/map-architecture/SKILL.md`
-- load `${CLAUDE_PLUGIN_ROOT}/guidelines/systemic-refactoring.md`, which defines what to look for, the
-  evidence rule and how to park an opportunity, `${CLAUDE_PLUGIN_ROOT}/guidelines/code-standards.md`, whose "Architecture" and "Code Quality" hold the
-  rules each finding is judged by, and `${CLAUDE_PLUGIN_ROOT}/guidelines/project-conventions.md`, then gather the host repository's conventions as it
-  describes
+- find `<repo-name>` and the index directory, as **Index Location and Shape** in
+  `${CLAUDE_PLUGIN_ROOT}/skills/map-architecture/SKILL.md` defines them
+- load:
+  - `${CLAUDE_PLUGIN_ROOT}/guidelines/systemic-refactoring.md`: what to look for, the evidence rule
+    and how to park an opportunity
+  - `${CLAUDE_PLUGIN_ROOT}/guidelines/code-standards.md`: its "Architecture" and "Code Quality" hold
+    the rules each finding is judged by
+  - `${CLAUDE_PLUGIN_ROOT}/guidelines/project-conventions.md`. Then gather the host repository's
+    conventions as it describes
 - run `git fetch origin`
 - **no index** → `AskUserQuestion`: "This repository has no map of its architecture, and the assessment needs one. Should I build it first?" — options **Run /aido:map-architecture first** / **Cancel**. On the first, run that skill, then
   continue here
@@ -39,18 +42,18 @@ assess?" — options **All areas** / **Specific areas** (the user names them).
 Launch one `Agent` per area with `model: "fable"`, in parallel. Brief each with
 "The Shared Brief" in `${CLAUDE_PLUGIN_ROOT}/guidelines/subagents.md`, and:
 
-- the area's two file paths (`<area-slug>.md` and `<area-slug>.extra.md` — the second holds the
-  infrastructure, misfits and observations this assessment needs), the `README.md` path, and
-  the repository root
-- to look across the area boundary by searching the other areas' files for this area's rules and
-  terms, as in **Reading the Index** in `${CLAUDE_PLUGIN_ROOT}/skills/map-architecture/SKILL.md` — not by
-  reading them whole
-- `systemic-refactoring.md` and the rules it points to in `code-standards.md`, copied
-  — the subagent has not loaded the guidelines
-- to apply it inside the area **and** across its boundary with other areas (e.g. the same rule
-  enforced in this area and another)
-- to treat the index as a map only — read the code before claiming anything
-- to group related findings in the area into one candidate, so the volume stays low
+- the area's two file paths, `<area-slug>.md` and `<area-slug>.extra.md`. The second holds the
+  infrastructure, misfits and observations this assessment needs. Add the `README.md` path and the
+  repository root
+- to look across the area's boundary by searching the other areas' files for this area's rules and
+  terms, as **Reading the Index** in `${CLAUDE_PLUGIN_ROOT}/skills/map-architecture/SKILL.md`
+  describes. Not by reading them whole
+- `systemic-refactoring.md` and the rules it points to in `code-standards.md`, copied. The subagent
+  hasn't loaded the guidelines
+- to apply it inside the area **and** across its boundary, such as the same rule enforced in this area
+  and another
+- to treat the index as a map only, and read the code before claiming anything
+- to group related findings in the area into one candidate, so there are few
 - to return only this, per candidate:
 
   ```markdown
@@ -60,41 +63,40 @@ Launch one `Agent` per area with `model: "fable"`, in parallel. Brief each with
   - every field under **What every finding states** in `systemic-refactoring.md`
   ```
 
-  followed by one line listing hypotheses it checked and rejected, so the user can see what was
-  ruled out.
+  then one line listing the hypotheses it checked and rejected, so the user sees what was ruled out.
 
-If `fable` is unavailable, act as "When the Model Is Unavailable" in `${CLAUDE_PLUGIN_ROOT}/guidelines/subagents.md`.
+If `fable` is unavailable, act as "When the Model Is Unavailable" in
+`${CLAUDE_PLUGIN_ROOT}/guidelines/subagents.md` describes.
 
 ## Step 3: Confirm and Present the Findings
 
-Confirm each finding before presenting it, as **Evidence before action** in
-`systemic-refactoring.md` describes. A finding the code does not support is dropped, and is not
-offered for parking.
+Confirm each finding before showing it, as **Evidence before action** in `systemic-refactoring.md`
+describes. Drop a finding the code doesn't support. It isn't offered for parking.
 
-Number every confirmed candidate across all areas and show them grouped by area: one line per candidate, with its size, as
-**Showing a finding** in `systemic-refactoring.md` describes. Close with the dropped findings, each with
-the reason it was dropped and outside the numbering, the rejected hypotheses, and which areas had no
-findings.
+Number every confirmed candidate across all areas, and show them grouped by area: one line per
+candidate, with its size, as **Showing a finding** in `systemic-refactoring.md` describes. Close with
+the dropped findings, each with its reason and outside the numbering. Then the rejected hypotheses,
+and which areas had no findings.
 
-If no finding was found or confirmed, say so, list any dropped findings, and stop — that is a valid
+If nothing was found or confirmed, say so, list any dropped findings, and stop. That is a valid
 result.
 
 ## Step 4: Park the Opportunities
 
-Ask which of the numbered candidates shown in Step 3 to park: "Which of these should I save for
-later?", as "Asking Questions" in
-`${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` describes for picking from a list.
+Ask which of the numbered candidates from Step 3 to park: "Which of these should I save for later?",
+as "Asking Questions" in `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` describes for picking from a
+list.
 
 Park each picked candidate as **Parking an opportunity** in `systemic-refactoring.md` describes. Its
-**Category** names the design smell. When a file with the same
-evidence already exists, show it and `AskUserQuestion`: "`<file>` looks like the same refactoring idea. What should I do?"
-— options **Skip** / **Replace it**.
+**Category** names the design smell. When a file with the same evidence already exists, show it and
+`AskUserQuestion`: "`<file>` looks like the same refactoring idea. What should I do?" — options
+**Skip** / **Replace it**.
 
 ## Step 5: Report
 
-List each refactoring idea saved with its file path, each skipped candidate with the reason, each
-dropped finding with the reason, and any step that fell back from `fable` to the session model.
-Then end as "Ending a Skill" in `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` describes. When no finding was
+List each refactoring idea saved, with its file path. List each skipped candidate and each dropped
+finding, with the reason, and any step that fell back from `fable` to the session's model. Then end
+as "Ending a Skill" in `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` describes. When nothing was
 found, end the same way.
 
 ## STOP — Skill Complete
