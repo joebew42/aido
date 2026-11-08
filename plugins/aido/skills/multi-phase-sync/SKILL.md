@@ -21,7 +21,7 @@ Load `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` and follow it in everything 
    - read the current main plan PR description with `gh pr view --json body`
    - extract all PR numbers already referenced in the roadmap (e.g. `(#41)`)
    - for each extracted PR number, fetch its latest state directly: `gh pr view <NUMBER> --json number,title,state,headRefName,mergedAt`
-   - do NOT use `gh pr list --search` — it can return results from unrelated repositories
+   - find no PR by searching, as "Using GitHub CLI" in `git-workflow.md` says
 4. based on the status of phase PRs, update:
    - the main plan PR description with current roadmap status
    - the specification if needed based on learnings from completed phases
@@ -32,12 +32,7 @@ Load `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` and follow it in everything 
    - close the main plan PR using `gh pr close <PR_NUMBER> --comment "All phases completed and merged."`
    - delete the local main plan branch with `git branch -D <main_plan_branch>`
 7. if there are remaining phases, ask the user about possible changes or clarifications needed in the specification
-
-## Step 2: Suggest Repository Conventions
-
-After syncing the main plan, follow the process in `${CLAUDE_PLUGIN_ROOT}/guidelines/evolving-guidelines.md`. It only proposes additions to this repository's `CLAUDE.md` or `AGENTS.md`, chosen by the user through `AskUserQuestion`.
-
-Then end as "Ending a Skill" in `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` describes.
+8. end as "Ending a Skill" in `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` describes.
 
 ## Templates
 

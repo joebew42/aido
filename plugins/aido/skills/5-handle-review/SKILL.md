@@ -29,7 +29,8 @@ Before any implementation work:
 
 ## Process
 
-1. fetch the reviews and comments from the PR
+1. fetch the reviews and comments from the PR, as "Reading a PR's Review Comments" in
+   `${CLAUDE_PLUGIN_ROOT}/guidelines/git-workflow.md` describes
 2. do an analysis of all comments and present a proposed approach for each one
 3. **use `AskUserQuestion` to confirm before implementing anything** — wait for explicit approval
    - Question: "Which review feedback should I implement?"
@@ -50,18 +51,9 @@ Apply "Before Every Commit" in `git-workflow.md` before every commit.
 - **Create one commit per change** - each review feedback item should result in a separate commit
 - Follow git commit conventions from the loaded `git-workflow.md`
 
-## After Implementing Changes
-
-- Show a summary of changes made, then push; per "Pushing Changes" in `git-workflow.md`, the
-  permission prompt asks for the user's approval
-- If the user declines, they may want to make additional changes: wait for them
-
 ## Suggest Repository Conventions
 
-After pushing, follow the process in `${CLAUDE_PLUGIN_ROOT}/guidelines/evolving-guidelines.md`. It only proposes additions to this repository's `CLAUDE.md` or `AGENTS.md`, chosen by the user through `AskUserQuestion`.
-
-Then end as "Ending a Skill" in `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` describes. If the user
-declines the push, end the same way, with what is left unpushed in `Needs you`.
+Once the approved changes are committed, and before the push, follow the process in `${CLAUDE_PLUGIN_ROOT}/guidelines/evolving-guidelines.md`. It only proposes additions to this repository's `CLAUDE.md` or `AGENTS.md`, chosen by the user through `AskUserQuestion`. A convention it adds is committed then, so the push carries it with the review fixes.
 
 Review comments can reveal conventions the codebase holds but hasn't written down. They can also be one reviewer's take on one file — the two look alike at the moment you read them, so run every candidate through the **generality test** in that process before presenting anything. Most review feedback is about *this* code and produces no convention; expect to propose nothing.
 
@@ -70,7 +62,16 @@ Worth examining:
 - architectural or design feedback that reveals an undocumented convention
 - testing feedback that refines the testing strategy
 
-Not worth examining — these fail the test by construction:
+Not worth examining — it fails the test by construction:
 - a correction that applies only to the file under review
-- a stylistic preference stated once, by one reviewer, without a codebase-wide rationale
-- anything already covered by the repository's `CLAUDE.md` or `AGENTS.md`, or by a loaded guideline, however differently the reviewer phrased it
+
+The process decides the rest: what is already written down, and what to do with a point only this PR's review makes.
+
+## Push and End
+
+- show a summary of the changes made, with any convention added, then push; per "Pushing Changes"
+  in `${CLAUDE_PLUGIN_ROOT}/guidelines/git-workflow.md`, the permission prompt asks for the user's
+  approval
+- then end as "Ending a Skill" in `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` describes
+- if the user declines the push, they may want to make more changes. End the same way, and list in
+  `Needs you` every commit left unpushed, a convention's included

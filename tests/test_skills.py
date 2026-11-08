@@ -100,6 +100,47 @@ class StaticChecks(unittest.TestCase):
         self.assertEqual(result.returncode, 1)
         self.assertIn("FAIL - implement-offers-to-organize/graders/starts-no-organizing.md matches an existing skill", result.stdout)
 
+    def test_another_skill_suggesting_conventions_fails(self):
+        copy = self.copy_of_the_repository()
+        skill = copy / "plugins" / "aido" / "skills" / "verify" / "SKILL.md"
+        skill.write_text(skill.read_text() + "\nFollow `${CLAUDE_PLUGIN_ROOT}/guidelines/evolving-guidelines.md`.\n")
+
+        result = self.run_checks(copy)
+
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("FAIL - only 5-handle-review suggests conventions, not verify", result.stdout)
+
+    def test_handling_a_review_without_suggesting_conventions_fails(self):
+        copy = self.copy_of_the_repository()
+        skill = copy / "plugins" / "aido" / "skills" / "5-handle-review" / "SKILL.md"
+        self.replace_in(skill, "guidelines/evolving-guidelines.md", "guidelines/git-workflow.md")
+
+        result = self.run_checks(copy)
+
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("FAIL - 5-handle-review suggests conventions", result.stdout)
+
+    def test_review_guidance_after_the_ending_fails(self):
+        copy = self.copy_of_the_repository()
+        skill = copy / "plugins" / "aido" / "skills" / "5-handle-review" / "SKILL.md"
+        self.replace_in(skill, "Worth examining:", "Worth noting:")
+        skill.write_text(skill.read_text() + "\nWorth examining:\n")
+
+        result = self.run_checks(copy)
+
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("FAIL - 5-handle-review gives the review guidance before its ending", result.stdout)
+
+    def test_a_finding_with_an_old_field_fails(self):
+        copy = self.copy_of_the_repository()
+        guideline = copy / "plugins" / "aido" / "guidelines" / "specification.md"
+        guideline.write_text(guideline.read_text() + "\n- **Competing explanations:** …\n")
+
+        result = self.run_checks(copy)
+
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("FAIL - guidelines/specification.md records a finding in the five fields", result.stdout)
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -1,9 +1,9 @@
 # Evolving Guidelines
 
-After completing a PR or phase, review the work for conventions worth writing down in the host
-repository's own agent instruction files — its `CLAUDE.md` or `AGENTS.md`. These are the **only**
-targets: the plugin's guidelines are not edited from a host repository, and the installed plugin
-copy is replaced on every update.
+After handling a PR's review, look in its review comments for conventions worth writing down in
+the host repository's own agent instruction files — its `CLAUDE.md` or `AGENTS.md`. These are the
+**only** targets: the plugin's guidelines are not edited from a host repository, and the installed
+plugin copy is replaced on every update.
 
 **Proposing nothing is the normal outcome.** Most work — even large, interesting, well-executed
 work — produces no new convention. A convention is a rule that will change how *future, unrelated*
@@ -17,7 +17,7 @@ fill a quota.
 
 ## Process
 
-1. **Analyze the work completed:**
+1. **Analyze the review comments and the fixes they led to:**
    - look for coding patterns, naming conventions, architectural decisions, or workflow improvements
      specific to this repository
    - identify practices that could benefit future work here
@@ -26,6 +26,8 @@ fill a quota.
    - the host repository's `CLAUDE.md` and `AGENTS.md`, including nested ones
    - the plugin's guidelines in this `guidelines/` directory — the workflow already applies them in
      every repository, so restating one adds nothing
+   - a rule already there in different words counts as covered — a near-duplicate is worse than
+     nothing, because two phrasings of one rule invite drift between them
 
 3. **Apply the generality test — discard anything that fails:**
 
@@ -40,9 +42,10 @@ fill a quota.
      a convention.
    - **It is actionable by someone who never saw this PR.** If understanding it requires the
      context of this ticket, it will be unreadable in three months.
-   - **It reflects a recurring pattern, not a one-off decision.** One occurrence is an anecdote.
-     Wait for the second before writing a rule; a decision made once is better recorded in the
-     code or the PR description.
+   - **It reflects a recurring pattern, not a one-off decision.** One occurrence is an anecdote,
+     and a decision made once is better recorded in the code or the PR description. A candidate
+     that passes every other check, but that only this PR's review shows, is not discarded: the
+     user decides on it in step 5.
    - **Following it would have changed an outcome.** A rule that merely describes what you
      already did, correctly and by instinct, adds reading cost and changes nothing.
 
@@ -56,25 +59,34 @@ fill a quota.
    - when neither exists, the candidate proposes creating the file the repository is more likely to
      want — `AGENTS.md` if other agent tools are used here, `CLAUDE.md` otherwise
 
-5. **Ask with `AskUserQuestion`:** "Which of these conventions should I add to this repository's agent instruction files?" — multi-select, one option per candidate:
+5. **Ask about each candidate seen only in this PR**, one `AskUserQuestion` for each, at most 2:
+   name the rule and its target file, with the exact text to add in the preview. Say that only this
+   PR's review shows it, and ask whether to add it or look for the same point in earlier PRs —
+   options **Accept it** / **Look in earlier PRs**:
+   - **Accept it** → add it and commit it as step 7 describes, with no further question
+   - **Look in earlier PRs** → ask how many recently merged PRs to read, with `AskUserQuestion` —
+     options **5** / **10** / **20**. List them by recency with
+     `gh pr list --state merged --limit <n> --json number,title`, as "Using GitHub CLI" in
+     `git-workflow.md` says. Read each one's review comments as "Reading a PR's Review
+     Comments" in `git-workflow.md` describes, and no other PR's
+   - **an earlier PR makes the same point** → the candidate joins the question in step 6, and its
+     description cites that PR
+   - **no earlier PR makes the same point** → say so, and ask with `AskUserQuestion` — options
+     **Add it anyway** / **Drop it**. Adding it commits it as step 7 describes
+
+6. **Ask with `AskUserQuestion`:** "Which of these conventions should I add to this repository's agent instruction files?" — multi-select, one option per candidate:
    - present **at most 2**, and only those that cleared the test — zero is a valid and common
      answer; never pad to reach a number, and with zero, skip the question
    - each option names the target file, and its preview shows the exact text to add
    - each description names the check it most strongly passes
 
-6. **Add the chosen ones:**
+7. **Add the chosen ones:**
    - add only what the user picked, with clear, concise language and an example where helpful
    - commit each target file's change on the current branch as `docs: <what the rule covers>`,
      per `git-workflow.md`
-   - never push without asking, per `git-workflow.md`
+   - do not push: the skill that runs this process pushes afterwards, per `git-workflow.md`
 
 **Skip this step if:**
 - the work was trivial or routine
 - no new patterns or conventions emerged
-- all practices are already documented
-- the insight is specific to this feature or ticket rather than to how code is written in this
-  repository
-- it restates an existing rule, in the repository's files or the plugin's guidelines, in different
-  words — a near-duplicate is worse than nothing, because two phrasings of one rule invite drift
-  between them
-- it emerged from a single occurrence and has not yet been seen a second time
+- no candidate survives step 2 and the generality test in step 3
