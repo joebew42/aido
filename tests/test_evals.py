@@ -349,6 +349,49 @@ class ImplementCases(unittest.TestCase):
         self.assertEqual(checks, {"suite-ends-green", "behaves-as-specified", "inner-units-have-tests"})
 
 
+LOOP = EVALS / "implement-loops-over-the-plan"
+LOOP_PROGRESS = """
+## Progress
+
+- [x] 1. complete a task
+- [x] 2. list the open tasks
+{acceptance}
+- AC1: met — `test_todo.sh`
+- AC2: met — `test_todo.sh`
+"""
+
+
+class LoopRecordsEachItem(unittest.TestCase):
+    def finished_with(self, acceptance):
+        directory = tempfile.TemporaryDirectory()
+        self.addCleanup(directory.cleanup)
+        workspace = Path(directory.name)
+        subprocess.run(["bash", str(LOOP / "fixture.sh")], cwd=workspace, check=True, capture_output=True)
+        for subject in ("feat: complete a task", "feat: list the open tasks"):
+            subprocess.run(["git", "commit", "-q", "--allow-empty", "-m", subject], cwd=workspace, check=True)
+        with (workspace / "SPEC.md").open("a") as spec:
+            spec.write(LOOP_PROGRESS.format(acceptance=acceptance))
+        subprocess.run(["git", "commit", "-q", "-am", "docs: update feature specification"], cwd=workspace, check=True)
+        return workspace
+
+    def check(self, workspace):
+        return subprocess.run(["sh", str(LOOP / "checks" / "each-item-is-recorded.sh")], cwd=workspace, capture_output=True)
+
+    def test_results_under_their_heading_pass(self):
+        workspace = self.finished_with("\n### Acceptance\n")
+
+        result = self.check(workspace)
+
+        self.assertEqual(result.returncode, 0)
+
+    def test_results_without_their_heading_fail(self):
+        workspace = self.finished_with("")
+
+        result = self.check(workspace)
+
+        self.assertNotEqual(result.returncode, 0)
+
+
 TRAP = EVALS / "implement-respects-a-hidden-helper"
 RENAME_SOLUTION = """cat >> lib/task_store.sh <<'EOF'
 
