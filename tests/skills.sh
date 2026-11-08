@@ -165,9 +165,13 @@ EOF_PHRASES
 
 for skill in "$plugin"/skills/*/SKILL.md; do
   name="$(basename "$(dirname "$skill")")"
-  [ "$name" = "5-handle-review" ] && continue
-  ! grep -qF 'evolving-guidelines.md' "$skill"
-  report $? "only 5-handle-review suggests conventions, not $name"
+  if [ "$name" = "5-handle-review" ]; then
+    grep -qF 'evolving-guidelines.md' "$skill"
+    report $? "5-handle-review suggests conventions"
+  else
+    ! grep -qF 'evolving-guidelines.md' "$skill"
+    report $? "only 5-handle-review suggests conventions, not $name"
+  fi
 done
 
 skill_names="$(

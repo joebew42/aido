@@ -110,6 +110,16 @@ class StaticChecks(unittest.TestCase):
         self.assertEqual(result.returncode, 1)
         self.assertIn("FAIL - only 5-handle-review suggests conventions, not verify", result.stdout)
 
+    def test_handling_a_review_without_suggesting_conventions_fails(self):
+        copy = self.copy_of_the_repository()
+        skill = copy / "plugins" / "aido" / "skills" / "5-handle-review" / "SKILL.md"
+        self.replace_in(skill, "guidelines/evolving-guidelines.md", "guidelines/git-workflow.md")
+
+        result = self.run_checks(copy)
+
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("FAIL - 5-handle-review suggests conventions", result.stdout)
+
 
 if __name__ == "__main__":
     unittest.main()
