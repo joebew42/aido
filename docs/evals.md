@@ -90,6 +90,7 @@ doesn't refer to the ending block, or when a listed approval question or evidenc
 | `organize-follows-a-mode-change-in-progress` | When `## Progress` records a change to outside-in, is the history slice-shaped? |
 | `organize-shapes-an-inside-out-part` | Is an inside-out part's history inside-out, with its acceptance tests last? |
 | `organize-without-a-plan` | With no specification, plan or mode, is the history inside-out? |
+| `organize-runs-the-tests-once` | Does organizing the commits run the tests only once, with the history still ending green? |
 | `implement-offers-to-organize` | Once every plan item is done, does the agent ask whether to organize the commits, recommend a fresh context, name a deferred criterion, and wait instead of starting? |
 | `implement-offers-a-fresh-context` | When you choose a fresh context, does the agent start nothing, tell you to run `/clear` and the next skill, and end with the ending block? |
 | `implement-partial-session-offers-nothing` | With plan items left, does the agent name them, without offering to organize? |
