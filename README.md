@@ -173,7 +173,7 @@ passed during the check, or by your confirmation; otherwise it is **insufficient
 | Skill&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | Purpose |
 | :--- | :--- |
 | `/aido:1-plan` | Draft, refine, and plan a feature into `SPEC.md`. |
-| `/aido:2-implement` | Implement the feature using TDD. `loop` (or `loop 7-9`) runs each plan item in a fresh subagent. |
+| `/aido:2-implement` | Implement the feature using TDD. `loop` (or `loop 7-9`) runs each plan item in a fresh subagent. The final design review adds the refactorings you accept to the spec's `## Refactorings`, as `r1`, `r2`, …, and `loop r1` (or `loop r1-r3`) runs them the same way. |
 | `/aido:3-organize-commits` | Organize the commit history. |
 | `/aido:4-open-pr` | Open a pull request. |
 | `/aido:5-handle-review` | Handle PR review feedback. |
