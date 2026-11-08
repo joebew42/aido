@@ -103,6 +103,7 @@ doesn't refer to the ending block, or when a listed approval question or evidenc
 | `organize-offers-the-pr-without-criteria` | With no specification, does the agent still ask, without bringing up criteria? |
 | `verify-catches-a-test-that-cannot-fail` | Does verification notice a test that would pass anyway? |
 | `verify-accepts-a-real-test` | Does verification accept good tests, without false alarms? |
+| `handle-review-suggests-nothing` | Given a review with only one-off fixes, does the agent suggest no convention and add nothing to `CLAUDE.md` or `AGENTS.md`? |
 
 Runs have no `AskUserQuestion` tool, because nobody is there to answer. A skill's question shows up as
 text in the final message, so a case about a question grades that message.
