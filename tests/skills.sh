@@ -108,6 +108,8 @@ skills/2-implement/SKILL.md|commit that before starting the next item
 skills/2-implement/SKILL.md|A child puts all this in its results instead, and the orchestrator records it
 skills/2-implement/SKILL.md|**Finish `## Progress`**. Each item done is already recorded there
 skills/2-implement/SKILL.md|the results of the Acceptance Criteria Check, the units remaining, the deferred refactorings and the final design review's note
+skills/2-implement/SKILL.md|under `### Acceptance`, the last heading in `## Progress`
+skills/2-implement/SKILL.md|with the criteria only they serve as `unchecked` under `### Acceptance`
 skills/3-organize-commits/SKILL.md|Once the commits are organized, should I open the pull request?
 skills/3-organize-commits/SKILL.md|Always mark **Open the PR in a fresh context** as recommended, whatever `## Progress` says
 skills/3-organize-commits/SKILL.md|hand off as the user chose, with no further test run
