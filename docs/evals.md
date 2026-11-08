@@ -94,6 +94,7 @@ doesn't refer to the ending block, or when a listed approval question or evidenc
 | `implement-offers-to-organize` | Once every plan item is done, does the agent ask whether to organize the commits, recommend a fresh context, name a deferred criterion, and wait instead of starting? |
 | `implement-offers-a-fresh-context` | When you choose a fresh context, does the agent start nothing, tell you to run `/clear` and the next skill, and end with the ending block? |
 | `implement-partial-session-offers-nothing` | With plan items left, does the agent name them, without offering to organize? |
+| `implement-records-each-item` | In a single session, does the agent tick item 1 in `## Progress` before it starts on item 2? |
 | `implement-loops-over-the-plan` | In loop mode, does each plan item run in its own child, with the orchestrator recording it in `## Progress`? |
 | `implement-loop-stops-on-an-unanswered-question` | In loop mode, when nobody answers a child's question, does the loop stop and name the paused item and the items left? |
 | `implement-review-records-refactorings` | When the final design review finds a refactoring you accept, does the agent add it to `## Refactorings` without changing code, and name `/aido:2-implement` and `/aido:2-implement loop` as the ways to continue? |
@@ -319,6 +320,7 @@ because it guards an outcome:
 | `test-before-code` | Tests that catch breakages of the code, which the mean mutation score measures. A test written after its code may never have failed. Without aido it passed 2/3 |
 | `grows-the-domain-before-the-entry-point` | Inner units that have tests of their own, which `inner-units-have-tests` measures. Without aido this check and that outcome were both 0/3 |
 | `connects-before-the-edge-cases` | A feature that behaves as specified when the plan is wrong about how the parts fit: the wrong assumption shows at the first slice, before the edge cases build on it. No case has a wrong plan yet, so nothing measures this outcome directly |
+| `ticks-item-1-before-item-2` | A specification that shows which items are done when a session is cut off partway. No case cuts a session off, so nothing measures this outcome directly |
 
 So no step check was removed. `connects-before-the-edge-cases` misses edge-case code that doesn't
 name its case in lower case. In one run, the agent wired the entry point first, but its first edge case
