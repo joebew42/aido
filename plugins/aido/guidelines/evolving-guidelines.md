@@ -84,7 +84,7 @@ fill a quota.
    - add only what the user picked, with clear, concise language and an example where helpful
    - commit each target file's change on the current branch as `docs: <what the rule covers>`,
      per `git-workflow.md`
-   - never push without asking, per `git-workflow.md`
+   - do not push: the skill that runs this process pushes afterwards, per `git-workflow.md`
 
 **Skip this step if:**
 - the work was trivial or routine
