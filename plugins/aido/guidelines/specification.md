@@ -189,6 +189,23 @@ later, like plan items:
 - `AC4: deferred — <why>`
 - `AC5: unchecked` — its plan items are not done yet
 
+These lines go under a `### Acceptance` heading, the last heading in `## Progress`. They come after
+the items and every other note, so they don't read as part of the last item:
+
+```markdown
+## Progress
+
+- [x] 1. complete a task
+  - `Task.complete` refuses a task already completed
+
+### Acceptance
+
+- AC1: met — `completing a task moves it to the Done list`
+- AC2: unchecked
+```
+
+A specification with no results yet has no `### Acceptance` heading.
+
 ### Items in Progress
 
 `## Progress` ticks each item that is done, plan item or refactoring alike, on one line with its code

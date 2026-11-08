@@ -127,6 +127,8 @@ skills/verify/SKILL.md|are not evidence
 guidelines/systemic-refactoring.md|Evidence before action
 guidelines/git-workflow.md|every push needs the user's approval
 guidelines/specification.md|An item is done only when its line is ticked
+guidelines/specification.md|under a `### Acceptance` heading, the last heading in `## Progress`
+guidelines/specification.md|A specification with no results yet has no `### Acceptance` heading
 guidelines/specification.md|`- [x] r1. <title>`
 guidelines/specification.md|A refactoring's code is never renumbered or reused
 guidelines/specification.md|<added by implementation, when the user accepts a refactoring>
