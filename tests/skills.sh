@@ -107,6 +107,7 @@ skills/3-organize-commits/SKILL.md|Always mark **Open the PR in a fresh context*
 guidelines/git-workflow.md|A refactoring from `## Refactorings` always gets its own `refactor:` commit, after the feature commits, even when it only reshapes the feature's new code
 skills/4-open-pr/SKILL.md|# Open a Pull Request
 skills/verify/SKILL.md|Every finding names its evidence
+skills/verify/SKILL.md|a change that a refactoring in `## Refactorings` explains is planned, and is not a deviation. It is never evidence that something is met
 skills/verify/SKILL.md|are not evidence
 guidelines/systemic-refactoring.md|Evidence before action
 guidelines/git-workflow.md|every push needs the user's approval

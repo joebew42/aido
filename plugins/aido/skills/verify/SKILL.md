@@ -131,6 +131,8 @@ evidence, once per requirement:
   with its reason
 - a criterion recorded as `changed` is checked against its current wording
 - a conflict under `## Alignment decisions` was decided by the engineer, and is not a deviation
+- a change that a refactoring in `## Refactorings` explains is planned, and is not a deviation. It is
+  never evidence that something is met
 - a mode change recorded in `## Progress` was decided during implementation, and is not a deviation
   from the plan. Do not judge whether a mode was the right choice
 
