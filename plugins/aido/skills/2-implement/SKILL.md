@@ -137,8 +137,8 @@ Show the items it will run, each with the criteria it serves, and ask nothing.
   items left
 
 **To record the items left**, whenever the loop ends before the plan does, add them to `## Progress`
-as units remaining, with the criteria only they serve as `unchecked`, as "What Progress Records"
-lists. Commit it by the `SPEC.md` rule in "Special Cases" in `git-workflow.md`.
+as units remaining, with the criteria only they serve as `unchecked` under `### Acceptance`, as
+"What Progress Records" lists. Commit it by the `SPEC.md` rule in "Special Cases" in `git-workflow.md`.
 
 **When a child returns a question** instead of its results, it has paused. Ask the user with
 `AskUserQuestion`, with the child's question and options. Send the answer to that same child with
@@ -378,8 +378,8 @@ The `## Progress` section of `SPEC.md` is a short note for the next session:
 - the slices built for each outside-in item, and every mode change, as "Modes and Slices in Progress"
   in "The Specification Structure" describes
 - the units remaining, if the session ended early
-- each result of the Acceptance Criteria Check, as "Acceptance in Progress" in "The Specification
-  Structure" describes
+- each result of the Acceptance Criteria Check, under `### Acceptance`, the last heading in
+  `## Progress`, as "Acceptance in Progress" in "The Specification Structure" describes
 - the key decisions made while building, such as design choices or departures from the specification
 - **Deferred refactorings**, each with every field under **What every finding states** in
   `systemic-refactoring.md`, its evidence as `path` — `Symbol`, and why it was deferred
@@ -421,7 +421,8 @@ now or earlier, or the user chose to skip it:
 1. **Finish `## Progress`**. Each item done is already recorded there, as "Item done" describes, so
    don't write it again. Add the rest of what "What Progress Records" lists: the results of the
    Acceptance Criteria Check, the units remaining, the deferred refactorings and the final design
-   review's note. When `SPEC.md` has no `## Progress` section yet, add it at the bottom
+   review's note. The acceptance results go under `### Acceptance`, after everything else. When
+   `SPEC.md` has no `## Progress` section yet, add it at the bottom
 
 2. **Commit the progress update**, by the `SPEC.md` rule in "Special Cases" in `git-workflow.md`
 

@@ -34,5 +34,7 @@ The enabling refactoring analysis was skipped.
 
 ## Progress
 
+### Acceptance
+
 - AC3: deferred — the list format is not settled
 EOF

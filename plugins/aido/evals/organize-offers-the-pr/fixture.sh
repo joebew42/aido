@@ -38,6 +38,8 @@ The enabling refactoring analysis was skipped.
 
 ## Progress
 
+### Acceptance
+
 - AC1: met — `test_complete.sh`
 - AC2: met — `test_already_done.sh`
 - AC3: unchecked

@@ -33,6 +33,9 @@ The enabling refactoring analysis was skipped.
 ## Progress
 
 - [x] 1. complete a task
+
+### Acceptance
+
 - AC1: met — `test_todo.sh`
 SPEC
 

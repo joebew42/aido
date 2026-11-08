@@ -47,6 +47,8 @@ Reopening a task.
 
 ## Progress
 
+### Acceptance
+
 - AC1: met — test_todo.sh
 - AC2: met — test_todo.sh
 EOF

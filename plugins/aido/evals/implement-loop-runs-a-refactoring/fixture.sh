@@ -46,8 +46,11 @@ The enabling refactoring analysis was skipped.
 ## Progress
 
 - [x] 1. complete a task
-- AC1: met — `test_todo.sh`
 - the final design review ran and recorded r1
+
+### Acceptance
+
+- AC1: met — `test_todo.sh`
 SPEC
 
 cat > todo.sh <<'TODO'

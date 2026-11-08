@@ -108,6 +108,8 @@ skills/2-implement/SKILL.md|commit that before starting the next item
 skills/2-implement/SKILL.md|A child puts all this in its results instead, and the orchestrator records it
 skills/2-implement/SKILL.md|**Finish `## Progress`**. Each item done is already recorded there
 skills/2-implement/SKILL.md|the results of the Acceptance Criteria Check, the units remaining, the deferred refactorings and the final design review's note
+skills/2-implement/SKILL.md|under `### Acceptance`, the last heading in `## Progress`
+skills/2-implement/SKILL.md|with the criteria only they serve as `unchecked` under `### Acceptance`
 skills/3-organize-commits/SKILL.md|Once the commits are organized, should I open the pull request?
 skills/3-organize-commits/SKILL.md|Always mark **Open the PR in a fresh context** as recommended, whatever `## Progress` says
 skills/3-organize-commits/SKILL.md|hand off as the user chose, with no further test run
@@ -127,6 +129,8 @@ skills/verify/SKILL.md|are not evidence
 guidelines/systemic-refactoring.md|Evidence before action
 guidelines/git-workflow.md|every push needs the user's approval
 guidelines/specification.md|An item is done only when its line is ticked
+guidelines/specification.md|under a `### Acceptance` heading, the last heading in `## Progress`
+guidelines/specification.md|A specification with no results yet has no `### Acceptance` heading
 guidelines/specification.md|`- [x] r1. <title>`
 guidelines/specification.md|A refactoring's code is never renumbered or reused
 guidelines/specification.md|<added by implementation, when the user accepts a refactoring>
@@ -205,6 +209,20 @@ while IFS= read -r file; do
   [ -n "$file" ] || continue
   report 1 "${file#"$plugin"/} records a finding in the five fields"
 done <<< "$old_format"
+
+for fixture in "$plugin"/evals/*/fixture.sh; do
+  grep -qE '^- AC[0-9]+: (met|changed|deferred|unchecked)' "$fixture" || continue
+  awk '
+    /^## Progress/ { progress = 1; next }
+    progress && /^### Acceptance$/ { heading = 1; next }
+    progress && /^- AC[0-9]+: (met|changed|deferred|unchecked)/ { if (!heading) misplaced = 1; next }
+    heading && /^$/ { next }
+    heading && /^[A-Z_]+$/ { exit }
+    heading { misplaced = 1; exit }
+    END { exit !heading || misplaced }
+  ' "$fixture"
+  report $? "${fixture#"$plugin"/evals/} records acceptance results last, under ### Acceptance"
+done
 
 search_warnings="$(grep -rlF -- '--search`' "$plugin/skills" "$plugin/guidelines")"
 [ "$search_warnings" = "$plugin/guidelines/git-workflow.md" ]
