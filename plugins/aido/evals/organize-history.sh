@@ -89,7 +89,7 @@ store_find() {
 }
 
 store_replace() {
-  sed -i "s/^$1|.*/$2/" "$(store_file)"
+  perl -pi -e "s/^$1\|.*/$2/" "$(store_file)"
 }
 EOF
 }
@@ -106,11 +106,11 @@ EOF
 }
 
 write_guard() {
-  sed -i 's/^  line="$(store_find "$1")"$/&\n  case "$line" in *"|done|"*) echo "already completed"; return 1 ;; esac/' lib/tasks.sh
+  perl -pi -e 's/^  line="\$\(store_find "\$1"\)"$/$&\n  case "\$line" in *"|done|"*) echo "already completed"; return 1 ;; esac/' lib/tasks.sh
 }
 
 write_entry_point() {
-  sed -i 's/^  add) add_task "$2" "$3" ;;$/&\n  complete) complete_task "$2" ;;/' bin/todo
+  perl -pi -e 's/^  add\) add_task "\$2" "\$3" ;;$/$&\n  complete) complete_task "\$2" ;;/' bin/todo
 }
 
 write_first_acceptance_test() {

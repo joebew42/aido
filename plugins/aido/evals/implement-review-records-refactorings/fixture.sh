@@ -50,7 +50,7 @@ complete_task() {
   mv "$file.tmp" "$file"
 }
 TASKS
-sed -i 's/^  add) add_task "\$2" "\$3" ;;$/&\n  complete) complete_task "$2" ;;/' bin/todo
+perl -pi -e 's/^  add\) add_task "\$2" "\$3" ;;$/$&\n  complete) complete_task "\$2" ;;/' bin/todo
 cat > test_todo.sh <<'TEST'
 #!/bin/sh
 export TODO_DB="$(mktemp)"

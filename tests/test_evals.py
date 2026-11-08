@@ -396,7 +396,7 @@ TRAP = EVALS / "implement-respects-a-hidden-helper"
 RENAME_SOLUTION = """cat >> lib/task_store.sh <<'EOF'
 
 store_replace() {{
-  sed -i "s/^$1|.*/$2/" "$(store_file)"
+  perl -pi -e "s/^$1\\|.*/$2/" "$(store_file)"
 }}
 EOF
 cat >> lib/tasks.sh <<'EOF'
@@ -407,7 +407,7 @@ rename_task() {{
   echo "renamed: $title"
 }}
 EOF
-sed -i 's/^  add) add_task "$2" "$3" ;;$/&\\n  rename) rename_task "$2" "$3" ;;/' bin/todo
+perl -pi -e 's/^  add\\) add_task "\\$2" "\\$3" ;;$/$&\\n  rename) rename_task "\\$2" "\\$3" ;;/' bin/todo
 """
 
 

@@ -10,7 +10,7 @@ add_task() {
 
 complete_task() {
   line="$(store_find "$1")"
-  sed -i "s/^$1|.*/$(complete_line "$line")/" "$(store_file)"
+  perl -pi -e "s/^$1\|.*/$(complete_line "$line")/" "$(store_file)"
   echo "completed: ${line##*|}"
 }
 TASKS
