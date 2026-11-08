@@ -192,5 +192,26 @@ class StaticChecks(unittest.TestCase):
         self.assertEqual(result.returncode, 1)
         self.assertIn("FAIL - no skill points into map-architecture for the index rules", result.stdout)
 
+    def test_a_fixture_with_acceptance_results_outside_their_heading_fails(self):
+        copy = self.copy_of_the_repository()
+        fixture = copy / "plugins" / "aido" / "evals" / "verify-accepts-a-real-test" / "fixture.sh"
+        self.replace_in(fixture, "### Acceptance\n\n", "")
+
+        result = self.run_checks(copy)
+
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("FAIL - verify-accepts-a-real-test/fixture.sh records acceptance results last, under ### Acceptance", result.stdout)
+
+    def test_a_note_after_the_acceptance_results_fails(self):
+        copy = self.copy_of_the_repository()
+        fixture = copy / "plugins" / "aido" / "evals" / "implement-review-records-refactorings" / "fixture.sh"
+        self.replace_in(fixture, "- AC1: met — `test_todo.sh`\n", "- AC1: met — `test_todo.sh`\n- the final design review was skipped\n")
+
+        result = self.run_checks(copy)
+
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("FAIL - implement-review-records-refactorings/fixture.sh records acceptance results last, under ### Acceptance", result.stdout)
+
+
 if __name__ == "__main__":
     unittest.main()

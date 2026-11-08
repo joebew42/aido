@@ -210,6 +210,20 @@ while IFS= read -r file; do
   report 1 "${file#"$plugin"/} records a finding in the five fields"
 done <<< "$old_format"
 
+for fixture in "$plugin"/evals/*/fixture.sh; do
+  grep -qE '^- AC[0-9]+: (met|changed|deferred|unchecked)' "$fixture" || continue
+  awk '
+    /^## Progress/ { progress = 1; next }
+    progress && /^### Acceptance$/ { heading = 1; next }
+    progress && /^- AC[0-9]+: (met|changed|deferred|unchecked)/ { if (!heading) misplaced = 1; next }
+    heading && /^$/ { next }
+    heading && /^[A-Z_]+$/ { exit }
+    heading { misplaced = 1; exit }
+    END { exit !heading || misplaced }
+  ' "$fixture"
+  report $? "${fixture#"$plugin"/evals/} records acceptance results last, under ### Acceptance"
+done
+
 search_warnings="$(grep -rlF -- '--search`' "$plugin/skills" "$plugin/guidelines")"
 [ "$search_warnings" = "$plugin/guidelines/git-workflow.md" ]
 report $? "only git-workflow.md warns against \`gh pr list --search\`"
