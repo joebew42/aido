@@ -193,9 +193,7 @@ Otherwise, get the PR's URL with `gh pr view --json url --jq .url`, show the cri
 
 Report each issue opened or commented on with its URL, and each skipped criterion with the reason. Criteria not picked stay where they were recorded, and neither the specification nor the PR description changes.
 
-## Step 5: Suggest Repository Conventions
+## STOP — Skill Complete
 
-After opening the PR, follow the process in `${CLAUDE_PLUGIN_ROOT}/guidelines/evolving-guidelines.md`. It only proposes additions to this repository's `CLAUDE.md` or `AGENTS.md`, chosen by the user through `AskUserQuestion`.
-
-Then end as "Ending a Skill" in `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` describes, with the PR's URL
+End as "Ending a Skill" in `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` describes, with the PR's URL
 in `Done`. If the skill stops early, such as when the push is declined, end the same way.
