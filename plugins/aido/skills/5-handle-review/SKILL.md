@@ -62,10 +62,10 @@ Worth examining:
 - architectural or design feedback that reveals an undocumented convention
 - testing feedback that refines the testing strategy
 
-Not worth examining — these fail the test by construction:
+Not worth examining — it fails the test by construction:
 - a correction that applies only to the file under review
-- a stylistic preference stated once, by one reviewer, without a codebase-wide rationale
-- anything already covered by the repository's `CLAUDE.md` or `AGENTS.md`, or by a loaded guideline, however differently the reviewer phrased it
+
+The process decides the rest: what is already written down, and what to do with a point only this PR's review makes.
 
 ## Push and End
 
