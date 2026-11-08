@@ -60,6 +60,15 @@ Resolve it once per skill run with `git symbolic-ref --short refs/remotes/origin
 - use the github command line when interacting with GitHub
 - examples: fetching PR info, creating PRs, etc.
 
+### Reading a PR's Review Comments
+
+Read one PR's review comments with these two calls:
+
+- `gh pr view <NUMBER> --json number,title,url,reviews,comments` — each review's summary and the
+  conversation
+- `gh api repos/{owner}/{repo}/pulls/<NUMBER>/comments` — the comments on lines of code. `gh`
+  fills in `{owner}` and `{repo}` from the current repository
+
 ## Commit Organization Strategy
 
 ### General Principles

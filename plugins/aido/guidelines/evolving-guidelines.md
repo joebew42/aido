@@ -68,7 +68,7 @@ fill a quota.
      options **5** / **10** / **20**. List them by recency with
      `gh pr list --state merged --limit <n> --json number,title`, never with `--search`, which can
      return PRs from other repositories. Read each one's review comments as "Reading a PR's Review
-     Comments" below describes, and no other PR's
+     Comments" in `git-workflow.md` describes, and no other PR's
    - **an earlier PR makes the same point** → the candidate joins the question in step 6, and its
      description cites that PR
    - **no earlier PR makes the same point** → say so, and ask with `AskUserQuestion` — options
@@ -90,12 +90,3 @@ fill a quota.
 - the work was trivial or routine
 - no new patterns or conventions emerged
 - no candidate survives step 2 and the generality test in step 3
-
-## Reading a PR's Review Comments
-
-Read one PR's review comments with these two calls:
-
-- `gh pr view <NUMBER> --json number,title,url,reviews,comments` — each review's summary and the
-  conversation
-- `gh api repos/{owner}/{repo}/pulls/<NUMBER>/comments` — the comments on lines of code. `gh`
-  fills in `{owner}` and `{repo}` from the current repository
