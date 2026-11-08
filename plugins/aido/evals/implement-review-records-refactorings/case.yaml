@@ -1,0 +1,6 @@
+schema_version: "1.1"
+name: implement-review-records-refactorings
+description: The final design review's accepted finding is added to Refactorings with no code change, and the session stops naming how to continue
+tags: [implement]
+context:
+  scaffold_script: fixture.sh

@@ -95,6 +95,8 @@ doesn't refer to the ending block, or when a listed approval question or evidenc
 | `implement-partial-session-offers-nothing` | With plan items left, does the agent name them, without offering to organize? |
 | `implement-loops-over-the-plan` | In loop mode, does each plan item run in its own child, with the orchestrator recording it in `## Progress`? |
 | `implement-loop-stops-on-an-unanswered-question` | In loop mode, when nobody answers a child's question, does the loop stop and name the paused item and the items left? |
+| `implement-review-records-refactorings` | When the final design review finds a refactoring you accept, does the agent add it to `## Refactorings` without changing code, and name `/aido:2-implement` and `/aido:2-implement loop` as the ways to continue? |
+| `implement-loop-runs-a-refactoring` | Does `loop r1` build the refactoring in its own child, tick it in `## Progress`, and offer to organize without a second design review? |
 | `organize-offers-the-pr` | Does the agent ask whether to open the PR, name open criteria while still recommending it, and start nothing and push nothing? |
 | `organize-offers-the-pr-without-criteria` | With no specification, does the agent still ask, without bringing up criteria? |
 | `verify-catches-a-test-that-cannot-fail` | Does verification notice a test that would pass anyway? |
