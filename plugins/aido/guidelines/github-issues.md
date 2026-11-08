@@ -35,5 +35,12 @@ same problem." — options **Skip** / **Comment on #<n>** (posting the point's b
   for `refactor`, apply it. Never create a label without asking
 - write the body to a temporary file in the scratchpad and run
   `gh issue create --title "<title>" --body-file <file> [--label "<label>"]`
-- follow `language.md`, and the PR description rules in `/aido:4-open-pr` that apply to any GitHub
-  body: no hard-wrapped prose, and no reference to Claude Code
+- follow `language.md` and "Writing a GitHub Body" below
+
+## Writing a GitHub Body
+
+These rules apply to every body written for GitHub, a PR's or an issue's:
+
+- no reference to Claude Code
+- don't hard-wrap prose. GitHub shows a single newline as a line break, so fixed-width wrapping makes
+  the text choppy. Write one line per paragraph. Code blocks and lists are exempt

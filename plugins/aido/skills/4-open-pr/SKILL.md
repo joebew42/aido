@@ -156,16 +156,14 @@ written as prose. Use a bullet list.
 The format rules, narrative or bullets and the Context style, apply to the Default Sections. With a
 project template, apply the rest of the checklist as **Project PR Template** describes.
 
-- [ ] **NO reference to Claude Code**
+- [ ] **NO reference to Claude Code, and NO hard-wrapped prose**, as "Writing a GitHub Body" in
+      `${CLAUDE_PLUGIN_ROOT}/guidelines/github-issues.md` describes
 - [ ] **This PR** is a narrative for a small, focused change, and bullets for 3+ distinct changes.
       Never bullets run together into a paragraph
 - [ ] **Context** stays a paragraph: it is about the *why*
 - [ ] **NO detailed list of commits**
 - [ ] **NO detailed list of files changed**
 - [ ] **NO information about testing or tests**
-- [ ] **DO NOT hard-wrap prose**. In PR and issue bodies GitHub shows a single newline as a line
-      break, so fixed-width wrapping makes the text choppy. One line per paragraph. Code blocks and
-      lists are exempt.
 - [ ] **Follow `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md`**, so a reader quickly gets the context
       and purpose of the PR
 - [ ] a follow-up PR mentions the previous PR in the Context section

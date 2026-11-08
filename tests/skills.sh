@@ -161,6 +161,13 @@ skills/assess-architecture/SKILL.md|"The Shared Brief" in `${CLAUDE_PLUGIN_ROOT}
 skills/1-plan/SKILL.md|"The Design-Check Brief" in `${CLAUDE_PLUGIN_ROOT}/guidelines/subagents.md`
 skills/2-implement/SKILL.md|"The Design-Check Brief" in `${CLAUDE_PLUGIN_ROOT}/guidelines/subagents.md`
 skills/assess-architecture/SKILL.md|"The Design-Check Brief" in `${CLAUDE_PLUGIN_ROOT}/guidelines/subagents.md`
+skills/1-plan/SKILL.md|**Index Location and Shape** in `${CLAUDE_PLUGIN_ROOT}/guidelines/architecture-index.md`
+skills/2-implement/SKILL.md|**Reading the Index** in `${CLAUDE_PLUGIN_ROOT}/guidelines/architecture-index.md`
+skills/assess-architecture/SKILL.md|**Index Location and Shape** in `${CLAUDE_PLUGIN_ROOT}/guidelines/architecture-index.md`
+skills/map-architecture/SKILL.md|**Index Location and Shape** in `${CLAUDE_PLUGIN_ROOT}/guidelines/architecture-index.md`
+guidelines/systemic-refactoring.md|`<repo-name>` is as **Index Location and Shape** in `architecture-index.md` defines it
+guidelines/github-issues.md|## Writing a GitHub Body
+skills/4-open-pr/SKILL.md|"Writing a GitHub Body" in `${CLAUDE_PLUGIN_ROOT}/guidelines/github-issues.md`
 skills/1-plan/SKILL.md|**Implement in a fresh context**
 guidelines/git-workflow.md|finish this skill's own work, including its commits, start nothing, and tell the user to run `/clear`, then the next skill
 guidelines/git-workflow.md|The fresh-context option carries the recommendation whenever continuing would, and is not recommended when continuing isn't
@@ -214,6 +221,18 @@ report $? "only subagents.md says what a design-check brief copies"
 test_run_reasons="$(grep -rlF -- 'tested while they were built' "$plugin/skills" "$plugin/guidelines")"
 [ "$test_run_reasons" = "$plugin/guidelines/git-workflow.md" ]
 report $? "only git-workflow.md says why organizing commits runs the tests once"
+
+guidelines_into_skills="$(grep -rlE -- 'skills/[a-z0-9-]+/SKILL\.md`|in `/aido:[a-z0-9-]+`|`/aido:[a-z0-9-]+` defines' "$plugin/guidelines")"
+[ -z "$guidelines_into_skills" ]
+report $? "no guideline points into a skill for a rule"
+
+index_rules_in_skill="$(grep -rlF -- 'skills/map-architecture/SKILL.md' "$plugin/skills")"
+[ -z "$index_rules_in_skill" ]
+report $? "no skill points into map-architecture for the index rules"
+
+wrapping_reasons="$(grep -rlF -- 'a single newline as a line' "$plugin/skills" "$plugin/guidelines")"
+[ "$wrapping_reasons" = "$plugin/guidelines/github-issues.md" ]
+report $? "only github-issues.md says why GitHub bodies aren't hard-wrapped"
 
 handle_review="$plugin/skills/5-handle-review/SKILL.md"
 guidance_line="$(grep -n -m1 -F 'Worth examining' "$handle_review" | cut -d: -f1)"

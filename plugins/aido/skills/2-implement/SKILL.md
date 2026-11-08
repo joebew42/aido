@@ -249,7 +249,7 @@ design review** before completion look beyond it. Their rules are in
 
 - the spec's `## Design notes`, if `/aido:1-plan` wrote them
 - the architecture index, if there is one, read as **Reading the Index** in
-  `${CLAUDE_PLUGIN_ROOT}/skills/map-architecture/SKILL.md` describes. Search it, don't load it. Never
+  `${CLAUDE_PLUGIN_ROOT}/guidelines/architecture-index.md` describes. Search it, don't load it. Never
   offer to build or update it here: that belongs to planning
 - the diff, and a few searches for the domain's own words and symbols
 
@@ -298,7 +298,7 @@ On **Run the review**, launch one `Agent` with `model: "fable"`. Brief it with
 - the `SPEC.md` path. When it has `## Design notes`, ask the subagent to check them against what was
   built, and to say where they no longer hold
 - if there is an index, its directory and the **Reading the Index** steps from
-  `${CLAUDE_PLUGIN_ROOT}/skills/map-architecture/SKILL.md`, copied in full
+  `${CLAUDE_PLUGIN_ROOT}/guidelines/architecture-index.md`, copied in full
 - "The Design-Check Brief" in `${CLAUDE_PLUGIN_ROOT}/guidelines/subagents.md`
 - to return only findings, each with its **Classification** and every field under **What every
   finding states** in `systemic-refactoring.md`, or one line saying it found none

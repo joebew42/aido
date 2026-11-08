@@ -272,7 +272,7 @@ without its "Once it's approved" opening.
 The architecture index feeds the analysis in Step 5. When the user chose to skip the analysis, skip
 the rest of this step and Step 5, and continue at Step 5.5.
 
-**Index Location and Shape** in `${CLAUDE_PLUGIN_ROOT}/skills/map-architecture/SKILL.md` defines the
+**Index Location and Shape** in `${CLAUDE_PLUGIN_ROOT}/guidelines/architecture-index.md` defines the
 index. Find `<repo-name>` as it describes, then:
 
 - **`.skip-map-architecture` exists** → skip this step, and say nothing
@@ -295,7 +295,7 @@ Launch one `Agent` with `model: "fable"`. Brief it with "The Shared Brief" in `$
 
 - the path to `SPEC.md` and the repository root
 - if there is an index, its directory and the **Reading the Index** steps from
-  `${CLAUDE_PLUGIN_ROOT}/skills/map-architecture/SKILL.md`, copied in full
+  `${CLAUDE_PLUGIN_ROOT}/guidelines/architecture-index.md`, copied in full
 - "The Design-Check Brief" in `${CLAUDE_PLUGIN_ROOT}/guidelines/subagents.md`
 - to search the domain's own words for where this behaviour belongs, what already implements related
   rules or abstractions, and which boundaries apply. It widens the search only on evidence
@@ -314,7 +314,7 @@ Every plan checks whether a saved refactoring idea can be made as part of this w
 analysis was skipped.
 
 Find `<repo-name>` as **Index Location and Shape** in
-`${CLAUDE_PLUGIN_ROOT}/skills/map-architecture/SKILL.md` defines it, and list
+`${CLAUDE_PLUGIN_ROOT}/guidelines/architecture-index.md` defines it, and list
 `~/.claude/repos/<repo-name>/refactoring-opportunities/`. With no folder or no files, continue and
 say nothing.
 

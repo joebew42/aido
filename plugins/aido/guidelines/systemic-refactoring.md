@@ -94,7 +94,7 @@ tracked as an issue. Park one worth keeping until a planned change can pull it i
 - each opportunity has its own file,
   `~/.claude/repos/<repo-name>/refactoring-opportunities/YYYY-MM-DD-<refactoring-title>.md`, named
   with the day it was parked and its title in lower case with hyphens. `<repo-name>` is as
-  `/aido:map-architecture` defines it
+  **Index Location and Shape** in `architecture-index.md` defines it
 - the file holds the finding:
 
   ```markdown

@@ -17,7 +17,7 @@ Load `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` and follow it in everything 
 ## Step 0: Load Context
 
 - find `<repo-name>` and the index directory, as **Index Location and Shape** in
-  `${CLAUDE_PLUGIN_ROOT}/skills/map-architecture/SKILL.md` defines them
+  `${CLAUDE_PLUGIN_ROOT}/guidelines/architecture-index.md` defines them
 - load:
   - `${CLAUDE_PLUGIN_ROOT}/guidelines/systemic-refactoring.md`: what to look for, the evidence rule
     and how to park an opportunity
@@ -46,7 +46,7 @@ Launch one `Agent` per area with `model: "fable"`, in parallel. Brief each with
   infrastructure, misfits and observations this assessment needs. Add the `README.md` path and the
   repository root
 - to look across the area's boundary by searching the other areas' files for this area's rules and
-  terms, as **Reading the Index** in `${CLAUDE_PLUGIN_ROOT}/skills/map-architecture/SKILL.md`
+  terms, as **Reading the Index** in `${CLAUDE_PLUGIN_ROOT}/guidelines/architecture-index.md`
   describes. Not by reading them whole
 - "The Design-Check Brief" in `${CLAUDE_PLUGIN_ROOT}/guidelines/subagents.md`
 - to apply it inside the area **and** across its boundary, such as the same rule enforced in this area
