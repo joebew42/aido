@@ -36,7 +36,8 @@ assess?" — options **All areas** / **Specific areas** (the user names them).
 
 ## Step 2: Assess Each Area — `fable` subagents
 
-Launch one `Agent` per area with `model: "fable"`, in parallel. Brief each with:
+Launch one `Agent` per area with `model: "fable"`, in parallel. Brief each with
+"The Shared Brief" in `${CLAUDE_PLUGIN_ROOT}/guidelines/subagents.md`, and:
 
 - the area's two file paths (`<area-slug>.md` and `<area-slug>.extra.md` — the second holds the
   infrastructure, misfits and observations this assessment needs), the `README.md` path, and
@@ -46,14 +47,10 @@ Launch one `Agent` per area with `model: "fable"`, in parallel. Brief each with:
   reading them whole
 - `systemic-refactoring.md` and the rules it points to in `code-standards.md`, copied
   — the subagent has not loaded the guidelines
-- `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md`, copied in full, so what it returns follows it. The
-  sections and labels it is asked for stay as they are, and it returns a report and adds no ending
-  block
 - to apply it inside the area **and** across its boundary with other areas (e.g. the same rule
   enforced in this area and another)
 - to treat the index as a map only — read the code before claiming anything
 - to group related findings in the area into one candidate, so the volume stays low
-- never to edit files
 - to return only this, per candidate:
 
   ```markdown
@@ -66,8 +63,7 @@ Launch one `Agent` per area with `model: "fable"`, in parallel. Brief each with:
   followed by one line listing hypotheses it checked and rejected, so the user can see what was
   ruled out.
 
-If `fable` is unavailable or the call is denied, run the same brief with the session's model and
-say so in the presentation.
+If `fable` is unavailable, act as "When the Model Is Unavailable" in `${CLAUDE_PLUGIN_ROOT}/guidelines/subagents.md`.
 
 ## Step 3: Confirm and Present the Findings
 

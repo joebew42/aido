@@ -309,25 +309,20 @@ codebase should change first so the feature lands cleanly. The rules are in
 `${CLAUDE_PLUGIN_ROOT}/guidelines/systemic-refactoring.md` — read that file now, and `${CLAUDE_PLUGIN_ROOT}/guidelines/code-standards.md`, which
 holds the rules it points to, if it is not loaded yet.
 
-Launch one `Agent` with `model: "fable"`. Brief it with:
+Launch one `Agent` with `model: "fable"`. Brief it with "The Shared Brief" in `${CLAUDE_PLUGIN_ROOT}/guidelines/subagents.md`, and:
 
 - the path to `SPEC.md` and the repository root
 - if there is an index, its directory and the **Reading the Index** steps from
   `${CLAUDE_PLUGIN_ROOT}/skills/map-architecture/SKILL.md`, copied in full
 - `systemic-refactoring.md` and the rules it points to in `code-standards.md`, copied
   — the subagent has not loaded the guidelines
-- `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md`, copied in full, so what it returns follows it. The
-  sections and labels it is asked for stay as they are, and it returns a report and adds no ending
-  block
 - to search the domain's own vocabulary for where this behaviour belongs, what already implements
   related rules or abstractions, and which boundaries apply — widening only on evidence
-- never to edit files
 - to return only the **Design notes** below, plus each finding classified as **enabling** (makes
   this feature easier or keeps it from duplicating existing knowledge), **defer** or **no action**,
   with every field under **What every finding states** in `systemic-refactoring.md`
 
-If `fable` is unavailable or the call is denied, run the same brief with the session's model and
-say so when presenting the plan.
+If `fable` is unavailable, act as "When the Model Is Unavailable" in `${CLAUDE_PLUGIN_ROOT}/guidelines/subagents.md`.
 
 Confirm any finding that would add a plan item, as **Evidence before action** in
 `systemic-refactoring.md` describes.

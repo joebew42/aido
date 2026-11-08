@@ -162,8 +162,7 @@ Launch one `Agent` with `model: "fable"`. Brief it to:
   any significant paths that belong to no area, with a word on what they hold
 - return only that list — no file contents, no exploration log
 
-If `fable` is unavailable or the call is denied, run the same brief with the session's model and
-say so in the final report.
+If `fable` is unavailable, act as "When the Model Is Unavailable" in `${CLAUDE_PLUGIN_ROOT}/guidelines/subagents.md`.
 
 ### 2b. Confirm the areas
 
@@ -184,8 +183,7 @@ Launch one `Agent` per area with `model: "sonnet"`, in parallel. Brief each with
 
 Subagents read the code and write only their own area's files. They never edit the repository.
 
-If `sonnet` is unavailable or the call is denied, run the same brief with the session's model and
-say so in the final report.
+If `sonnet` is unavailable, act as "When the Model Is Unavailable" in `${CLAUDE_PLUGIN_ROOT}/guidelines/subagents.md`.
 
 ### 2d. Write `README.md`
 

@@ -303,7 +303,8 @@ implementation is complete, should I organize the commits?" — options **Organi
 (recommended) / **Organize the commits** / **Stop here**. The question names each criterion recorded
 as `deferred`, so the user doesn't continue without noticing it.
 
-On **Run the review**, launch one `Agent` with `model: "fable"`. Brief it with:
+On **Run the review**, launch one `Agent` with `model: "fable"`. Brief it with
+"The Shared Brief" in `${CLAUDE_PLUGIN_ROOT}/guidelines/subagents.md`, and:
 
 - the repository root and the diff range (`git diff origin/<default-branch>...HEAD`)
 - the `SPEC.md` path; when it has `## Design notes`, ask the subagent to check them against what
@@ -312,15 +313,10 @@ On **Run the review**, launch one `Agent` with `model: "fable"`. Brief it with:
   `${CLAUDE_PLUGIN_ROOT}/skills/map-architecture/SKILL.md`, copied in full
 - `systemic-refactoring.md` and the rules it points to in `code-standards.md`, copied
   — the subagent has not loaded the guidelines
-- `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md`, copied in full, so what it returns follows it. The
-  sections and labels it is asked for stay as they are, and it returns a report and adds no ending
-  block
-- never to edit files
 - to return only findings, each with its **Classification** and every field under **What every
   finding states** in `systemic-refactoring.md` — or one line saying none were found
 
-If `fable` is unavailable or the call is denied, run the same brief with the session's model and
-say so.
+If `fable` is unavailable, act as "When the Model Is Unavailable" in `${CLAUDE_PLUGIN_ROOT}/guidelines/subagents.md`.
 
 Then, in this session:
 

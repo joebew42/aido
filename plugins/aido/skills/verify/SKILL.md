@@ -61,20 +61,16 @@ In this order, the first match wins:
 The agent that built a change should not be the one to judge it, so this always runs in a fresh
 context, wherever it was started from.
 
-Launch one `Agent` with `model: "fable"`. Brief it with:
+Launch one `Agent` with `model: "fable"`. Brief it with "The Shared Brief" in `${CLAUDE_PLUGIN_ROOT}/guidelines/subagents.md`, and:
 
 - the repository root and the diff range (`git diff origin/<base-branch>...HEAD`)
 - what was agreed: the spec file's path, or the `git show` command that reads it from history, or the
   text of the PR description and its linked issues
 - the host repository's agent instruction files to read, and how to run a single test
 - "The Verification Brief" below, copied in full — the subagent has not loaded this skill
-- `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md`, copied in full, so what it returns follows it. The
-  sections and labels it is asked for stay as they are, and it returns a report and adds no ending
-  block
 - nothing else from this session: no summary of the work and no opinion of it
 
-If `fable` is unavailable or the call is denied, run the same brief in a subagent with the session's
-model and say so. If no subagent can run at all, follow the brief in this session, and the report's
+If `fable` is unavailable, act as "When the Model Is Unavailable" in `${CLAUDE_PLUGIN_ROOT}/guidelines/subagents.md`. If no subagent can run at all, follow the brief in this session, and the report's
 `Independence` line says it was not independent.
 
 ### The Verification Brief

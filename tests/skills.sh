@@ -146,10 +146,11 @@ guidelines/language.md|end the last message with a short block labelled `Done`, 
 guidelines/language.md|Leave out `Done` or `Decided` when it has nothing to say. `Needs you` always stays, and reads "nothing" when nothing needs the user
 guidelines/language.md|When the result is a report, show the report unchanged, and let the block list only what needs the user
 guidelines/language.md|A skill that another skill started, and that returns to it, adds no block
-skills/verify/SKILL.md|it returns a report and adds no ending block
-skills/1-plan/SKILL.md|it returns a report and adds no ending block
-skills/2-implement/SKILL.md|it returns a report and adds no ending block
-skills/assess-architecture/SKILL.md|it returns a report and adds no ending block
+guidelines/subagents.md|it returns a report and adds no ending block
+skills/verify/SKILL.md|"The Shared Brief" in `${CLAUDE_PLUGIN_ROOT}/guidelines/subagents.md`
+skills/1-plan/SKILL.md|"The Shared Brief" in `${CLAUDE_PLUGIN_ROOT}/guidelines/subagents.md`
+skills/2-implement/SKILL.md|"The Shared Brief" in `${CLAUDE_PLUGIN_ROOT}/guidelines/subagents.md`
+skills/assess-architecture/SKILL.md|"The Shared Brief" in `${CLAUDE_PLUGIN_ROOT}/guidelines/subagents.md`
 skills/1-plan/SKILL.md|**Implement in a fresh context**
 guidelines/git-workflow.md|finish this skill's own work, including its commits, start nothing, and tell the user to run `/clear`, then the next skill
 guidelines/git-workflow.md|The fresh-context option carries the recommendation whenever continuing would, and is not recommended when continuing isn't
