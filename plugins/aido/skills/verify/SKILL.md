@@ -6,25 +6,25 @@ disable-model-invocation: false
 # Verify
 
 Answer one question: **did we build what we agreed to build?** The target is the current branch or a
-PR; no PR needs to exist.
+PR. No PR needs to exist.
 
-This skill changes nothing: it edits no files, makes no commits, pushes nothing and posts nothing.
-Checking out a PR's branch is the one exception, and its only edits happen in a throwaway worktree
-that it removes. It reports, and the engineer decides.
+This skill changes nothing. It edits no files, makes no commits, pushes nothing and posts nothing. The
+one exception is checking out a PR's branch. Its only edits happen in a throwaway worktree that it
+removes. It reports, and the engineer decides.
 
-It is not a code review. General defect discovery belongs to `/code-review`, so this skill does not
-look for bugs, style or design problems unless they make a requirement unmet.
+It is not a code review. `/code-review` looks for defects. This skill ignores bugs, style and design
+unless they leave a requirement unmet.
 
-`SPEC.md` stands for the spec file: resolve it per "The Specification File" in
-`${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`.
+Resolve `SPEC.md` first, as "The Specification File" in
+`${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md` describes.
 
 Load `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` and follow it in everything you write for a person.
 
 ## Step 0: Load Context
 
 Load `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md` and
-`${CLAUDE_PLUGIN_ROOT}/guidelines/project-conventions.md`, gather the host repository's conventions
-as the latter describes, and find out how to run a single test. Run `git fetch origin`.
+`${CLAUDE_PLUGIN_ROOT}/guidelines/project-conventions.md`. Gather the host repository's conventions as
+the latter describes, and find out how to run a single test. Run `git fetch origin`.
 
 ## Step 1: Identify the Target
 
@@ -39,8 +39,8 @@ as the latter describes, and find out how to run a single test. Run `git fetch o
   options **Check out anyway** / **Cancel** (stop). Never stash or discard them. Then run
   `gh pr checkout <number>`. The base branch is the PR's `baseRefName`
 - **nothing was given** → the target is the current branch, and the base branch is the default
-  branch. On the default branch itself, say there is nothing to verify and stop. Note any
-  uncommitted changes from `git status --porcelain`: they are not verified, and the report names them
+  branch. On the default branch itself, say there is nothing to verify, and stop. Note any
+  uncommitted changes from `git status --porcelain`. They are not verified, and the report names them
 
 ## Step 2: Find What Was Agreed
 
@@ -50,16 +50,16 @@ In this order, the first match wins:
    `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md` describes. The requirements are its numbered
    acceptance criteria. Without numbered criteria, they are its plan items, as "Specifications Without
    Acceptance Criteria" describes
-2. **a PR without a specification** → the requirements are what its description and the issues it
-   links there (`Closes #N`, read with `gh issue view <N>`) state. The report says this is what it
-   used, and that it is weaker than an approved specification
-3. **nothing states an intent** — no specification on the current branch, or a PR whose description
-   and linked issues state none → say there is nothing to verify against, produce no report, and stop
+2. **a PR without a specification** → the requirements are what its description states, and the
+   issues it links there (`Closes #N`, read with `gh issue view <N>`). The report says it used these,
+   and that they are weaker than an approved specification
+3. **nothing states an intent**: no specification on the current branch, or a PR whose description
+   and linked issues state none → say there is nothing to verify against, write no report, and stop
 
 ## Step 3: Verify from a Fresh Context — `fable` subagent
 
-The agent that built a change should not be the one to judge it, so this always runs in a fresh
-context, wherever it was started from.
+The agent that built a change should not judge it. So this always runs in a fresh context, wherever
+it was started from.
 
 Launch one `Agent` with `model: "fable"`. Brief it with "The Shared Brief" in `${CLAUDE_PLUGIN_ROOT}/guidelines/subagents.md`, and:
 
@@ -67,78 +67,79 @@ Launch one `Agent` with `model: "fable"`. Brief it with "The Shared Brief" in `$
 - what was agreed: the spec file's path, or the `git show` command that reads it from history, or the
   text of the PR description and its linked issues
 - the host repository's agent instruction files to read, and how to run a single test
-- "The Verification Brief" below, copied in full — the subagent has not loaded this skill
-- nothing else from this session: no summary of the work and no opinion of it
+- "The Verification Brief" below, copied in full. The subagent hasn't loaded this skill
+- nothing else from this session: no summary of the work, and no opinion of it
 
-If `fable` is unavailable, act as "When the Model Is Unavailable" in `${CLAUDE_PLUGIN_ROOT}/guidelines/subagents.md`. If no subagent can run at all, follow the brief in this session, and the report's
-`Independence` line says it was not independent.
+If `fable` is unavailable, act as "When the Model Is Unavailable" in
+`${CLAUDE_PLUGIN_ROOT}/guidelines/subagents.md` describes. If no subagent can run at all, follow the
+brief in this session. The report's `Independence` line then says it was not independent.
 
 ### The Verification Brief
 
-Evaluate the change against what was agreed, reading the code and running tests. Never edit files,
-except in the throwaway worktree under "Check that each test can fail".
+Judge the change against what was agreed. Read the code and run tests. Never edit files, except in
+the throwaway worktree under "Check that each test can fail".
 
 **Evaluate:**
 
 - **specification compliance** — does the change do what each requirement says?
-- **completeness** — is every requirement implemented, including its relevant edge cases?
+- **completeness** — is every requirement built, with its relevant edge cases?
 - **test evidence** — does a meaningful test support each requirement?
 - **agreed constraints** — does the change respect the specification's `## Design notes` and the
   host repository's agent instruction files?
 - **deviations** — what does the change do that was not agreed, or differently from what was agreed?
 
-Do not look for general defects, or report style or design opinions. A defect matters here only when
-it makes a requirement unmet.
+Don't look for general defects, and don't give opinions on style or design. A defect matters here
+only when it leaves a requirement unmet.
 
 **Sort every requirement as exactly one of:**
 
-- **verified** — for an automatable requirement, a named test that covers all of it, that you ran and
-  saw pass during this verification, and that passed "Check that each test can fail". For one marked
-  `(manual)`, a confirmation by the user recorded in `## Progress`, which you cite
-- **insufficient evidence** — it may be met, but you cannot show it: no test covers it, a test covers
-  only part of it, a test could not be run, a test still passes with the behaviour removed, or a
-  `(manual)` requirement has no recorded confirmation. Any uncertainty you cannot resolve goes here
+- **verified** — for an automatable requirement: a named test that covers all of it, that you ran and
+  saw pass in this verification, and that passed "Check that each test can fail". For one marked
+  `(manual)`: the user's confirmation recorded in `## Progress`, which you cite
+- **insufficient evidence** — it may be met, but you can't show it. No test covers it, a test covers
+  only part of it, a test could not run, a test still passes with the behaviour removed, or a
+  `(manual)` requirement has no recorded confirmation. Any doubt you can't resolve goes here
 - **unmet** — the code shows the behaviour missing or different, or its test fails
 
-**Check that each test can fail.** The tests were probably written by the agent that wrote the code,
-so a passing test proves little until it has been seen to fail. For each test you would cite as
-evidence, once per requirement:
+**Check that each test can fail.** The agent that wrote the code probably wrote the tests too. A
+passing test proves little until it has been seen to fail. For each test you would cite as evidence,
+once per requirement:
 
 1. create a throwaway worktree outside the repository, so the user's checkout stays untouched:
    `git worktree add --detach <temp-dir> HEAD`
-2. in it, remove the behaviour the requirement describes: restore the implementation files it depends
-   on (`git checkout origin/<base-branch> -- <files>`), or, when that stops the code loading, make the
-   smallest edit that takes the behaviour out. Leave the test itself alone
+2. in it, remove the behaviour the requirement describes. Restore the implementation files it depends
+   on (`git checkout origin/<base-branch> -- <files>`). If the code then no longer loads, make the
+   smallest edit that takes the behaviour out instead. Leave the test itself alone
 3. run the test there. It must fail on its assertion about the missing behaviour. A failure because
-   the code does not load shows nothing, so make a smaller edit and run it again
+   the code doesn't load shows nothing: make a smaller edit and run it again
 4. remove the worktree, whatever the result: `git worktree remove --force <temp-dir>`
 
 - **it fails** → the test counts as evidence
-- **it still passes** → the requirement is **insufficient evidence**: name the test and say it passes
+- **it still passes** → the requirement is **insufficient evidence**. Name the test, and say it passes
   without the behaviour
-- **the check cannot run**, for example because the worktree lacks dependencies or a service → the test
-  can still support **verified**, but say `not shown to fail` and why
+- **the check can't run**, such as when the worktree lacks dependencies or a service → the test can
+  still support **verified**, but say `not shown to fail`, and why
 
 **How to read the specification:**
 
 - claims in `## Progress` are not evidence, apart from a user's confirmation of a `(manual)`
   requirement. Judge from the code and the tests you ran
-- a criterion recorded as `deferred` is not sorted above: list it under deviations as already decided,
-  with its reason
+- a criterion recorded as `deferred` is not sorted above. List it under deviations as already
+  decided, with its reason
 - a criterion recorded as `changed` is checked against its current wording
 - a conflict under `## Alignment decisions` was decided by the engineer, and is not a deviation
 - a change that a refactoring in `## Refactorings` explains is planned, and is not a deviation. It is
   never evidence that something is met
-- a mode change recorded in `## Progress` was decided during implementation, and is not a deviation
-  from the plan. Do not judge whether a mode was the right choice
+- a mode change recorded in `## Progress` was decided while building, and is not a deviation from
+  the plan. Don't judge whether a mode was the right choice
 
 **List under deviations**, separately: changes in the diff that no requirement or plan item explains,
-and departures from the agreed scope, the `## Out of scope` section, the plan or the `## Design notes`.
+and departures from the agreed scope, `## Out of scope`, the plan or the `## Design notes`.
 
 **Every finding names its evidence:** the test and the command that ran it, or the `path` and symbol.
 Never state that something is met only because it looks right.
 
-**Return only this report**, writing `none` under an empty section:
+**Return only this report**. Write `none` under an empty section:
 
 ```markdown
 # Verification of <branch or PR>
@@ -167,14 +168,14 @@ Not verified: <uncommitted changes, by file> (omit if there are none)
 
 ## Step 4: Present the Report
 
-Show the report as it came back, without softening or reordering it, then:
+Show the report as it came back. Don't soften or reorder it. Then:
 
-- add that it does not cover general code defects, and that `/code-review` does
+- add that it doesn't cover general code defects, and that `/code-review` does
 - on a PR, say which branch is now checked out
 
-Do not fix anything. What to do with the findings is the engineer's decision.
+Fix nothing. The engineer decides what to do with the findings.
 
 ## STOP — Skill Complete
 
-If another skill started this one, go back to the step that called it, adding no block. Otherwise
+If another skill started this one, go back to the step that called it, and add no block. Otherwise
 end as "Ending a Skill" in `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` describes.
