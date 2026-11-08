@@ -157,6 +157,9 @@ skills/verify/SKILL.md|"The Shared Brief" in `${CLAUDE_PLUGIN_ROOT}/guidelines/s
 skills/1-plan/SKILL.md|"The Shared Brief" in `${CLAUDE_PLUGIN_ROOT}/guidelines/subagents.md`
 skills/2-implement/SKILL.md|"The Shared Brief" in `${CLAUDE_PLUGIN_ROOT}/guidelines/subagents.md`
 skills/assess-architecture/SKILL.md|"The Shared Brief" in `${CLAUDE_PLUGIN_ROOT}/guidelines/subagents.md`
+skills/1-plan/SKILL.md|"The Design-Check Brief" in `${CLAUDE_PLUGIN_ROOT}/guidelines/subagents.md`
+skills/2-implement/SKILL.md|"The Design-Check Brief" in `${CLAUDE_PLUGIN_ROOT}/guidelines/subagents.md`
+skills/assess-architecture/SKILL.md|"The Design-Check Brief" in `${CLAUDE_PLUGIN_ROOT}/guidelines/subagents.md`
 skills/1-plan/SKILL.md|**Implement in a fresh context**
 guidelines/git-workflow.md|finish this skill's own work, including its commits, start nothing, and tell the user to run `/clear`, then the next skill
 guidelines/git-workflow.md|The fresh-context option carries the recommendation whenever continuing would, and is not recommended when continuing isn't
@@ -198,6 +201,14 @@ done <<< "$old_format"
 search_warnings="$(grep -rlF -- '--search`' "$plugin/skills" "$plugin/guidelines")"
 [ "$search_warnings" = "$plugin/guidelines/git-workflow.md" ]
 report $? "only git-workflow.md warns against \`gh pr list --search\`"
+
+design_check_copies="$(
+  for file in "$plugin"/skills/*/SKILL.md "$plugin"/guidelines/*.md; do
+    on_one_line "$file" | grep -qF 'the rules it points to in `code-standards.md`' && echo "$file"
+  done
+)"
+[ "$design_check_copies" = "$plugin/guidelines/subagents.md" ]
+report $? "only subagents.md says what a design-check brief copies"
 
 handle_review="$plugin/skills/5-handle-review/SKILL.md"
 guidance_line="$(grep -n -m1 -F 'Worth examining' "$handle_review" | cut -d: -f1)"

@@ -296,8 +296,7 @@ Launch one `Agent` with `model: "fable"`. Brief it with "The Shared Brief" in `$
 - the path to `SPEC.md` and the repository root
 - if there is an index, its directory and the **Reading the Index** steps from
   `${CLAUDE_PLUGIN_ROOT}/skills/map-architecture/SKILL.md`, copied in full
-- `systemic-refactoring.md` and the rules it points to in `code-standards.md`, copied. The subagent
-  hasn't loaded the guidelines
+- "The Design-Check Brief" in `${CLAUDE_PLUGIN_ROOT}/guidelines/subagents.md`
 - to search the domain's own words for where this behaviour belongs, what already implements related
   rules or abstractions, and which boundaries apply. It widens the search only on evidence
 - to return only the **Design notes** below, and each finding classified as **enabling** (makes this

@@ -299,8 +299,7 @@ On **Run the review**, launch one `Agent` with `model: "fable"`. Brief it with
   built, and to say where they no longer hold
 - if there is an index, its directory and the **Reading the Index** steps from
   `${CLAUDE_PLUGIN_ROOT}/skills/map-architecture/SKILL.md`, copied in full
-- `systemic-refactoring.md` and the rules it points to in `code-standards.md`, copied. The subagent
-  hasn't loaded the guidelines
+- "The Design-Check Brief" in `${CLAUDE_PLUGIN_ROOT}/guidelines/subagents.md`
 - to return only findings, each with its **Classification** and every field under **What every
   finding states** in `systemic-refactoring.md`, or one line saying it found none
 

@@ -142,5 +142,15 @@ class StaticChecks(unittest.TestCase):
         self.assertIn("FAIL - guidelines/specification.md records a finding in the five fields", result.stdout)
 
 
+    def test_another_copy_of_the_design_check_brief_fails(self):
+        copy = self.copy_of_the_repository()
+        skill = copy / "plugins" / "aido" / "skills" / "verify" / "SKILL.md"
+        skill.write_text(skill.read_text() + "\n- `systemic-refactoring.md` and the rules it points to in\n  `code-standards.md`, copied\n")
+
+        result = self.run_checks(copy)
+
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("FAIL - only subagents.md says what a design-check brief copies", result.stdout)
+
 if __name__ == "__main__":
     unittest.main()

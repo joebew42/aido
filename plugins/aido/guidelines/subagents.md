@@ -1,7 +1,7 @@
 # Briefing Subagents
 
 A subagent knows only its brief. Each skill that launches one lists what its brief holds, and points
-here for the parts every brief shares.
+here for the parts briefs share.
 
 ## The Shared Brief
 
@@ -11,6 +11,11 @@ Add these to the skill's own bullets:
   follows it. The sections and labels it is asked for stay as they are, and it returns a report and
   adds no ending block
 - never to edit files, unless the skill's own brief names an exception
+
+## The Design-Check Brief
+
+A subagent that runs a design check also gets `systemic-refactoring.md` and the rules it points to in
+`code-standards.md`, both from the same folder as this file, copied. It hasn't loaded the guidelines.
 
 ## When the Model Is Unavailable
 

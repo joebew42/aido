@@ -48,8 +48,7 @@ Launch one `Agent` per area with `model: "fable"`, in parallel. Brief each with
 - to look across the area's boundary by searching the other areas' files for this area's rules and
   terms, as **Reading the Index** in `${CLAUDE_PLUGIN_ROOT}/skills/map-architecture/SKILL.md`
   describes. Not by reading them whole
-- `systemic-refactoring.md` and the rules it points to in `code-standards.md`, copied. The subagent
-  hasn't loaded the guidelines
+- "The Design-Check Brief" in `${CLAUDE_PLUGIN_ROOT}/guidelines/subagents.md`
 - to apply it inside the area **and** across its boundary, such as the same rule enforced in this area
   and another
 - to treat the index as a map only, and read the code before claiming anything
