@@ -71,6 +71,7 @@ Resolve it once per skill run with `git symbolic-ref --short refs/remotes/origin
 - implementations of collaborators (e.g. `PostgresqlTaskRepository`; see "Collaborators and their implementations" in `code-standards.md`) go in their own commit, after application code and before API-layer commits
 - database migrations and any generated schema snapshot go in their own commit, separate from model and application code — even when a migration and its model are created together, split them
 - commit **stand-alone** refactoring separately with a `refactor:` prefix — that is any refactoring of code that existed before the feature, even when the feature motivated it (an enabling refactoring planned up front, or a systemic one found while implementing); it lands before the feature commits that depend on it. Refactoring the feature's own new code stays inside that feature's commit
+- A refactoring from `## Refactorings` always gets its own `refactor:` commit, after the feature commits, even when it only reshapes the feature's new code (see "Refactorings" in `specification.md`)
 
 ### Shape by Mode
 
