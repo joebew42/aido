@@ -189,6 +189,10 @@ while IFS= read -r file; do
   report 1 "${file#"$plugin"/} records a finding in the five fields"
 done <<< "$old_format"
 
+search_warnings="$(grep -rlF -- '--search`' "$plugin/skills" "$plugin/guidelines")"
+[ "$search_warnings" = "$plugin/guidelines/git-workflow.md" ]
+report $? "only git-workflow.md warns against \`gh pr list --search\`"
+
 handle_review="$plugin/skills/5-handle-review/SKILL.md"
 guidance_line="$(grep -n -m1 -F 'Worth examining' "$handle_review" | cut -d: -f1)"
 ending_line="$(grep -n -m1 -F '"Ending a Skill"' "$handle_review" | cut -d: -f1)"

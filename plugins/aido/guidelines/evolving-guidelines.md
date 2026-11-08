@@ -66,8 +66,8 @@ fill a quota.
    - **Accept it** → add it and commit it as step 7 describes, with no further question
    - **Look in earlier PRs** → ask how many recently merged PRs to read, with `AskUserQuestion` —
      options **5** / **10** / **20**. List them by recency with
-     `gh pr list --state merged --limit <n> --json number,title`, never with `--search`, which can
-     return PRs from other repositories. Read each one's review comments as "Reading a PR's Review
+     `gh pr list --state merged --limit <n> --json number,title`, as "Using GitHub CLI" in
+     `git-workflow.md` says. Read each one's review comments as "Reading a PR's Review
      Comments" in `git-workflow.md` describes, and no other PR's
    - **an earlier PR makes the same point** → the candidate joins the question in step 6, and its
      description cites that PR

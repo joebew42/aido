@@ -59,6 +59,8 @@ Resolve it once per skill run with `git symbolic-ref --short refs/remotes/origin
 ## Using GitHub CLI
 - use the github command line when interacting with GitHub
 - examples: fetching PR info, creating PRs, etc.
+- never use `gh pr list --search`: it can return PRs from other repositories. Read a PR you know
+  with `gh pr view <NUMBER>`, and list recent ones with `gh pr list --state <state> --limit <n>`
 
 ### Reading a PR's Review Comments
 

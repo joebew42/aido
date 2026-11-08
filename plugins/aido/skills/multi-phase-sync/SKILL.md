@@ -21,7 +21,7 @@ Load `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` and follow it in everything 
    - read the current main plan PR description with `gh pr view --json body`
    - extract all PR numbers already referenced in the roadmap (e.g. `(#41)`)
    - for each extracted PR number, fetch its latest state directly: `gh pr view <NUMBER> --json number,title,state,headRefName,mergedAt`
-   - do NOT use `gh pr list --search` — it can return results from unrelated repositories
+   - find no PR by searching, as "Using GitHub CLI" in `git-workflow.md` says
 4. based on the status of phase PRs, update:
    - the main plan PR description with current roadmap status
    - the specification if needed based on learnings from completed phases
