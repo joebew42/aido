@@ -42,9 +42,10 @@ fill a quota.
      a convention.
    - **It is actionable by someone who never saw this PR.** If understanding it requires the
      context of this ticket, it will be unreadable in three months.
-   - **It reflects a recurring pattern, not a one-off decision.** One occurrence is an anecdote.
-     Wait for the second before writing a rule; a decision made once is better recorded in the
-     code or the PR description.
+   - **It reflects a recurring pattern, not a one-off decision.** One occurrence is an anecdote,
+     and a decision made once is better recorded in the code or the PR description. A candidate
+     that passes every other check, but that only this PR's review shows, is not discarded: the
+     user decides on it in step 5.
    - **Following it would have changed an outcome.** A rule that merely describes what you
      already did, correctly and by instinct, adds reading cost and changes nothing.
 
@@ -58,13 +59,28 @@ fill a quota.
    - when neither exists, the candidate proposes creating the file the repository is more likely to
      want — `AGENTS.md` if other agent tools are used here, `CLAUDE.md` otherwise
 
-5. **Ask with `AskUserQuestion`:** "Which of these conventions should I add to this repository's agent instruction files?" — multi-select, one option per candidate:
+5. **Ask about each candidate seen only in this PR**, one `AskUserQuestion` for each, at most 2:
+   name the rule and its target file, with the exact text to add in the preview. Say that only this
+   PR's review shows it, and ask whether to add it or look for the same point in earlier PRs —
+   options **Accept it** / **Look in earlier PRs**:
+   - **Accept it** → add it and commit it as step 7 describes, with no further question
+   - **Look in earlier PRs** → ask how many recently merged PRs to read, with `AskUserQuestion` —
+     options **5** / **10** / **20**. List them by recency with
+     `gh pr list --state merged --limit <n> --json number,title`, never with `--search`, which can
+     return PRs from other repositories. Read each one's review comments as "Reading a PR's Review
+     Comments" below describes, and no other PR's
+   - **an earlier PR makes the same point** → the candidate joins the question in step 6, and its
+     description cites that PR
+   - **no earlier PR makes the same point** → say so, and ask with `AskUserQuestion` — options
+     **Add it anyway** / **Drop it**. Adding it commits it as step 7 describes
+
+6. **Ask with `AskUserQuestion`:** "Which of these conventions should I add to this repository's agent instruction files?" — multi-select, one option per candidate:
    - present **at most 2**, and only those that cleared the test — zero is a valid and common
      answer; never pad to reach a number, and with zero, skip the question
    - each option names the target file, and its preview shows the exact text to add
    - each description names the check it most strongly passes
 
-6. **Add the chosen ones:**
+7. **Add the chosen ones:**
    - add only what the user picked, with clear, concise language and an example where helpful
    - commit each target file's change on the current branch as `docs: <what the rule covers>`,
      per `git-workflow.md`
@@ -74,3 +90,12 @@ fill a quota.
 - the work was trivial or routine
 - no new patterns or conventions emerged
 - no candidate survives step 2 and the generality test in step 3
+
+## Reading a PR's Review Comments
+
+Read one PR's review comments with these two calls:
+
+- `gh pr view <NUMBER> --json number,title,url,reviews,comments` — each review's summary and the
+  conversation
+- `gh api repos/{owner}/{repo}/pulls/<NUMBER>/comments` — the comments on lines of code. `gh`
+  fills in `{owner}` and `{repo}` from the current repository
