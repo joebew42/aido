@@ -221,16 +221,8 @@ on — do not write a duplicate.
 
 ## MANDATORY: Tests Before Code
 
-Grow each unit through the cycle in `tdd.md`, at the step size its mode calls for, until it is fully
-specified:
-
-```
-contract, mapping, DTO: the unit's tests → the code → check that the tests can fail → refactor
-every other unit:       one test → its code → next test … → check that the tests can fail → refactor
-```
-
-Tests are written together only for a contract, a mapping or a DTO that relies on no existing code.
-Any other unit, also in an `inside-out` item, grows one test at a time.
+Grow each unit through the cycle in `${CLAUDE_PLUGIN_ROOT}/guidelines/tdd.md`, at the step size
+"Step Size" in `${CLAUDE_PLUGIN_ROOT}/guidelines/tdd.md` gives it, until it is fully specified.
 
 Work through each unit without stopping to present each test cycle, in every mode. Once a unit is
 committed, tell the user in a few lines what it does and which tests cover it.
@@ -417,9 +409,8 @@ The `## Progress` section of `SPEC.md` is a handoff note for the next session. K
 ## Red Flags to Watch For
 
 If you catch yourself doing any of these, STOP immediately:
-- ❌ Breaking the cycle in `tdd.md`: code before its tests, more than one failing test in a
-  unit that isn't a contract, a mapping or a DTO, a hardcoded value to pass a test, or logic no test
-  demands
+- ❌ Breaking the cycle in `tdd.md`: code before its tests, a hardcoded value to pass a test, or
+  logic no test demands
 - ❌ Taking a step that doesn't match your uncertainty: writing a unit's tests together when it isn't a
   contract, a mapping or a DTO, or when it relies on existing code
 - ❌ Committing a unit whose new tests were never seen failing with its production changes set aside

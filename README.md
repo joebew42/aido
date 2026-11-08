@@ -139,11 +139,12 @@ Each plan item names its mode and why, so you can challenge it before any code e
 
 | What's unknown | Mode&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | How it is built | History |
 | :--- | :--- | :--- | :--- |
-| Nothing: it follows existing code or a known contract | `inside-out` | Layer by layer, one test at a time where it relies on existing code | Inside-out, acceptance tests last |
-| How the parts fit, or what an interface should be | `outside-in` | One test at a time, in tracer bullet slices | One group of commits per slice |
-| Logic within one unit | `in-unit` | One test at a time in that unit | As inside-out |
+| Nothing: it follows existing code or a known contract | `inside-out` | Layer by layer | Inside-out, acceptance tests last |
+| How the parts fit, or what an interface should be | `outside-in` | In tracer bullet slices | One group of commits per slice |
+| Logic within one unit | `in-unit` | In that unit | As inside-out |
 
-A part is inside-out only if the plan can cite what it follows. When the plan proves wrong,
+In every mode, how many tests come before the code follows "Step Size" in
+[`tdd.md`](plugins/aido/guidelines/tdd.md). A part is inside-out only if the plan can cite what it follows. When the plan proves wrong,
 implementation switches the mode and tells you.
 
 ### The repository is part of the conversation

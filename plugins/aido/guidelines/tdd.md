@@ -9,12 +9,8 @@ A unit, such as a class, a service or a module, is built from its tests, at the 
 calls for (see "Step Size" in "The Modes" below).
 
 0. **BEFORE THE FIRST TEST**: run the relevant existing tests to confirm they start green
-1. **TESTS, THEN CODE**:
-   - a unit that is a contract, a mapping or a DTO, and relies on no existing code: write the tests
-     for every behaviour the plan gives it, together, then the code that makes them pass
-   - every other unit, in every mode, including an `inside-out` unit that relies on existing code:
-     write **one** test for the next behaviour, then the code for it, then the next test. Never write
-     a second test while one is failing
+1. **TESTS, THEN CODE**, at the step size "Step Size" below gives the unit: all of its tests
+   together, then the code, or one test at a time.
 
    In every mode, write the real implementation straight away: no hardcoded value to pass a test, and
    no test whose only job is to force generalizing one. Do not implement behaviour that no test
@@ -40,9 +36,11 @@ gives every feature item in a plan a mode, where the user can review it (see "Pl
 
 | What's unknown | Mode | Approach |
 | --- | --- | --- |
-| Nothing: the part conforms to existing code or a known contract | `inside-out` | Layer by layer, one test at a time where it relies on existing code |
-| How the parts fit, or what an interface should be | `outside-in` | One test at a time, in tracer bullet slices |
-| Logic within one unit | `in-unit` | One test at a time in that unit, with no direction to choose |
+| Nothing: the part conforms to existing code or a known contract | `inside-out` | Layer by layer |
+| How the parts fit, or what an interface should be | `outside-in` | In tracer bullet slices |
+| Logic within one unit | `in-unit` | In that unit, with no direction to choose |
+
+In every mode, each unit grows at the step size "Step Size" below gives it.
 
 **Inside-out is the default, and it has to be earned.** A part is inside-out only if the plan can cite
 the existing code or contract it conforms to. Otherwise the plan names the unknown. Prefer outside-in
@@ -60,15 +58,15 @@ much design you still have to **discover** versus **conform to**. Ask: *what wil
 tell me?* Anchor on uncertainty, not on layer; the examples are heuristics, not laws.
 
 - **conforming to a known shape** → **test-first**: the tests are a specification you satisfy, so
-  write the unit's tests together, then the code. Only a contract, a mapping or a DTO grows this way,
-  and only when it relies on no existing code
+  write the tests for every behaviour the plan gives the unit, together, then the code that makes them
+  pass. Only a contract, a mapping or a DTO grows this way, and only when it relies on no existing code
 - **discovering an unknown shape** → **one test at a time**: each run tells you something you couldn't
-  predict, so write one test, make it pass with the real code, and let what the run shows steer the
-  next test. For example emergent design, branchy edge cases, an expensive-to-undo abstraction,
-  domain/application services and complex domain logic, or when you feel the urge to over-engineer.
-  Existing code counts too: it may not behave as it reads, and a run after each test is what shows
-  it. `outside-in` and `in-unit` units grow this way, and so does any `inside-out` unit that relies on
-  existing code
+  predict, so write one test for the next behaviour, make it pass with the real code, and let what the
+  run shows steer the next test. Never write a second test while one is failing. For example
+  emergent design, branchy edge cases, an expensive-to-undo abstraction, domain/application services
+  and complex domain logic, or when you feel the urge to over-engineer. Existing code counts too: it
+  may not behave as it reads, and a run after each test is what shows it. `outside-in` and `in-unit`
+  units grow this way, and so does any `inside-out` unit that relies on existing code
 
 Each failure mode is a smell that you picked the wrong step size:
 
@@ -78,9 +76,8 @@ Each failure mode is a smell that you picked the wrong step size:
 
 ### `inside-out`
 
-Grow the units layer by layer: domain → application → infrastructure. A unit that relies on existing
-code grows one test at a time, because that code may not do what its name says. Only a contract, a
-mapping or a DTO that relies on no existing code has its tests written together, then its code.
+Grow the units layer by layer: domain → application → infrastructure, each at the step size "Step
+Size" gives it.
 
 ### `outside-in`
 

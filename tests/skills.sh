@@ -161,9 +161,8 @@ guidelines/tdd.md|set aside the unit's production changes
 guidelines/tdd.md|run its new tests, and confirm each one fails for the right reason. Then restore the changes
 guidelines/tdd.md|**REFACTOR**, once per unit, with all tests green
 skills/2-implement/SKILL.md|Work through each unit without stopping to present each test cycle, in every mode
-guidelines/tdd.md|a unit that is a contract, a mapping or a DTO, and relies on no existing code: write the tests for every behaviour the plan gives it, together, then the code
-guidelines/tdd.md|every other unit, in every mode, including an `inside-out` unit that relies on existing code: write **one** test for the next behaviour
-skills/2-implement/SKILL.md|Tests are written together only for a contract, a mapping or a DTO that relies on no existing code
+guidelines/tdd.md|Only a contract, a mapping or a DTO grows this way, and only when it relies on no existing code
+skills/2-implement/SKILL.md|writing a unit's tests together when it isn't a contract, a mapping or a DTO, or when it relies on existing code
 skills/5-handle-review/SKILL.md|and before the push, follow the process
 skills/5-handle-review/SKILL.md|list in `Needs you` every commit left unpushed, a convention's included
 EOF_PHRASES
