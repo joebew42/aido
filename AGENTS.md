@@ -32,6 +32,8 @@ install it.
 - refer to skills by their full name, `/aido:<name>`
 - a `CLAUDE.md` inside the plugin is not loaded; anything the skills need must be in a skill or a
   guideline they load
+- a PR that changes a format the skills write or read, such as the specification structure or a
+  PR description section, shows an example of it before and after in its description
 - every PR that changes the plugin bumps `version` in
   `plugins/aido/.claude-plugin/plugin.json`, following semantic versioning
 - after every change, run `claude plugin validate .` and `claude plugin validate ./plugins/aido`
