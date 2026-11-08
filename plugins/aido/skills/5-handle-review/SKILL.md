@@ -29,7 +29,8 @@ Before any implementation work:
 
 ## Process
 
-1. fetch the reviews and comments from the PR
+1. fetch the reviews and comments from the PR, as "Reading a PR's Review Comments" in
+   `${CLAUDE_PLUGIN_ROOT}/guidelines/evolving-guidelines.md` describes
 2. do an analysis of all comments and present a proposed approach for each one
 3. **use `AskUserQuestion` to confirm before implementing anything** — wait for explicit approval
    - Question: "Which review feedback should I implement?"
