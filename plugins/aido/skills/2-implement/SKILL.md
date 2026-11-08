@@ -246,6 +246,13 @@ or a boundary crossing, run a **Systemic Design Checkpoint** (below) on green, b
 with its production changes set aside, and it is refactored. Commit the unit, then move to the next
 unit.
 
+**Item done:** once every unit of a plan item or a refactoring is committed, a single session ticks
+it in `## Progress`, as "Items in Progress" in `specification.md` describes. With it, it records
+its units, any mode change, the slices built and the key decisions, as "What Progress Records"
+lists. The acceptance criteria wait for the end of the session. Then commit that before starting the
+next item, per the `SPEC.md` rule in `git-workflow.md` Special Cases. A child puts all this in its
+results instead, and the orchestrator records it.
+
 ## Systemic Design Checkpoint
 
 The REFACTOR step looks at the code just written; this checkpoint looks beyond it. The rules —

@@ -102,6 +102,10 @@ skills/2-implement/SKILL.md|tick each item that is done, plan item or refactorin
 skills/2-implement/SKILL.md|a criterion already recorded as `met`, `changed` or `deferred` keeps that result
 skills/2-implement/SKILL.md|**every plan item and refactoring is done**
 skills/2-implement/SKILL.md|Once every plan item and refactoring is done
+skills/2-implement/SKILL.md|**Item done:** once every unit of a plan item or a refactoring is committed, a single session ticks it in `## Progress`
+skills/2-implement/SKILL.md|its units, any mode change, the slices built and the key decisions
+skills/2-implement/SKILL.md|commit that before starting the next item
+skills/2-implement/SKILL.md|A child puts all this in its results instead, and the orchestrator records it
 skills/3-organize-commits/SKILL.md|Once the commits are organized, should I open the pull request?
 skills/3-organize-commits/SKILL.md|Always mark **Open the PR in a fresh context** as recommended, whatever `## Progress` says
 skills/3-organize-commits/SKILL.md|Run no tests for a commit made here, not even an outside-in slice's acceptance test
