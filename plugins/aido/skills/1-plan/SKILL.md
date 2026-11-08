@@ -198,8 +198,8 @@ On approval:
 - [ ] no open questions remain in the draft
 - [ ] the draft has Context, Intent, Out of scope and Acceptance criteria, in that order, then the
       plan
-- [ ] every acceptance criterion is numbered, specific, checkable, and marked `(manual)` when only
-      a person can confirm it
+- [ ] every acceptance criterion follows "Acceptance Criteria" in
+      `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`
 - [ ] move it: `mv SPEC.md.draft SPEC.md`
 - [ ] confirm `SPEC.md.draft` no longer exists, and continue at Step 7
 
@@ -276,8 +276,8 @@ On approval:
 - [ ] no open questions remain in the draft — resolve any with the user first
 - [ ] the alignment check ran, and each significant misalignment was revised or recorded
 - [ ] the draft has Context, Intent, Out of scope and Acceptance criteria, in that order
-- [ ] every acceptance criterion is numbered, specific, checkable, and marked `(manual)` when only
-      a person can confirm it — fix any that are not, and ask again
+- [ ] every acceptance criterion follows "Acceptance Criteria" in
+      `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md` — fix any that do not, and ask again
 - [ ] move it: `mv SPEC.md.draft SPEC.md`
 - [ ] confirm `SPEC.md.draft` no longer exists
 

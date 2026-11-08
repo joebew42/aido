@@ -12,7 +12,7 @@ never a broad scan after every cycle:
 - **before the feature is done** — once, over the whole diff against the default branch
 
 The planning and before-done checks can take long and are not always needed, so they are offered
-to the user rather than run unconditionally; the on-evidence check is part of the cycle.
+to the user rather than run unconditionally; the design check during a cycle is part of the cycle.
 
 It applies whichever testing strategy is in use: the testing strategy decides how to
 discover behaviour, the systemic check decides how widely to look before settling the design.
@@ -65,7 +65,7 @@ These shape the finding and its confidence. They are not written down.
 A finding carries no numeric scores, weightings or probabilities: they suggest a precision the
 evidence does not have.
 
-The on-evidence check during implementation writes a finding out only when it is shown to the user,
+The design check during implementation writes a finding out only when it is shown to the user,
 planned or recorded as deferred, so routine cycles stay light.
 
 **Showing a finding:** In chat, a finding is shown as one line: its Change and Why,

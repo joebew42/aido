@@ -135,7 +135,7 @@ Show the items it will run, each with the criteria it serves, and ask nothing.
 **After the last item it runs:**
 
 - **every plan item and refactoring is done** → ask about the final design review and organizing the
-  commits in one question, as "Before completion" describes. Once the review has run, it asks only
+  commits in one question, as "The final design review" describes. Once the review has run, it asks only
   about organizing. Run the review here, if chosen, then finish as "STOP — Skill Complete" describes.
   Each item's Progress is already committed
 - **the range ends before the plan does** → record the items left, name them, and say that running
@@ -164,7 +164,7 @@ A child implements plan item `<N>`, or refactoring `r<N>`, and nothing else:
   Acceptance Criteria Check covers the criteria item `<N>` serves
 - **never edit `SPEC.md`**. Wherever this skill says to record something in it, put it in the results
   instead
-- skip the final Systemic Design Checkpoint and "STOP — Skill Complete". End by returning what "Child
+- skip the final design review and "STOP — Skill Complete". End by returning what "Child
   Results" lists, adding no ending block
 - **a child can't ask the user.** Wherever this skill says to ask with `AskUserQuestion`, end your
   turn by returning the question instead: the item's number, the question, and each option with what
@@ -242,7 +242,7 @@ In REFACTOR, once per unit, also check:
 - conformance to the guidelines loaded in Step 0 (do not re-read them)
 
 Whenever a test cycle or the refactoring reveals a possibly shared concept, a duplicated business rule
-or a boundary crossing, run a **Systemic Design Checkpoint** (below) on green, before going on.
+or a boundary crossing, run a **design check** (below) on green, before going on.
 
 **Unit done:** when every behavior the plan gives that unit has a test, all are green, they failed
 with its production changes set aside, and it is refactored. Commit the unit, then move to the next
@@ -255,12 +255,13 @@ lists. The acceptance criteria wait for the end of the session. Then commit that
 next item, per the `SPEC.md` rule in `git-workflow.md` Special Cases. A child puts all this in its
 results instead, and the orchestrator records it.
 
-## Systemic Design Checkpoint
+## Design Checks
 
-The REFACTOR step looks at the code just written; this checkpoint looks beyond it. The rules —
+The REFACTOR step looks at the code just written. The **design check** during a cycle and the **final
+design review** before completion look beyond it. The rules —
 what to look for, the evidence rule, what every finding states, the four outcomes, the boundaries
 and when to stop — are in
-`${CLAUDE_PLUGIN_ROOT}/guidelines/systemic-refactoring.md`. Read it the first time a checkpoint runs. It runs in every mode alike, and **never**
+`${CLAUDE_PLUGIN_ROOT}/guidelines/systemic-refactoring.md`. Read it the first time either runs. Both run in every mode alike, and **never**
 as a broad scan after every cycle.
 
 ### Starting context
@@ -271,7 +272,7 @@ as a broad scan after every cycle.
   update it here; that belongs to planning
 - the diff, and a few searches for the domain's own vocabulary and symbols
 
-### On evidence, during TDD — session model
+### The design check, during TDD — session model
 
 Run it inline, on green, scoped to the evidence the cycle surfaced:
 
@@ -288,11 +289,11 @@ Run it inline, on green, scoped to the evidence the cycle surfaced:
    `systemic-refactoring.md`, and park them as
    **Parking an opportunity** in `systemic-refactoring.md` describes, then carry on with the unit
 
-### Before completion — `fable` subagent
+### The final design review — `fable` subagent
 
 Run it after the Acceptance Criteria Check below, so it reviews the code that the check may have
 added. Once every plan item and refactoring is done — not at the end of a partial session — the
-checkpoint is due over the whole feature. It runs once: when `## Progress` says it ran or was skipped,
+final design review is due over the whole feature. It runs once: when `## Progress` says it ran or was skipped,
 it is not offered again, and the question below offers only the next step. It can take long and is not
 always needed, so ask first — `AskUserQuestion`: "Should I run a final design review over the whole feature?" —
 options **Run the review** / **Skip it**:
@@ -352,7 +353,7 @@ committed, and tell the user.
 
 ## Acceptance Criteria Check
 
-Before ending the session — and before the final Systemic Design Checkpoint when the last plan
+Before ending the session — and before the final design review when the last plan
 items are done — check the acceptance criteria. This is what verifies the specification's intent,
 not only the plan.
 
@@ -409,7 +410,7 @@ The `## Progress` section of `SPEC.md` is a handoff note for the next session. K
 - record any key decisions made during implementation (e.g., design choices, deviations from spec)
 - list **Deferred refactorings**, each with every field under **What every finding states** in
   `systemic-refactoring.md`, its evidence as `path` — `Symbol`, and why it was deferred
-- if the user skipped the final Systemic Design Checkpoint, say so in plain words: "the final design review was skipped"
+- if the user skipped the final design review, say so in plain words: "the final design review was skipped"
 - if the final design review planned refactorings, say so with their codes: "the final design review
   ran and recorded r1, r2"
 
@@ -424,9 +425,9 @@ If you catch yourself doing any of these, STOP immediately:
 - ❌ Committing a unit whose new tests were never seen failing with its production changes set aside
 - ❌ Committing without the per-commit gate, or against the commit message rules
 - ❌ Merging two pieces of code because they look alike, without confirming they share a business meaning
-- ❌ Cleaning up unrelated modules during a systemic checkpoint
+- ❌ Cleaning up unrelated modules during a design check
 - ❌ Running a broad codebase scan after every cycle
-- ❌ Declaring the feature done without running the final Systemic Design Checkpoint or asking
+- ❌ Declaring the feature done without running the final design review or asking
   whether to skip it
 - ❌ Growing a plan item's units before its automatable criteria have a red goal post
 - ❌ Writing an edge case of an outside-in item before its first slice is connected through the entry
@@ -442,7 +443,7 @@ If you catch yourself doing any of these, STOP immediately:
 ## STOP — Skill Complete
 
 When all units of work are implemented and committed, the Acceptance Criteria Check is done — and,
-if this session finished the last plan items or refactorings, the final Systemic Design Checkpoint
+if this session finished the last plan items or refactorings, the final design review
 has run, now or in an earlier session, or the user chose to skip it:
 
 1. **Finish `## Progress`**. Each item done is already recorded there, as "Item done" describes, so
