@@ -66,13 +66,10 @@ finished run, so its case runs to the end. The checks on finished
 work for an outside-in feature are in `implement-finishes-the-feature`. They used to be in each
 `implement-*` case that checks an order.
 
-The free checks are:
+The free checks run with:
 
 ```bash
-bash tests/hooks.sh
-bash tests/skills.sh
-python3 tests/test_skills.py
-python3 tests/test_evals.py
+bash tests/all.sh
 ```
 
 `tests/skills.sh` fails in three cases: a skill or guideline names a section that doesn't exist, a

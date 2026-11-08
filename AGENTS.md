@@ -11,8 +11,7 @@ install it.
 - `plugins/aido/guidelines/` — the guidelines the skills load
 - `plugins/aido/.claude-plugin/icon.png` — the plugin's marketplace icon
 - `plugins/aido/hooks/hooks.json` — the plugin's hooks, each running a script next to it
-- `tests/` — free checks for the hook scripts and the skills; run `tests/hooks.sh`, which needs `jq`,
-  `tests/skills.sh` and `tests/test_skills.py`, on every change
+- `tests/` — free checks for the hook scripts and the skills
 - `plugins/aido/evals/` — eval cases that measure the skills' behaviour against plain Claude Code.
   Run the full round from time to time, such as before a release, as `docs/evals.md` describes, and
   commit the results it updates. `tests/test_evals.py` checks the runner for free
@@ -36,7 +35,8 @@ install it.
   PR description section, shows an example of it before and after in its description
 - every PR that changes the plugin bumps `version` in
   `plugins/aido/.claude-plugin/plugin.json`, following semantic versioning
-- after every change, run `claude plugin validate .` and `claude plugin validate ./plugins/aido`
+- after every change, run `tests/all.sh`. It runs the free checks, which need `jq`, and
+  `claude plugin validate` on the marketplace and the plugin
 - when a change is a risky change to how agents behave, in a skill or a guideline, propose one run of
   the matching eval cases as `docs/evals.md` describes, and ask first, because they are billed to an API
   account or count against a subscription's limits. Other changes rely on the free checks and the next
