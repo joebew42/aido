@@ -39,6 +39,11 @@ about, and say what each option does.
 **An approval also settles the choice that follows it.** Ask both in the same `AskUserQuestion` call,
 so the user is interrupted once per stage. The second answer counts only on approval.
 
+**Picking from a list.** When the user picks items from a numbered list, ask one `AskUserQuestion`:
+
+- **4 items or fewer** → multi-select, one option per title
+- **more than 4** → options **All** / **None** / **By number** (the user types the numbers)
+
 ## Showing What Changed
 
 When a skill asks the user to approve a document they have already seen, such as a draft, a

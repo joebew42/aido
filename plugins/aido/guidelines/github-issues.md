@@ -11,10 +11,8 @@ The skill first shows the points, numbered, and then supplies:
 
 ## Pick the Issues
 
-- **4 points or fewer** → multi-select `AskUserQuestion`: "Which of these should become GitHub
-  issues?" — one option per title
-- **more than 4** → `AskUserQuestion`: "Which of these should become GitHub issues?" — options
-  **All** / **None** / **By number** (the user types the numbers)
+Ask "Which of these should become GitHub issues?", as "Asking Questions" in `language.md` describes
+for picking from a list.
 
 On none, stop.
 

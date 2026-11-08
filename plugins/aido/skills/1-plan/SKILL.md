@@ -351,10 +351,9 @@ current code:
 - **no opportunity fits** → say so in one line and continue
 - **some still hold** → show each one as **Showing a finding** in `systemic-refactoring.md` describes, from its file's
   **Change** and **Why** (`## Refactoring` and `## Why it matters` in a file parked before these
-  fields), then ask which to pull in:
-  - **4 or fewer** → multi-select `AskUserQuestion`: "These saved refactoring ideas fit this work. Which should I include?" — one option per title
-  - **more than 4** → the same question, with options **All** / **None** / **By number** (the user
-    types the numbers)
+  fields), then ask "These saved refactoring ideas fit this work. Which should I include?", as
+  "Asking Questions" in `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` describes for picking from a
+  list
 
 Each one pulled in becomes an **enabling** plan item that names its file. The rest stay parked.
 

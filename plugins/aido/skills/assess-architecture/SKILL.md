@@ -85,11 +85,9 @@ result.
 
 ## Step 4: Park the Opportunities
 
-Ask which of the numbered candidates shown in Step 3 to park:
-
-- **4 candidates or fewer** → multi-select `AskUserQuestion`: "Which of these should I save for later?" — one option per title
-- **more than 4** → `AskUserQuestion`: "Which of these should I save for later?"
-  — options **All** / **None** / **By number** (the user types the numbers)
+Ask which of the numbered candidates shown in Step 3 to park: "Which of these should I save for
+later?", as "Asking Questions" in
+`${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` describes for picking from a list.
 
 Park each picked candidate as **Parking an opportunity** in `systemic-refactoring.md` describes. Its
 **Category** names the design smell. When a file with the same
