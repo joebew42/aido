@@ -61,11 +61,9 @@ The answer becomes the **last** commit of the structure below:
 ## Commit Organization Rules
 
 `git-workflow.md` defines every rule for organizing commits. This skill **applies** them to the
-existing history. Its "Before Every Commit" gate applies to every commit made here, except the test
-run. Run no tests for a commit made here, not even an outside-in slice's acceptance test: the commits
-were tested while they were built. Linting, the search for old references and the comment clean-up
-still apply to every commit. The tests run once, at the end, as "Run the Tests Once" describes. The
-very last commit is the `SPEC.md` outcome chosen in Step 1.
+existing history. Its "Before Every Commit" gate applies to every commit made here, with the one
+exception for this skill that it describes. The tests run once, at the end, as "Run the Tests Once"
+describes. The very last commit is the `SPEC.md` outcome chosen in Step 1.
 
 This skill owns **final history shaping**: the order, the splits and the `SPEC.md` outcome.
 `/aido:2-implement` made the working commits, one per unit.
@@ -126,9 +124,9 @@ and return to its "Wrap Up" once the commits are organized.
 
 ## Run the Tests Once
 
-Once the new history is settled, run the relevant tests once, on the final commit. "Before Every
-Commit" in `git-workflow.md` says which tests are relevant. This is the only test run this skill
-makes.
+Once the new history is settled, run the relevant tests on the final commit, as the exception in
+"Before Every Commit" in `git-workflow.md` describes. That section also says which tests are
+relevant. This is the only test run this skill makes.
 
 When it passes, check the Final Checklist, then hand off as the user chose, with no further test run.
 

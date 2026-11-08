@@ -152,5 +152,15 @@ class StaticChecks(unittest.TestCase):
         self.assertEqual(result.returncode, 1)
         self.assertIn("FAIL - only subagents.md says what a design-check brief copies", result.stdout)
 
+    def test_organizing_commits_explaining_its_test_run_again_fails(self):
+        copy = self.copy_of_the_repository()
+        skill = copy / "plugins" / "aido" / "skills" / "3-organize-commits" / "SKILL.md"
+        skill.write_text(skill.read_text() + "\nThe commits were tested while they were built.\n")
+
+        result = self.run_checks(copy)
+
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("FAIL - only git-workflow.md says why organizing commits runs the tests once", result.stdout)
+
 if __name__ == "__main__":
     unittest.main()

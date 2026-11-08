@@ -18,8 +18,9 @@ task complete:
   allow
 
 One exception: `/aido:3-organize-commits` runs the relevant tests once, on the final commit, instead
-of at each commit. The commits it reshapes were tested while they were built. The rest of the gate
-still applies to each of its commits.
+of at each commit. The commits it reshapes were tested while they were built, so it runs no tests for
+a single commit, not even an outside-in slice's acceptance test. Linting, the search for old
+references and the comment clean-up still apply to each of its commits.
 
 ### Commit Message Format
 
