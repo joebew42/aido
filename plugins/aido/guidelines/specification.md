@@ -162,6 +162,16 @@ The plan of a feature or a phase also follows these rules. The phases of a main 
 - `AC4: deferred — <why>`
 - `AC5: unchecked` — its plan items are not done yet
 
+### Items in Progress
+
+`## Progress` ticks each item that is done, plan item or refactoring alike, on one line with its code
+and title, so every skill reads the same line to know what is left:
+
+- `- [x] <code>. <title>`, such as `- [x] 3. list the open tasks` or `- [x] r1. <title>`
+
+An item is done only when its line is ticked. An item not done yet has no line, or an unticked one:
+`- [ ] 4. <title>`.
+
 ### Modes and Slices in Progress
 
 `## Progress` records what was actually built where it differs from, or adds to, the plan, because

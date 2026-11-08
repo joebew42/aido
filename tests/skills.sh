@@ -92,6 +92,8 @@ skills/verify/SKILL.md|Every finding names its evidence
 skills/verify/SKILL.md|are not evidence
 guidelines/systemic-refactoring.md|Evidence before action
 guidelines/git-workflow.md|every push needs the user's approval
+guidelines/specification.md|An item is done only when its line is ticked
+guidelines/specification.md|`- [x] r1. <title>`
 guidelines/language.md|show a short plain-language list of what changed since the user last saw it
 guidelines/language.md|The first time a document is shown, show it whole
 guidelines/language.md|When the user asks to see the whole document, show it whole

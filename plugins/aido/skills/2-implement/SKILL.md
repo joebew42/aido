@@ -99,7 +99,7 @@ full specification and guidelines in view. Only the orchestrator writes `SPEC.md
 **Before the first child:** run Step 0 and Step 0.5 once, then choose the items to run, in plan
 order:
 
-- **`loop`** → every plan item not ticked in `## Progress`
+- **`loop`** → every plan item not done, as "Items in Progress" in `specification.md` describes
 - **a range** → the items in it. Skip those already ticked in `## Progress`, and name them
 - **a range that names an item the plan doesn't have** → don't start the loop, and say why
 
@@ -116,7 +116,7 @@ Show the items it will run, each with the criteria it serves, and ask nothing.
    - the working tree is clean
    - lint and the whole test suite pass
 3. **all three pass** → record the item in `## Progress` as "What Progress Records" lists, from the
-   child's results, with the item ticked. For a `changed` criterion, also update its wording in
+   child's results, with the item ticked as "Items in Progress" in `specification.md` describes. For a `changed` criterion, also update its wording in
    `## Acceptance criteria`, keeping its ID. Commit it per the `SPEC.md` rule in `git-workflow.md`
    Special Cases, then start the next item's child
 4. **one fails** → stop the loop. Report what failed, and the items not yet run. Tick nothing for
@@ -362,6 +362,8 @@ shaping** is not done here — `/aido:3-organize-commits` owns it.
 The `## Progress` section of `SPEC.md` is a handoff note for the next session. Keep it brief:
 
 - list each implemented unit of work (checked off)
+- tick each plan item that is done, as "Items in Progress" in
+  `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md` describes
 - record the slices built for each outside-in item and every mode change, as "Modes and Slices in
   Progress" in "The Specification Structure" describes
 - note any units remaining (if session ended early)
