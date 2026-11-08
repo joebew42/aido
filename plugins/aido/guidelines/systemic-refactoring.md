@@ -37,18 +37,21 @@ discover behaviour, the systemic check decides how widely to look before settlin
 - a session that receives a finding from a subagent opens the cited files and confirms the finding
   against the current code before relying on it; each skill says which findings this covers
 
-**What every finding states:**
+**Before recording a finding**, weigh it:
 
-- **Observation** — what the code shows, leaving out anything inferred
-- **Evidence** — `path` — `Symbol`, one line each
-- **Competing explanations** — the other explanations considered and what settled each, always
-  including that no change is needed
-- **Assumptions** — what the finding takes to be true that the code does not show, or `none`
-- **Confidence** — high, medium or low, as defined below
-- **What would change it** — the evidence that would change the conclusion
-- **Recommendation** — the smallest useful refactoring
-- **Why it matters** — what the problem costs the design if it stays, such as a rule changed in
-  two places
+- the competing explanations for what the code shows, always including that no change is needed, and
+  what settles each
+- what the finding assumes that the code does not show
+- what evidence would change the conclusion
+
+These shape the finding and its confidence. They are not written down.
+
+**What every finding states**, in short plain sentences:
+
+- **Change** — the smallest useful refactoring
+- **Why** — what the code shows, and what it costs if it stays, such as a rule changed in two places
+- **Where** — `path` — `Symbol`, one line each
+- **Confidence** — high, medium or low, as defined below, with its reason when it isn't high
 - **Risk** — behaviour or consumers that could be affected
 
 **Confidence** rests on the strength of the evidence, not on how plausible the finding sounds:
@@ -62,10 +65,10 @@ discover behaviour, the systemic check decides how widely to look before settlin
 A finding carries no numeric scores, weightings or probabilities: they suggest a precision the
 evidence does not have.
 
-The on-evidence check during implementation writes this reasoning out only for a finding shown to
-the user, planned or recorded as deferred, so routine cycles stay light.
+The on-evidence check during implementation writes a finding out only when it is shown to the user,
+planned or recorded as deferred, so routine cycles stay light.
 
-**Showing a finding:** In chat, a finding is shown as one line: its Recommendation and Why it matters,
+**Showing a finding:** In chat, a finding is shown as one line: its Change and Why,
 such as "Move the due-date check into the task, so the rule lives in one place". When the user asks
 for a finding in full, show every field. A finding recorded in a file keeps every field: the
 specification's `## Design notes`, `## Refactorings` and `## Progress`, and an opportunity's file.
@@ -93,25 +96,18 @@ tracked as an issue. The session parks one worth keeping, until a planned change
   `~/.claude/repos/<repo-name>/refactoring-opportunities/YYYY-MM-DD-<refactoring-title>.md`, named
   with the day it was parked and its title in lower case with hyphens. `<repo-name>` is as
   `/aido:map-architecture` defines it
-- the file holds the nature of the refactoring, the design smell it solves and why that matters, then
-  the rest of the finding:
+- the file holds the finding:
 
   ```markdown
   # <title>
 
   Parked at `<short SHA>`.
 
-  ## Refactoring
-  <the Recommendation: what would change>
-
-  ## Design smell
-  <what kind of problem it is, and the Observation>
-
-  ## Why it matters
-  <the Why it matters field>
-
-  ## Finding
-  <Evidence, Competing explanations, Assumptions, Confidence, What would change it and Risk>
+  - **Change:** …
+  - **Why:** …
+  - **Where:** `lib/tasks.sh` — `add_task`
+  - **Confidence:** …
+  - **Risk:** …
   ```
 - before parking, look for a file with the same evidence, and do not add a second one
 - `/aido:1-plan` offers the opportunities that fit a planned change, and the file is removed once the
