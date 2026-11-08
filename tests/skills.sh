@@ -152,6 +152,7 @@ guidelines/language.md|### In a Specification
 guidelines/language.md|### In a PR
 guidelines/language.md|### In an Issue
 guidelines/subagents.md|it returns a report and adds no ending block
+guidelines/subagents.md|never to edit files, unless the skill's own brief names an exception
 skills/verify/SKILL.md|"The Shared Brief" in `${CLAUDE_PLUGIN_ROOT}/guidelines/subagents.md`
 skills/1-plan/SKILL.md|"The Shared Brief" in `${CLAUDE_PLUGIN_ROOT}/guidelines/subagents.md`
 skills/2-implement/SKILL.md|"The Shared Brief" in `${CLAUDE_PLUGIN_ROOT}/guidelines/subagents.md`

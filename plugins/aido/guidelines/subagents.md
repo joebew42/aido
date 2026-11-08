@@ -10,7 +10,7 @@ Add these to the skill's own bullets:
 - `language.md`, from the same folder as this file, copied in full, so what the subagent returns
   follows it. The sections and labels it is asked for stay as they are, and it returns a report and
   adds no ending block
-- never to edit files
+- never to edit files, unless the skill's own brief names an exception
 
 ## When the Model Is Unavailable
 
