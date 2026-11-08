@@ -24,10 +24,9 @@ Load `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` and follow it in everything 
 
 ### Review and Refine Feature Spec
 
-The specification lives in `SPEC.md`; its working draft is `SPEC.md.draft`, which is never
-committed. The two never exist together:
+The specification lives in `SPEC.md`, and its draft in `SPEC.md.draft`, as "The Specification
+File" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md` describes:
 
-- **both exist** → delete `SPEC.md.draft` and tell the user
 - **only `SPEC.md.draft` exists** → approve and refine it with the user as `/aido:1-plan` Step 2
   (**Approve the draft**) and Step 3 do, without the question about the enabling refactoring
   analysis — rewriting it into "The Specification Structure" in

@@ -29,8 +29,14 @@ After a clash (step 4), offer with `AskUserQuestion` to record the choice in the
 feature branch right after the spec commit as `docs: name the feature specification file`.
 
 Skills write **`SPEC.md`** and **`SPEC.md.draft`** for readability; read them as the resolved spec
-file and its draft. Resolve once per skill run. Never keep a draft next to its spec file: when you find both, delete the
-draft and tell the user.
+file and its draft. Resolve once per skill run.
+
+The draft is refined with the user and is **never committed**. The spec file holds the approved
+specification, then the plan and the design notes. It is committed first on the feature branch, as
+"Special Cases" in `git-workflow.md` describes, and every later skill reads it.
+
+**Never keep a draft next to its spec file.** Whenever you find both, or right after you create the
+spec file, delete the draft and tell the user.
 
 ### Reading the Approved Specification
 

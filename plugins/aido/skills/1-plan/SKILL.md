@@ -14,19 +14,10 @@ Load `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` and follow it in everything 
 
 ## The Specification Files
 
-Planning moves through two files at the repository root:
-
-- **`SPEC.md.draft`** — the working draft. It is refined together with the user and is **never
-  committed**
-- **`SPEC.md`** — the approved specification, plus the plan and design notes. It is committed as
-  the first commit of the feature branch and is what every later skill reads
-
-Some repositories already have a `SPEC.md` of their own, so the actual file name is resolved in
-Step 1 by "The Specification File" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`.
-Below, `SPEC.md` and `SPEC.md.draft` stand for the resolved spec file and its draft.
-
-**Never leave both.** Whenever `SPEC.md` exists, `SPEC.md.draft` must not: when you find both, or
-right after you create `SPEC.md`, delete `SPEC.md.draft` and tell the user you did.
+Planning refines `SPEC.md.draft` with the user, then moves it to `SPEC.md`. They stand for the spec
+file and its draft, which Step 1 resolves. "The Specification File" in
+`${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md` holds the rules for both: their names, which is
+committed, and that they never exist together.
 
 The stages are strictly in order. Each approval also settles the choice that follows it, in the same
 `AskUserQuestion` call, so the user is interrupted once per stage:
@@ -65,11 +56,9 @@ Before starting any planning work:
 
 ## Step 1: Check the Specification State
 
-Resolve the spec file first: read the host repository's `CLAUDE.md` and `AGENTS.md` for a named
-location, then apply the rule in "The Specification File" in
-`${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`. On a clash, ask where the spec should go
-as that rule describes, and remember whether the user wants the choice recorded — it is committed
-in Step 7.
+Resolve the spec file as "The Specification File" in
+`${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md` describes. On a clash, remember whether the
+user wants the choice recorded: it is committed in Step 7.
 
 - **`SPEC.md` exists** → the specification is already approved. Delete `SPEC.md.draft` if it is
   there, read `SPEC.md`, and continue at Step 4
@@ -450,9 +439,8 @@ Only proceed here when all of these hold:
 ### Commit the Specification
 
 - [ ] commit `SPEC.md` with the exact message `docs: feature specification` (other commit conventions per `git-workflow.md`)
-- [ ] if, after a clash, the user chose to record the spec file name, add that line to the host
-      repository's `CLAUDE.md` (or `AGENTS.md`) and commit it next as
-      `docs: name the feature specification file`
+- [ ] if, after a clash, the user chose to record the spec file name, record and commit it as "The
+      Specification File" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md` describes
 
 ## Step 8: Hand Off
 

@@ -31,7 +31,8 @@ Before any implementation work:
 
 - check for the presence of the `SPEC.md` file — if not present, stop; if only `SPEC.md.draft`
   exists, tell the user the specification isn't approved yet and to run `/aido:1-plan`
-- if `SPEC.md.draft` exists next to `SPEC.md`, delete it and tell the user
+- if `SPEC.md.draft` exists next to `SPEC.md`, act as "The Specification File" in
+  `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md` says
 - read `SPEC.md` to understand the full scope
 - note whether it has numbered acceptance criteria (`AC1`, `AC2`, …) as "The Specification
   Structure" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md` describes. If it has

@@ -148,8 +148,8 @@ normally inside-out, citing the original work>
 - propose the plan and **wait for explicit user approval**, as "Approve the plan" in
   `/aido:1-plan` Step 6 does, leaving its question on how to continue to Step 6 below; update the
   draft with any changes the user asks for
-- once approved, move it with `mv SPEC.md.draft SPEC.md` and confirm `SPEC.md.draft` is gone —
-  the two files never exist together
+- once approved, move it with `mv SPEC.md.draft SPEC.md`, then follow "The Specification File" in
+  `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md` for the draft
 - commit **only** `SPEC.md` with the exact message
   `docs: feature specification` — in carry-over mode the original changes stay uncommitted for
   `/aido:2-implement` to commit incrementally
