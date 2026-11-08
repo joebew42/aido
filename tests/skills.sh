@@ -161,6 +161,8 @@ skills/2-implement/SKILL.md|Work through each unit without stopping to present e
 guidelines/tdd.md|a unit that is a contract, a mapping or a DTO, and relies on no existing code: write the tests for every behaviour the plan gives it, together, then the code
 guidelines/tdd.md|every other unit, in every mode, including an `inside-out` unit that relies on existing code: write **one** test for the next behaviour
 skills/2-implement/SKILL.md|Tests are written together only for a contract, a mapping or a DTO that relies on no existing code
+skills/5-handle-review/SKILL.md|and before the push, follow the process
+skills/5-handle-review/SKILL.md|list in `Needs you` every commit left unpushed, a convention's included
 EOF_PHRASES
 
 for skill in "$plugin"/skills/*/SKILL.md; do
@@ -173,6 +175,12 @@ for skill in "$plugin"/skills/*/SKILL.md; do
     report $? "only 5-handle-review suggests conventions, not $name"
   fi
 done
+
+handle_review="$plugin/skills/5-handle-review/SKILL.md"
+guidance_line="$(grep -n -m1 -F 'Worth examining' "$handle_review" | cut -d: -f1)"
+ending_line="$(grep -n -m1 -F '"Ending a Skill"' "$handle_review" | cut -d: -f1)"
+[ -n "$guidance_line" ] && [ -n "$ending_line" ] && [ "$guidance_line" -lt "$ending_line" ]
+report $? "5-handle-review gives the review guidance before its ending"
 
 skill_names="$(
   for skill in "$plugin"/skills/*/SKILL.md; do

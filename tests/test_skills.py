@@ -120,6 +120,17 @@ class StaticChecks(unittest.TestCase):
         self.assertEqual(result.returncode, 1)
         self.assertIn("FAIL - 5-handle-review suggests conventions", result.stdout)
 
+    def test_review_guidance_after_the_ending_fails(self):
+        copy = self.copy_of_the_repository()
+        skill = copy / "plugins" / "aido" / "skills" / "5-handle-review" / "SKILL.md"
+        self.replace_in(skill, "Worth examining:", "Worth noting:")
+        skill.write_text(skill.read_text() + "\nWorth examining:\n")
+
+        result = self.run_checks(copy)
+
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("FAIL - 5-handle-review gives the review guidance before its ending", result.stdout)
+
 
 if __name__ == "__main__":
     unittest.main()
