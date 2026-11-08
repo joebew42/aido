@@ -146,6 +146,11 @@ guidelines/language.md|end the last message with a short block labelled `Done`, 
 guidelines/language.md|Leave out `Done` or `Decided` when it has nothing to say. `Needs you` always stays, and reads "nothing" when nothing needs the user
 guidelines/language.md|When the result is a report, show the report unchanged, and let the block list only what needs the user
 guidelines/language.md|A skill that another skill started, and that returns to it, adds no block
+guidelines/language.md|Give a reason only when it isn't obvious or the user asks
+guidelines/language.md|### In Chat
+guidelines/language.md|### In a Specification
+guidelines/language.md|### In a PR
+guidelines/language.md|### In an Issue
 guidelines/subagents.md|it returns a report and adds no ending block
 skills/verify/SKILL.md|"The Shared Brief" in `${CLAUDE_PLUGIN_ROOT}/guidelines/subagents.md`
 skills/1-plan/SKILL.md|"The Shared Brief" in `${CLAUDE_PLUGIN_ROOT}/guidelines/subagents.md`
