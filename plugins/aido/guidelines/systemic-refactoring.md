@@ -63,7 +63,7 @@ A finding carries no numeric scores, weightings or probabilities: they suggest a
 evidence does not have.
 
 The on-evidence check during implementation writes this reasoning out only for a finding shown to
-the user or recorded as deferred, so routine cycles stay light.
+the user, planned or recorded as deferred, so routine cycles stay light.
 
 **Showing a finding:** In chat, a finding is shown as one line: its Recommendation and Why it matters,
 such as "Move the due-date check into the task, so the rule lives in one place". When the user asks
@@ -79,7 +79,9 @@ specification's `## Design notes`, `## Refactorings` and `## Progress`, and an o
 - **no action** — an intentional difference, or a hypothesis the evidence did not support
 
 When planning, nothing has been built yet, so fix now and refactor now collapse into one outcome:
-**enabling** — a refactoring that makes this feature easier and is planned before it.
+**enabling** — a refactoring that makes this feature easier and is planned before it. At the final
+design review, fix now and refactor now also collapse into one outcome: **planned** — recorded in the
+specification's `## Refactorings` and built later, like a plan item.
 
 A low-confidence finding is classified only as **defer** or **no action**, and names the evidence
 still missing.

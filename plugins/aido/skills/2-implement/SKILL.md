@@ -117,7 +117,8 @@ Show the items it will run, each with the criteria it serves, and ask nothing.
    - lint and the whole test suite pass
 3. **all three pass** → record the item in `## Progress` as "What Progress Records" lists, from the
    child's results, with the item ticked as "Items in Progress" in `specification.md` describes. For a `changed` criterion, also update its wording in
-   `## Acceptance criteria`, keeping its ID. Commit it per the `SPEC.md` rule in `git-workflow.md`
+   `## Acceptance criteria`, keeping its ID. Add each refactoring the child planned for later to
+   `## Refactorings`, with the next free code. Commit it per the `SPEC.md` rule in `git-workflow.md`
    Special Cases, then start the next item's child
 4. **one fails** → stop the loop. Report what failed, and the items not yet run. Tick nothing for
    the failed item, and record the items left
@@ -164,6 +165,8 @@ A child implements plan item `<N>` and nothing else:
 - the item's number, and the commits it made
 - what "What Progress Records" lists, for this item only, apart from the final design review's note
 - for a `changed` criterion, the wording the user agreed
+- each refactoring planned for later, with every field under **What every finding states** in
+  `systemic-refactoring.md`
 - anything this skill told the child to tell the user
 
 ## Work in the Item's Mode
@@ -254,7 +257,10 @@ Run it inline, on green, scoped to the evidence the cycle surfaced:
 3. apply fix-now and refactor-now changes in small steps, re-running the relevant tests after each
 4. before a refactoring that touches another module, ask with `AskUserQuestion`, showing the
    finding as **Showing a finding** in `systemic-refactoring.md` describes —
-   options **Refactor now** / **Defer** / **No action**
+   options **Refactor now** / **Plan it for later** / **Defer** / **No action**. On **Plan it for
+   later**, add it to `## Refactorings` with the next free code, as "Refactorings" in
+   `specification.md` describes, commit it per the `SPEC.md` rule in `git-workflow.md` Special Cases,
+   and carry on with the unit
 5. note deferred findings for the `## Progress` handoff, with every field under **What every finding states** in
    `systemic-refactoring.md`, and park them as
    **Parking an opportunity** in `systemic-refactoring.md` describes, then carry on with the unit
@@ -263,7 +269,9 @@ Run it inline, on green, scoped to the evidence the cycle surfaced:
 
 Run it after the Acceptance Criteria Check below, so it reviews the code that the check may have
 added. Once every plan item is implemented — not at the end of a partial session — the checkpoint is due
-over the whole feature. It can take long and is not always needed, so ask first —
+over the whole feature. It runs once: when `## Progress` says it ran or was skipped, it is not offered
+again, and the question below offers only the next step. It can take long and is not always needed,
+so ask first —
 `AskUserQuestion`: "Should I run a final design review over the whole feature?" —
 options **Run the review** / **Skip it**:
 
@@ -303,10 +311,15 @@ Then, in this session:
 
 1. confirm each finding before acting on it, as **Evidence before action** in
    `systemic-refactoring.md` describes
-2. present the findings as **Showing a finding** in `systemic-refactoring.md` describes; ask with `AskUserQuestion` before any that touch another module
-3. apply the accepted ones on green, in small steps, re-running the relevant tests after each
+2. present the findings as **Showing a finding** in `systemic-refactoring.md` describes, and ask with
+   `AskUserQuestion` what to do with each — options **Plan it for later** / **Defer** / **No action**
+3. add each one planned for later to `## Refactorings` with the next free code, as "Refactorings" in
+   `specification.md` describes. Change no code: each one is built later, like a plan item
 4. record the deferred ones for the `## Progress` handoff, and park them as **Parking an
    opportunity** in `systemic-refactoring.md` describes
+5. when any are planned, note it for the `## Progress` handoff, then finish as "STOP — Skill
+   Complete" describes. Refactorings now remain, so the answer about organizing the commits is not
+   acted on: the session that finishes them asks again
 
 ### Committing systemic refactorings
 
@@ -373,6 +386,8 @@ The `## Progress` section of `SPEC.md` is a handoff note for the next session. K
 - list **Deferred refactorings**, each with every field under **What every finding states** in
   `systemic-refactoring.md`, its evidence as `path` — `Symbol`, and why it was deferred
 - if the user skipped the final Systemic Design Checkpoint, say so in plain words: "the final design review was skipped"
+- if the final design review planned refactorings, say so with their codes: "the final design review
+  ran and recorded r1, r2"
 
 ## Red Flags to Watch For
 
@@ -398,6 +413,7 @@ If you catch yourself doing any of these, STOP immediately:
   without its evidence
 - ❌ Changing an acceptance criterion without the user's agreement
 - ❌ Implementing past a significant misalignment the user has not decided on
+- ❌ Applying a refactoring the final design review found, instead of adding it to `## Refactorings`
 
 ## STOP — Skill Complete
 
@@ -413,8 +429,9 @@ user chose to skip it:
    - if already pushed, add a new `docs: update feature specification` commit
 
 3. **Hand off**, without asking again:
-   - **plan items remain** → name them, and say that running `/aido:2-implement` again continues them.
-     Do not call the implementation complete, and do not offer or mention organizing the commits
+   - **plan items or refactorings remain** → name them, and say that running `/aido:2-implement` or
+     `/aido:2-implement loop` continues them. Do not call the implementation complete, and do not
+     offer or mention organizing the commits
    - **Organize the commits** → once the progress update is committed, invoke
      `/aido:3-organize-commits`. This answer approves only starting that skill: all of its own questions
      still happen. If the work can't finish cleanly, do not start it, and tell the user why
@@ -424,5 +441,5 @@ user chose to skip it:
      **Hand-off Outcomes** in `git-workflow.md` describes
 
 4. **End** as "Ending a Skill" in `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` describes, also when the
-   session stops early. With plan items left, `Needs you` names only running `/aido:2-implement`
-   again, or `/aido:2-implement loop` for an orchestrator
+   session stops early. With plan items or refactorings left, `Needs you` names only running
+   `/aido:2-implement` or `/aido:2-implement loop`

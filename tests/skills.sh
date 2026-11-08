@@ -86,6 +86,13 @@ skills/2-implement/SKILL.md|Skip those already ticked in `## Progress`, and name
 skills/2-implement/SKILL.md|a range that names an item the plan doesn't have** → don't start the loop, and say why
 skills/2-implement/SKILL.md|each with the criteria it serves, and ask nothing
 skills/2-implement/SKILL.md|the range ends before the plan does** → record the items left, name them
+skills/2-implement/SKILL.md|options **Refactor now** / **Plan it for later** / **Defer** / **No action**
+skills/2-implement/SKILL.md|Change no code: each one is built later, like a plan item
+skills/2-implement/SKILL.md|"the final design review ran and recorded r1, r2"
+skills/2-implement/SKILL.md|it is not offered again
+skills/2-implement/SKILL.md|**plan items or refactorings remain**
+skills/2-implement/SKILL.md|options **Plan it for later** / **Defer** / **No action**
+guidelines/systemic-refactoring.md|fix now and refactor now also collapse into one outcome: **planned**
 skills/3-organize-commits/SKILL.md|Once the commits are organized, should I open the pull request?
 skills/4-open-pr/SKILL.md|# Open a Pull Request
 skills/verify/SKILL.md|Every finding names its evidence
