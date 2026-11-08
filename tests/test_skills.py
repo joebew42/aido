@@ -142,5 +142,55 @@ class StaticChecks(unittest.TestCase):
         self.assertIn("FAIL - guidelines/specification.md records a finding in the five fields", result.stdout)
 
 
+    def test_another_copy_of_the_design_check_brief_fails(self):
+        copy = self.copy_of_the_repository()
+        skill = copy / "plugins" / "aido" / "skills" / "verify" / "SKILL.md"
+        skill.write_text(skill.read_text() + "\n- `systemic-refactoring.md` and the rules it points to in\n  `code-standards.md`, copied\n")
+
+        result = self.run_checks(copy)
+
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("FAIL - only subagents.md says what a design-check brief copies", result.stdout)
+
+    def test_organizing_commits_explaining_its_test_run_again_fails(self):
+        copy = self.copy_of_the_repository()
+        skill = copy / "plugins" / "aido" / "skills" / "3-organize-commits" / "SKILL.md"
+        skill.write_text(skill.read_text() + "\nThe commits were tested while they were built.\n")
+
+        result = self.run_checks(copy)
+
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("FAIL - only git-workflow.md says why organizing commits runs the tests once", result.stdout)
+
+    def test_pointing_into_a_skill_for_a_rule_fails(self):
+        copy = self.copy_of_the_repository()
+        guideline = copy / "plugins" / "aido" / "guidelines" / "github-issues.md"
+        guideline.write_text(guideline.read_text() + "\nFollow the PR description rules in `/aido:4-open-pr`.\n")
+
+        result = self.run_checks(copy)
+
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("FAIL - no guideline points into a skill for a rule", result.stdout)
+
+    def test_another_reason_for_not_hard_wrapping_fails(self):
+        copy = self.copy_of_the_repository()
+        skill = copy / "plugins" / "aido" / "skills" / "4-open-pr" / "SKILL.md"
+        skill.write_text(skill.read_text() + "\nGitHub shows a single newline as a line break.\n")
+
+        result = self.run_checks(copy)
+
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("FAIL - only github-issues.md says why GitHub bodies aren't hard-wrapped", result.stdout)
+
+    def test_pointing_into_map_architecture_for_the_index_rules_fails(self):
+        copy = self.copy_of_the_repository()
+        skill = copy / "plugins" / "aido" / "skills" / "verify" / "SKILL.md"
+        skill.write_text(skill.read_text() + "\nRead the index as `${CLAUDE_PLUGIN_ROOT}/skills/map-architecture/SKILL.md` describes.\n")
+
+        result = self.run_checks(copy)
+
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("FAIL - no skill points into map-architecture for the index rules", result.stdout)
+
 if __name__ == "__main__":
     unittest.main()

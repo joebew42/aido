@@ -4,34 +4,22 @@
 
 ### Testing Strategy: Unit vs Integration Tests
 
-When implementing features that modify business logic, use the appropriate test level:
+When a feature changes business logic, test each thing at its level:
 
-**Unit Tests**
-- add specific tests for the logic being changed
-- focus on testing method/class/function behavior directly
-- test edge cases, validation logic, and business rules at the unit level
-
-**Integration/Request Tests**
-- update existing integration tests to document end-to-end behavior
-- verify behavior through the full integration flow
-- do NOT add duplicate tests for unit-level logic
-- prefer updating existing integration tests over creating new ones for unit-level concerns
-
-**Core Principle**
-- unit tests verify specific logic changes
-- integration tests verify end-to-end behavior
-- avoid duplicating unit-level assertions in integration tests
+- **unit tests** cover the logic being changed, directly on the method, class or function: its edge
+  cases, validation and business rules
+- **integration or request tests** document the end-to-end behaviour through the full flow. Update
+  the existing ones rather than adding new ones, and don't repeat unit-level assertions in them
 
 ## Design Principles
 
 ### Architecture
 
-Clean Architecture, Hexagonal Architecture, Crafted Design and Domain-Driven Design all make the
-same point; these rules state it once, in Domain-Driven Design language, with SOLID at the class
-level.
+Clean Architecture, Hexagonal Architecture, Crafted Design and Domain-Driven Design make the same
+point. These rules state it once, in Domain-Driven Design words, with SOLID at the class level.
 
-Code is split into two areas, held together by the Dependency Rule: **infrastructure** communicates
-with the outside world, and **application / domain code** holds what the system does.
+Code is split into two areas, held together by the Dependency Rule: **infrastructure** talks to the
+outside world, and **application / domain code** holds what the system does.
 
 #### The Dependency Rule
 
@@ -46,11 +34,11 @@ database changed, a dependency points the wrong way.
 
 #### Collaborators and their implementations
 
-By default, inner code depends on a collaborator and its implementation lives in infrastructure,
-**even when there is only one implementation**. This separation is a design boundary, not
-speculative generalization; no further implementation is added until a test needs it. The
-collaborator's name follows the vocabulary the host repository already uses — `TaskRepository` or
-`Tasks` (see "don't invent domain vocabulary" under Code Quality).
+By default, inner code depends on a collaborator, and its implementation lives in infrastructure,
+**even when there is only one implementation**. This is a design boundary, not speculative
+generalization: no further implementation is added until a test needs it. The collaborator's name
+uses the host repository's words, such as `TaskRepository` or `Tasks` (see "don't invent domain
+vocabulary" under Code Quality).
 
 The default applies only when these leave the question open, in this order:
 
@@ -62,8 +50,8 @@ The default applies only when these leave the question open, in this order:
 
 #### 1. Infrastructure
 
-The outermost area, at the boundaries of the system. It comes in two kinds, and neither decides
-anything about the business.
+The outermost area, at the system's boundaries. It comes in two kinds, and neither makes business
+decisions.
 
 **What calls in** — web controllers, views, HTTP and GraphQL endpoints, CLIs, background job
 handlers, scheduled tasks, queue consumers. Each translates the external input into a use-case
@@ -71,10 +59,10 @@ request, calls the application service, and maps its response back to the outsid
 type, exit code). Concerns of the outside world — "is there a logged-in user?", serialisation,
 retries — stay here.
 
-**Keep it thin — it delegates, it doesn't decide.** A job handler that loads records, branches on a
-feature flag, writes to the database or builds a payload is doing domain work in an infrastructure
-class: `SendTaskReminderJob` only unpacks its arguments and calls `RemindUserOfDueTask`. Its test
-then documents the delegation, and the service's test documents the behaviour.
+**Keep it thin: it delegates, it doesn't decide.** A job handler that loads records, branches on a
+feature flag, writes to the database or builds a payload does domain work in an infrastructure
+class. `SendTaskReminderJob` only unpacks its arguments and calls `RemindUserOfDueTask`. Its test
+documents the delegation, and the service's test documents the behaviour.
 
 **What inner code calls out to** — repository implementations, email senders, clients of other
 systems, queue publishers. Each implements a collaborator's contract and translates between business
@@ -150,27 +138,26 @@ complete_task = CompleteTask(tasks: PostgresqlTaskRepository(), reminders: Queue
 ```
 
 ### Code Quality
-- avoid code smells like magic numbers
-- follow Single Level of Abstraction principle:
-  - a method should operate at **one** level of abstraction — don't mix high-level domain steps
-    with low-level mechanics in the same method
-  - the public entry point (e.g. a service's `call`) should read as the **domain narrative** —
-    intention-revealing steps a domain reader recognizes, not framework/persistence lingo
-  - push low-level details (ORM queries, JSON shaping, HTTP plumbing) **down** into named private
-    methods whose names state the *intent*
-- maintain clear separation of concerns
-- **avoid duplicating logic — search before extracting**: before creating a new service/utility,
-  search the relevant domain directory for an existing one that already
-  covers the need; prefer reusing or extending it over a parallel implementation
-- **don't invent domain vocabulary — use the language the project already speaks**: before coining
-  a term for a concept, check a glossary or domain-language doc if the repo has one, then the
-  vocabulary its code, tests and PR descriptions use. If a name exists, use it. If none does, some
-  domains deliberately leave a concept unnamed, so name the thing for the concepts the domain *does*
-  have, or ask the team. A plausible-sounding term (`work item`, `entity`, `record`) reads as domain
-  language to the next person, though nobody agreed to it.
-- **consistent multi-line formatting**: when a set of similar one-line definitions (constants,
-  constructor calls, etc.) needs to wrap, format them all multi-line the same way — don't leave
-  only the single over-long line wrapped while the rest stay on one line
+- avoid code smells such as magic numbers
+- follow the Single Level of Abstraction principle:
+  - a method works at **one** level of abstraction. Don't mix high-level domain steps with low-level
+    mechanics in one method
+  - the public entry point, such as a service's `call`, reads as the **domain narrative**: steps a
+    domain reader recognizes, not framework or persistence words
+  - push low-level details (ORM queries, JSON shaping, HTTP plumbing) **down** into private methods
+    whose names state the *intent*
+- keep concerns separate
+- **avoid duplicating logic — search before extracting**: before creating a new service or utility,
+  search the domain directory for one that already covers the need. Reuse or extend it rather than
+  writing a parallel one
+- **don't invent domain vocabulary — use the language the project already speaks**: before naming a
+  concept, check a glossary or domain-language doc if the repo has one, then the words its code,
+  tests and PR descriptions use. If a name exists, use it. If none does, the domain may leave the
+  concept unnamed on purpose: name the thing for the concepts the domain *does* have, or ask the
+  team. A plausible term (`work item`, `entity`, `record`) reads as domain language to the next
+  person, though nobody agreed to it.
+- **consistent multi-line formatting**: when one of a set of similar one-line definitions (constants,
+  constructor calls) needs to wrap, format them all multi-line the same way
 
 ### Depend on Third-Party Contracts, Not Internals
 
@@ -186,25 +173,24 @@ and fix the problem against the public contract.
 
 **The default is no comment.** Well-named methods, constants and tests are the documentation.
 Before writing one, ask: *would a competent reader of this codebase be wrong or stuck without it?*
-If not, delete it, and consider whether a better name would have removed the question.
+If not, delete it, and consider whether a better name would remove the question.
 
-**Machine-required comments are always fine**, because they are instructions a tool executes:
-linter, formatter, compiler and type-checker directives, file-level pragmas, and annotations a tool
-parses such as `TODO(#123)`. A directive that suppresses a rule says which rule and why in the same
-line.
+**Machine-required comments are always fine**, because a tool executes them: linter, formatter,
+compiler and type-checker directives, file-level pragmas, and annotations a tool parses, such as
+`TODO(#123)`. A directive that suppresses a rule names the rule and the reason on the same line.
 
-**Everything else** earns its place only when it carries knowledge that is **external to this
-codebase and unrecoverable by reading it**: a constraint imposed by another system, a non-obvious
-consequence of removing or changing the line, or a workaround whose reason is invisible locally.
-**Complex logic never qualifies**: extract a named method, introduce a domain term, or add a test
-that demonstrates the case. A warranted comment is one or two lines.
+**Any other comment** must carry knowledge that is **external to this codebase and can't be
+recovered by reading it**: a constraint imposed by another system, a non-obvious consequence of
+changing the line, or a workaround whose reason isn't visible locally. **Complex logic never
+qualifies**: extract a named method, introduce a domain term, or add a test that shows the case. A
+warranted comment is one or two lines.
 
-**The bar applies to your diff when editing existing code:**
+**When editing existing code, the bar applies to your diff:**
 
-- do **not** add a comment to a line or method that did not have one
-- never leave a comment that describes **your own change** — git history records that
-- when you edit a line that carries a comment, update it if it is still earned, and delete it if
-  your change made it false or redundant
+- do **not** add a comment to a line or method that had none
+- never leave a comment that describes **your own change**: git history records that
+- when you edit a line that has a comment, update it if it is still earned, and delete it if your
+  change made it false or redundant
 
 These are noise, delete on sight:
 
@@ -227,10 +213,10 @@ latest = group_by_list(reject_archived(tasks)).map(newest_task)
 ```
 
 ### Implementation Guidelines
-- **API Design**: Consistent parameter ordering (context before specifics)
-- **Code Structure**: Extract parameter objects to avoid data clumps when too many arguments are passed into a function signature
-- **Existing organization**: follow how the code around the change is already organized, even when
-  it differs from "Architecture", over introducing a new way of organizing it. Moving it to that
-  model is a separate refactoring the user decides on. This covers where things live, not bad
-  habits: new job handlers and endpoints still stay thin, even when their neighbours are not
-- **Existing tooling**: use project scripts, tasks and admin tooling over new code
+- **API Design**: keep parameter order consistent, context before specifics
+- **Code Structure**: extract a parameter object when a function takes too many arguments
+- **Existing organization**: follow how the code around the change is organized, even when it
+  differs from "Architecture", rather than introducing a new way. Moving it to that model is a
+  separate refactoring the user decides on. This covers where things live, not bad habits: new job
+  handlers and endpoints still stay thin, even when their neighbours aren't
+- **Existing tooling**: use project scripts, tasks and admin tooling rather than new code

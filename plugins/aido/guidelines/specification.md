@@ -2,50 +2,54 @@
 
 ## The Specification File
 
-The workflow keeps each feature's specification in one file at the repository root, `SPEC.md` by
-default, with its working draft next to it as the same name plus `.draft` (`SPEC.md.draft`). Some
-repositories already have a `SPEC.md` of their own, so every skill resolves the actual name with
-this rule, and the first match wins:
+Each feature's specification lives in one file at the repository root, `SPEC.md` by default. Its
+draft sits next to it, with `.draft` added (`SPEC.md.draft`). Some repositories have a `SPEC.md` of
+their own, so every skill resolves the name once per run. The first rule that matches wins:
 
-1. **The host repository names it** — its `CLAUDE.md` or `AGENTS.md` says where the workflow's
-   feature specification goes (e.g. "the aido feature specification lives in `FEATURE-SPEC.md`").
-   Use that path
-2. **The branch already has one** — on a feature branch whose history has a
-   `docs: feature specification` commit, the spec file is the file that commit added:
+1. **The host repository names it** — its `CLAUDE.md` or `AGENTS.md` says where the feature
+   specification goes (e.g. "the aido feature specification lives in `FEATURE-SPEC.md`"). Use that
+   path
+2. **The branch already has one** — the spec file is the file the branch's
+   `docs: feature specification` commit added:
    `git log --format=%H --grep='^docs: feature specification$' <default-branch>..HEAD`, then
    `git show --name-only --format= <sha>`
 3. **No clash** — `SPEC.md` does not exist on the default branch
    (`git cat-file -e origin/<default-branch>:SPEC.md` fails). Use `SPEC.md`. This workflow never
-   leaves its own spec on the default branch — `/aido:3-organize-commits` reverts it or moves it
-   into the docs — so a `SPEC.md` there belongs to the repository
+   leaves its own spec on the default branch, so a `SPEC.md` there belongs to the repository
 4. **Clash** — `SPEC.md` is the repository's own. Ask with `AskUserQuestion`: "This repository
    already has its own `SPEC.md`. Where should the feature specification go?" — options
    **`FEATURE-SPEC.md` (Recommended)** / **`docs/specs/<feature-slug>.md`**, and the user can type
    another path. Never write to the repository's own `SPEC.md`
 
-After a clash (step 4), offer with `AskUserQuestion` to record the choice in the host repository's
-`CLAUDE.md`, or `AGENTS.md` if that is the file it uses, so step 1 answers it next time — options
-**Record it** / **Not now**. On **Record it**, add one line naming the path, and commit it on the
-feature branch right after the spec commit as `docs: name the feature specification file`.
+After a clash, offer to record the choice in the host repository's `CLAUDE.md`, or `AGENTS.md` if
+that is the file it uses, so rule 1 answers it next time. Ask with `AskUserQuestion` — options
+**Record it** / **Not now**. On **Record it**, add one line naming the path. Commit it on the feature
+branch right after the spec commit, as `docs: name the feature specification file`.
 
-Skills write **`SPEC.md`** and **`SPEC.md.draft`** for readability; read them as the resolved spec
-file and its draft. Resolve once per skill run. Never keep a draft next to its spec file: when you find both, delete the
-draft and tell the user.
+Skills write **`SPEC.md`** and **`SPEC.md.draft`**: read them as the resolved spec file and its
+draft.
+
+The draft is refined with the user and is **never committed**. The spec file holds the approved
+specification, then the plan and the design notes. It is committed first on the feature branch, as
+"Special Cases" in `git-workflow.md` describes, and every later skill reads it.
+
+**Never keep a draft next to its spec file.** Whenever you find both, or right after you create the
+spec file, delete the draft and tell the user.
 
 ### Reading the Approved Specification
 
-Once the commits are organized, the spec file may already be reverted or moved into the docs, so
-read it from wherever it is now:
+Once the commits are organized, the spec file may be reverted or moved into the docs. Read it from
+where it is now:
 
 - the spec file in the working tree, or the path it was moved to (the
   `docs: move feature specification to <path>` commit)
-- otherwise, from the branch history: the content just before the
-  `revert: docs: feature specification` commit — `git show <revert-sha>^:<spec-file>`
+- otherwise, from the branch history, just before the `revert: docs: feature specification` commit:
+  `git show <revert-sha>^:<spec-file>`
 
 ## The Specification Structure
 
 Every skill that writes a specification uses this structure, and every skill that reads one relies
-on it. It is defined here only; skills refer to it rather than restating it.
+on it. Skills point here rather than restating it.
 
 ```markdown
 # <descriptive title>
@@ -91,9 +95,9 @@ GitHub Issue: <repo link>/#<NUMBER>   (or omit)
 ```
 
 **The specification states what and why, never how.** Context, Intent, Out of scope and Acceptance
-criteria are written and approved before any planning. How the change is built belongs to
-`## Plan` and `## Design notes`. A skill may add sections of its own after the title (for
-example, where the original work came from), but the required sections keep their names and order.
+criteria are approved before any planning. How the change is built belongs to `## Plan` and
+`## Design notes`. A skill may add its own sections after the title, such as where the original work
+came from. The required sections keep their names and order.
 
 **The specification is quick to read.** It follows `language.md`. Context and Intent aim for about 3
 sentences each, and may run over when the content needs it. File names and symbols stay in the plan,
@@ -101,38 +105,35 @@ unless a criterion is about that file.
 
 ### Acceptance Criteria
 
-- number them `AC1`, `AC2`, … in order; an ID is never renumbered or reused, even when a criterion
-  is changed or deferred — other sections and the commit history refer to it
-- each one is a single, specific statement that can be checked — a behaviour, not a task
-- a criterion that describes behaviour with a trigger uses a when/then shape: `AC1: When a task is
-  completed, it moves to the Done list.` One with no trigger stays one plain sentence: `AC2 (manual):
-  The Done list is easy to scan.`
-- aim for about 20 words, and go over only when the criterion would otherwise stop being checkable
-- a criterion an automated test can check is **automatable** and carries no marker; one that only
-  a person can confirm (documentation reads well, a screen looks right) is **manual**, marked
-  `(manual)` after its ID
-- group them under short plain-text labels when the list is long; the numbering stays continuous
-- a specification split into phases keeps the overall IDs in every phase: a phase carries only the
-  criteria it delivers, with their original IDs
+- number them `AC1`, `AC2`, … in order. An ID is never renumbered or reused, even when a criterion
+  is changed or deferred: other sections and the commit history refer to it
+- each one is a single, specific statement that can be checked: a behaviour, not a task
+- one with a trigger uses a when/then shape: `AC1: When a task is completed, it moves to the Done
+  list.` One with no trigger is one plain sentence: `AC2 (manual): The Done list is easy to scan.`
+- aim for about 20 words. Go over only when the criterion would otherwise stop being checkable
+- one an automated test can check is **automatable**, with no marker. One only a person can confirm,
+  such as documentation that reads well, is **manual**, marked `(manual)` after its ID
+- group a long list under short plain-text labels. The numbering stays continuous
+- in a specification split into phases, a phase carries only the criteria it delivers, with their
+  original IDs
 
 ### Alignment Decisions
 
 `## Alignment decisions` records each significant misalignment (see `repository-alignment.md`) the
-engineer chose to proceed with, one line each, so that later checks do not raise it again:
+engineer chose to proceed with, one line each, so later checks don't raise it again:
 
 - `<the conflict, with the file that shows it> — proceeding because <the engineer's reason>`
 
 ### Plan Items
 
-Each item in `## Plan` names the criteria it serves, in parentheses after its title — e.g.
+Each item in `## Plan` names the criteria it serves, in parentheses after its title, e.g.
 `1. **domain — let a list be shared** (AC1, AC3)`. Every criterion is served by at least one item.
-An item that serves none (an enabling refactoring) says so: `(enabling)`. Items use short sentences,
-and keep the criteria, mode and reason these rules ask for.
+An enabling refactoring serves none, and says so: `(enabling)`. Items use short sentences.
 
-The plan of a feature or a phase also follows these rules. The phases of a main plan, written by
-`/aido:multi-phase-spec-pr`, do not: they only name the criteria they deliver.
+These rules apply to the plan of a feature or a phase. The phases of a main plan, written by
+`/aido:multi-phase-spec-pr`, only name the criteria they deliver.
 
-- each item names the layers it touches — domain, application service, or infrastructure (see
+- each item names the layers it touches: domain, application service, or infrastructure (see
   "Architecture" in `code-standards.md`)
 - every feature item, meaning any item not marked `(enabling)`, names its mode and the reason for it
   after its title, as "The Modes" in `tdd.md` defines them:
@@ -141,7 +142,7 @@ The plan of a feature or a phase also follows these rules. The phases of a main 
     authorization in the first slice
   - `in-unit` names the unknown logic
 - enabling refactorings come first, each as its own `refactor:` item
-- the rest is ordered by dependency, with an outside-in item before any inside-out item relying on
+- the rest is ordered by dependency: an outside-in item comes before any inside-out item relying on
   the contract it discovers. Otherwise the order is inside-out: domain → application → infrastructure,
   with what inner code calls out to before what calls in
 
@@ -158,8 +159,8 @@ The plan of a feature or a phase also follows these rules. The phases of a main 
 
 ### Refactorings
 
-`## Refactorings` holds the refactorings the user accepted during implementation, to be built later,
-like plan items:
+`## Refactorings` holds the refactorings the user accepted during implementation. They are built
+later, like plan items:
 
 - each one has a code, `r1`, `r2`, …, in the order they are recorded. A refactoring's code is never
   renumbered or reused, like a criterion's ID
@@ -191,7 +192,7 @@ like plan items:
 ### Items in Progress
 
 `## Progress` ticks each item that is done, plan item or refactoring alike, on one line with its code
-and title, so `/aido:2-implement` reads the same line to know what is left:
+and title. `/aido:2-implement` reads these lines to know what is left:
 
 - `- [x] <code>. <title>`, such as `- [x] 3. list the open tasks` or `- [x] r1. <title>`
 
@@ -200,7 +201,7 @@ An item is done only when its line is ticked. An item not done yet has no line, 
 
 ### Modes and Slices in Progress
 
-`## Progress` records what was actually built where it differs from, or adds to, the plan, because
+`## Progress` records what was built where it differs from, or adds to, the plan.
 `/aido:3-organize-commits` shapes the history from it:
 
 - `Item 3 mode changed: outside-in → inside-out — <why>`
@@ -209,5 +210,5 @@ An item is done only when its line is ticked. An item not done yet has no line, 
 ### Specifications Without Acceptance Criteria
 
 A specification approved before this structure existed may have no `## Acceptance criteria` section,
-or criteria without `AC` numbers. Skills that read it work as they did before: the plan alone is
-verified, no criteria are checked, and nothing is asked about them.
+or criteria without `AC` numbers. Skills then verify the plan alone, check no criteria, and ask
+nothing about them.

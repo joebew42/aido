@@ -5,75 +5,79 @@ disable-model-invocation: false
 
 # Create Multi-Phase Specification PR
 
-Create a draft PR that serves as the main specification and tracking document for a multi-phase feature.
+Create a draft PR that holds the main specification of a multi-phase feature and tracks its progress.
 
-`SPEC.md` and `SPEC.md.draft` stand for the spec file and its draft: resolve them first, per "The
-Specification File" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`.
+Resolve `SPEC.md` and `SPEC.md.draft` first, as "The Specification File" in
+`${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md` describes.
 
-Load `${CLAUDE_PLUGIN_ROOT}/guidelines/git-workflow.md`, `${CLAUDE_PLUGIN_ROOT}/guidelines/pr-roadmap.md` and `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`.
+Load `${CLAUDE_PLUGIN_ROOT}/guidelines/git-workflow.md`, `${CLAUDE_PLUGIN_ROOT}/guidelines/pr-roadmap.md`
+and `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`.
 
 Load `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` and follow it in everything you write for a person.
 
 ## Purpose
 
-- this PR remains in draft throughout the entire implementation of the feature
-- this PR serves to keep the context of the overall feature specification and its status
-- it provides a single source of truth for tracking progress across multiple implementation PRs
+- this PR stays a draft for the whole time the feature is built
+- it keeps the feature's overall specification and its state in one place
+- it is the one place to track progress across the phase PRs
 
 ## Prerequisites
 
 ### Review and Refine Feature Spec
 
-The specification lives in `SPEC.md`; its working draft is `SPEC.md.draft`, which is never
-committed. The two never exist together:
+The specification lives in `SPEC.md`, and its draft in `SPEC.md.draft`, as "The Specification
+File" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md` describes:
 
-- **both exist** → delete `SPEC.md.draft` and tell the user
 - **only `SPEC.md.draft` exists** → approve and refine it with the user as `/aido:1-plan` Step 2
   (**Approve the draft**) and Step 3 do, without the question about the enabling refactoring
-  analysis — rewriting it into "The Specification Structure" in
-  `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`, with numbered acceptance criteria for
-  the whole feature, and running the alignment check in
-  `${CLAUDE_PLUGIN_ROOT}/guidelines/repository-alignment.md` — then move it with
+  analysis. That means rewriting it into "The Specification Structure" in
+  `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`, with numbered acceptance criteria for the
+  whole feature, and running the alignment check in
+  `${CLAUDE_PLUGIN_ROOT}/guidelines/repository-alignment.md`. Then move it with
   `mv SPEC.md.draft SPEC.md`
-- **neither exists** → ask the user to write `SPEC.md.draft`, then continue as above
+- **neither exists** → ask the user to write `SPEC.md.draft`, then go on as above
 
-**BEFORE creating the multi-phase PR, review and finalize the `SPEC.md` file.**
+**BEFORE creating the multi-phase PR, review and finish the `SPEC.md` file.**
 
-Common refinements to consider:
-- **Documentation**: Remove temporary analysis files that won't be committed
-- **References**: Keep only PRs and existing docs, remove temp files
+Common refinements:
+- **Documentation**: remove temporary analysis files that won't be committed
+- **References**: keep only PRs and existing docs, and remove temporary files
 
 ### Get the GitHub Issue (Optional)
 
-**Ask whether a GitHub issue tracks this feature, if not already provided.** When there is one, it is used for:
+**Ask whether a GitHub issue tracks this feature, unless you already have it.** If there is one, it
+is used for:
 - Branch naming
 - Feature spec header
 
 ### Review Feature Spec and Propose Implementation Plan
 
-**BEFORE creating the branch, review the `SPEC.md` file and propose a realistic implementation plan.**
+**BEFORE creating the branch, review `SPEC.md` and propose a realistic implementation plan.**
 
 Steps:
-1. Read the `SPEC.md` file thoroughly
-2. Explore the codebase as needed to understand the existing structure and relevant code
-3. Propose a phased implementation plan that includes:
-   - A brief summary of the feature and its goals
-   - A breakdown of the phases (each phase = one PR), described as high-level outcomes (not implementation details)
-   - The acceptance criteria each phase delivers, by ID — every criterion is delivered by at least one phase
-   - Any risks, dependencies, or open questions worth flagging
+1. read `SPEC.md` thoroughly
+2. explore the codebase as far as you need to understand its structure and the relevant code
+3. propose a plan in phases, with:
+   - a short summary of the feature and its goals
+   - the phases, one PR each, described as outcomes, not implementation details
+   - the acceptance criteria each phase delivers, by ID. Every criterion is delivered by at least
+     one phase
+   - any risks, dependencies or open questions worth raising
 
-**Wait for explicit user approval of the plan before proceeding.** Once approved, write the phases
-into `SPEC.md` as its `## Plan`, each naming the criteria it delivers (see "Plan Items" in "The
-Specification Structure") — `/aido:1-plan` reads them to carry each phase's criteria into its
+**Wait for explicit approval of the plan before going on.** Once approved, write the phases into
+`SPEC.md` as its `## Plan`, each naming the criteria it delivers, as "Plan Items" in "The
+Specification Structure" describes. `/aido:1-plan` reads them to carry each phase's criteria into its
 phase draft.
 
-The user may request changes to the plan (e.g., merge phases, split a phase, reorder). Iterate until approved.
+The user may ask for changes, such as merging, splitting or reordering phases. Repeat until it is
+approved.
 
 ### Create Main Plan Branch
 
-**AFTER the user approves the implementation plan, ensure you're on a branch with the main plan identifier.**
+**AFTER the user approves the plan, make sure you are on a branch with the main plan name.**
 
-Branch naming pattern: `issue-NUMBER-main-plan-FEATURE_NAME`, or `main-plan-FEATURE_NAME` when there is no issue (see **Branch Naming** in `${CLAUDE_PLUGIN_ROOT}/guidelines/git-workflow.md`)
+Branch naming pattern: `issue-NUMBER-main-plan-FEATURE_NAME`, or `main-plan-FEATURE_NAME` when there
+is no issue, as **Branch Naming** in `${CLAUDE_PLUGIN_ROOT}/guidelines/git-workflow.md` describes.
 
 ### Add the GitHub Issue to Feature Spec
 
@@ -90,14 +94,15 @@ GitHub Issue: [github repository link]/#42
 
 ## Step 1: Commit the Feature Specification
 
-Commit it as a `docs` commit with the exact message `docs: feature specification`, per
-`git-workflow.md`.
+Commit it as a `docs` commit with the exact message `docs: feature specification`, as
+`git-workflow.md` describes.
 
 ## Step 2: Push Changes
 
-Run `git push origin BRANCH_NAME`; per "Pushing Changes" in `git-workflow.md`, the permission prompt asks for the user's approval.
+Run `git push origin BRANCH_NAME`. The permission prompt asks for the user's approval, as "Pushing
+Changes" in `git-workflow.md` describes.
 
-- if the user declines: stop — the PR needs the branch on origin
+- if the user declines, stop: the PR needs the branch on origin
 
 ## Step 3: Create Draft PR
 
@@ -106,26 +111,26 @@ Create a draft PR with these sections:
 ### Required Sections
 Write each section as `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` describes.
 
-- **Context**: highlights the change we want to introduce, keeping a high-level description (not too detailed or technical)
-- **This PR**: describes the introduced changes, keeping a high-level description (not too detailed or technical)
-- **Roadmap**: outlines all the steps required to be implemented in the following PRs
-  - All items start unchecked (`- [ ]`) since no phases have been implemented yet
-  - Keep items high-level and outcome-focused
-  - Avoid implementation details (refactoring, backfilling, specific classes)
-  - Focus on what changes, not how it changes
-  - Follow the format rules in `pr-roadmap.md`
+- **Context**: the change we want to make, described at a high level, not in technical detail
+- **This PR**: what this PR adds, described at a high level, not in technical detail
+- **Roadmap**: every step the following PRs will build
+  - every item starts unchecked (`- [ ]`), since no phase is built yet
+  - keep items high-level, about outcomes
+  - leave out implementation details, such as refactorings, backfills or specific classes
+  - say what changes, not how
+  - follow the format rules in `pr-roadmap.md`
   - Example: ✅ "Let tasks repeat daily, weekly or monthly"
   - Example: ❌ "Let tasks repeat daily, weekly or monthly, refactor TaskFinder to use a request object, and backfill a recurrence rule on existing tasks"
-- **Link to `SPEC.md`**: add a link to the feature specification file at the top of the PR description
+- **Link to `SPEC.md`**: a link to the feature specification at the top of the description
 
 ### PR Guidelines Checklist
-- [ ] do not add any reference to Claude
-- [ ] do not use any prefix in the title (e.g., no issue number or semantic commit)
-- [ ] use a descriptive title instead
-- [ ] create as draft PR (not ready for review)
+- [ ] no reference to Claude
+- [ ] no prefix in the title, such as an issue number or a semantic commit type
+- [ ] a descriptive title instead
+- [ ] created as a draft PR, not ready for review
 
-Once the PR is created, or the skill stops early, end as "Ending a Skill" in `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md`
-describes, with the PR's URL in `Done`.
+Once the PR is created, or the skill stops early, end as "Ending a Skill" in
+`${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` describes, with the PR's URL in `Done`.
 
 ## Templates
 
@@ -148,4 +153,3 @@ describes, with the PR's URL in `Done`.
 - [ ] <name of the next pr/phase>
 - [ ] <name of the next pr/phase>
 ```
-

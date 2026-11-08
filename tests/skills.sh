@@ -110,14 +110,15 @@ skills/2-implement/SKILL.md|**Finish `## Progress`**. Each item done is already 
 skills/2-implement/SKILL.md|the results of the Acceptance Criteria Check, the units remaining, the deferred refactorings and the final design review's note
 skills/3-organize-commits/SKILL.md|Once the commits are organized, should I open the pull request?
 skills/3-organize-commits/SKILL.md|Always mark **Open the PR in a fresh context** as recommended, whatever `## Progress` says
-skills/3-organize-commits/SKILL.md|Run no tests for a commit made here, not even an outside-in slice's acceptance test
-skills/3-organize-commits/SKILL.md|Linting, the search for old references and the comment clean-up still apply to every commit
-skills/3-organize-commits/SKILL.md|run the relevant tests once, on the final commit
 skills/3-organize-commits/SKILL.md|hand off as the user chose, with no further test run
 skills/3-organize-commits/SKILL.md|find the first commit where the run fails, fix it there, and rebuild the commits after it
 skills/3-organize-commits/SKILL.md|add a fix commit instead of rewriting history
 skills/3-organize-commits/SKILL.md|Then run the relevant tests again, once, on the final commit
 guidelines/git-workflow.md|`/aido:3-organize-commits` runs the relevant tests once, on the final commit, instead of at each commit
+guidelines/git-workflow.md|it runs no tests for a single commit, not even an outside-in slice's acceptance test
+guidelines/git-workflow.md|Linting, the search for old references and the comment clean-up still apply to each of its commits
+skills/3-organize-commits/SKILL.md|with the one exception for this skill that it describes
+skills/3-organize-commits/SKILL.md|run the relevant tests on the final commit, as the exception in "Before Every Commit" in `git-workflow.md` describes
 guidelines/git-workflow.md|A refactoring from `## Refactorings` always gets its own `refactor:` commit, after the feature commits, even when it only reshapes the feature's new code
 skills/4-open-pr/SKILL.md|# Open a Pull Request
 skills/verify/SKILL.md|Every finding names its evidence
@@ -146,10 +147,27 @@ guidelines/language.md|end the last message with a short block labelled `Done`, 
 guidelines/language.md|Leave out `Done` or `Decided` when it has nothing to say. `Needs you` always stays, and reads "nothing" when nothing needs the user
 guidelines/language.md|When the result is a report, show the report unchanged, and let the block list only what needs the user
 guidelines/language.md|A skill that another skill started, and that returns to it, adds no block
-skills/verify/SKILL.md|it returns a report and adds no ending block
-skills/1-plan/SKILL.md|it returns a report and adds no ending block
-skills/2-implement/SKILL.md|it returns a report and adds no ending block
-skills/assess-architecture/SKILL.md|it returns a report and adds no ending block
+guidelines/language.md|Give a reason only when it isn't obvious or the user asks
+guidelines/language.md|### In Chat
+guidelines/language.md|### In a Specification
+guidelines/language.md|### In a PR
+guidelines/language.md|### In an Issue
+guidelines/subagents.md|it returns a report and adds no ending block
+guidelines/subagents.md|never to edit files, unless the skill's own brief names an exception
+skills/verify/SKILL.md|"The Shared Brief" in `${CLAUDE_PLUGIN_ROOT}/guidelines/subagents.md`
+skills/1-plan/SKILL.md|"The Shared Brief" in `${CLAUDE_PLUGIN_ROOT}/guidelines/subagents.md`
+skills/2-implement/SKILL.md|"The Shared Brief" in `${CLAUDE_PLUGIN_ROOT}/guidelines/subagents.md`
+skills/assess-architecture/SKILL.md|"The Shared Brief" in `${CLAUDE_PLUGIN_ROOT}/guidelines/subagents.md`
+skills/1-plan/SKILL.md|"The Design-Check Brief" in `${CLAUDE_PLUGIN_ROOT}/guidelines/subagents.md`
+skills/2-implement/SKILL.md|"The Design-Check Brief" in `${CLAUDE_PLUGIN_ROOT}/guidelines/subagents.md`
+skills/assess-architecture/SKILL.md|"The Design-Check Brief" in `${CLAUDE_PLUGIN_ROOT}/guidelines/subagents.md`
+skills/1-plan/SKILL.md|**Index Location and Shape** in `${CLAUDE_PLUGIN_ROOT}/guidelines/architecture-index.md`
+skills/2-implement/SKILL.md|**Reading the Index** in `${CLAUDE_PLUGIN_ROOT}/guidelines/architecture-index.md`
+skills/assess-architecture/SKILL.md|**Index Location and Shape** in `${CLAUDE_PLUGIN_ROOT}/guidelines/architecture-index.md`
+skills/map-architecture/SKILL.md|**Index Location and Shape** in `${CLAUDE_PLUGIN_ROOT}/guidelines/architecture-index.md`
+guidelines/systemic-refactoring.md|`<repo-name>` is as **Index Location and Shape** in `architecture-index.md` defines it
+guidelines/github-issues.md|## Writing a GitHub Body
+skills/4-open-pr/SKILL.md|"Writing a GitHub Body" in `${CLAUDE_PLUGIN_ROOT}/guidelines/github-issues.md`
 skills/1-plan/SKILL.md|**Implement in a fresh context**
 guidelines/git-workflow.md|finish this skill's own work, including its commits, start nothing, and tell the user to run `/clear`, then the next skill
 guidelines/git-workflow.md|The fresh-context option carries the recommendation whenever continuing would, and is not recommended when continuing isn't
@@ -161,9 +179,8 @@ guidelines/tdd.md|set aside the unit's production changes
 guidelines/tdd.md|run its new tests, and confirm each one fails for the right reason. Then restore the changes
 guidelines/tdd.md|**REFACTOR**, once per unit, with all tests green
 skills/2-implement/SKILL.md|Work through each unit without stopping to present each test cycle, in every mode
-guidelines/tdd.md|a unit that is a contract, a mapping or a DTO, and relies on no existing code: write the tests for every behaviour the plan gives it, together, then the code
-guidelines/tdd.md|every other unit, in every mode, including an `inside-out` unit that relies on existing code: write **one** test for the next behaviour
-skills/2-implement/SKILL.md|Tests are written together only for a contract, a mapping or a DTO that relies on no existing code
+guidelines/tdd.md|Only a contract, a mapping or a DTO grows this way, and only when it relies on no existing code
+skills/2-implement/SKILL.md|writing a unit's tests together when it isn't a contract, a mapping or a DTO, or when it relies on existing code
 skills/5-handle-review/SKILL.md|and before the push, follow the process
 skills/5-handle-review/SKILL.md|list in `Needs you` every commit left unpushed, a convention's included
 EOF_PHRASES
@@ -192,6 +209,30 @@ done <<< "$old_format"
 search_warnings="$(grep -rlF -- '--search`' "$plugin/skills" "$plugin/guidelines")"
 [ "$search_warnings" = "$plugin/guidelines/git-workflow.md" ]
 report $? "only git-workflow.md warns against \`gh pr list --search\`"
+
+design_check_copies="$(
+  for file in "$plugin"/skills/*/SKILL.md "$plugin"/guidelines/*.md; do
+    on_one_line "$file" | grep -qF 'the rules it points to in `code-standards.md`' && echo "$file"
+  done
+)"
+[ "$design_check_copies" = "$plugin/guidelines/subagents.md" ]
+report $? "only subagents.md says what a design-check brief copies"
+
+test_run_reasons="$(grep -rlF -- 'tested while they were built' "$plugin/skills" "$plugin/guidelines")"
+[ "$test_run_reasons" = "$plugin/guidelines/git-workflow.md" ]
+report $? "only git-workflow.md says why organizing commits runs the tests once"
+
+guidelines_into_skills="$(grep -rlE -- 'skills/[a-z0-9-]+/SKILL\.md`|in `/aido:[a-z0-9-]+`|`/aido:[a-z0-9-]+` defines' "$plugin/guidelines")"
+[ -z "$guidelines_into_skills" ]
+report $? "no guideline points into a skill for a rule"
+
+index_rules_in_skill="$(grep -rlF -- 'skills/map-architecture/SKILL.md' "$plugin/skills")"
+[ -z "$index_rules_in_skill" ]
+report $? "no skill points into map-architecture for the index rules"
+
+wrapping_reasons="$(grep -rlF -- 'a single newline as a line' "$plugin/skills" "$plugin/guidelines")"
+[ "$wrapping_reasons" = "$plugin/guidelines/github-issues.md" ]
+report $? "only github-issues.md says why GitHub bodies aren't hard-wrapped"
 
 handle_review="$plugin/skills/5-handle-review/SKILL.md"
 guidance_line="$(grep -n -m1 -F 'Worth examining' "$handle_review" | cut -d: -f1)"
