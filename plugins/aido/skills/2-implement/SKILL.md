@@ -287,7 +287,9 @@ question below offers only the next step. It can take long and isn't always need
 
 - mark **Run the review** as recommended when the diff against the default branch touches more than one
   module or area, or adds a new domain concept or abstraction. Otherwise mark **Skip it** as
-  recommended. Diff size alone doesn't count
+  recommended. Diff size alone doesn't count. Files with different jobs are different areas, even
+  within one feature: in a TODO app, a change to the settings, the task rules and the screen that
+  shows a task touches three
 - say briefly in the question why the recommended option is recommended
 - on **Skip it**, launch nothing. Note the skip for `## Progress`, and go on to completion
 
