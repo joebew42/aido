@@ -190,7 +190,8 @@ skills/1-plan/SKILL.md|Show the draft, whole the first time, as "Showing What Ch
 skills/1-plan/SKILL.md|Load `${CLAUDE_PLUGIN_ROOT}/guidelines/git-workflow.md` first, if it isn't loaded
 guidelines/specification.md|An item is done only when its line is ticked
 guidelines/specification.md|under a `### Acceptance` heading, the last heading in `## Progress`
-guidelines/specification.md|A specification with no results yet has no `### Acceptance` heading
+guidelines/specification.md|A specification no implementing session has recorded progress for has no `### Acceptance` heading
+guidelines/specification.md|every criterion has a line there, `unchecked` until it is checked
 guidelines/specification.md|`- [x] r1. <title>`
 guidelines/specification.md|A refactoring's code is never renumbered or reused
 guidelines/specification.md|<added by implementation, when the user accepts a refactoring>
