@@ -156,6 +156,9 @@ guidelines/language.md|### In Chat
 guidelines/language.md|### In a Specification
 guidelines/language.md|### In a PR
 guidelines/language.md|### In an Issue
+guidelines/language.md|### One Item at a Time
+guidelines/language.md|the exception to being interrupted once per stage
+guidelines/language.md|ask about the first undecided item only, as text, and stop
 guidelines/subagents.md|it returns a report and adds no ending block
 guidelines/subagents.md|never to edit files, unless the skill's own brief names an exception
 skills/verify/SKILL.md|"The Shared Brief" in `${CLAUDE_PLUGIN_ROOT}/guidelines/subagents.md`

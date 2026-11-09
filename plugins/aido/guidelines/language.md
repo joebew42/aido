@@ -85,6 +85,22 @@ so the user is interrupted once per stage. The second answer counts only on appr
 - **4 items or fewer** → multi-select, one option per title
 - **more than 4** → options **All** / **None** / **By number** (the user types the numbers)
 
+### One Item at a Time
+
+When a skill says to ask about items one at a time, such as review comments or design findings, the
+user reasons about each one instead of picking from a list:
+
+- ask one `AskUserQuestion` per item, in order, and wait for its answer before the next
+- the question names the item and shows it in a line or two, so it makes sense alone
+- the options are the ones the skill names. Mark one of them recommended, and say why in a few
+  words in its description
+- the skill decides what each answer does, and when it acts on it
+- when `AskUserQuestion` isn't available, ask about the first undecided item only, as text, and stop.
+  Don't list the other items or their recommendations: they wait for the answer
+
+This is the exception to being interrupted once per stage. Questions joined as "An approval also
+settles the choice that follows it" describes stay joined, in one call.
+
 ## Showing What Changed
 
 When a skill asks the user to approve a document they have already seen, such as a draft, a
