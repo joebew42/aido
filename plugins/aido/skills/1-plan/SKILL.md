@@ -402,6 +402,9 @@ describes. After a change, show what changed, as "Showing What Changed" in
 
 ### Choose how to continue
 
+Load `${CLAUDE_PLUGIN_ROOT}/guidelines/git-workflow.md` first, if it isn't loaded. Steps 7 and 8
+follow its rules for branch names, the spec commit and hand-offs.
+
 "Once it is approved, how should we continue?" — options:
 
 - **Implement in a fresh context** (recommended) — commit the specification, so implementing starts
