@@ -166,6 +166,7 @@ guidelines/git-workflow.md|gh pr comment <NUMBER> --body-file <file>
 guidelines/copilot-cli.md|If another skill took precedence, stop and tell the user.
 guidelines/copilot-cli.md|inside the plugin root you noted
 guidelines/copilot-cli.md|This check covers only skills loaded after this file
+guidelines/copilot-cli.md|Mark the recommended option in its label and set no default
 guidelines/copilot-cli.md|Only a person's answer is approval
 guidelines/copilot-cli.md|Never choose an option for the user, not even the recommended one
 guidelines/copilot-cli.md|Never push another way

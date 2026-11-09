@@ -27,8 +27,9 @@ aido skill a session or subagent runs never loads this file, so nothing checks i
 ## Tools
 
 - `AskUserQuestion` is `ask_user`. Ask each question as one field of the form: its options become
-  the choices, a multi-select question becomes a multi-select field, and the recommended option is
-  the default. Questions asked together stay in one form.
+  the choices, and a multi-select question becomes a multi-select field. Mark the recommended
+  option in its label and set no default, so an unanswered form never looks like a choice.
+  Questions asked together stay in one form.
 - `Agent` is `task`, with the `general-purpose` agent and no `model`. Model names in the skills, such
   as `fable`, are Claude Code's, so act as "When the Model Is Unavailable" in `subagents.md`
   describes. Brief the child with what the skill lists and add no instructions of your own: the child
