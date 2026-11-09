@@ -22,6 +22,7 @@ Before any change:
   - `${CLAUDE_PLUGIN_ROOT}/guidelines/git-workflow.md`
   - `${CLAUDE_PLUGIN_ROOT}/guidelines/project-conventions.md`
   - `${CLAUDE_PLUGIN_ROOT}/guidelines/testing-principles.md`, if testing patterns matter here
+  - `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`, to settle the spec before the push
 - load the host repository's conventions as `${CLAUDE_PLUGIN_ROOT}/guidelines/project-conventions.md`
   describes. Its agent instruction files (`CLAUDE.md` and `AGENTS.md`) win on the topics they cover,
   and say how to test, lint and structure code in this stack
@@ -44,7 +45,8 @@ Apply "Before Every Commit" in `git-workflow.md` before every commit.
 
 ## Important Conventions
 
-- **DO NOT** change `SPEC.md` during review: it is already approved
+- **DO NOT** change what the spec says during review: it is already approved. Settling it, below,
+  is the only change to the file
 - the branch is already pushed. Add new commits, as "Special Cases" in `git-workflow.md` describes, so
   the review changes stay visible. Rewrite history only when the user asks
 - **one commit per change**: each review item gets its own commit
@@ -73,9 +75,21 @@ Not worth examining, because it always fails the test:
 The process decides the rest: what is already written down, and what to do with a point only this
 PR's review makes.
 
+## Settle the Specification
+
+Once the review commits and any convention are committed, and before the push, check whether the spec
+is settled, as "When the Spec Is Settled" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`
+describes:
+
+- **no spec on the branch, already settled, or a main plan branch** → ask nothing
+- **not settled** → settle it as "Closing the Specification" in
+  `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md` describes. Its commits go on top of the review
+  commits, the outcome commit last. When nobody answers, or the question can't be asked, push nothing,
+  and end as below, listing the unpushed commits
+
 ## Push and End
 
-- show a summary of the changes, with any convention added, then push. The permission prompt asks for
+- show a summary of the changes, with any convention added and how the spec was settled, then push. The permission prompt asks for
   the user's approval, as "Pushing Changes" in `${CLAUDE_PLUGIN_ROOT}/guidelines/git-workflow.md`
   describes
 - then end as "Ending a Skill" in `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` describes

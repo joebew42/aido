@@ -199,6 +199,8 @@ guidelines/specification.md|comes after the branch's `docs: feature specificatio
 guidelines/specification.md|Later commits, such as review fixes, don't reopen it
 guidelines/specification.md|whose name contains `main-plan-`, is never settled
 skills/4-open-pr/SKILL.md|"Closing the Specification" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`
+skills/5-handle-review/SKILL.md|"Closing the Specification" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`
+skills/5-handle-review/SKILL.md|`${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`, to settle the spec
 skills/3-organize-commits/SKILL.md|"Closing the Specification" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`
 skills/5-handle-review/SKILL.md|list in `Needs you` every commit left unpushed, a convention's included
 EOF_PHRASES
@@ -288,6 +290,12 @@ settle_line="$(grep -n -m1 -E '^## Step [0-9.]+: Settle the Specification' "$ope
 push_line="$(grep -n -m1 -E '^## Step [0-9.]+: Push Changes' "$open_pr" | cut -d: -f1)"
 [ -n "$verify_line" ] && [ -n "$settle_line" ] && [ -n "$push_line" ] && [ "$verify_line" -lt "$settle_line" ] && [ "$settle_line" -lt "$push_line" ]
 report $? "4-open-pr settles the spec after the verification offer, before the push"
+
+conventions_line="$(grep -n -m1 -F '## Suggest Repository Conventions' "$handle_review" | cut -d: -f1)"
+settle_line="$(grep -n -m1 -F '## Settle the Specification' "$handle_review" | cut -d: -f1)"
+push_line="$(grep -n -m1 -F '## Push and End' "$handle_review" | cut -d: -f1)"
+[ -n "$conventions_line" ] && [ -n "$settle_line" ] && [ -n "$push_line" ] && [ "$conventions_line" -lt "$settle_line" ] && [ "$settle_line" -lt "$push_line" ]
+report $? "5-handle-review settles the spec after the review commits, before the push"
 
 skill_names="$(
   for skill in "$plugin"/skills/*/SKILL.md; do
