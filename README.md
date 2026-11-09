@@ -121,8 +121,13 @@ from Carnegie Mellon University.
 numbered **Acceptance criteria** (`AC1`, `AC2`, …). Planning adds how, as a plan. Every later skill
 reads it.
 
+aido is spec-first: a spec lives as long as its branch. Before the branch is merged, the spec is
+reverted. What lasts goes into the PR, the issue, or a doc distilled from the spec. Organizing the
+commits asks how to settle it, and so do opening the PR and handling a review, if nothing has settled
+it yet. A spec an earlier branch left on the default branch is caught before the next one is written.
+
 <div align="center">
-  <img src="docs/readme/spec-at-the-center.svg" alt="SPEC.md at the center: planning writes it, implementation reads and updates it, organizing commits reverts it or moves it into the docs, the PR is written from it, review reads it without changing it, and verification checks the code against it" width="900" />
+  <img src="docs/readme/spec-at-the-center.svg" alt="SPEC.md at the center: planning writes it, implementation reads and updates it, organizing commits reverts it, or distils it into your docs, the PR is written from it, review reads it without changing what it says, and verification checks the code against it" width="900" />
 </div>
 
 ### Acceptance criteria stay visible
