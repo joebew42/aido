@@ -16,7 +16,7 @@ for skill in "$root"/plugins/aido/skills/*/SKILL.md; do
   fi
 done
 
-copilot_rule='**In Copilot CLI only:** before anything else, read `guidelines/copilot-cli.md` in the plugin root, two folders above this skill'"'"'s base directory, and follow it.'
+copilot_rule='**In Copilot CLI only:** before anything else, read `guidelines/copilot-cli.md` in the plugin root, two folders above this skill'"'"'s base directory, and follow it. Read every guideline this skill names whole, with `view`, one file per call.'
 
 if [ -f "$root/plugins/aido/guidelines/copilot-cli.md" ]; then
   echo "ok   - the Copilot CLI guideline exists"
@@ -178,6 +178,8 @@ guidelines/copilot-cli.md|Never choose an option for the user, not even the reco
 guidelines/copilot-cli.md|Never push another way
 guidelines/copilot-cli.md|Read each guideline whole, with `view`, one file per call
 guidelines/copilot-cli.md|put what it shows in the form's `message`, above the question
+guidelines/copilot-cli.md|The user doesn't see tool output
+guidelines/copilot-cli.md|put its full text in the form's `message`, not a summary
 skills/1-plan/SKILL.md|Load `${CLAUDE_PLUGIN_ROOT}/guidelines/git-workflow.md` first, if it isn't loaded
 guidelines/specification.md|An item is done only when its line is ticked
 guidelines/specification.md|under a `### Acceptance` heading, the last heading in `## Progress`

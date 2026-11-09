@@ -5,7 +5,7 @@ disable-model-invocation: false
 
 # Switch to Main Plan Branch
 
-**In Copilot CLI only:** before anything else, read `guidelines/copilot-cli.md` in the plugin root, two folders above this skill's base directory, and follow it.
+**In Copilot CLI only:** before anything else, read `guidelines/copilot-cli.md` in the plugin root, two folders above this skill's base directory, and follow it. Read every guideline this skill names whole, with `view`, one file per call.
 
 Switch to the main plan branch of a multi-phase feature.
 

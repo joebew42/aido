@@ -5,7 +5,7 @@ disable-model-invocation: false
 
 # Plan
 
-**In Copilot CLI only:** before anything else, read `guidelines/copilot-cli.md` in the plugin root, two folders above this skill's base directory, and follow it.
+**In Copilot CLI only:** before anything else, read `guidelines/copilot-cli.md` in the plugin root, two folders above this skill's base directory, and follow it. Read every guideline this skill names whole, with `view`, one file per call.
 
 Turn a feature or phase into an approved specification and plan in `SPEC.md`. Then hand off to
 `/aido:2-implement`.
