@@ -4,7 +4,7 @@
 
 # aido 🥋
 
-**A spec-driven, test-driven engineering workflow for Claude Code.**
+**A spec-first, test-driven engineering workflow for Claude Code.**
 
 Hand Claude Code the whole feature while you stay in the loop! Works with any stack.
 
