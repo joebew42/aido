@@ -33,7 +33,9 @@ Stop, tell the user, and suggest renaming or removing the skill that clashes.
 - `AskUserQuestion` is `ask_user`. Ask each question as one field of the form: its options become
   the choices, and a multi-select question becomes a multi-select field. Mark the recommended
   option in its label and set no default, so an unanswered form never looks like a choice.
-  Questions asked together stay in one form.
+  Questions asked together stay in one form. The form hides the chat text written just before it,
+  so when a skill shows something before asking, such as a draft, a plan or what changed, put what
+  it shows in the form's `message`, above the question.
 - `Agent` is `task`, with the `general-purpose` agent and no `model`. Model names in the skills, such
   as `fable`, are Claude Code's, so run the brief with the session's model, as "When the Model Is
   Unavailable" in `subagents.md` describes, but don't report it, since that is expected here. Brief

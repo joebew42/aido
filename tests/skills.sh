@@ -177,6 +177,8 @@ guidelines/copilot-cli.md|Only a person's answer is approval
 guidelines/copilot-cli.md|Never choose an option for the user, not even the recommended one
 guidelines/copilot-cli.md|Never push another way
 guidelines/copilot-cli.md|Read each guideline whole, with `view`, one file per call
+guidelines/copilot-cli.md|put what it shows in the form's `message`, above the question
+skills/1-plan/SKILL.md|Load `${CLAUDE_PLUGIN_ROOT}/guidelines/git-workflow.md` first, if it isn't loaded
 guidelines/specification.md|An item is done only when its line is ticked
 guidelines/specification.md|under a `### Acceptance` heading, the last heading in `## Progress`
 guidelines/specification.md|A specification with no results yet has no `### Acceptance` heading
