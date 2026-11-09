@@ -1,7 +1,7 @@
 # Working on this repository
 
-This repository is a Claude Code plugin marketplace. See `README.md` for what it offers and how to
-install it.
+This repository is a Claude Code plugin marketplace, which GitHub Copilot CLI also reads. See
+`README.md` for what it offers and how to install it.
 
 ## Layout
 
@@ -28,6 +28,9 @@ install it.
   `${CLAUDE_PLUGIN_ROOT}/skills/...` — Claude Code substitutes the path when it loads the skill.
   Guidelines are read as plain files, where no substitution happens, so they refer to each other
   by file name
+- skills are written for Claude Code. Each `SKILL.md` starts, right after its title, with the line
+  that loads `guidelines/copilot-cli.md` in Copilot CLI, which maps paths, tools and approvals there
+  without forking the skills. `tests/skills.sh` checks the line
 - refer to skills by their full name, `/aido:<name>`
 - a `CLAUDE.md` inside the plugin is not loaded; anything the skills need must be in a skill or a
   guideline they load
@@ -46,4 +49,5 @@ install it.
 - hook scripts use no shell variables or substitutions, reading stdin with `grep` alone, so that
   the marketplace validator can follow them and hosts need nothing installed. A hook's opt-out may
   read `git config`, and the hook enforces its rule when `git` is missing
-- try changes locally with `claude --plugin-dir ./plugins/aido`
+- try changes locally with `claude --plugin-dir ./plugins/aido`, or in Copilot CLI with
+  `copilot --plugin-dir ./plugins/aido` from the repository root, so it can read the guidelines

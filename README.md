@@ -4,7 +4,7 @@
 
 # aido 🥋
 
-**A spec-first, test-driven engineering workflow for Claude Code.**
+**A spec-first, test-driven engineering workflow for Claude Code and GitHub Copilot CLI.**
 
 Hand Claude Code the whole feature while you stay in the loop! Works with any stack.
 
@@ -92,6 +92,27 @@ add this to `~/.claude/settings.json`:
 | Block commit messages containing<br>`Co-Authored-By` trailers | on | `git config aido.allowCommitAttribution true` |
 
 The opt-out applies to this repository, or everywhere with `--global`. The skills never set it.
+
+### Use it in GitHub Copilot CLI
+
+Copilot CLI reads this marketplace as it is:
+
+```text
+copilot plugin marketplace add joebew42/aido
+copilot plugin install aido@aido
+```
+
+Run the skills by the same names, such as `/aido:1-plan`. A skill with the same name in your
+repository or in `~/.copilot/skills` takes precedence over aido's.
+
+Approval comes only from your answers. Autopilot, `--no-ask-user` and prompt mode (`-p`) leave
+nobody to answer, so each skill stops at its first question, and the push hook denies every push.
+Use an interactive session whenever approval matters. To keep AI attribution out of commits, add
+`"includeCoAuthoredBy": false` to `~/.copilot/settings.json`.
+
+In Copilot CLI, subagents run on Copilot's default model, nothing reminds a skill to reload after
+Copilot compacts the conversation, and the memory hook doesn't apply. The evals measure Claude Code
+only.
 
 ---
 
