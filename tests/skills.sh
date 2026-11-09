@@ -181,6 +181,8 @@ guidelines/copilot-cli.md|put what it shows in the form's `message`, above the q
 guidelines/copilot-cli.md|The user doesn't see tool output
 guidelines/copilot-cli.md|put its full text in the form's `message`, not a summary
 guidelines/copilot-cli.md|A guideline cited for a single rule counts too
+skills/1-plan/SKILL.md|Launch it even when the change looks small
+skills/1-plan/SKILL.md|Before anything else in this step, read `${CLAUDE_PLUGIN_ROOT}/guidelines/tdd.md`
 skills/1-plan/SKILL.md|Load `${CLAUDE_PLUGIN_ROOT}/guidelines/git-workflow.md` first, if it isn't loaded
 guidelines/specification.md|An item is done only when its line is ticked
 guidelines/specification.md|under a `### Acceptance` heading, the last heading in `## Progress`

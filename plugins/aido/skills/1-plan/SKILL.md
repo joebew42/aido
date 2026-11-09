@@ -299,7 +299,9 @@ should change first, so the feature fits in cleanly. Read
 `${CLAUDE_PLUGIN_ROOT}/guidelines/systemic-refactoring.md` now, which holds the rules. Read
 `${CLAUDE_PLUGIN_ROOT}/guidelines/code-standards.md` too, if it isn't loaded: the rules point into it.
 
-Launch one `Agent` with `model: "fable"`. Brief it with "The Shared Brief" in `${CLAUDE_PLUGIN_ROOT}/guidelines/subagents.md`, and:
+Launch one `Agent` with `model: "fable"`. Launch it even when the change looks small: a fresh context
+finds what this planning conversation has stopped seeing, so checking the code yourself does not
+replace it. Brief it with "The Shared Brief" in `${CLAUDE_PLUGIN_ROOT}/guidelines/subagents.md`, and:
 
 - the path to `SPEC.md` and the repository root
 - if there is an index, its directory and the **Reading the Index** steps from
@@ -352,10 +354,13 @@ Each one pulled in becomes an **enabling** plan item that names its file. The re
 
 ## Step 6: Propose the Plan
 
+Before anything else in this step, read `${CLAUDE_PLUGIN_ROOT}/guidelines/tdd.md`, which defines the
+modes each feature item needs.
+
 - propose a plan of the changes, with items written and ordered as "Plan Items" in "The
   Specification Structure" (`${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`) describes
-- choose each feature item's mode as "The Modes" in `${CLAUDE_PLUGIN_ROOT}/guidelines/tdd.md`
-  describes. Read that file now. Open what an inside-out item cites, and confirm it exists and fits.
+- choose each feature item's mode as "The Modes" in `tdd.md` describes. Open what an inside-out item
+  cites, and confirm it exists and fits.
   Agents tend to call work obvious too often: when you can't cite anything, name the unknown instead
 - the **enabling** refactorings are the findings the user chose to plan first at Step 5, and the
   opportunities pulled in at Step 5.5. The findings the user deferred are not planned. List them in
