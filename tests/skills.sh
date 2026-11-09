@@ -171,6 +171,7 @@ skills/assess-architecture/SKILL.md|**Index Location and Shape** in `${CLAUDE_PL
 skills/map-architecture/SKILL.md|**Index Location and Shape** in `${CLAUDE_PLUGIN_ROOT}/guidelines/architecture-index.md`
 guidelines/systemic-refactoring.md|`<repo-name>` is as **Index Location and Shape** in `architecture-index.md` defines it
 guidelines/github-issues.md|## Writing a GitHub Body
+guidelines/github-issues.md|A skill that has already asked about each point skips this step, and starts at "Check for Duplicates"
 skills/4-open-pr/SKILL.md|"Writing a GitHub Body" in `${CLAUDE_PLUGIN_ROOT}/guidelines/github-issues.md`
 skills/1-plan/SKILL.md|**Implement in a fresh context**
 guidelines/git-workflow.md|finish this skill's own work, including its commits, start nothing, and tell the user to run `/clear`, then the next skill
