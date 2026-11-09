@@ -11,6 +11,14 @@ steps, questions and approvals stay the same.
 the `guidelines/` folder this file is in, and `skills/`. Read every `${CLAUDE_PLUGIN_ROOT}/...` path
 from there.
 
+## Reading Guidelines
+
+Read each guideline whole, with `view`, one file per call, before acting on the step that names it.
+Don't batch guidelines into one shell command, and don't cut them with `head`, `sed` or `grep`: a
+long output is saved to a file instead of shown, and a part of a guideline is not the guideline. If
+`view` reports a file too large, read it in parts with `view_range` until you have read all of it.
+Whenever a command's output is saved to a file instead of shown, read that file before you go on.
+
 ## Skills
 
 The user runs a skill as `/aido:<name>`, as in Claude Code. To invoke one with the `Skill` tool, call
