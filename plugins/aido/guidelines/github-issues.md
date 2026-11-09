@@ -42,7 +42,7 @@ same problem." — options **Skip** / **Comment on #<n>** (posting the point's b
 
 ## Writing a GitHub Body
 
-These rules apply to every body written for GitHub, a PR's or an issue's:
+These rules apply to every body written for GitHub: a PR, an issue, a comment or a reply.
 
 - no reference to Claude Code
 - don't hard-wrap prose. GitHub shows a single newline as a line break, so fixed-width wrapping makes
