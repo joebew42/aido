@@ -5,6 +5,8 @@ disable-model-invocation: false
 
 # Stabilize Existing Work
 
+**In Copilot CLI only:** before anything else, read `guidelines/copilot-cli.md` in the plugin root, two folders above this skill's base directory, and follow it.
+
 Take over a change started outside this workflow. Set it up so `/aido:2-implement`,
 `/aido:3-organize-commits` and `/aido:4-open-pr` can carry it to a clean PR.
 

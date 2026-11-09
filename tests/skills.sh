@@ -16,6 +16,20 @@ for skill in "$root"/plugins/aido/skills/*/SKILL.md; do
   fi
 done
 
+copilot_rule='**In Copilot CLI only:** before anything else, read `guidelines/copilot-cli.md` in the plugin root, two folders above this skill'"'"'s base directory, and follow it.'
+
+for skill in "$root"/plugins/aido/skills/*/SKILL.md; do
+  name="$(basename "$(dirname "$skill")")"
+
+  if [ "$(awk 'started && NF { print; exit } /^# / { started = 1 }' "$skill")" = "$copilot_rule" ] \
+    && [ -f "$root/plugins/aido/guidelines/copilot-cli.md" ]; then
+    echo "ok   - $name loads the Copilot CLI guideline first"
+  else
+    echo "FAIL - $name loads the Copilot CLI guideline first"
+    failures=$((failures + 1))
+  fi
+done
+
 ending_rule='"Ending a Skill" in `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md`'
 
 for skill in "$root"/plugins/aido/skills/*/SKILL.md; do
@@ -149,6 +163,9 @@ guidelines/git-workflow.md|### Replying to Review Feedback
 guidelines/git-workflow.md|resolveReviewThread(input: {threadId: $threadId})
 guidelines/git-workflow.md|A reply is posted only once the user has approved its text
 guidelines/git-workflow.md|gh pr comment <NUMBER> --body-file <file>
+guidelines/copilot-cli.md|Only a person's answer is approval
+guidelines/copilot-cli.md|Never choose an option for the user, not even the recommended one
+guidelines/copilot-cli.md|Never push another way
 guidelines/specification.md|An item is done only when its line is ticked
 guidelines/specification.md|under a `### Acceptance` heading, the last heading in `## Progress`
 guidelines/specification.md|A specification with no results yet has no `### Acceptance` heading

@@ -5,6 +5,8 @@ disable-model-invocation: false
 
 # Verify
 
+**In Copilot CLI only:** before anything else, read `guidelines/copilot-cli.md` in the plugin root, two folders above this skill's base directory, and follow it.
+
 Answer one question: **did we build what we agreed to build?** The target is the current branch or a
 PR. No PR needs to exist.
 

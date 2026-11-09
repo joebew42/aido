@@ -5,6 +5,8 @@ disable-model-invocation: false
 
 # Switch to Main Plan Branch
 
+**In Copilot CLI only:** before anything else, read `guidelines/copilot-cli.md` in the plugin root, two folders above this skill's base directory, and follow it.
+
 Switch to the main plan branch of a multi-phase feature.
 
 Load `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` and follow it in everything you write for a person.

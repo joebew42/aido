@@ -81,6 +81,16 @@ class StaticChecks(unittest.TestCase):
         self.assertEqual(result.returncode, 1)
         self.assertIn("FAIL - verify ends with the ending block", result.stdout)
 
+    def test_a_skill_not_starting_with_the_copilot_guideline_fails(self):
+        copy = self.copy_of_the_repository()
+        skill = copy / "plugins" / "aido" / "skills" / "verify" / "SKILL.md"
+        self.replace_in(skill, "# Verify\n", "# Verify\n\nCheck the branch first.\n")
+
+        result = self.run_checks(copy)
+
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("FAIL - verify loads the Copilot CLI guideline first", result.stdout)
+
     def test_a_reference_to_a_missing_skill_fails(self):
         copy = self.copy_of_the_repository()
         self.replace_in(copy / "README.md", "`/aido:verify`", "`/aido:check`")
