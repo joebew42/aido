@@ -314,7 +314,8 @@ If `fable` is unavailable, act as "When the Model Is Unavailable" in `${CLAUDE_P
 Confirm each finding classed enabling, as **Evidence before action** in `systemic-refactoring.md`
 describes. Then ask about each finding classed enabling or defer, one at a time, as **Asking about a
 finding** in `systemic-refactoring.md` describes — options **Plan it first** / **Defer** /
-**No action**:
+**No action**. **Plan it first** matches a finding classed enabling, and **Defer** one classed
+defer:
 
 - **Plan it first** → it becomes an **enabling** plan item
 - **Defer** → it is listed in the Design notes, and parked once the plan is approved
@@ -341,7 +342,8 @@ the current code:
 - **none fits** → say so in one line and continue
 - **some still hold** → ask about each one on its own, as **Asking about a finding** in
   `systemic-refactoring.md` describes, from its file's **Change** and **Why** (`## Refactoring` and
-  `## Why it matters` in an older file) — options **Include it** / **Leave it saved**
+  `## Why it matters` in an older file) — options **Include it** / **Leave it saved**. Recommend
+  **Include it**, unless the idea is broader or riskier than this change justifies
 
 Each one pulled in becomes an **enabling** plan item that names its file. The rest stay saved.
 

@@ -79,6 +79,8 @@ skills/1-plan/SKILL.md|Do NOT implement anything in this skill
 skills/1-plan/SKILL.md|options **Plan it first** / **Defer** / **No action**
 skills/1-plan/SKILL.md|options **Include it** / **Leave it saved**
 skills/1-plan/SKILL.md|**Asking about a finding** in `systemic-refactoring.md`
+skills/1-plan/SKILL.md|**Plan it first** matches a finding classed enabling, and **Defer** one classed defer
+skills/1-plan/SKILL.md|Recommend **Include it**, unless the idea is broader or riskier than this change justifies
 skills/2-implement/SKILL.md|Never record a criterion as met without its evidence
 skills/2-implement/SKILL.md|Should I run a final design review over the whole feature?
 skills/2-implement/SKILL.md|Once implementation is complete, should I organize the commits?
@@ -96,6 +98,8 @@ skills/2-implement/SKILL.md|it is not offered again
 skills/2-implement/SKILL.md|**plan items or refactorings remain**
 skills/2-implement/SKILL.md|options **Plan it for later** / **Defer** / **No action**
 skills/2-implement/SKILL.md|Recommend one, as **Asking about a finding** in `systemic-refactoring.md` describes
+skills/2-implement/SKILL.md|**Refactor now** matches a finding classed fix now or refactor now, and **Defer** one classed defer
+skills/2-implement/SKILL.md|**Plan it for later** matches a finding classed planned, and **Defer** one classed defer
 skills/2-implement/SKILL.md|ask about each finding on its own, as **Asking about a finding** in `systemic-refactoring.md` describes
 skills/2-implement/SKILL.md|each option with what it does, and which one is recommended
 skills/2-implement/SKILL.md|keeping the option it recommends
@@ -136,7 +140,8 @@ skills/verify/SKILL.md|are not evidence
 guidelines/systemic-refactoring.md|Evidence before action
 guidelines/systemic-refactoring.md|**Asking about a finding:**
 guidelines/systemic-refactoring.md|**Asking about a finding:** when a skill says to ask about findings one at a time
-guidelines/systemic-refactoring.md|A low-confidence finding recommends only **Defer** or **No action**
+guidelines/systemic-refactoring.md|the skill names which of its options matches each class, and that option is recommended
+guidelines/systemic-refactoring.md|A low-confidence finding never recommends building or planning it
 guidelines/systemic-refactoring.md|a finding classed no action is listed in one line, with no question
 guidelines/git-workflow.md|every push needs the user's approval
 guidelines/git-workflow.md|### Replying to Review Feedback

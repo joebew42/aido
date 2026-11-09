@@ -264,7 +264,9 @@ Run it inline, on green, limited to what the cycle showed:
 4. before a refactoring that touches another module, ask with `AskUserQuestion`, showing the
    finding as **Showing a finding** in `systemic-refactoring.md` describes —
    options **Refactor now** / **Plan it for later** / **Defer** / **No action**. Recommend one, as
-   **Asking about a finding** in `systemic-refactoring.md` describes. On **Plan it for later**, add it to `## Refactorings` with the next free code, as "Refactorings" in
+   **Asking about a finding** in `systemic-refactoring.md` describes. **Refactor now** matches a
+   finding classed fix now or refactor now, and **Defer** one classed defer. On
+   **Plan it for later**, add it to `## Refactorings` with the next free code, as "Refactorings" in
    `specification.md` describes. Commit it by the `SPEC.md` rule in "Special Cases" in
    `git-workflow.md`, and carry on with the unit
 5. note deferred findings for `## Progress`, with every field under **What every finding states** in
@@ -311,7 +313,8 @@ Then, in this session:
 1. confirm each finding before acting on it, as **Evidence before action** in
    `systemic-refactoring.md` describes
 2. ask about each finding on its own, as **Asking about a finding** in `systemic-refactoring.md`
-   describes — options **Plan it for later** / **Defer** / **No action**
+   describes — options **Plan it for later** / **Defer** / **No action**. **Plan it for later**
+   matches a finding classed planned, and **Defer** one classed defer
 3. add each one planned for later to `## Refactorings` with the next free code, as "Refactorings" in
    `specification.md` describes. Change no code: each one is built later, like a plan item
 4. note the deferred ones for `## Progress`, and park them as **Parking an opportunity** in

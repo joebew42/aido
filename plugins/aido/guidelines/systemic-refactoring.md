@@ -94,11 +94,8 @@ from a list keeps its list:
 
 - the question shows the finding as **Showing a finding** describes, with the options the skill
   names
-- the option that matches the finding's class is recommended: the one that builds or plans it for
-  fix now, refactor now, enabling or planned, and **Defer** for defer. A low-confidence finding
-  recommends only **Defer** or **No action**
-- a parked opportunity offered for a planned change is asked about the same way. Including it is
-  recommended when it fits the change and the code still shows the problem
+- the skill names which of its options matches each class, and that option is recommended. A
+  low-confidence finding never recommends building or planning it
 - a finding classed no action is listed in one line, with no question
 
 **Parking an opportunity:** a refactoring is made as part of a working feature, so it is never
