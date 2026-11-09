@@ -6,7 +6,6 @@ failures=0
 
 commit_denial='{"hookSpecificOutput":{"hookEventName":"PreToolUse","permissionDecision":"deny","permissionDecisionReason":"No Co-Authored-By/Claude references in commit messages (git-workflow.md). Use a subject-line-only message."}}'
 push_approval='{"hookSpecificOutput":{"hookEventName":"PreToolUse","permissionDecision":"ask","permissionDecisionReason":"aido asks for your approval before every push (git-workflow.md)."}}'
-memory_denial='{"hookSpecificOutput":{"hookEventName":"PreToolUse","permissionDecision":"deny","permissionDecisionReason":"Writing to Claude memory is forbidden here (evolving-guidelines.md: do not use auto-memory). Propose a guideline edit instead."}}'
 
 check() {
   local name="$1" expected="$2" actual="$3"
@@ -23,10 +22,6 @@ check() {
 
 commit_hook_output() {
   jq -n --arg command "$1" '{tool_input: {command: $command}}' | "$hooks/deny-commit-attribution.sh"
-}
-
-memory_hook_output() {
-  jq -n --arg file_path "$1" '{tool_input: {file_path: $file_path}}' | "$hooks/deny-memory-writes.sh"
 }
 
 push_hook_output() {
@@ -80,9 +75,6 @@ output_with_only_grep_on_path() {
 check "commit hook denies with only grep on the path" "$commit_denial" \
   "$(output_with_only_grep_on_path deny-commit-attribution.sh \
     '{"session_id":"abc","tool_name":"Bash","tool_input":{"command":"git commit -m \"noreply@anthropic.com\"","description":"Commit"}}')"
-check "memory hook denies with only grep on the path" "$memory_denial" \
-  "$(output_with_only_grep_on_path deny-memory-writes.sh \
-    '{"session_id":"abc","tool_name":"Write","tool_input":{"file_path":"/home/me/.claude/projects/todo-app/memory/notes.md","content":"x"}}')"
 
 check "commit hook ignores a trailer in another field" "" \
   "$(echo '{"tool_input":{"command":"git commit -m \"feat: add lists\"","description":"git commit without noreply@anthropic.com"}}' \
@@ -93,9 +85,6 @@ check "commit hook ignores a command named inside another field" "" \
 check "commit hook denies a tab between git and commit" "$commit_denial" \
   "$(echo '{"tool_input":{"command":"git\tcommit -m \"noreply@anthropic.com\""}}' \
     | "$hooks/deny-commit-attribution.sh")"
-check "memory hook ignores a memory path in another field" "" \
-  "$(echo '{"tool_input":{"file_path":"/tmp/notes.md","content":"\"file_path\":\"/home/me/.claude/projects/todo-app/memory/notes.md\""}}' \
-    | "$hooks/deny-memory-writes.sh")"
 
 check "commit hook denies a Co-Authored-By trailer" "$commit_denial" \
   "$(commit_hook_output 'git commit -m "feat: add lists
@@ -116,17 +105,6 @@ check "commit hook allows input without a command" "" \
 check_command_is_a_plugin_script "Bash" "deny-commit-attribution.sh"
 check_script_is_followable "deny-commit-attribution.sh"
 
-check "memory hook denies a write under a project's memory directory" "$memory_denial" \
-  "$(memory_hook_output '/home/me/.claude/projects/todo-app/memory/notes.md')"
-check "memory hook allows a write to a project's other files" "" \
-  "$(memory_hook_output '/home/me/.claude/projects/todo-app/notes.md')"
-check "memory hook allows a memory directory outside Claude's projects" "" \
-  "$(memory_hook_output '/home/me/todo-app/memory/notes.md')"
-check "memory hook allows input without a file path" "" \
-  "$(echo '{"tool_input":{}}' | "$hooks/deny-memory-writes.sh")"
-check_command_is_a_plugin_script "Write|Edit|MultiEdit" "deny-memory-writes.sh"
-check_script_is_followable "deny-memory-writes.sh"
-
 commit_with_trailer='{"tool_input":{"command":"git commit -m \"noreply@anthropic.com\""}}'
 check "commit hook still denies in a repository that has not opted out" "$commit_denial" \
   "$(in_repo_with_config "" "" deny-commit-attribution.sh "$commit_with_trailer")"
@@ -136,14 +114,6 @@ check "commit hook still denies when the opt-out is false" "$commit_denial" \
   "$(in_repo_with_config aido.allowCommitAttribution false deny-commit-attribution.sh "$commit_with_trailer")"
 check "commit hook still denies when the opt-out is not a boolean" "$commit_denial" \
   "$(in_repo_with_config aido.allowCommitAttribution maybe deny-commit-attribution.sh "$commit_with_trailer")"
-
-memory_write='{"tool_input":{"file_path":"/home/me/.claude/projects/todo-app/memory/notes.md"}}'
-check "memory hook still denies in a repository that has not opted out" "$memory_denial" \
-  "$(in_repo_with_config "" "" deny-memory-writes.sh "$memory_write")"
-check "memory hook allows writes in a repository that opted out" "" \
-  "$(in_repo_with_config aido.allowMemoryWrites true deny-memory-writes.sh "$memory_write")"
-check "an opt-out covers only its own hook" "$memory_denial" \
-  "$(in_repo_with_config aido.allowCommitAttribution true deny-memory-writes.sh "$memory_write")"
 
 check "push hook asks with only grep on the path" "$push_approval" \
   "$(output_with_only_grep_on_path ask-before-push.sh \
@@ -170,6 +140,9 @@ check "push hook cannot be opted out of" "$push_approval" \
   "$(in_repo_with_config aido.allowPush true ask-before-push.sh '{"tool_input":{"command":"git push"}}')"
 check_command_is_a_plugin_script "Bash" "ask-before-push.sh"
 check_script_is_followable "ask-before-push.sh"
+
+check "no hook runs on writes, so memory is left to the user" "" \
+  "$(jq -r '.hooks.PreToolUse[].matcher | select(test("Write|Edit"))' "$hooks/hooks.json")"
 
 check "compaction hook runs by its literal path, only after a compaction" \
   "\"\${CLAUDE_PLUGIN_ROOT}/hooks/remind-after-compaction.sh\"" \

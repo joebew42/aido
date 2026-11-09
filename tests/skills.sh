@@ -200,6 +200,9 @@ for skill in "$plugin"/skills/*/SKILL.md; do
   fi
 done
 
+! grep -rniE 'auto-memory|allowMemoryWrites' "$plugin/skills" "$plugin/guidelines"
+report $? "skills and guidelines leave Claude's memory to the user"
+
 old_fields='^ *- \*\*(Observation|Competing explanations|Assumptions|What would change it|Recommendation|Why it matters)[:*]'
 old_format="$(grep -rlE "$old_fields" "$plugin/skills" "$plugin/guidelines" "$plugin/evals" --exclude-dir=results)"
 if [ -z "$old_format" ]; then
@@ -288,7 +291,7 @@ for grader in "$plugin"/evals/*/graders/*.md; do
 done
 
 # macOS sed rejects GNU's `sed -i` form and `\n` in a replacement. `perl -pi` works on both.
-! grep -rnIE --exclude=skills.sh --exclude-dir=__pycache__ '\bsed -i\b' "$root/tests" "$root/plugins/aido/evals"
+! grep -rnIE --exclude=skills.sh --exclude-dir=__pycache__ --exclude-dir=results '\bsed -i\b' "$root/tests" "$root/plugins/aido/evals"
 report $? "tests and eval fixtures edit files in place with perl -pi"
 
 if [ "$failures" -eq 0 ]; then

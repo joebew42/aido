@@ -64,8 +64,7 @@ Resolve it once per skill run with `git symbolic-ref --short refs/remotes/origin
 - if the user declines, don't retry the push or push another way. Stop, and say what is left
   unpushed
 - always name the remote and the branch: `git push origin feature-branch-name`
-- never set `aido.allowCommitAttribution` or `aido.allowMemoryWrites`: those opt-outs are the user's
-  to set
+- never set `aido.allowCommitAttribution`: that opt-out is the user's to set
 
 ## Using GitHub CLI
 

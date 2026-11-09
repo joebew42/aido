@@ -75,12 +75,11 @@ history. Every skill ends with a short note: what it did, what it decided, and w
 
 ### Recommended Claude Code settings
 
-The guidelines ask for commits and PRs without AI attribution, and for no auto-memory. A plugin
-can't set these itself, so add this to `~/.claude/settings.json`:
+The guidelines ask for commits and PRs without AI attribution. A plugin can't set this itself, so
+add this to `~/.claude/settings.json`:
 
 ```json
 {
-  "autoMemoryEnabled": false,
   "attribution": { "commit": "", "pr": "" }
 }
 ```
@@ -91,9 +90,8 @@ can't set these itself, so add this to `~/.claude/settings.json`:
 | :--- | :--- | :--- |
 | Ask for your approval before every `git push` | on | not available |
 | Block commit messages containing<br>`Co-Authored-By` trailers | on | `git config aido.allowCommitAttribution true` |
-| Block writes to Claude's memory directory | on | `git config aido.allowMemoryWrites true` |
 
-Each opt-out applies to this repository, or everywhere with `--global`. The skills never set them.
+The opt-out applies to this repository, or everywhere with `--global`. The skills never set it.
 
 ---
 

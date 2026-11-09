@@ -11,9 +11,6 @@ is done. A fact about the code you just wrote is not one, however hard-won it fe
 files are read before every task, so each addition costs attention forever: a weak rule dilutes the
 strong ones around it. Treat "nothing to add" as success, and say so in one line.
 
-**Don't use auto-memory for this.** An insight worth keeping belongs in the host repository's
-`CLAUDE.md` or `AGENTS.md`, proposed through the process below.
-
 ## Process
 
 1. **Analyze the review comments and the fixes they led to.** Look for coding patterns, naming
