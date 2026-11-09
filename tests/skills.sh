@@ -291,7 +291,7 @@ for grader in "$plugin"/evals/*/graders/*.md; do
 done
 
 # macOS sed rejects GNU's `sed -i` form and `\n` in a replacement. `perl -pi` works on both.
-! grep -rnIE --exclude=skills.sh --exclude-dir=__pycache__ '\bsed -i\b' "$root/tests" "$root/plugins/aido/evals"
+! grep -rnIE --exclude=skills.sh --exclude-dir=__pycache__ --exclude-dir=results '\bsed -i\b' "$root/tests" "$root/plugins/aido/evals"
 report $? "tests and eval fixtures edit files in place with perl -pi"
 
 if [ "$failures" -eq 0 ]; then
