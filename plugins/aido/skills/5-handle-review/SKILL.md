@@ -1,11 +1,12 @@
 ---
-description: Handles PR review feedback by planning and implementing changes. Invoked when the user wants to handle PR review, address review comments, implement review feedback, or runs /aido:5-handle-review.
+description: Handles PR review feedback one comment at a time — fixes the comments the user chooses, replies on the PR to the rest and parks some in GitHub issues. Invoked when the user wants to handle PR review, address review comments, implement review feedback, or runs /aido:5-handle-review.
 disable-model-invocation: false
 ---
 
 # Handle PR Review
 
-Plan and make the changes a PR's review and comments ask for.
+Go through a PR's review feedback one comment at a time. Fix it, answer that it is out of scope, or
+park it in a GitHub issue.
 
 Resolve `SPEC.md` and `SPEC.md.draft` first, as "The Specification File" in
 `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md` describes.
@@ -23,6 +24,7 @@ Before any change:
   - `${CLAUDE_PLUGIN_ROOT}/guidelines/project-conventions.md`
   - `${CLAUDE_PLUGIN_ROOT}/guidelines/testing-principles.md`, if testing patterns matter here
   - `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`, to settle the spec before the push
+  - `${CLAUDE_PLUGIN_ROOT}/guidelines/github-issues.md`, to park comments in issues and write replies
 - load the host repository's conventions as `${CLAUDE_PLUGIN_ROOT}/guidelines/project-conventions.md`
   describes. Its agent instruction files (`CLAUDE.md` and `AGENTS.md`) win on the topics they cover,
   and say how to test, lint and structure code in this stack
@@ -31,13 +33,47 @@ Before any change:
 ## Process
 
 1. fetch the PR's reviews and comments, as "Reading a PR's Review Comments" in
-   `${CLAUDE_PLUGIN_ROOT}/guidelines/git-workflow.md` describes
-2. read every comment, and propose an approach for each one
-3. **confirm with `AskUserQuestion` before changing anything**, and wait for explicit approval
-   - Question: "Which review feedback should I implement?"
-   - Options: **Approve all** / **Pick specific items** / **Cancel**
-4. make each approved change, run the quality checks, then commit it on its own
-5. do NOT comment on the PR. The user talks to the reviewers
+   `${CLAUDE_PLUGIN_ROOT}/guidelines/git-workflow.md` describes. A thread of line comments counts as
+   one comment: the one that starts it, with the replies after it
+2. **triage every comment before asking about any.** Read each one with the code it points to, and
+   choose what it needs:
+   - **Should fix** — it asks for a change that belongs in this PR. Note the change in a line
+   - **Out of scope** — what it asks for doesn't belong in this PR, or the code already answers it.
+     Draft a short reply that says why
+   - **Park** — worth doing, but not in this PR. Draft the issue's title, and a short reply saying it
+     is tracked in an issue
+   - **nothing asked** — such as praise or a thank-you
+
+   Replies follow "Writing a GitHub Body" in `${CLAUDE_PLUGIN_ROOT}/guidelines/github-issues.md`.
+3. say in one line each which comments ask for nothing. They get no question
+4. **ask about one comment at a time**, as "One Item at a Time" in
+   `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` describes. The question names the comment's author
+   and where it is, such as the file and line or the review's summary, and sums it up in a sentence.
+   Ask with options **Should fix** / **Out of scope** / **Park**, with the triage's choice
+   recommended:
+   - **Should fix** — its description says briefly what you will change
+   - **Out of scope** — its preview shows the draft reply
+   - **Park** — its preview shows the issue's title and the draft reply
+
+   Choosing **Out of scope** or **Park** approves the reply shown. When the user types their own
+   answer, such as a different reply, take it as that comment's decision.
+5. **Nothing is changed, opened or posted until every comment is decided.** When nobody answers, or a
+   question can't be asked, stop there. Change, open and post nothing, and end as "Push and End"
+   describes, with nothing to push
+6. once every comment is decided, act on the decisions in this order:
+   1. make each **Should fix** change, run the quality checks, then commit it on its own
+   2. open an issue for each parked comment. Get the comment's URL, then start at "Check for
+      Duplicates" in `${CLAUDE_PLUGIN_ROOT}/guidelines/github-issues.md`, with:
+      - **title:** the title the user saw, with no prefix
+      - **body:** **Observation**, holding the comment's point, and **Why it was parked**, ending
+        with one line linking to the comment
+      - **issues that do not count as a match:** the issue in the PR's `Closes #NUMBER`, if any
+   3. post the reply for each **Out of scope** and **Park** comment, as "Replying to Review Feedback"
+      in `${CLAUDE_PLUGIN_ROOT}/guidelines/git-workflow.md` describes. A parked comment's reply links
+      the issue opened, or the existing issue the duplicate check found
+
+   A comment you fix gets no reply: the user talks to the reviewer about it. Report each issue opened
+   or commented on, and each reply posted, with its URL.
 
 ## Quality Checks
 
@@ -53,7 +89,7 @@ Apply "Before Every Commit" in `git-workflow.md` before every commit.
 
 ## Suggest Repository Conventions
 
-Once the approved changes are committed, and before the push, follow the process in
+Once the fixes are committed, and before the push, follow the process in
 `${CLAUDE_PLUGIN_ROOT}/guidelines/evolving-guidelines.md`. It only proposes additions to this
 repository's `CLAUDE.md` or `AGENTS.md`, and the user picks them through `AskUserQuestion`. A
 convention it adds is committed then, so the push carries it with the review fixes.
@@ -87,9 +123,9 @@ and end as below, listing the unpushed commits.
 
 ## Push and End
 
-- show a summary of the changes, with any convention added and how the spec was settled, then push. The permission prompt asks for
-  the user's approval, as "Pushing Changes" in `${CLAUDE_PLUGIN_ROOT}/guidelines/git-workflow.md`
-  describes
+- show a summary of the changes, with the replies posted, the issues opened, any convention added
+  and how the spec was settled, then push. The permission prompt asks for the user's approval,
+  as "Pushing Changes" in `${CLAUDE_PLUGIN_ROOT}/guidelines/git-workflow.md` describes
 - then end as "Ending a Skill" in `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` describes
 - if the user declines the push, they may want more changes. End the same way, and list in
   `Needs you` every commit left unpushed, a convention's included

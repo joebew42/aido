@@ -198,6 +198,12 @@ skills/2-implement/SKILL.md|Work through each unit without stopping to present e
 guidelines/tdd.md|Only a contract, a mapping or a DTO grows this way, and only when it relies on no existing code
 skills/2-implement/SKILL.md|writing a unit's tests together when it isn't a contract, a mapping or a DTO, or when it relies on existing code
 skills/5-handle-review/SKILL.md|and before the push, follow the process
+skills/5-handle-review/SKILL.md|triage every comment before asking about any
+skills/5-handle-review/SKILL.md|"One Item at a Time" in `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md`
+skills/5-handle-review/SKILL.md|options **Should fix** / **Out of scope** / **Park**, with the triage's choice recommended
+skills/5-handle-review/SKILL.md|Nothing is changed, opened or posted until every comment is decided
+skills/5-handle-review/SKILL.md|"Check for Duplicates" in `${CLAUDE_PLUGIN_ROOT}/guidelines/github-issues.md`
+skills/5-handle-review/SKILL.md|"Replying to Review Feedback" in `${CLAUDE_PLUGIN_ROOT}/guidelines/git-workflow.md`
 guidelines/specification.md|**Distil it into `<path>`**
 guidelines/specification.md|`docs: distil feature specification into <path>`
 guidelines/specification.md|the user approves it before it is committed

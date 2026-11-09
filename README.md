@@ -52,7 +52,7 @@ Every skill is available as `/aido:<skill>`.
 | **02** | `/aido:2-implement` | Build the feature test-first, and check every acceptance criterion. |
 | **03** | `/aido:3-organize-commits` | Turn the work into a clean, reviewable commit history. |
 | **04** | `/aido:4-open-pr` | Offer a verification, push with your approval, and open the pull request. |
-| **05** | `/aido:5-handle-review` | Weigh the review feedback and act on the items you pick. |
+| **05** | `/aido:5-handle-review` | Decide each review comment in turn: fix it, answer it, or park it in an issue. |
 
 > **You approve what matters.** aido proposes. It never decides what to build, rewrites history or
 > pushes without asking you.
@@ -180,7 +180,7 @@ passed during the check, or by your confirmation. Otherwise it is **insufficient
 | `/aido:2-implement` | Implement the feature using TDD. `loop` (or `loop 7-9`) runs each plan item in a fresh subagent. The final design review adds the refactorings you accept to the spec's `## Refactorings`, as `r1`, `r2`, …. `loop r1` (or `loop r1-r3`) runs them the same way. |
 | `/aido:3-organize-commits` | Organize the commit history. |
 | `/aido:4-open-pr` | Open a pull request. |
-| `/aido:5-handle-review` | Handle PR review feedback. |
+| `/aido:5-handle-review` | Handle PR review feedback one comment at a time, replying on the PR and parking some in issues. |
 
 ### Multi-phase feature
 
