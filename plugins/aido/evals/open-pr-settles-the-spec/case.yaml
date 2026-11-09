@@ -1,0 +1,6 @@
+schema_version: "1.1"
+name: open-pr-settles-the-spec
+description: Opening the PR on a branch whose spec is still there asks what happens to it before any push, and with nobody answering pushes nothing
+tags: [open-pr]
+context:
+  scaffold_script: fixture.sh

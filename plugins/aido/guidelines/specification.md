@@ -14,12 +14,14 @@ their own, so every skill resolves the name once per run. The first rule that ma
    `git log --format=%H --grep='^docs: feature specification$' <default-branch>..HEAD`, then
    `git show --name-only --format= <sha>`
 3. **No clash** — `SPEC.md` does not exist on the default branch
-   (`git cat-file -e origin/<default-branch>:SPEC.md` fails). Use `SPEC.md`. This workflow never
-   leaves its own spec on the default branch, so a `SPEC.md` there belongs to the repository
-4. **Clash** — `SPEC.md` is the repository's own. Ask with `AskUserQuestion`: "This repository
+   (`git cat-file -e origin/<default-branch>:SPEC.md` fails). Use `SPEC.md`
+4. **A leftover** — the `SPEC.md` on the default branch is a spec an earlier feature left behind, as
+   "A Leftover Spec" below describes. Use `SPEC.md`, and act as that section says
+5. **Clash** — `SPEC.md` is the repository's own. Ask with `AskUserQuestion`: "This repository
    already has its own `SPEC.md`. Where should the feature specification go?" — options
-   **`FEATURE-SPEC.md` (Recommended)** / **`docs/specs/<feature-slug>.md`**, and the user can type
-   another path. Never write to the repository's own `SPEC.md`
+   **`FEATURE-SPEC.md` (Recommended)** / **Another path**, which the user types. A path outside the
+   root belongs to the repository, as "When the Spec Is Settled" describes. Never write to the
+   repository's own `SPEC.md`
 
 After a clash, offer to record the choice in the host repository's `CLAUDE.md`, or `AGENTS.md` if
 that is the file it uses, so rule 1 answers it next time. Ask with `AskUserQuestion` — options
@@ -36,15 +38,39 @@ specification, then the plan and the design notes. It is committed first on the 
 **Never keep a draft next to its spec file.** Whenever you find both, or right after you create the
 spec file, delete the draft and tell the user.
 
+### A Leftover Spec
+
+A branch merged without settling its spec leaves the spec file on the default branch. When the branch
+has no `docs: feature specification` commit of its own, check the resolved path on the default branch,
+rule 1's path included. The file there is a **leftover spec** when it has the marker line, or when
+the commit that added the file there is `docs: feature specification`:
+
+```
+git show origin/<default-branch>:<path> | grep -qxF '> Working specification for this branch. Remove it before merging: revert the `docs: feature specification` commit.'
+git log -1 --diff-filter=A --format=%s origin/<default-branch> -- <path>
+```
+
+The first succeeds, or the second prints `docs: feature specification`: it is a leftover. A file
+added, removed and added again is judged by its latest add. A file with neither is the
+repository's own, and never counts as a leftover.
+
+On a leftover:
+
+- **a skill about to write a new spec** writes nothing, and stops. It tells the user: "`<path>` on
+  `<default-branch>` is a spec an earlier feature left behind. Remove it in its own PR, then run this
+  again."
+- **any other skill** says so in one line, and carries on
+
 ### Reading the Approved Specification
 
-Once the commits are organized, the spec file may be reverted or moved into the docs. Read it from
-where it is now:
+Once the commits are organized, the spec file may be reverted or distilled, as "Closing the
+Specification" describes. Read it from where it is now:
 
-- the spec file in the working tree, or the path it was moved to (the
-  `docs: move feature specification to <path>` commit)
+- the spec file in the working tree. On an older branch, the path a
+  `docs: move feature specification to <path>` commit moved it to
 - otherwise, from the branch history, just before the `revert: docs: feature specification` commit:
-  `git show <revert-sha>^:<spec-file>`
+  `git show <revert-sha>^:<spec-file>`. This holds for a distilled spec too: the distilled doc is not
+  the spec
 
 ## The Specification Structure
 
@@ -53,6 +79,8 @@ on it. Skills point here rather than restating it.
 
 ```markdown
 # <descriptive title>
+
+> Working specification for this branch. Remove it before merging: revert the `docs: feature specification` commit.
 
 GitHub Issue: <repo link>/#<NUMBER>   (or omit)
 
@@ -93,6 +121,11 @@ GitHub Issue: <repo link>/#<NUMBER>   (or omit)
 
 <added by implementation>
 ```
+
+**The marker line**, the quote under the title, tells any reader, aido user or not, that the file is
+a working spec to remove before merging. Every spec has it, word for word, once. A spec written outside
+the root of the host repository has none: it belongs to the repository. A spec written before the
+marker line existed has none either, and stays valid.
 
 **The specification states what and why, never how.** Context, Intent, Out of scope and Acceptance
 criteria are approved before any planning. How the change is built belongs to `## Plan` and
@@ -229,3 +262,68 @@ An item is done only when its line is ticked. An item not done yet has no line, 
 A specification approved before this structure existed may have no `## Acceptance criteria` section,
 or criteria without `AC` numbers. Skills then verify the plan alone, check no criteria, and ask
 nothing about them.
+
+## Closing the Specification
+
+The spec file lives as long as its branch. Before the branch is merged, the skill that settles it asks
+what happens to it. The answer becomes the branch's **last** commit, the **outcome commit**.
+
+### When the Spec Is Settled
+
+No skill asks about the spec when:
+
+- the branch has no spec
+- the spec is already settled
+- the branch is a main plan branch, whose name contains `main-plan-`. Its spec stays for the phases
+- the spec file lives outside the root of the host repository. It belongs to the repository, which
+  decides what happens to it
+
+The spec is **settled** when an outcome commit comes after the branch's `docs: feature specification`
+commit, found by rule 2 of "The Specification File":
+
+```
+git log --format=%s -E --grep='^(revert: docs: feature specification$|docs: move feature specification to )' <spec-sha>..HEAD
+```
+
+Any line it prints means settled: a revert, or an older move commit. The outcome commit is
+the last commit when it is made. Later commits, such as review fixes, don't reopen it.
+
+### Settling It
+
+By default, **revert** it. The specification then stays in the branch history, but leaves no file
+behind. What lasts beyond the branch, such as the problem and the decisions, can be **distilled**
+into the repository's docs first. The plan and the progress describe one moment, and are never kept.
+
+**Find where a distilled doc would belong**, in this order:
+
+1. the host repository's `CLAUDE.md` or `AGENTS.md`: a place they name for specifications, design
+   documents, decision records or other docs
+2. an existing documentation folder, such as `docs/specs/`, `docs/design/`, `docs/adr/` or `docs/`.
+   Name and place the file the way the files already there are. An existing doc on the same topic
+   counts too
+3. no documentation folder → offer only the default and a path the user types
+
+Name a new file after the feature, in the folder's own style, such as
+`docs/specs/shared-todo-lists.md`. Never overwrite an existing file: distilling into one adds to it.
+
+**Ask** with `AskUserQuestion`: "What should happen to `SPEC.md` once the feature is done?" —
+options:
+
+- **Revert it (Recommended)** — the last commit is `revert: docs: feature specification`
+- **Distil it into `<path>`** — one option per place found above, up to two. Each description says
+  why that place fits, and that the spec itself is still reverted
+- the user can always type a different path to distil into
+
+The answer gives the last commits:
+
+- **revert** → `revert: docs: feature specification`
+- **distil** → write the distilled text, then show it whole and ask with `AskUserQuestion` —
+  options **Approve it** / **Adjust it** / **Revert only**, so the user approves it before it is
+  committed. In the same call, ask whether to include the acceptance criteria — options **Leave them
+  out** / **Include them**. Commit it as `docs: distil feature specification into <path>`. The revert
+  still follows, as the last commit, and is the outcome commit
+
+**The distilled text** states the problem, from Context, and the decisions, from Intent, Out of
+scope, the alignment decisions and the key decisions in `## Progress`, with the acceptance criteria
+only if the user wants them. It follows `language.md`, and reads as the repository's doc, not as a
+spec. The distilled text holds no plan, progress, design notes, refactorings or marker line.

@@ -52,6 +52,9 @@ Resolve the spec file as "The Specification File" in
 `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md` describes. After a clash, remember whether the
 user wants the choice recorded. Step 7 commits it.
 
+On a leftover spec, stop before anything below, as "A Leftover Spec" in
+`${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md` describes.
+
 - **`SPEC.md` exists** → the specification is approved. Delete `SPEC.md.draft` if it is there, read
   `SPEC.md`, and continue at Step 4
 - **only `SPEC.md.draft` exists** → `AskUserQuestion`: "`SPEC.md.draft` is left from an earlier session. What should I do with it?" — options **Resume refining it** (use "Determine the work
@@ -102,6 +105,9 @@ user wants the choice recorded. Step 7 commits it.
      Keep their IDs, as "The Specification Structure" in
      `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md` describes
    - add the GitHub Issue ID, if there is one
+   - keep a single marker line under the title, as "The Specification Structure" in
+     `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md` shows it, whether or not the overall
+     specification has one
 
 ### Standalone Project Flow
 

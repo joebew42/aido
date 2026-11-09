@@ -213,5 +213,27 @@ class StaticChecks(unittest.TestCase):
         self.assertIn("FAIL - implement-review-records-refactorings/fixture.sh records acceptance results last, under ### Acceptance", result.stdout)
 
 
+    def test_a_skill_naming_a_commit_that_settles_the_spec_fails(self):
+        copy = self.copy_of_the_repository()
+        skill = copy / "plugins" / "aido" / "skills" / "4-open-pr" / "SKILL.md"
+        skill.write_text(skill.read_text() + "\nThe last commit is `revert: docs: feature specification`.\n")
+
+        result = self.run_checks(copy)
+
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("FAIL - only specification.md names the commits that settle the spec", result.stdout)
+
+    def test_settling_the_spec_after_the_push_fails(self):
+        copy = self.copy_of_the_repository()
+        skill = copy / "plugins" / "aido" / "skills" / "4-open-pr" / "SKILL.md"
+        self.replace_in(skill, "## Step 0.75: Settle the Specification", "## Settling")
+        skill.write_text(skill.read_text() + "\n## Step 5: Settle the Specification\n")
+
+        result = self.run_checks(copy)
+
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("FAIL - 4-open-pr settles the spec after the verification offer, before the push", result.stdout)
+
+
 if __name__ == "__main__":
     unittest.main()

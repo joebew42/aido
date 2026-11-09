@@ -27,8 +27,7 @@ Check the host repository's agent instruction files for PR conventions of their 
 ### Read the specification
 
 Read it as "Reading the Approved Specification" in
-`${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md` describes. `/aido:3-organize-commits` may already
-have reverted it or moved it into the docs.
+`${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md` describes.
 
 Check whether it has numbered acceptance criteria, as "The Specification Structure" in
 `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md` describes. With none, skip every
@@ -42,16 +41,28 @@ Before anything leaves this machine, ask with `AskUserQuestion`:
 
 Options:
 - **Verify** — run `/aido:verify` on the current branch
-- **Skip** — continue at Step 1
+- **Skip** — continue at Step 0.75
 
 After **Verify**, once the report is shown, ask with `AskUserQuestion`:
 
 > "How should I continue after this report?"
 
-- **Proceed** — continue at Step 1. Every deviation the report lists, other than deferred criteria,
+- **Proceed** — continue at Step 0.75. Every deviation the report lists, other than deferred criteria,
   counts as acknowledged. Keep them for the **Deviations** section of the description
 - **Address findings** — stop here, before anything is pushed, so the user can make changes. They can
   run `/aido:4-open-pr` again when ready
+
+## Step 0.75: Settle the Specification
+
+A spec left on the branch would reach the default branch with the merge. Before anything is pushed,
+settle it if "When the Spec Is Settled" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md` says
+to ask. Otherwise continue at Step 1.
+
+To settle it, gather the host repository's conventions as
+`${CLAUDE_PLUGIN_ROOT}/guidelines/project-conventions.md` describes, then act as "Closing the
+Specification" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md` describes. Its commits go on
+top of the branch, the outcome commit last. When nobody answers, or the question can't be asked, push
+nothing, and stop.
 
 ## Step 1: Push Changes
 

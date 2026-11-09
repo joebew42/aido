@@ -26,6 +26,8 @@ Load `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` and follow it in everything 
   `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`
 - gather the host repository's conventions as
   `${CLAUDE_PLUGIN_ROOT}/guidelines/project-conventions.md` describes
+- on a leftover spec, stop, as "A Leftover Spec" in
+  `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md` describes
 - if `SPEC.md` or `SPEC.md.draft` already exists in the working directory, stop and tell the user:
   this skill creates a new one
 
@@ -117,6 +119,8 @@ own lines and sections added:
 
 ```markdown
 # <descriptive title>
+
+> Working specification for this branch. Remove it before merging: revert the `docs: feature specification` commit.
 
 GitHub Issue: <repo link>/#<NUMBER>   (or omit)
 Original work: <PR #N (url) | branch origin/<name> | local changes, stash "stabilize: original work">

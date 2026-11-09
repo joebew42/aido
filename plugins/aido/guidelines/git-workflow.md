@@ -130,9 +130,8 @@ without what its later slices add.
   **first** in history
 - while history is unpushed, squash later `SPEC.md` edits into that commit. Once it is pushed, add a
   `docs: update feature specification` commit instead
-- the very last commit settles what happens to `SPEC.md`. By default it is a
-  `revert: docs: feature specification` that removes it. When the user chooses to keep it, it is a
-  `docs: move feature specification to <path>` that moves it into the repository's documentation
+- the very last commit is the outcome commit, which settles what happens to `SPEC.md`, as "Closing
+  the Specification" in `specification.md` describes
 - once commits are pushed, add new commits instead of rewriting history
 
 ## Hand-off Outcomes

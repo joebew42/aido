@@ -186,6 +186,40 @@ skills/2-implement/SKILL.md|Work through each unit without stopping to present e
 guidelines/tdd.md|Only a contract, a mapping or a DTO grows this way, and only when it relies on no existing code
 skills/2-implement/SKILL.md|writing a unit's tests together when it isn't a contract, a mapping or a DTO, or when it relies on existing code
 skills/5-handle-review/SKILL.md|and before the push, follow the process
+guidelines/specification.md|**Distil it into `<path>`**
+guidelines/specification.md|`docs: distil feature specification into <path>`
+guidelines/specification.md|the user approves it before it is committed
+guidelines/specification.md|The revert still follows, as the last commit
+guidelines/specification.md|The distilled text holds no plan, progress, design notes, refactorings or marker line
+guidelines/specification.md|with the acceptance criteria only if the user wants them
+guidelines/specification.md|the spec file lives outside the root of the host repository
+guidelines/specification.md|A spec written outside the root of the host repository has none
+guidelines/specification.md|**`FEATURE-SPEC.md` (Recommended)** / **Another path**
+guidelines/specification.md|`docs: move feature specification to <path>` commit
+guidelines/specification.md|### When the Spec Is Settled
+guidelines/specification.md|comes after the branch's `docs: feature specification` commit
+guidelines/specification.md|Later commits, such as review fixes, don't reopen it
+guidelines/specification.md|No skill asks about the spec when:
+guidelines/specification.md|the branch has no spec
+guidelines/specification.md|the spec is already settled
+guidelines/specification.md|the branch is a main plan branch, whose name contains `main-plan-`
+skills/4-open-pr/SKILL.md|"When the Spec Is Settled" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`
+skills/5-handle-review/SKILL.md|"When the Spec Is Settled" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`
+skills/4-open-pr/SKILL.md|"Closing the Specification" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`
+skills/5-handle-review/SKILL.md|"Closing the Specification" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`
+skills/5-handle-review/SKILL.md|`${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`, to settle the spec
+skills/1-plan/SKILL.md|keep a single marker line under the title
+guidelines/specification.md|### A Leftover Spec
+guidelines/specification.md|A file with neither is the repository's own, and never counts as a leftover
+guidelines/specification.md|rule 1's path included
+guidelines/specification.md|git log -1 --diff-filter=A --format=%s origin/<default-branch> -- <path>
+guidelines/specification.md|the commit that added the file there is `docs: feature specification`
+skills/1-plan/SKILL.md|"A Leftover Spec" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`
+skills/stabilize/SKILL.md|"A Leftover Spec" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`
+skills/multi-phase-spec-pr/SKILL.md|"A Leftover Spec" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`
+guidelines/specification.md|Remove it in its own PR, then run this again
+skills/3-organize-commits/SKILL.md|"Closing the Specification" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`
+skills/3-organize-commits/SKILL.md|"When the Spec Is Settled" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`
 skills/5-handle-review/SKILL.md|list in `Needs you` every commit left unpushed, a convention's included
 EOF_PHRASES
 
@@ -251,6 +285,20 @@ index_rules_in_skill="$(grep -rlF -- 'skills/map-architecture/SKILL.md' "$plugin
 [ -z "$index_rules_in_skill" ]
 report $? "no skill points into map-architecture for the index rules"
 
+outcome_namers="$(grep -rlE -- 'revert: docs: feature specification|docs: (move|keep|distil) feature specification' "$plugin/skills" "$plugin/guidelines")"
+[ "$outcome_namers" = "$plugin/guidelines/specification.md" ]
+report $? "only specification.md names the commits that settle the spec"
+
+skip_listers="$(grep -rlF -- 'main plan branch** → ask nothing' "$plugin/skills" "$plugin/guidelines")"
+[ -z "$skip_listers" ]
+report $? "only specification.md says when no skill asks about the spec"
+
+! grep -rnE -- 'Keep it where it is|docs: keep feature specification|`docs/specs/<feature-slug>\.md`' "$plugin/skills" "$plugin/guidelines"
+report $? "no skill keeps the spec in the docs, or offers a docs folder for it"
+
+! grep -rnF -- '**Move it to' "$plugin/skills" "$plugin/guidelines"
+report $? "no skill offers to move the spec into the docs unchanged"
+
 wrapping_reasons="$(grep -rlF -- 'a single newline as a line' "$plugin/skills" "$plugin/guidelines")"
 [ "$wrapping_reasons" = "$plugin/guidelines/github-issues.md" ]
 report $? "only github-issues.md says why GitHub bodies aren't hard-wrapped"
@@ -260,6 +308,32 @@ guidance_line="$(grep -n -m1 -F 'Worth examining' "$handle_review" | cut -d: -f1
 ending_line="$(grep -n -m1 -F '"Ending a Skill"' "$handle_review" | cut -d: -f1)"
 [ -n "$guidance_line" ] && [ -n "$ending_line" ] && [ "$guidance_line" -lt "$ending_line" ]
 report $? "5-handle-review gives the review guidance before its ending"
+
+open_pr="$plugin/skills/4-open-pr/SKILL.md"
+verify_line="$(grep -n -m1 -E '^## Step [0-9.]+: Offer Verification' "$open_pr" | cut -d: -f1)"
+settle_line="$(grep -n -m1 -E '^## Step [0-9.]+: Settle the Specification' "$open_pr" | cut -d: -f1)"
+push_line="$(grep -n -m1 -E '^## Step [0-9.]+: Push Changes' "$open_pr" | cut -d: -f1)"
+[ -n "$verify_line" ] && [ -n "$settle_line" ] && [ -n "$push_line" ] && [ "$verify_line" -lt "$settle_line" ] && [ "$settle_line" -lt "$push_line" ]
+report $? "4-open-pr settles the spec after the verification offer, before the push"
+
+conventions_line="$(grep -n -m1 -F '## Suggest Repository Conventions' "$handle_review" | cut -d: -f1)"
+settle_line="$(grep -n -m1 -F '## Settle the Specification' "$handle_review" | cut -d: -f1)"
+push_line="$(grep -n -m1 -F '## Push and End' "$handle_review" | cut -d: -f1)"
+[ -n "$conventions_line" ] && [ -n "$settle_line" ] && [ -n "$push_line" ] && [ "$conventions_line" -lt "$settle_line" ] && [ "$settle_line" -lt "$push_line" ]
+report $? "5-handle-review settles the spec after the review commits, before the push"
+
+marker='> Working specification for this branch. Remove it before merging: revert the `docs: feature specification` commit.'
+for file in guidelines/specification.md skills/stabilize/SKILL.md skills/multi-phase-spec-pr/SKILL.md; do
+  awk -v marker="$marker" '
+    /^# <descriptive title>$/ { title = NR; templates++ }
+    title && NR == title + 2 { if ($0 == marker) marked++; title = 0 }
+    END { exit !(templates > 0 && templates == marked) }
+  ' "$plugin/$file"
+  report $? "$file puts the marker line after the title of every spec it writes"
+done
+
+[ "$(grep -cF -- "$marker" "$plugin/guidelines/specification.md")" -ge 2 ]
+report $? "the leftover check looks for the marker line the template writes"
 
 skill_names="$(
   for skill in "$plugin"/skills/*/SKILL.md; do
