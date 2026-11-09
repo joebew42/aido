@@ -26,6 +26,86 @@ test "completing an already completed task is rejected":
     assert completed_task(title: "Pay rent", completed_at: "2026-10-01").complete() == Rejected
 ```
 
+## Don't Generate Tests in a Loop
+
+**Core Rule:** Don't write a loop that generates tests, such as `for value in [...]: test "testing %s"
+value`. The generated tests get generic names, and hide which behaviour each one documents. What to
+write instead depends on what the loop runs over.
+
+**A loop over methods that share a behaviour** becomes a separate test per method, each named after
+its behaviour.
+
+```
+# ❌ One generated test per method — the names hide which behaviour each one documents
+for action in [complete, archive, delete]:
+    test "%s by another user" action:
+        task = task_owned_by("ann")
+
+        result = action(task, by: "bob")
+
+        assert result == Refused
+```
+
+```
+# ✅ A separate test per method, each named after its behaviour
+test "only the owner can complete a task":
+    task = task_owned_by("ann")
+
+    result = task.complete(by: "bob")
+
+    assert result == Refused
+
+test "only the owner can archive a task":
+    task = task_owned_by("ann")
+
+    result = task.archive(by: "bob")
+
+    assert result == Refused
+
+test "only the owner can delete a task":
+    task = task_owned_by("ann")
+
+    result = task.delete(by: "bob")
+
+    assert result == Refused
+```
+
+**A loop over inputs to one behaviour** becomes one test that documents the behaviour. A loop of
+assertions inside it is fine, when a failure names the input that failed. Where the framework,
+library or language offers parameterised tests, use one instead.
+
+```
+# ❌ One generated test per input — named after the value, not the behaviour
+for title in ["", "   ", "\t"]:
+    test "saving a task titled '%s'" title:
+        task = new_task(title: title)
+
+        result = task.save()
+
+        assert result == Refused
+```
+
+```
+# ✅ One test documents the behaviour, and a failure names the input
+test "a task with a blank title is refused":
+    for title in ["", "   ", "\t"]:
+        task = new_task(title: title)
+
+        result = task.save()
+
+        assert result == Refused, "title: '%s'" title
+```
+
+```
+# ✅ A parameterised test, where the framework, library or language offers one
+test "a task with a blank title is refused" for each title in ["", "   ", "\t"]:
+    task = new_task(title: title)
+
+    result = task.save()
+
+    assert result == Refused
+```
+
 ## Test Collaboration, Real Behaviour End-to-End
 
 Thin **infrastructure that calls in** (a controller, API endpoint or CLI handler) translates input,
