@@ -31,9 +31,10 @@ aido skill a session or subagent runs never loads this file, so nothing checks i
   option in its label and set no default, so an unanswered form never looks like a choice.
   Questions asked together stay in one form.
 - `Agent` is `task`, with the `general-purpose` agent and no `model`. Model names in the skills, such
-  as `fable`, are Claude Code's, so act as "When the Model Is Unavailable" in `subagents.md`
-  describes. Brief the child with what the skill lists and add no instructions of your own: the child
-  follows its skill, and returns any question it can't ask.
+  as `fable`, are Claude Code's, so run the brief with the session's model, as "When the Model Is
+  Unavailable" in `subagents.md` describes, but don't report it, since that is expected here. Brief
+  the child with what the skill lists and add no instructions of your own: the child follows its
+  skill, and returns any question it can't ask.
 - When a skill may send a child a message later with `SendMessage`, start that child with `task` in
   `mode: "background"`, and keep its agent ID. When it finishes, read its result with `read_agent`.
   Send the answer with `write_agent` to the same agent ID, then read its next result the same way.
