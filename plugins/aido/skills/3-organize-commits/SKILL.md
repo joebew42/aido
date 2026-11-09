@@ -27,45 +27,18 @@ Do NOT skip this step.
 
 Skip this step if the branch has no `SPEC.md`.
 
-By default, **revert** it. The specification then stays in the branch history, but leaves no file
-behind. Before you propose the commit structure, ask whether the user would rather keep it in the
-repository.
-
-**Find where it would belong**, in this order:
-
-1. the host repository's `CLAUDE.md` or `AGENTS.md`: a place they name for specifications, design
-   documents, decision records or other docs
-2. an existing documentation folder, such as `docs/specs/`, `docs/design/`, `docs/adr/` or `docs/`.
-   Name and place the file the way the files already there are
-3. no documentation folder → offer only the default and a path the user types
-
-Name the file after the feature, in the folder's own style, such as
-`docs/specs/shared-todo-lists.md`. Never overwrite an existing file.
-
-**Ask** with `AskUserQuestion`: "What should happen to `SPEC.md` once the feature is done?" —
-options:
-
-- **Revert it (Recommended)** — the last commit is `revert: docs: feature specification`
-- **Move it to `<inferred path>`** — one option per place found above, up to two. Each description
-  says why that place fits
-- the user can always type a different path
-- if the spec file already lives in a documentation folder, because of a clash, offer **Keep it
-  where it is** instead of a move. It then needs no last commit
-
-The answer becomes the **last** commit of the structure below:
-
-- **revert** → `revert: docs: feature specification`
-- **move** → `git mv SPEC.md <path>`, committed as `docs: move feature specification to <path>`. The
-  content doesn't change
+Before you propose the commit structure, settle the spec as "Closing the Specification" in
+`${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md` describes. Its outcome commit becomes the
+**last** commit of the structure below.
 
 ## Commit Organization Rules
 
 `git-workflow.md` defines every rule for organizing commits. This skill **applies** them to the
 existing history. Its "Before Every Commit" gate applies to every commit made here, with the one
 exception for this skill that it describes. The tests run once, at the end, as "Run the Tests Once"
-describes. The very last commit is the `SPEC.md` outcome chosen in Step 1.
+describes. The very last commit is the outcome commit chosen in Step 1.
 
-This skill owns **final history shaping**: the order, the splits and the `SPEC.md` outcome.
+This skill owns **final history shaping**: the order, the splits and the outcome commit.
 `/aido:2-implement` made the working commits, one per unit.
 
 ### Follow What Was Actually Built
@@ -96,7 +69,7 @@ Before any rebase or history rewrite, read the current commits. Then show the pr
 > 2. `feat: ...` (grouped by class/module with tests)
 > 3. for an outside-in part, each slice in turn: its commits inside-out, then its acceptance test
 > 4. ...
-> N. `revert: docs: feature specification` or `docs: move feature specification to <path>` (last, as chosen in Step 1)
+> N. the outcome commit (last, as chosen in Step 1)
 >
 > Is this grouping approved?"
 
@@ -137,7 +110,7 @@ allows:
   rebuild the commits after it. To find it, run the same tests on earlier commits, for example with
   `git bisect run`, taking the default branch as passing. Each rebuilt commit keeps the gate above
 - **the commits are already pushed** → add a fix commit instead of rewriting history. It goes before
-  the `SPEC.md` outcome commit when that one isn't pushed yet
+  the outcome commit when that one isn't pushed yet
 
 Then run the relevant tests again, once, on the final commit. When the same tests also fail on the
 default branch, the failure isn't this branch's: fix nothing, and tell the user. When the run still
@@ -148,8 +121,8 @@ can't pass, stop. Tell the user which commit fails and why: the Final Checklist 
 Once the commits are organized, check ALL of these:
 
 - [ ] the docs commit message is EXACTLY "docs: feature specification" (if docs present)
-- [ ] the last commit carries the `SPEC.md` outcome chosen in Step 1: "revert: docs: feature
-      specification" (default) or "docs: move feature specification to <path>" (if docs present)
+- [ ] the last commit is the outcome commit chosen in Step 1, as "Closing the Specification" in
+      `specification.md` names it (if docs present)
 - [ ] no `SPEC.md.draft` is left in the working tree
 - [ ] the docs commit is the FIRST commit in history (if docs present)
 - [ ] every commit message follows "Commit Message Format" in `git-workflow.md`

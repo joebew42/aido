@@ -186,6 +186,7 @@ skills/2-implement/SKILL.md|Work through each unit without stopping to present e
 guidelines/tdd.md|Only a contract, a mapping or a DTO grows this way, and only when it relies on no existing code
 skills/2-implement/SKILL.md|writing a unit's tests together when it isn't a contract, a mapping or a DTO, or when it relies on existing code
 skills/5-handle-review/SKILL.md|and before the push, follow the process
+skills/3-organize-commits/SKILL.md|"Closing the Specification" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`
 skills/5-handle-review/SKILL.md|list in `Needs you` every commit left unpushed, a convention's included
 EOF_PHRASES
 
@@ -250,6 +251,10 @@ report $? "no guideline points into a skill for a rule"
 index_rules_in_skill="$(grep -rlF -- 'skills/map-architecture/SKILL.md' "$plugin/skills")"
 [ -z "$index_rules_in_skill" ]
 report $? "no skill points into map-architecture for the index rules"
+
+outcome_namers="$(grep -rlE -- 'revert: docs: feature specification|docs: (move|keep|distil) feature specification' "$plugin/skills" "$plugin/guidelines")"
+[ "$outcome_namers" = "$plugin/guidelines/specification.md" ]
+report $? "only specification.md names the commits that settle the spec"
 
 wrapping_reasons="$(grep -rlF -- 'a single newline as a line' "$plugin/skills" "$plugin/guidelines")"
 [ "$wrapping_reasons" = "$plugin/guidelines/github-issues.md" ]

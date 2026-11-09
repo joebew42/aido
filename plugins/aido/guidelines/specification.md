@@ -229,3 +229,38 @@ An item is done only when its line is ticked. An item not done yet has no line, 
 A specification approved before this structure existed may have no `## Acceptance criteria` section,
 or criteria without `AC` numbers. Skills then verify the plan alone, check no criteria, and ask
 nothing about them.
+
+## Closing the Specification
+
+The spec file lives as long as its branch. Before the branch is merged, the skill that settles it asks
+what happens to it, and the answer becomes the branch's **last** commit, the **outcome commit**.
+
+By default, **revert** it. The specification then stays in the branch history, but leaves no file
+behind. Ask whether the user would rather keep it in the repository.
+
+**Find where it would belong**, in this order:
+
+1. the host repository's `CLAUDE.md` or `AGENTS.md`: a place they name for specifications, design
+   documents, decision records or other docs
+2. an existing documentation folder, such as `docs/specs/`, `docs/design/`, `docs/adr/` or `docs/`.
+   Name and place the file the way the files already there are
+3. no documentation folder → offer only the default and a path the user types
+
+Name the file after the feature, in the folder's own style, such as
+`docs/specs/shared-todo-lists.md`. Never overwrite an existing file.
+
+**Ask** with `AskUserQuestion`: "What should happen to `SPEC.md` once the feature is done?" —
+options:
+
+- **Revert it (Recommended)** — the last commit is `revert: docs: feature specification`
+- **Move it to `<inferred path>`** — one option per place found above, up to two. Each description
+  says why that place fits
+- the user can always type a different path
+- if the spec file already lives in a documentation folder, because of a clash, offer **Keep it
+  where it is** instead of a move. It then needs no last commit
+
+The answer becomes the outcome commit:
+
+- **revert** → `revert: docs: feature specification`
+- **move** → `git mv SPEC.md <path>`, committed as `docs: move feature specification to <path>`. The
+  content doesn't change
