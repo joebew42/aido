@@ -27,7 +27,8 @@ This repository is a Claude Code plugin marketplace, which GitHub Copilot CLI al
 - inside a `SKILL.md`, refer to bundled files as `${CLAUDE_PLUGIN_ROOT}/guidelines/...` or
   `${CLAUDE_PLUGIN_ROOT}/skills/...` — Claude Code substitutes the path when it loads the skill.
   Guidelines are read as plain files, where no substitution happens, so they refer to each other
-  by file name
+  by file name. The one exception in a `SKILL.md` is the Copilot CLI line below: Copilot doesn't
+  substitute the path, so the line names `guidelines/copilot-cli.md` from the plugin root
 - skills are written for Claude Code. Each `SKILL.md` starts, right after its title, with the line
   that loads `guidelines/copilot-cli.md` in Copilot CLI, which maps paths, tools and approvals there
   without forking the skills. `tests/skills.sh` checks the line
