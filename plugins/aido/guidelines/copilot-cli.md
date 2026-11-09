@@ -35,7 +35,10 @@ Stop, tell the user, and suggest renaming or removing the skill that clashes.
   option in its label and set no default, so an unanswered form never looks like a choice.
   Questions asked together stay in one form. The form hides the chat text written just before it,
   so when a skill shows something before asking, such as a draft, a plan or what changed, put what
-  it shows in the form's `message`, above the question.
+  it shows in the form's `message`, above the question. When a skill says to show a document whole,
+  put its full text in the form's `message`, not a summary.
+- The user doesn't see tool output: Copilot folds it to a line such as "22 lines…". To show the user
+  a file or part of one, write its text yourself, never through a command such as `cat` or `sed`.
 - `Agent` is `task`, with the `general-purpose` agent and no `model`. Model names in the skills, such
   as `fable`, are Claude Code's, so run the brief with the session's model, as "When the Model Is
   Unavailable" in `subagents.md` describes, but don't report it, since that is expected here. Brief
