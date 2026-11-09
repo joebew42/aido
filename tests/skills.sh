@@ -18,11 +18,17 @@ done
 
 copilot_rule='**In Copilot CLI only:** before anything else, read `guidelines/copilot-cli.md` in the plugin root, two folders above this skill'"'"'s base directory, and follow it.'
 
+if [ -f "$root/plugins/aido/guidelines/copilot-cli.md" ]; then
+  echo "ok   - the Copilot CLI guideline exists"
+else
+  echo "FAIL - the Copilot CLI guideline exists"
+  failures=$((failures + 1))
+fi
+
 for skill in "$root"/plugins/aido/skills/*/SKILL.md; do
   name="$(basename "$(dirname "$skill")")"
 
-  if [ "$(awk 'started && NF { print; exit } /^# / { started = 1 }' "$skill")" = "$copilot_rule" ] \
-    && [ -f "$root/plugins/aido/guidelines/copilot-cli.md" ]; then
+  if [ "$(awk 'started && NF { print; exit } /^# / { started = 1 }' "$skill")" = "$copilot_rule" ]; then
     echo "ok   - $name loads the Copilot CLI guideline first"
   else
     echo "FAIL - $name loads the Copilot CLI guideline first"

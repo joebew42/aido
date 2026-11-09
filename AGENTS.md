@@ -31,7 +31,8 @@ This repository is a Claude Code plugin marketplace, which GitHub Copilot CLI al
   substitute the path, so the line names `guidelines/copilot-cli.md` from the plugin root
 - skills are written for Claude Code. Each `SKILL.md` starts, right after its title, with the line
   that loads `guidelines/copilot-cli.md` in Copilot CLI, which maps paths, tools and approvals there
-  without forking the skills. `tests/skills.sh` checks the line
+  without forking the skills. `tests/skills.sh` checks the line word for word, so rewording it
+  means changing every `SKILL.md` and the test together
 - refer to skills by their full name, `/aido:<name>`
 - a `CLAUDE.md` inside the plugin is not loaded; anything the skills need must be in a skill or a
   guideline they load
