@@ -192,7 +192,9 @@ guidelines/specification.md|the user approves it before it is committed
 guidelines/specification.md|The revert still follows, as the last commit
 guidelines/specification.md|The distilled text holds no plan, progress, design notes, refactorings or marker line
 guidelines/specification.md|with the acceptance criteria only if the user wants them
-guidelines/specification.md|`docs: keep feature specification at <path>`
+guidelines/specification.md|the spec file lives outside the root of the host repository
+guidelines/specification.md|A spec written outside the root of the host repository has none
+guidelines/specification.md|**`FEATURE-SPEC.md` (Recommended)** / **Another path**
 guidelines/specification.md|`docs: move feature specification to <path>` commit
 guidelines/specification.md|### When the Spec Is Settled
 guidelines/specification.md|comes after the branch's `docs: feature specification` commit
@@ -217,6 +219,7 @@ skills/stabilize/SKILL.md|"A Leftover Spec" in `${CLAUDE_PLUGIN_ROOT}/guidelines
 skills/multi-phase-spec-pr/SKILL.md|"A Leftover Spec" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`
 guidelines/specification.md|Remove it in its own PR, then run this again
 skills/3-organize-commits/SKILL.md|"Closing the Specification" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`
+skills/3-organize-commits/SKILL.md|"When the Spec Is Settled" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`
 skills/5-handle-review/SKILL.md|list in `Needs you` every commit left unpushed, a convention's included
 EOF_PHRASES
 
@@ -289,6 +292,9 @@ report $? "only specification.md names the commits that settle the spec"
 skip_listers="$(grep -rlF -- 'main plan branch** → ask nothing' "$plugin/skills" "$plugin/guidelines")"
 [ -z "$skip_listers" ]
 report $? "only specification.md says when no skill asks about the spec"
+
+! grep -rnE -- 'Keep it where it is|docs: keep feature specification|`docs/specs/<feature-slug>\.md`' "$plugin/skills" "$plugin/guidelines"
+report $? "no skill keeps the spec in the docs, or offers a docs folder for it"
 
 ! grep -rnF -- '**Move it to' "$plugin/skills" "$plugin/guidelines"
 report $? "no skill offers to move the spec into the docs unchanged"

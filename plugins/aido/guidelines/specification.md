@@ -19,8 +19,9 @@ their own, so every skill resolves the name once per run. The first rule that ma
    "A Leftover Spec" below describes. Use `SPEC.md`, and act as that section says
 5. **Clash** — `SPEC.md` is the repository's own. Ask with `AskUserQuestion`: "This repository
    already has its own `SPEC.md`. Where should the feature specification go?" — options
-   **`FEATURE-SPEC.md` (Recommended)** / **`docs/specs/<feature-slug>.md`**, and the user can type
-   another path. Never write to the repository's own `SPEC.md`
+   **`FEATURE-SPEC.md` (Recommended)** / **Another path**, which the user types. A path outside the
+   root belongs to the repository, as "When the Spec Is Settled" describes. Never write to the
+   repository's own `SPEC.md`
 
 After a clash, offer to record the choice in the host repository's `CLAUDE.md`, or `AGENTS.md` if
 that is the file it uses, so rule 1 answers it next time. Ask with `AskUserQuestion` — options
@@ -62,7 +63,7 @@ On a leftover:
 
 ### Reading the Approved Specification
 
-Once the commits are organized, the spec file may be reverted, distilled or kept, as "Closing the
+Once the commits are organized, the spec file may be reverted or distilled, as "Closing the
 Specification" describes. Read it from where it is now:
 
 - the spec file in the working tree. On an older branch, the path a
@@ -122,8 +123,9 @@ GitHub Issue: <repo link>/#<NUMBER>   (or omit)
 ```
 
 **The marker line**, the quote under the title, tells any reader, aido user or not, that the file is
-a working spec to remove before merging. Every spec has it, word for word, once. A spec written before
-it existed has none, and stays valid.
+a working spec to remove before merging. Every spec has it, word for word, once. A spec written outside
+the root of the host repository has none: it belongs to the repository. A spec written before the
+marker line existed has none either, and stays valid.
 
 **The specification states what and why, never how.** Context, Intent, Out of scope and Acceptance
 criteria are approved before any planning. How the change is built belongs to `## Plan` and
@@ -273,15 +275,17 @@ No skill asks about the spec when:
 - the branch has no spec
 - the spec is already settled
 - the branch is a main plan branch, whose name contains `main-plan-`. Its spec stays for the phases
+- the spec file lives outside the root of the host repository. It belongs to the repository, which
+  decides what happens to it
 
 The spec is **settled** when an outcome commit comes after the branch's `docs: feature specification`
 commit, found by rule 2 of "The Specification File":
 
 ```
-git log --format=%s -E --grep='^(revert: docs: feature specification$|docs: (keep|move) feature specification (at|to) )' <spec-sha>..HEAD
+git log --format=%s -E --grep='^(revert: docs: feature specification$|docs: move feature specification to )' <spec-sha>..HEAD
 ```
 
-Any line it prints means settled: a revert, a keep, or an older move commit. The outcome commit is
+Any line it prints means settled: a revert, or an older move commit. The outcome commit is
 the last commit when it is made. Later commits, such as review fixes, don't reopen it.
 
 ### Settling It
@@ -308,8 +312,6 @@ options:
 - **Revert it (Recommended)** — the last commit is `revert: docs: feature specification`
 - **Distil it into `<path>`** — one option per place found above, up to two. Each description says
   why that place fits, and that the spec itself is still reverted
-- **Keep it where it is** — only when the spec file already lives in a documentation folder, because
-  of a clash
 - the user can always type a different path to distil into
 
 The answer gives the last commits:
@@ -320,9 +322,6 @@ The answer gives the last commits:
   committed. In the same call, ask whether to include the acceptance criteria — options **Leave them
   out** / **Include them**. Commit it as `docs: distil feature specification into <path>`. The revert
   still follows, as the last commit, and is the outcome commit
-- **keep** → the spec stays where it is. The outcome commit removes its marker line, as
-  `docs: keep feature specification at <path>`. A spec with no marker line, written before it
-  existed, needs no commit
 
 **The distilled text** states the problem, from Context, and the decisions, from Intent, Out of
 scope, the alignment decisions and the key decisions in `## Progress`, with the acceptance criteria

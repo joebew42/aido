@@ -25,7 +25,8 @@ Do NOT skip this step.
 
 ## Step 1: Decide What Happens to `SPEC.md`
 
-Skip this step if the branch has no `SPEC.md`.
+Skip this step unless "When the Spec Is Settled" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`
+says to ask.
 
 Before you propose the commit structure, settle the spec as "Closing the Specification" in
 `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md` describes. Its commits close the structure
@@ -122,7 +123,7 @@ Once the commits are organized, check ALL of these:
 
 - [ ] the docs commit message is EXACTLY "docs: feature specification" (if docs present)
 - [ ] the last commit is the outcome commit chosen in Step 1, as "Closing the Specification" in
-      `specification.md` names it (if docs present)
+      `specification.md` names it (if Step 1 ran)
 - [ ] no `SPEC.md.draft` is left in the working tree
 - [ ] the docs commit is the FIRST commit in history (if docs present)
 - [ ] every commit message follows "Commit Message Format" in `git-workflow.md`
