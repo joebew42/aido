@@ -202,6 +202,12 @@ skills/4-open-pr/SKILL.md|"Closing the Specification" in `${CLAUDE_PLUGIN_ROOT}/
 skills/5-handle-review/SKILL.md|"Closing the Specification" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`
 skills/5-handle-review/SKILL.md|`${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`, to settle the spec
 skills/1-plan/SKILL.md|keep a single marker line under the title
+guidelines/specification.md|### A Leftover Spec
+guidelines/specification.md|A file with neither is the repository's own, and never counts as a leftover
+guidelines/specification.md|rule 1's path included
+skills/1-plan/SKILL.md|"A Leftover Spec" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`
+skills/stabilize/SKILL.md|"A Leftover Spec" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`
+skills/multi-phase-spec-pr/SKILL.md|"A Leftover Spec" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`
 skills/3-organize-commits/SKILL.md|"Closing the Specification" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`
 skills/5-handle-review/SKILL.md|list in `Needs you` every commit left unpushed, a convention's included
 EOF_PHRASES
@@ -307,6 +313,9 @@ for file in guidelines/specification.md skills/stabilize/SKILL.md skills/multi-p
   ' "$plugin/$file"
   report $? "$file puts the marker line after the title of every spec it writes"
 done
+
+[ "$(grep -cF -- "$marker" "$plugin/guidelines/specification.md")" -ge 2 ]
+report $? "the leftover check looks for the marker line the template writes"
 
 skill_names="$(
   for skill in "$plugin"/skills/*/SKILL.md; do

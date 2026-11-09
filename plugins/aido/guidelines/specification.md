@@ -14,9 +14,10 @@ their own, so every skill resolves the name once per run. The first rule that ma
    `git log --format=%H --grep='^docs: feature specification$' <default-branch>..HEAD`, then
    `git show --name-only --format= <sha>`
 3. **No clash** — `SPEC.md` does not exist on the default branch
-   (`git cat-file -e origin/<default-branch>:SPEC.md` fails). Use `SPEC.md`. This workflow never
-   leaves its own spec on the default branch, so a `SPEC.md` there belongs to the repository
-4. **Clash** — `SPEC.md` is the repository's own. Ask with `AskUserQuestion`: "This repository
+   (`git cat-file -e origin/<default-branch>:SPEC.md` fails). Use `SPEC.md`
+4. **A leftover** — the `SPEC.md` on the default branch is a spec an earlier feature left behind, as
+   "A Leftover Spec" below describes. Use `SPEC.md`, and act as that section says
+5. **Clash** — `SPEC.md` is the repository's own. Ask with `AskUserQuestion`: "This repository
    already has its own `SPEC.md`. Where should the feature specification go?" — options
    **`FEATURE-SPEC.md` (Recommended)** / **`docs/specs/<feature-slug>.md`**, and the user can type
    another path. Never write to the repository's own `SPEC.md`
@@ -35,6 +36,28 @@ specification, then the plan and the design notes. It is committed first on the 
 
 **Never keep a draft next to its spec file.** Whenever you find both, or right after you create the
 spec file, delete the draft and tell the user.
+
+### A Leftover Spec
+
+A branch merged without settling its spec leaves the spec file on the default branch. When the branch
+has no `docs: feature specification` commit of its own, check the resolved path on the default branch,
+rule 1's path included. The file there is a **leftover spec** when it has the marker line, or a
+`docs: feature specification` commit added it:
+
+```
+git show origin/<default-branch>:<path> | grep -qxF '> Working specification for this branch. Remove it before merging: revert the `docs: feature specification` commit.'
+git log --format=%H --grep='^docs: feature specification$' origin/<default-branch> -- <path>
+```
+
+The first succeeds, or the second prints a commit: it is a leftover. A file with neither is the
+repository's own, and never counts as a leftover.
+
+On a leftover:
+
+- **a skill about to write a new spec** writes nothing, and stops. It tells the user: "`<path>` on
+  `<default-branch>` is a spec an earlier feature left behind. Remove it in its own PR, then run this
+  again."
+- **any other skill** says so in one line, and carries on
 
 ### Reading the Approved Specification
 

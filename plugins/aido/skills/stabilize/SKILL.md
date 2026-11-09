@@ -26,6 +26,8 @@ Load `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` and follow it in everything 
   `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`
 - gather the host repository's conventions as
   `${CLAUDE_PLUGIN_ROOT}/guidelines/project-conventions.md` describes
+- on a leftover spec, stop, as "A Leftover Spec" in
+  `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md` describes
 - if `SPEC.md` or `SPEC.md.draft` already exists in the working directory, stop and tell the user:
   this skill creates a new one
 
