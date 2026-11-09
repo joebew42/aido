@@ -90,7 +90,8 @@ logical one. Ask:
 
 > "Which items should I do in this session? (all / specific items / the next logical one)"
 
-Wait for the answer before you start.
+Wait for the answer before you start. Ask even when the remaining items look obvious, such as the rest
+of a plan whose first items are done: only the user decides how much this session builds.
 
 ## Loop Mode
 

@@ -250,6 +250,7 @@ guidelines/tdd.md|**REFACTOR**, once per unit, with all tests green
 skills/2-implement/SKILL.md|Work through each unit without stopping to present each test cycle, in every mode
 guidelines/tdd.md|Only a contract, a mapping or a DTO grows this way, and only when it relies on no existing code
 skills/2-implement/SKILL.md|writing a unit's tests together when it isn't a contract, a mapping or a DTO, or when it relies on existing code
+skills/2-implement/SKILL.md|Ask even when the remaining items look obvious
 skills/5-handle-review/SKILL.md|and before the push, follow the process
 skills/5-handle-review/SKILL.md|triage every comment before asking about any
 skills/5-handle-review/SKILL.md|"One Item at a Time" in `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md`
