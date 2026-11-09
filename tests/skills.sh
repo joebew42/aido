@@ -79,6 +79,7 @@ skills/1-plan/SKILL.md|Do NOT implement anything in this skill
 skills/1-plan/SKILL.md|options **Plan it first** / **Defer** / **No action**
 skills/1-plan/SKILL.md|options **Include it** / **Leave it saved**
 skills/1-plan/SKILL.md|**Asking about a finding** in `systemic-refactoring.md`
+skills/1-plan/SKILL.md|Confirm each finding classed enabling or defer, as **Evidence before action** in `systemic-refactoring.md` describes
 skills/1-plan/SKILL.md|**Plan it first** matches a finding classed enabling, and **Defer** one classed defer
 skills/1-plan/SKILL.md|Recommend **Include it**, unless the idea is broader or riskier than this change justifies
 skills/2-implement/SKILL.md|Never record a criterion as met without its evidence

@@ -311,8 +311,9 @@ Launch one `Agent` with `model: "fable"`. Brief it with "The Shared Brief" in `$
 
 If `fable` is unavailable, act as "When the Model Is Unavailable" in `${CLAUDE_PLUGIN_ROOT}/guidelines/subagents.md`.
 
-Confirm each finding classed enabling, as **Evidence before action** in `systemic-refactoring.md`
-describes. Then ask about each finding classed enabling or defer, one at a time, as **Asking about a
+Confirm each finding classed enabling or defer, as **Evidence before action** in
+`systemic-refactoring.md` describes, since either can become a plan item. Then ask about each one,
+one at a time, as **Asking about a
 finding** in `systemic-refactoring.md` describes — options **Plan it first** / **Defer** /
 **No action**. **Plan it first** matches a finding classed enabling, and **Defer** one classed
 defer:
