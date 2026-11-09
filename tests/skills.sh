@@ -194,6 +194,10 @@ guidelines/specification.md|The distilled text holds no plan, progress, design n
 guidelines/specification.md|with the acceptance criteria only if the user wants them
 guidelines/specification.md|`docs: keep feature specification at <path>`
 guidelines/specification.md|`docs: move feature specification to <path>` commit
+guidelines/specification.md|### When the Spec Is Settled
+guidelines/specification.md|comes after the branch's `docs: feature specification` commit
+guidelines/specification.md|Later commits, such as review fixes, don't reopen it
+guidelines/specification.md|whose name contains `main-plan-`, is never settled
 skills/3-organize-commits/SKILL.md|"Closing the Specification" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`
 skills/5-handle-review/SKILL.md|list in `Needs you` every commit left unpushed, a convention's included
 EOF_PHRASES
