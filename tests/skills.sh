@@ -208,6 +208,9 @@ guidelines/specification.md|rule 1's path included
 skills/1-plan/SKILL.md|"A Leftover Spec" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`
 skills/stabilize/SKILL.md|"A Leftover Spec" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`
 skills/multi-phase-spec-pr/SKILL.md|"A Leftover Spec" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`
+skills/4-open-pr/SKILL.md|**no spec on the branch, already settled, or a main plan branch** → ask nothing
+skills/5-handle-review/SKILL.md|**no spec on the branch, already settled, or a main plan branch** → ask nothing
+guidelines/specification.md|Remove it in its own PR, then run this again
 skills/3-organize-commits/SKILL.md|"Closing the Specification" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`
 skills/5-handle-review/SKILL.md|list in `Needs you` every commit left unpushed, a convention's included
 EOF_PHRASES
