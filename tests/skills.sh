@@ -200,6 +200,9 @@ for skill in "$plugin"/skills/*/SKILL.md; do
   fi
 done
 
+! grep -rniE 'auto-memory|allowMemoryWrites' "$plugin/skills" "$plugin/guidelines"
+report $? "skills and guidelines leave Claude's memory to the user"
+
 old_fields='^ *- \*\*(Observation|Competing explanations|Assumptions|What would change it|Recommendation|Why it matters)[:*]'
 old_format="$(grep -rlE "$old_fields" "$plugin/skills" "$plugin/guidelines" "$plugin/evals" --exclude-dir=results)"
 if [ -z "$old_format" ]; then
