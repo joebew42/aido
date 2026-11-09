@@ -17,6 +17,9 @@ The user runs a skill as `/aido:<name>`, as in Claude Code. To invoke one with t
 the `skill` tool with `<name>` alone, such as `1-plan`. Any words after the name, such as `item 3`,
 are part of the request you then follow.
 
+After loading an aido skill, check that the base directory the `skill` tool reports is inside this
+plugin. If another skill took precedence, stop and tell the user.
+
 ## Tools
 
 - `AskUserQuestion` is `ask_user`. Ask each question as one field of the form: its options become

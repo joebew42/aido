@@ -103,7 +103,8 @@ copilot plugin install aido@aido
 ```
 
 Run the skills by the same names, such as `/aido:1-plan`. A skill with the same name in your
-repository or in `~/.copilot/skills` takes precedence over aido's.
+repository or in `~/.copilot/skills` takes precedence over aido's; aido is instructed to stop and
+tell you when that happens.
 
 Approval comes only from your answers. Autopilot, `--no-ask-user` and prompt mode (`-p`) leave
 nobody to answer, so each skill stops at its first question, and the push hook denies every push.

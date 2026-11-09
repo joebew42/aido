@@ -163,6 +163,7 @@ guidelines/git-workflow.md|### Replying to Review Feedback
 guidelines/git-workflow.md|resolveReviewThread(input: {threadId: $threadId})
 guidelines/git-workflow.md|A reply is posted only once the user has approved its text
 guidelines/git-workflow.md|gh pr comment <NUMBER> --body-file <file>
+guidelines/copilot-cli.md|If another skill took precedence, stop and tell the user.
 guidelines/copilot-cli.md|Only a person's answer is approval
 guidelines/copilot-cli.md|Never choose an option for the user, not even the recommended one
 guidelines/copilot-cli.md|Never push another way
