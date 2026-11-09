@@ -104,9 +104,8 @@ copilot plugin install aido@aido
 
 Run the skills by the same names, such as `/aido:1-plan`. Copilot keeps one skill per name, so a
 skill with the same name in your repository or your personal skills hides aido's, and its `/aido:`
-command with it. When the agent asks for that skill, it gets yours. Once an aido skill is running,
-it is instructed to stop and tell you if a later skill resolves elsewhere, but nothing checks the
-first skill loaded. Rename or remove skills that clash with aido's.
+command with it. An aido skill that asks for the hidden one can't load it instead of yours, and is
+instructed to stop and tell you. Rename or remove skills that clash with aido's.
 
 Autopilot, `--no-ask-user` and prompt mode (`-p`) can continue or choose without asking you. The
 guideline asks skills to stop at questions, but nothing enforces this. Approval checkpoints are
