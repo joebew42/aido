@@ -106,10 +106,11 @@ Run the skills by the same names, such as `/aido:1-plan`. A skill with the same 
 repository or in `~/.copilot/skills` takes precedence over aido's; aido is instructed to stop and
 tell you when that happens.
 
-Approval comes only from your answers. Autopilot, `--no-ask-user` and prompt mode (`-p`) leave
-nobody to answer, so each skill stops at its first question, and the push hook denies every push.
-Use an interactive session whenever approval matters. To keep AI attribution out of commits, add
-`"includeCoAuthoredBy": false` to `~/.copilot/settings.json`.
+Autopilot, `--no-ask-user` and prompt mode (`-p`) can continue or choose without asking you. The
+guideline asks skills to stop at questions, but nothing enforces this. Approval checkpoints are
+reliable only in an interactive session. Push stays protected: the hook denies it when it can't ask.
+To keep AI attribution out of commits, add `"includeCoAuthoredBy": false` to
+`~/.copilot/settings.json`.
 
 In Copilot CLI, subagents run on Copilot's default model, nothing reminds a skill to reload after
 Copilot compacts the conversation, and the evals measure Claude Code only.
