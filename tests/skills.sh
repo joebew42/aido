@@ -180,6 +180,7 @@ guidelines/copilot-cli.md|Read each guideline whole, with `view`, one file per c
 guidelines/copilot-cli.md|put what it shows in the form's `message`, above the question
 guidelines/copilot-cli.md|The user doesn't see tool output
 guidelines/copilot-cli.md|put its full text in the form's `message`, not a summary
+guidelines/copilot-cli.md|A guideline cited for a single rule counts too
 skills/1-plan/SKILL.md|Load `${CLAUDE_PLUGIN_ROOT}/guidelines/git-workflow.md` first, if it isn't loaded
 guidelines/specification.md|An item is done only when its line is ticked
 guidelines/specification.md|under a `### Acceptance` heading, the last heading in `## Progress`

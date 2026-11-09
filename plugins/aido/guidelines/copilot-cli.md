@@ -18,6 +18,7 @@ Don't batch guidelines into one shell command, and don't cut them with `head`, `
 long output is saved to a file instead of shown, and a part of a guideline is not the guideline. If
 `view` reports a file too large, read it in parts with `view_range` until you have read all of it.
 Whenever a command's output is saved to a file instead of shown, read that file before you go on.
+A guideline cited for a single rule counts too: read all of it, not just the part around the rule.
 
 ## Skills
 
