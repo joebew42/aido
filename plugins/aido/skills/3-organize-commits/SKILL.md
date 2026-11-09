@@ -28,8 +28,8 @@ Do NOT skip this step.
 Skip this step if the branch has no `SPEC.md`.
 
 Before you propose the commit structure, settle the spec as "Closing the Specification" in
-`${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md` describes. Its outcome commit becomes the
-**last** commit of the structure below.
+`${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md` describes. Its commits close the structure
+below, the outcome commit last.
 
 ## Commit Organization Rules
 
@@ -69,7 +69,7 @@ Before any rebase or history rewrite, read the current commits. Then show the pr
 > 2. `feat: ...` (grouped by class/module with tests)
 > 3. for an outside-in part, each slice in turn: its commits inside-out, then its acceptance test
 > 4. ...
-> N. the outcome commit (last, as chosen in Step 1)
+> N. the outcome commit (last, as chosen in Step 1), after the distilled doc if the user chose one
 >
 > Is this grouping approved?"
 

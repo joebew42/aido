@@ -186,6 +186,14 @@ skills/2-implement/SKILL.md|Work through each unit without stopping to present e
 guidelines/tdd.md|Only a contract, a mapping or a DTO grows this way, and only when it relies on no existing code
 skills/2-implement/SKILL.md|writing a unit's tests together when it isn't a contract, a mapping or a DTO, or when it relies on existing code
 skills/5-handle-review/SKILL.md|and before the push, follow the process
+guidelines/specification.md|**Distil it into `<path>`**
+guidelines/specification.md|`docs: distil feature specification into <path>`
+guidelines/specification.md|the user approves it before it is committed
+guidelines/specification.md|The revert still follows, as the last commit
+guidelines/specification.md|The distilled text holds no plan, progress, design notes, refactorings or marker line
+guidelines/specification.md|with the acceptance criteria only if the user wants them
+guidelines/specification.md|`docs: keep feature specification at <path>`
+guidelines/specification.md|`docs: move feature specification to <path>` commit
 skills/3-organize-commits/SKILL.md|"Closing the Specification" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`
 skills/5-handle-review/SKILL.md|list in `Needs you` every commit left unpushed, a convention's included
 EOF_PHRASES
@@ -255,6 +263,9 @@ report $? "no skill points into map-architecture for the index rules"
 outcome_namers="$(grep -rlE -- 'revert: docs: feature specification|docs: (move|keep|distil) feature specification' "$plugin/skills" "$plugin/guidelines")"
 [ "$outcome_namers" = "$plugin/guidelines/specification.md" ]
 report $? "only specification.md names the commits that settle the spec"
+
+! grep -rnF -- '**Move it to' "$plugin/skills" "$plugin/guidelines"
+report $? "no skill offers to move the spec into the docs unchanged"
 
 wrapping_reasons="$(grep -rlF -- 'a single newline as a line' "$plugin/skills" "$plugin/guidelines")"
 [ "$wrapping_reasons" = "$plugin/guidelines/github-issues.md" ]
