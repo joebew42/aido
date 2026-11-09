@@ -102,9 +102,11 @@ copilot plugin marketplace add joebew42/aido
 copilot plugin install aido@aido
 ```
 
-Run the skills by the same names, such as `/aido:1-plan`. A skill with the same name in your
-repository or in `~/.copilot/skills` takes precedence over aido's; aido is instructed to stop and
-tell you when that happens.
+Run the skills by the same names, such as `/aido:1-plan`. Copilot knows skills by their bare name,
+so a skill with the same name in your repository or your personal skills replaces aido's, even
+when you type `/aido:`. Once an aido skill is running, it is instructed to stop and tell you if a
+later skill resolves elsewhere, but nothing catches a clash on the first skill you run. Rename or
+remove skills that clash with aido's.
 
 Autopilot, `--no-ask-user` and prompt mode (`-p`) can continue or choose without asking you. The
 guideline asks skills to stop at questions, but nothing enforces this. Approval checkpoints are
