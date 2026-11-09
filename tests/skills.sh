@@ -127,6 +127,9 @@ skills/verify/SKILL.md|Every finding names its evidence
 skills/verify/SKILL.md|a change that a refactoring in `## Refactorings` explains is planned, and is not a deviation. It is never evidence that something is met
 skills/verify/SKILL.md|are not evidence
 guidelines/systemic-refactoring.md|Evidence before action
+guidelines/systemic-refactoring.md|**Asking about a finding:**
+guidelines/systemic-refactoring.md|A low-confidence finding recommends only **Defer** or **No action**
+guidelines/systemic-refactoring.md|a finding classed no action is listed in one line, with no question
 guidelines/git-workflow.md|every push needs the user's approval
 guidelines/specification.md|An item is done only when its line is ticked
 guidelines/specification.md|under a `### Acceptance` heading, the last heading in `## Progress`
