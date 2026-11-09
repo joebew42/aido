@@ -151,6 +151,12 @@ check "compaction hook tells the agent to reload the skill" "1" \
   "$("$hooks/remind-after-compaction.sh" | grep -c 'invoke that skill again')"
 check_script_is_followable "remind-after-compaction.sh"
 
+# Without `cwd`, Copilot CLI runs plugin hooks from the plugin directory, so the opt-out's
+# `git config` would read the plugin checkout. Copilot documents `cwd` as relative to the
+# repository root. Claude Code documents no `cwd` field and runs hooks in the session's directory.
+# On both hosts, a Bash command that first changes into another repository is still checked
+# against the session's repository. Manual probes when `cwd` was added saw a repository opt-out
+# honoured in both hosts, without recording the Copilot version. Nothing here runs a host.
 check "every tool hook runs from the session's directory, where its opt-out is read" "" \
   "$(jq -r '.hooks.PreToolUse[].hooks[] | select(.cwd != ".") | .command' "$hooks/hooks.json")"
 
