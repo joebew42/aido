@@ -55,16 +55,14 @@ After **Verify**, once the report is shown, ask with `AskUserQuestion`:
 ## Step 0.75: Settle the Specification
 
 A spec left on the branch would reach the default branch with the merge. Before anything is pushed,
-check whether it is settled, as "When the Spec Is Settled" in
-`${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md` describes:
+settle it if "When the Spec Is Settled" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md` says
+to ask. Otherwise continue at Step 1.
 
-- **no spec on the branch, already settled, or a main plan branch** → ask nothing, and continue at
-  Step 1
-- **not settled** → gather the host repository's conventions as
-  `${CLAUDE_PLUGIN_ROOT}/guidelines/project-conventions.md` describes, then settle it as "Closing the
-  Specification" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md` describes. Its commits go on
-  top of the branch, the outcome commit last. When nobody answers, or the question can't be asked,
-  push nothing, and stop
+To settle it, gather the host repository's conventions as
+`${CLAUDE_PLUGIN_ROOT}/guidelines/project-conventions.md` describes, then act as "Closing the
+Specification" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md` describes. Its commits go on
+top of the branch, the outcome commit last. When nobody answers, or the question can't be asked, push
+nothing, and stop.
 
 ## Step 1: Push Changes
 

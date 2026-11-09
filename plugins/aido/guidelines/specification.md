@@ -268,9 +268,14 @@ what happens to it. The answer becomes the branch's **last** commit, the **outco
 
 ### When the Spec Is Settled
 
-A skill asks only when the branch has a spec that isn't settled yet. The spec is **settled** when an
-outcome commit comes after the branch's `docs: feature specification` commit, found by rule 2 of
-"The Specification File":
+No skill asks about the spec when:
+
+- the branch has no spec
+- the spec is already settled
+- the branch is a main plan branch, whose name contains `main-plan-`. Its spec stays for the phases
+
+The spec is **settled** when an outcome commit comes after the branch's `docs: feature specification`
+commit, found by rule 2 of "The Specification File":
 
 ```
 git log --format=%s -E --grep='^(revert: docs: feature specification$|docs: (keep|move) feature specification (at|to) )' <spec-sha>..HEAD
@@ -278,9 +283,6 @@ git log --format=%s -E --grep='^(revert: docs: feature specification$|docs: (kee
 
 Any line it prints means settled: a revert, a keep, or an older move commit. The outcome commit is
 the last commit when it is made. Later commits, such as review fixes, don't reopen it.
-
-A main plan branch, whose name contains `main-plan-`, is never settled. Its spec stays for the
-phases, and no skill offers to settle it.
 
 ### Settling It
 

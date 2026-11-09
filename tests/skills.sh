@@ -197,7 +197,12 @@ guidelines/specification.md|`docs: move feature specification to <path>` commit
 guidelines/specification.md|### When the Spec Is Settled
 guidelines/specification.md|comes after the branch's `docs: feature specification` commit
 guidelines/specification.md|Later commits, such as review fixes, don't reopen it
-guidelines/specification.md|whose name contains `main-plan-`, is never settled
+guidelines/specification.md|No skill asks about the spec when:
+guidelines/specification.md|the branch has no spec
+guidelines/specification.md|the spec is already settled
+guidelines/specification.md|the branch is a main plan branch, whose name contains `main-plan-`
+skills/4-open-pr/SKILL.md|"When the Spec Is Settled" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`
+skills/5-handle-review/SKILL.md|"When the Spec Is Settled" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`
 skills/4-open-pr/SKILL.md|"Closing the Specification" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`
 skills/5-handle-review/SKILL.md|"Closing the Specification" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`
 skills/5-handle-review/SKILL.md|`${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`, to settle the spec
@@ -210,8 +215,6 @@ guidelines/specification.md|the commit that added the file there is `docs: featu
 skills/1-plan/SKILL.md|"A Leftover Spec" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`
 skills/stabilize/SKILL.md|"A Leftover Spec" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`
 skills/multi-phase-spec-pr/SKILL.md|"A Leftover Spec" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`
-skills/4-open-pr/SKILL.md|**no spec on the branch, already settled, or a main plan branch** → ask nothing
-skills/5-handle-review/SKILL.md|**no spec on the branch, already settled, or a main plan branch** → ask nothing
 guidelines/specification.md|Remove it in its own PR, then run this again
 skills/3-organize-commits/SKILL.md|"Closing the Specification" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`
 skills/5-handle-review/SKILL.md|list in `Needs you` every commit left unpushed, a convention's included
@@ -282,6 +285,10 @@ report $? "no skill points into map-architecture for the index rules"
 outcome_namers="$(grep -rlE -- 'revert: docs: feature specification|docs: (move|keep|distil) feature specification' "$plugin/skills" "$plugin/guidelines")"
 [ "$outcome_namers" = "$plugin/guidelines/specification.md" ]
 report $? "only specification.md names the commits that settle the spec"
+
+skip_listers="$(grep -rlF -- 'main plan branch** → ask nothing' "$plugin/skills" "$plugin/guidelines")"
+[ -z "$skip_listers" ]
+report $? "only specification.md says when no skill asks about the spec"
 
 ! grep -rnF -- '**Move it to' "$plugin/skills" "$plugin/guidelines"
 report $? "no skill offers to move the spec into the docs unchanged"

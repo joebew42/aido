@@ -77,15 +77,13 @@ PR's review makes.
 
 ## Settle the Specification
 
-Once the review commits and any convention are committed, and before the push, check whether the spec
-is settled, as "When the Spec Is Settled" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`
-describes:
+Once the review commits and any convention are committed, and before the push, settle the spec if
+"When the Spec Is Settled" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md` says to ask.
 
-- **no spec on the branch, already settled, or a main plan branch** → ask nothing
-- **not settled** → settle it as "Closing the Specification" in
-  `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md` describes. Its commits go on top of the review
-  commits, the outcome commit last. When nobody answers, or the question can't be asked, push nothing,
-  and end as below, listing the unpushed commits
+To settle it, act as "Closing the Specification" in
+`${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md` describes. Its commits go on top of the review
+commits, the outcome commit last. When nobody answers, or the question can't be asked, push nothing,
+and end as below, listing the unpushed commits.
 
 ## Push and End
 
