@@ -185,6 +185,8 @@ guidelines/copilot-cli.md|The first time a skill shows a document, such as a dra
 guidelines/copilot-cli.md|`create` never overwrites
 skills/1-plan/SKILL.md|Launch it even when the change looks small
 skills/1-plan/SKILL.md|Before anything else in this step, read `${CLAUDE_PLUGIN_ROOT}/guidelines/tdd.md`
+skills/1-plan/SKILL.md|has no route to choose. Show the draft, whole the first time, as "Showing What Changed"
+skills/1-plan/SKILL.md|Show the draft, whole the first time, as "Showing What Changed" in `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` describes, and say whether
 skills/1-plan/SKILL.md|Load `${CLAUDE_PLUGIN_ROOT}/guidelines/git-workflow.md` first, if it isn't loaded
 guidelines/specification.md|An item is done only when its line is ticked
 guidelines/specification.md|under a `### Acceptance` heading, the last heading in `## Progress`

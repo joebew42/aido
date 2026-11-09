@@ -132,7 +132,8 @@ On a leftover spec, stop before anything below, as "A Leftover Spec" in
 
 ### Approve the draft
 
-A phase of a multi-phase project has no route to choose. Show the draft, as "Showing What Changed" in
+A phase of a multi-phase project has no route to choose. Show the draft, whole the first time, as
+"Showing What Changed" in
 `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` describes. Then `AskUserQuestion`: "Is this draft the right starting point? If so, I'll refine it with you next." —
 options **Approve the draft** (continue at Step 3) / **I'll edit it first** (wait for the user, then
 ask again) / **Cancel** (stop, and leave the draft in place).
@@ -147,8 +148,8 @@ draft. A change is **small and clear** only when all of these hold:
 - it touches one module or area
 - it adds no new domain concept or abstraction
 
-Show the draft, as "Showing What Changed" in `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md`
-describes, and say whether the change looks small and clear, and why. Then `AskUserQuestion`: "Is this draft the right starting point, and how much planning does it need?" — with the route you propose
+Show the draft, whole the first time, as "Showing What Changed" in
+`${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` describes, and say whether the change looks small and clear, and why. Then `AskUserQuestion`: "Is this draft the right starting point, and how much planning does it need?" — with the route you propose
 marked as recommended. The user's choice stands:
 
 - **Plan it in one step** → continue at "Small-Change Route"
