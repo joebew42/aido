@@ -7,9 +7,9 @@ steps, questions and approvals stay the same.
 
 ## Paths
 
-`${CLAUDE_PLUGIN_ROOT}` is not replaced here. It stands for the plugin root: the folder two levels
-above the base directory the `skill` tool reports for an aido skill, holding `guidelines/` and
-`skills/`. Read every `${CLAUDE_PLUGIN_ROOT}/...` path from there.
+`${CLAUDE_PLUGIN_ROOT}` is not replaced here. It stands for the plugin root: the folder that holds
+the `guidelines/` folder this file is in, and `skills/`. Note its full path when you first read this
+file, and read every `${CLAUDE_PLUGIN_ROOT}/...` path from there.
 
 ## Skills
 
@@ -17,8 +17,12 @@ The user runs a skill as `/aido:<name>`, as in Claude Code. To invoke one with t
 the `skill` tool with `<name>` alone, such as `1-plan`. Any words after the name, such as `item 3`,
 are part of the request you then follow.
 
-After loading an aido skill, check that the base directory the `skill` tool reports is inside this
-plugin. If another skill took precedence, stop and tell the user.
+After loading an aido skill, check that the base directory the `skill` tool reports is inside the
+plugin root you noted, not just under any folder that holds a `skills/` folder. If another skill
+took precedence, stop and tell the user. Suggest renaming or removing the skill that clashes.
+
+This check covers only skills loaded after this file. A skill that takes precedence over the first
+aido skill a session or subagent runs never loads this file, so nothing checks it.
 
 ## Tools
 
