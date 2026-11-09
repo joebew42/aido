@@ -1,0 +1,6 @@
+schema_version: "1.1"
+name: handle-review-asks-one-comment-at-a-time
+description: A review with three comments leads to a question about one comment, with a recommended option, and nothing is changed before every comment is decided
+tags: [handle-review]
+context:
+  scaffold_script: fixture.sh
