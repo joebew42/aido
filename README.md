@@ -111,8 +111,11 @@ remove skills that clash with aido's.
 Autopilot, `--no-ask-user` and prompt mode (`-p`) can continue or choose without asking you. The
 guideline asks skills to stop at questions, but nothing enforces this. Approval checkpoints are
 reliable only in an interactive session. Push stays protected: the hook denies it when it can't ask.
-To keep AI attribution out of commits, add `"includeCoAuthoredBy": false` to
-`~/.copilot/settings.json`.
+
+Copilot tells its agent to add a `Co-authored-by` trailer to every commit, and aido's hook denies
+those commits. Turn the trailer off with `copilot config includeCoAuthoredBy false`, which writes
+`"includeCoAuthoredBy": false` to `~/.copilot/settings.json`. Without it, each commit is denied
+until the agent retries it without the trailer, unless you turn the hook off as above.
 
 In Copilot CLI, subagents run on Copilot's default model, nothing reminds a skill to reload after
 Copilot compacts the conversation, and the evals measure Claude Code only.
