@@ -88,8 +88,9 @@ specification's `## Refactorings` and built later, like a plan item.
 A low-confidence finding is classified only as **defer** or **no action**, and names the evidence
 still missing.
 
-**Asking about a finding:** ask about each finding on its own, as "One Item at a Time" in
-`language.md` describes:
+**Asking about a finding:** when a skill says to ask about findings one at a time, ask about each
+one on its own, as "One Item at a Time" in `language.md` describes. A skill that has the user pick
+from a list keeps its list:
 
 - the question shows the finding as **Showing a finding** describes, with the options the skill
   names

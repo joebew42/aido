@@ -135,6 +135,7 @@ skills/verify/SKILL.md|a change that a refactoring in `## Refactorings` explains
 skills/verify/SKILL.md|are not evidence
 guidelines/systemic-refactoring.md|Evidence before action
 guidelines/systemic-refactoring.md|**Asking about a finding:**
+guidelines/systemic-refactoring.md|**Asking about a finding:** when a skill says to ask about findings one at a time
 guidelines/systemic-refactoring.md|A low-confidence finding recommends only **Defer** or **No action**
 guidelines/systemic-refactoring.md|a finding classed no action is listed in one line, with no question
 guidelines/git-workflow.md|every push needs the user's approval
