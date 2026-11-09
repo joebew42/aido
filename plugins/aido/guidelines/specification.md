@@ -41,15 +41,16 @@ spec file, delete the draft and tell the user.
 
 A branch merged without settling its spec leaves the spec file on the default branch. When the branch
 has no `docs: feature specification` commit of its own, check the resolved path on the default branch,
-rule 1's path included. The file there is a **leftover spec** when it has the marker line, or a
-`docs: feature specification` commit added it:
+rule 1's path included. The file there is a **leftover spec** when it has the marker line, or when
+the commit that added the file there is `docs: feature specification`:
 
 ```
 git show origin/<default-branch>:<path> | grep -qxF '> Working specification for this branch. Remove it before merging: revert the `docs: feature specification` commit.'
-git log --format=%H --grep='^docs: feature specification$' origin/<default-branch> -- <path>
+git log -1 --diff-filter=A --format=%s origin/<default-branch> -- <path>
 ```
 
-The first succeeds, or the second prints a commit: it is a leftover. A file with neither is the
+The first succeeds, or the second prints `docs: feature specification`: it is a leftover. A file
+added, removed and added again is judged by its latest add. A file with neither is the
 repository's own, and never counts as a leftover.
 
 On a leftover:

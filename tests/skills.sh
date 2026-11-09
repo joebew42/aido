@@ -205,6 +205,8 @@ skills/1-plan/SKILL.md|keep a single marker line under the title
 guidelines/specification.md|### A Leftover Spec
 guidelines/specification.md|A file with neither is the repository's own, and never counts as a leftover
 guidelines/specification.md|rule 1's path included
+guidelines/specification.md|git log -1 --diff-filter=A --format=%s origin/<default-branch> -- <path>
+guidelines/specification.md|the commit that added the file there is `docs: feature specification`
 skills/1-plan/SKILL.md|"A Leftover Spec" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`
 skills/stabilize/SKILL.md|"A Leftover Spec" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`
 skills/multi-phase-spec-pr/SKILL.md|"A Leftover Spec" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`
