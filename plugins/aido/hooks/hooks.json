@@ -17,11 +17,13 @@
         "hooks": [
           {
             "type": "command",
-            "command": "\"${CLAUDE_PLUGIN_ROOT}/hooks/deny-commit-attribution.sh\""
+            "command": "\"${CLAUDE_PLUGIN_ROOT}/hooks/deny-commit-attribution.sh\"",
+            "cwd": "."
           },
           {
             "type": "command",
-            "command": "\"${CLAUDE_PLUGIN_ROOT}/hooks/ask-before-push.sh\""
+            "command": "\"${CLAUDE_PLUGIN_ROOT}/hooks/ask-before-push.sh\"",
+            "cwd": "."
           }
         ]
       }

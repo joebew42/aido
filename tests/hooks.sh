@@ -151,6 +151,9 @@ check "compaction hook tells the agent to reload the skill" "1" \
   "$("$hooks/remind-after-compaction.sh" | grep -c 'invoke that skill again')"
 check_script_is_followable "remind-after-compaction.sh"
 
+check "every tool hook runs from the session's directory, where its opt-out is read" "" \
+  "$(jq -r '.hooks.PreToolUse[].hooks[] | select(.cwd != ".") | .command' "$hooks/hooks.json")"
+
 if [ "$failures" -gt 0 ]; then
   echo "$failures failed"
   exit 1
