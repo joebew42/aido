@@ -76,6 +76,9 @@ skills/1-plan/SKILL.md|Is the plan approved?
 skills/1-plan/SKILL.md|ready to become `SPEC.md`
 skills/1-plan/SKILL.md|Do NOT move to Step 7 without approval
 skills/1-plan/SKILL.md|Do NOT implement anything in this skill
+skills/1-plan/SKILL.md|options **Plan it first** / **Defer** / **No action**
+skills/1-plan/SKILL.md|options **Include it** / **Leave it saved**
+skills/1-plan/SKILL.md|**Asking about a finding** in `systemic-refactoring.md`
 skills/2-implement/SKILL.md|Never record a criterion as met without its evidence
 skills/2-implement/SKILL.md|Should I run a final design review over the whole feature?
 skills/2-implement/SKILL.md|Once implementation is complete, should I organize the commits?
@@ -92,6 +95,10 @@ skills/2-implement/SKILL.md|"the final design review ran and recorded r1, r2"
 skills/2-implement/SKILL.md|it is not offered again
 skills/2-implement/SKILL.md|**plan items or refactorings remain**
 skills/2-implement/SKILL.md|options **Plan it for later** / **Defer** / **No action**
+skills/2-implement/SKILL.md|Recommend one, as **Asking about a finding** in `systemic-refactoring.md` describes
+skills/2-implement/SKILL.md|ask about each finding on its own, as **Asking about a finding** in `systemic-refactoring.md` describes
+skills/2-implement/SKILL.md|each option with what it does, and which one is recommended
+skills/2-implement/SKILL.md|keeping the option it recommends
 guidelines/systemic-refactoring.md|fix now and refactor now also collapse into one outcome: **planned**
 skills/2-implement/SKILL.md|`loop r<N>`, or `loop r<first>-r<last>`, such as `loop r1-r3`
 skills/2-implement/SKILL.md|every plan item not done, then every refactoring not done

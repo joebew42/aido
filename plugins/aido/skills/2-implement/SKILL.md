@@ -141,10 +141,10 @@ as units remaining, with the criteria only they serve as `unchecked` under `### 
 "What Progress Records" lists. Commit it by the `SPEC.md` rule in "Special Cases" in `git-workflow.md`.
 
 **When a child returns a question** instead of its results, it has paused. Ask the user with
-`AskUserQuestion`, with the child's question and options. Send the answer to that same child with
-`SendMessage`, and wait for it to return again. When nobody answers, or the question can't be asked,
-stop the loop: name the paused item, its question and the items not yet run. Tick nothing for the
-paused item, record the items left, and offer nothing else.
+`AskUserQuestion`, with the child's question and options, keeping the option it recommends. Send the
+answer to that same child with `SendMessage`, and wait for it to return again. When nobody answers,
+or the question can't be asked, stop the loop: name the paused item, its question and the items not
+yet run. Tick nothing for the paused item, record the items left, and offer nothing else.
 
 **Whenever the loop ends before "STOP — Skill Complete"**, after a failed check, at the end of a range
 or on a paused question, end as item 4 of "STOP — Skill Complete" describes.
@@ -161,8 +161,9 @@ A child builds plan item `<N>`, or refactoring `r<N>`, and nothing else:
 - skip the final design review and "STOP — Skill Complete". End by returning what "Child Results"
   lists, with no ending block
 - **a child can't ask the user.** Wherever this skill says to ask with `AskUserQuestion`, end your
-  turn by returning the question instead: the item's number, the question, and each option with what
-  it does. Return nothing else, and carry on from the answer the orchestrator sends back
+  turn by returning the question instead: the item's number, the question, and each option
+  with what it does, and which one is recommended. Return nothing else, and carry on from the answer
+  the orchestrator sends back
 - wherever this skill says to tell the user something, put it in the results instead
 
 ### Child Results
@@ -262,8 +263,8 @@ Run it inline, on green, limited to what the cycle showed:
 3. make fix-now and refactor-now changes in small steps, running the relevant tests after each
 4. before a refactoring that touches another module, ask with `AskUserQuestion`, showing the
    finding as **Showing a finding** in `systemic-refactoring.md` describes —
-   options **Refactor now** / **Plan it for later** / **Defer** / **No action**. On **Plan it for
-   later**, add it to `## Refactorings` with the next free code, as "Refactorings" in
+   options **Refactor now** / **Plan it for later** / **Defer** / **No action**. Recommend one, as
+   **Asking about a finding** in `systemic-refactoring.md` describes. On **Plan it for later**, add it to `## Refactorings` with the next free code, as "Refactorings" in
    `specification.md` describes. Commit it by the `SPEC.md` rule in "Special Cases" in
    `git-workflow.md`, and carry on with the unit
 5. note deferred findings for `## Progress`, with every field under **What every finding states** in
@@ -309,8 +310,8 @@ Then, in this session:
 
 1. confirm each finding before acting on it, as **Evidence before action** in
    `systemic-refactoring.md` describes
-2. show the findings as **Showing a finding** in `systemic-refactoring.md` describes, and ask with
-   `AskUserQuestion` what to do with each — options **Plan it for later** / **Defer** / **No action**
+2. ask about each finding on its own, as **Asking about a finding** in `systemic-refactoring.md`
+   describes — options **Plan it for later** / **Defer** / **No action**
 3. add each one planned for later to `## Refactorings` with the next free code, as "Refactorings" in
    `specification.md` describes. Change no code: each one is built later, like a plan item
 4. note the deferred ones for `## Progress`, and park them as **Parking an opportunity** in
