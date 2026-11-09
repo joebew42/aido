@@ -99,6 +99,7 @@ skill doesn't refer to the ending block, or a listed approval question or eviden
 | `implement-loop-runs-a-refactoring` | Does `loop r1` build the refactoring in its own child, tick it in `## Progress`, and offer to organize without a second design review? |
 | `organize-offers-the-pr` | Does the agent ask whether to open the PR, name open criteria while still recommending it, and start nothing and push nothing? |
 | `organize-offers-the-pr-without-criteria` | With no specification, does the agent still ask, without bringing up criteria? |
+| `open-pr-settles-the-spec` | When the spec is still on the branch, does opening the PR ask what happens to it before any push, and push nothing with nobody answering? |
 | `verify-catches-a-test-that-cannot-fail` | Does verification notice a test that would pass anyway? |
 | `verify-accepts-a-real-test` | Does verification accept good tests, without false alarms? |
 | `handle-review-suggests-nothing` | Given a review with only one-off fixes, does the agent suggest no convention and add nothing to `CLAUDE.md` or `AGENTS.md`? |
