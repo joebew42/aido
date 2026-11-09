@@ -201,6 +201,7 @@ guidelines/specification.md|whose name contains `main-plan-`, is never settled
 skills/4-open-pr/SKILL.md|"Closing the Specification" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`
 skills/5-handle-review/SKILL.md|"Closing the Specification" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`
 skills/5-handle-review/SKILL.md|`${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`, to settle the spec
+skills/1-plan/SKILL.md|keep a single marker line under the title
 skills/3-organize-commits/SKILL.md|"Closing the Specification" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`
 skills/5-handle-review/SKILL.md|list in `Needs you` every commit left unpushed, a convention's included
 EOF_PHRASES
@@ -296,6 +297,16 @@ settle_line="$(grep -n -m1 -F '## Settle the Specification' "$handle_review" | c
 push_line="$(grep -n -m1 -F '## Push and End' "$handle_review" | cut -d: -f1)"
 [ -n "$conventions_line" ] && [ -n "$settle_line" ] && [ -n "$push_line" ] && [ "$conventions_line" -lt "$settle_line" ] && [ "$settle_line" -lt "$push_line" ]
 report $? "5-handle-review settles the spec after the review commits, before the push"
+
+marker='> Working specification for this branch. Remove it before merging: revert the `docs: feature specification` commit.'
+for file in guidelines/specification.md skills/stabilize/SKILL.md skills/multi-phase-spec-pr/SKILL.md; do
+  awk -v marker="$marker" '
+    /^# <descriptive title>$/ { title = NR; templates++ }
+    title && NR == title + 2 { if ($0 == marker) marked++; title = 0 }
+    END { exit !(templates > 0 && templates == marked) }
+  ' "$plugin/$file"
+  report $? "$file puts the marker line after the title of every spec it writes"
+done
 
 skill_names="$(
   for skill in "$plugin"/skills/*/SKILL.md; do

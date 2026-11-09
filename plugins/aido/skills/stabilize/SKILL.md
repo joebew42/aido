@@ -118,6 +118,8 @@ own lines and sections added:
 ```markdown
 # <descriptive title>
 
+> Working specification for this branch. Remove it before merging: revert the `docs: feature specification` commit.
+
 GitHub Issue: <repo link>/#<NUMBER>   (or omit)
 Original work: <PR #N (url) | branch origin/<name> | local changes, stash "stabilize: original work">
 Strategy: <reimplement from scratch | carry over and adjust>

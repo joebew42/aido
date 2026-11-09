@@ -86,6 +86,8 @@ If there is a GitHub issue, add it at the top of `SPEC.md`:
 ```markdown
 # <descriptive title>
 
+> Working specification for this branch. Remove it before merging: revert the `docs: feature specification` commit.
+
 GitHub Issue: [github repository link]/#42
 
 ## Context

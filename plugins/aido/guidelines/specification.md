@@ -55,6 +55,8 @@ on it. Skills point here rather than restating it.
 ```markdown
 # <descriptive title>
 
+> Working specification for this branch. Remove it before merging: revert the `docs: feature specification` commit.
+
 GitHub Issue: <repo link>/#<NUMBER>   (or omit)
 
 ## Context
@@ -94,6 +96,10 @@ GitHub Issue: <repo link>/#<NUMBER>   (or omit)
 
 <added by implementation>
 ```
+
+**The marker line**, the quote under the title, tells any reader, aido user or not, that the file is
+a working spec to remove before merging. Every spec has it, word for word, once. A spec written before
+it existed has none, and stays valid.
 
 **The specification states what and why, never how.** Context, Intent, Out of scope and Acceptance
 criteria are approved before any planning. How the change is built belongs to `## Plan` and

@@ -102,6 +102,9 @@ user wants the choice recorded. Step 7 commits it.
      Keep their IDs, as "The Specification Structure" in
      `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md` describes
    - add the GitHub Issue ID, if there is one
+   - keep a single marker line under the title, as "The Specification Structure" in
+     `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md` shows it, whether or not the overall
+     specification has one
 
 ### Standalone Project Flow
 
