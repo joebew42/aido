@@ -134,6 +134,7 @@ guidelines/git-workflow.md|every push needs the user's approval
 guidelines/git-workflow.md|### Replying to Review Feedback
 guidelines/git-workflow.md|resolveReviewThread(input: {threadId: $threadId})
 guidelines/git-workflow.md|A reply is posted only once the user has approved its text
+guidelines/git-workflow.md|gh pr comment <NUMBER> --body-file <file>
 guidelines/specification.md|An item is done only when its line is ticked
 guidelines/specification.md|under a `### Acceptance` heading, the last heading in `## Progress`
 guidelines/specification.md|A specification with no results yet has no `### Acceptance` heading

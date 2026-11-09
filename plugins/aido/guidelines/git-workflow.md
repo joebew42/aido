@@ -118,6 +118,10 @@ A reply is posted only once the user has approved its text. Write it as "Writing
 
 When no thread is found, say so, and leave it.
 
+**Feedback with no thread**, such as a review's summary or a conversation comment, gets its reply as
+a PR comment: `gh pr comment <NUMBER> --body-file <file>`. The body opens by quoting the feedback's
+author and the part it answers, as a `>` quote, then gives the reply. There is no thread to resolve.
+
 ## Commit Organization Strategy
 
 ### General Principles
