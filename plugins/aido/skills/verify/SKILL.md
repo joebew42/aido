@@ -86,8 +86,8 @@ the throwaway worktree under "Check that each test can fail".
 - **specification compliance** — does the change do what each requirement says?
 - **completeness** — is every requirement built, with its relevant edge cases?
 - **test evidence** — does a meaningful test support each requirement?
-- **agreed constraints** — does the change respect the specification's `## Design notes` and the
-  host repository's agent instruction files?
+- **agreed constraints** — does the change respect the specification's `## Design notes`, its
+  `## Design decision` and the host repository's agent instruction files?
 - **deviations** — what does the change do that was not agreed, or differently from what was agreed?
 
 Don't look for general defects, and don't give opinions on style or design. A defect matters here
@@ -136,7 +136,8 @@ once per requirement:
   the plan. Don't judge whether a mode was the right choice
 
 **List under deviations**, separately: changes in the diff that no requirement or plan item explains,
-and departures from the agreed scope, `## Out of scope`, the plan or the `## Design notes`.
+and departures from the agreed scope, `## Out of scope`, the plan, the `## Design decision` or the
+`## Design notes`.
 
 **Every finding names its evidence:** the test and the command that ran it, or the `path` and symbol.
 Never state that something is met only because it looks right.

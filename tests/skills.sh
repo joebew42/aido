@@ -375,6 +375,9 @@ skills/5-handle-review/SKILL.md|the replies posted, the issue opened, commented 
 skills/5-handle-review/SKILL.md|"Report the Result" in `${CLAUDE_PLUGIN_ROOT}/guidelines/github-issues.md`
 skills/4-open-pr/SKILL.md|"Report the Result" in `${CLAUDE_PLUGIN_ROOT}/guidelines/github-issues.md`
 evals/handle-review-asks-about-a-convention-seen-once/graders/asks-to-accept-look-ignore-or-park.md|asks whether to accept it, look for the same point in earlier pull requests' review comments, ignore it or park it in an issue
+skills/verify/SKILL.md|does the change respect the specification's `## Design notes`, its `## Design decision` and the host repository's agent instruction files?
+skills/verify/SKILL.md|departures from the agreed scope, `## Out of scope`, the plan, the `## Design decision` or the `## Design notes`
+skills/2-implement/SKILL.md|When it has a `## Design decision`, ask the subagent to say where the build departs from the chosen approach
 EOF_PHRASES
 
 for skill in "$plugin"/skills/*/SKILL.md; do
