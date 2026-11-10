@@ -69,7 +69,6 @@ Before any change:
       - **title:** the title the user saw, with no prefix
       - **body:** **Observation**, holding the comment's point, and **Why it was parked**, ending
         with one line linking to the comment
-      - **issues that do not count as a match:** the issue in the PR's `Closes #NUMBER`, if any
    3. post the reply for each **Out of scope** and **Park** comment, as "Replying to Review Feedback"
       in `${CLAUDE_PLUGIN_ROOT}/guidelines/git-workflow.md` describes. A parked comment's reply links
       the issue opened, or the existing issue the duplicate check found

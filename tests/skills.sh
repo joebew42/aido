@@ -238,6 +238,7 @@ guidelines/systemic-refactoring.md|`<repo-name>` is as **Index Location and Shap
 guidelines/github-issues.md|## Writing a GitHub Body
 guidelines/github-issues.md|These rules apply to every body written for GitHub: a PR, an issue, a comment or a reply
 guidelines/github-issues.md|A skill that has already asked about each point skips this step, and starts at "Check for Duplicates"
+guidelines/github-issues.md|When the points come from a PR, the issue in its `Closes #NUMBER` never counts as a match: merging the PR closes it
 skills/4-open-pr/SKILL.md|"Writing a GitHub Body" in `${CLAUDE_PLUGIN_ROOT}/guidelines/github-issues.md`
 skills/1-plan/SKILL.md|**Implement in a fresh context**
 guidelines/git-workflow.md|finish this skill's own work, including its commits, start nothing, and tell the user to run `/clear`, then the next skill
@@ -377,6 +378,14 @@ report $? "no skill offers to move the spec into the docs unchanged"
 wrapping_reasons="$(grep -rlF -- 'a single newline as a line' "$plugin/skills" "$plugin/guidelines")"
 [ "$wrapping_reasons" = "$plugin/guidelines/github-issues.md" ]
 report $? "only github-issues.md says why GitHub bodies aren't hard-wrapped"
+
+match_rules="$(
+  for file in "$plugin"/skills/*/SKILL.md "$plugin"/guidelines/*.md; do
+    on_one_line "$file" | grep -qE 'counts? as a match' && echo "$file"
+  done
+)"
+[ "$match_rules" = "$plugin/guidelines/github-issues.md" ]
+report $? "only github-issues.md says which issues don't count as a match"
 
 handle_review="$plugin/skills/5-handle-review/SKILL.md"
 guidance_line="$(grep -n -m1 -F 'Worth examining' "$handle_review" | cut -d: -f1)"
