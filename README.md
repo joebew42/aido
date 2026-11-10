@@ -42,7 +42,11 @@ Install the plugin in Claude Code, then start planning your first feature:
 /aido:1-plan
 ```
 
-Every skill is available as `/aido:<skill>`.
+Every skill is available as `/aido:<skill>`. To update aido later, run
+`claude plugin marketplace update aido`, then `claude plugin update aido@aido`, and restart Claude
+Code.
+
+Using GitHub Copilot CLI? See [Use it in GitHub Copilot CLI](#use-it-in-github-copilot-cli).
 
 ### Your first feature, in five steps
 
@@ -101,6 +105,9 @@ Copilot CLI reads this marketplace as it is:
 copilot plugin marketplace add joebew42/aido
 copilot plugin install aido@aido
 ```
+
+To update it later, run `copilot plugin marketplace update aido`, then
+`copilot plugin update aido@aido`.
 
 Run the skills by the same names, such as `/aido:1-plan`. Copilot keeps one skill per name, so a
 skill with the same name in your repository or your personal skills hides aido's, and its `/aido:`
