@@ -46,6 +46,53 @@ When an issue or a request is given while `SPEC.md.draft` exists, ask with `AskU
 **Use the draft** / **Replace it with the request**. On **Replace it with the request**, the draft
 stays untouched until a design is approved.
 
+## Step 2: Two Independent Proposals — `fable` subagents
+
+Each design agent works alone, so neither anchors on the other. Launch two `Agent` calls with
+`model: "fable"`, in one message, so they run in parallel. One aims for **the best design**, the other
+for **the simplest design**. Brief each with "The Shared Brief" in
+`${CLAUDE_PLUGIN_ROOT}/guidelines/subagents.md`, and:
+
+- the same requirements, word for word, and the same repository: its root, and the host repository's
+  agent instruction files to read
+- the constraints from earlier rounds, if any, word for word
+- `${CLAUDE_PLUGIN_ROOT}/guidelines/code-standards.md`, copied in full. The agent hasn't loaded it
+- if there is an architecture index, its directory and the **Reading the Index** steps from
+  `${CLAUDE_PLUGIN_ROOT}/guidelines/architecture-index.md`, copied in full. Find it as
+  **Index Location and Shape** in `${CLAUDE_PLUGIN_ROOT}/guidelines/architecture-index.md`
+  describes. Never offer to build it here: that belongs to planning
+- "The Proposal Brief" below, copied in full, with the agent's own objective
+- nothing else from this session, and never the other agent's proposal
+
+If `fable` is unavailable, act as "When the Model Is Unavailable" in
+`${CLAUDE_PLUGIN_ROOT}/guidelines/subagents.md` describes. When no subagent can run at all, say that
+deliberation needs independent agents, save nothing, and stop. One session playing both agents would
+see both proposals.
+
+### The Proposal Brief
+
+Propose one design for the requirements below. Read the code before you claim anything about it.
+Prefer what the repository already has: existing code to reuse, and the rules in its agent
+instruction files. Your objective is one of these:
+
+- **the best design** — the design that fits the domain and the repository best, and stays easy to
+  change. It may cost more to build
+- **the simplest design** — the least new code and the fewest new concepts that meet every
+  requirement. It may leave later changes harder
+
+Don't plan the work, and don't write code. Return only this:
+
+```markdown
+## <the best design | the simplest design>
+
+- **Approach:** <the design, in a few sentences>
+- **Rationale:** <why it meets the requirements and the objective>
+- **Assumes:** <what it takes for granted about the requirements or the code>
+- **Risks:** <what could go wrong, and what it would cost>
+- **Repository constraints:** <the existing code and rules it rests on, as `path` — `Symbol`>
+- **Implementation impact:** <what changes, by module or area, and roughly how much>
+```
+
 ## STOP — Skill Complete
 
 Once the decision is saved, end as "Ending a Skill" in

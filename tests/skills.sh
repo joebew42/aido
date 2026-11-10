@@ -204,6 +204,19 @@ skills/deliberate/SKILL.md|This skill writes only `SPEC.md.draft`, and only once
 skills/deliberate/SKILL.md|**nothing, and `SPEC.md.draft` exists** → deliberate on the draft
 skills/deliberate/SKILL.md|options **Use the draft** / **Replace it with the request**
 skills/deliberate/SKILL.md|`Needs you: run /aido:1-plan`
+skills/deliberate/SKILL.md|Launch two `Agent` calls with `model: "fable"`, in one message
+skills/deliberate/SKILL.md|### The Proposal Brief
+skills/deliberate/SKILL.md|the same requirements, word for word, and the same repository
+skills/deliberate/SKILL.md|nothing else from this session, and never the other agent's proposal
+skills/deliberate/SKILL.md|**the best design**
+skills/deliberate/SKILL.md|**the simplest design**
+skills/deliberate/SKILL.md|**Approach:** <
+skills/deliberate/SKILL.md|**Rationale:** <
+skills/deliberate/SKILL.md|**Assumes:** <
+skills/deliberate/SKILL.md|**Risks:** <
+skills/deliberate/SKILL.md|**Repository constraints:** <
+skills/deliberate/SKILL.md|**Implementation impact:** <
+skills/deliberate/SKILL.md|say that deliberation needs independent agents, save nothing, and stop
 skills/deliberate/SKILL.md|Ask nothing more
 guidelines/specification.md|<added before planning, when the developer approves a design>
 guidelines/specification.md|### Design Decision
