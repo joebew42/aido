@@ -5,6 +5,8 @@ disable-model-invocation: false
 
 # Resolve Migration Conflict
 
+**In Copilot CLI only:** before anything else, read `guidelines/copilot-cli.md` in the plugin root, two folders above this skill's base directory, and follow it. Read every guideline this skill names whole, with `view`, one file per call.
+
 Resolve database migration conflicts after a rebase onto the main/master branch. The steps work with
 any migration tool. The commands come from the host repository.
 

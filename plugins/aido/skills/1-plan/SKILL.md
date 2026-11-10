@@ -5,6 +5,8 @@ disable-model-invocation: false
 
 # Plan
 
+**In Copilot CLI only:** before anything else, read `guidelines/copilot-cli.md` in the plugin root, two folders above this skill's base directory, and follow it. Read every guideline this skill names whole, with `view`, one file per call.
+
 Turn a feature or phase into an approved specification and plan in `SPEC.md`. Then hand off to
 `/aido:2-implement`.
 
@@ -130,7 +132,8 @@ On a leftover spec, stop before anything below, as "A Leftover Spec" in
 
 ### Approve the draft
 
-A phase of a multi-phase project has no route to choose. Show the draft, as "Showing What Changed" in
+A phase of a multi-phase project has no route to choose. Show the draft, whole the first time, as
+"Showing What Changed" in
 `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` describes. Then `AskUserQuestion`: "Is this draft the right starting point? If so, I'll refine it with you next." —
 options **Approve the draft** (continue at Step 3) / **I'll edit it first** (wait for the user, then
 ask again) / **Cancel** (stop, and leave the draft in place).
@@ -145,8 +148,8 @@ draft. A change is **small and clear** only when all of these hold:
 - it touches one module or area
 - it adds no new domain concept or abstraction
 
-Show the draft, as "Showing What Changed" in `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md`
-describes, and say whether the change looks small and clear, and why. Then `AskUserQuestion`: "Is this draft the right starting point, and how much planning does it need?" — with the route you propose
+Show the draft, whole the first time, as "Showing What Changed" in
+`${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` describes, and say whether the change looks small and clear, and why. Then `AskUserQuestion`: "Is this draft the right starting point, and how much planning does it need?" — with the route you propose
 marked as recommended. The user's choice stands:
 
 - **Plan it in one step** → continue at "Small-Change Route"
@@ -297,7 +300,9 @@ should change first, so the feature fits in cleanly. Read
 `${CLAUDE_PLUGIN_ROOT}/guidelines/systemic-refactoring.md` now, which holds the rules. Read
 `${CLAUDE_PLUGIN_ROOT}/guidelines/code-standards.md` too, if it isn't loaded: the rules point into it.
 
-Launch one `Agent` with `model: "fable"`. Brief it with "The Shared Brief" in `${CLAUDE_PLUGIN_ROOT}/guidelines/subagents.md`, and:
+Launch one `Agent` with `model: "fable"`. Launch it even when the change looks small: a fresh context
+finds what this planning conversation has stopped seeing, so checking the code yourself does not
+replace it. Brief it with "The Shared Brief" in `${CLAUDE_PLUGIN_ROOT}/guidelines/subagents.md`, and:
 
 - the path to `SPEC.md` and the repository root
 - if there is an index, its directory and the **Reading the Index** steps from
@@ -350,10 +355,13 @@ Each one pulled in becomes an **enabling** plan item that names its file. The re
 
 ## Step 6: Propose the Plan
 
+Before anything else in this step, read `${CLAUDE_PLUGIN_ROOT}/guidelines/tdd.md`, which defines the
+modes each feature item needs.
+
 - propose a plan of the changes, with items written and ordered as "Plan Items" in "The
   Specification Structure" (`${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`) describes
-- choose each feature item's mode as "The Modes" in `${CLAUDE_PLUGIN_ROOT}/guidelines/tdd.md`
-  describes. Read that file now. Open what an inside-out item cites, and confirm it exists and fits.
+- choose each feature item's mode as "The Modes" in `tdd.md` describes. Open what an inside-out item
+  cites, and confirm it exists and fits.
   Agents tend to call work obvious too often: when you can't cite anything, name the unknown instead
 - the **enabling** refactorings are the findings the user chose to plan first at Step 5, and the
   opportunities pulled in at Step 5.5. The findings the user deferred are not planned. List them in
@@ -399,6 +407,9 @@ describes. After a change, show what changed, as "Showing What Changed" in
 - the question below. Its answer counts only on approval
 
 ### Choose how to continue
+
+Load `${CLAUDE_PLUGIN_ROOT}/guidelines/git-workflow.md` first, if it isn't loaded. Steps 7 and 8
+follow its rules for branch names, the spec commit and hand-offs.
 
 "Once it is approved, how should we continue?" — options:
 

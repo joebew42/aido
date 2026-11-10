@@ -5,6 +5,8 @@ disable-model-invocation: false
 
 # Handle PR Review
 
+**In Copilot CLI only:** before anything else, read `guidelines/copilot-cli.md` in the plugin root, two folders above this skill's base directory, and follow it. Read every guideline this skill names whole, with `view`, one file per call.
+
 Go through a PR's review feedback one comment at a time. Fix it, answer that it is out of scope, or
 park it in a GitHub issue.
 

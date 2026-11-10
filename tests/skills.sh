@@ -16,6 +16,26 @@ for skill in "$root"/plugins/aido/skills/*/SKILL.md; do
   fi
 done
 
+copilot_rule='**In Copilot CLI only:** before anything else, read `guidelines/copilot-cli.md` in the plugin root, two folders above this skill'"'"'s base directory, and follow it. Read every guideline this skill names whole, with `view`, one file per call.'
+
+if [ -f "$root/plugins/aido/guidelines/copilot-cli.md" ]; then
+  echo "ok   - the Copilot CLI guideline exists"
+else
+  echo "FAIL - the Copilot CLI guideline exists"
+  failures=$((failures + 1))
+fi
+
+for skill in "$root"/plugins/aido/skills/*/SKILL.md; do
+  name="$(basename "$(dirname "$skill")")"
+
+  if [ "$(awk 'started && NF { print; exit } /^# / { started = 1 }' "$skill")" = "$copilot_rule" ]; then
+    echo "ok   - $name loads the Copilot CLI guideline first"
+  else
+    echo "FAIL - $name loads the Copilot CLI guideline first"
+    failures=$((failures + 1))
+  fi
+done
+
 ending_rule='"Ending a Skill" in `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md`'
 
 for skill in "$root"/plugins/aido/skills/*/SKILL.md; do
@@ -149,9 +169,30 @@ guidelines/git-workflow.md|### Replying to Review Feedback
 guidelines/git-workflow.md|resolveReviewThread(input: {threadId: $threadId})
 guidelines/git-workflow.md|A reply is posted only once the user has approved its text
 guidelines/git-workflow.md|gh pr comment <NUMBER> --body-file <file>
+guidelines/copilot-cli.md|A check, such as a test run, a build or a linter, passes only on its own exit status
+guidelines/copilot-cli.md|call the `skill` tool with `aido:<name>`
+guidelines/copilot-cli.md|If the `skill` tool reports the skill not found, another skill with the same name hides aido's
+guidelines/copilot-cli.md|Mark the recommended option in its label and set no default
+guidelines/copilot-cli.md|but don't report it, since that is expected here
+guidelines/copilot-cli.md|Only a person's answer is approval
+guidelines/copilot-cli.md|Never choose an option for the user, not even the recommended one
+guidelines/copilot-cli.md|Never push another way
+guidelines/copilot-cli.md|Read each guideline whole, with `view`, one file per call
+guidelines/copilot-cli.md|put what it shows in the form's `message`, above the question
+guidelines/copilot-cli.md|The user doesn't see tool output
+guidelines/copilot-cli.md|put its full text in the form's `message`, not a summary
+guidelines/copilot-cli.md|A guideline cited for a single rule counts too
+guidelines/copilot-cli.md|The first time a skill shows a document, such as a draft, a specification or a plan, its full text goes in the form's `message`
+guidelines/copilot-cli.md|`create` never overwrites
+skills/1-plan/SKILL.md|Launch it even when the change looks small
+skills/1-plan/SKILL.md|Before anything else in this step, read `${CLAUDE_PLUGIN_ROOT}/guidelines/tdd.md`
+skills/1-plan/SKILL.md|has no route to choose. Show the draft, whole the first time, as "Showing What Changed"
+skills/1-plan/SKILL.md|Show the draft, whole the first time, as "Showing What Changed" in `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` describes, and say whether
+skills/1-plan/SKILL.md|Load `${CLAUDE_PLUGIN_ROOT}/guidelines/git-workflow.md` first, if it isn't loaded
 guidelines/specification.md|An item is done only when its line is ticked
 guidelines/specification.md|under a `### Acceptance` heading, the last heading in `## Progress`
-guidelines/specification.md|A specification with no results yet has no `### Acceptance` heading
+guidelines/specification.md|A specification no implementing session has recorded progress for has no `### Acceptance` heading
+guidelines/specification.md|every criterion has a line there, `unchecked` until it is checked
 guidelines/specification.md|`- [x] r1. <title>`
 guidelines/specification.md|A refactoring's code is never renumbered or reused
 guidelines/specification.md|<added by implementation, when the user accepts a refactoring>
@@ -211,6 +252,8 @@ guidelines/tdd.md|**REFACTOR**, once per unit, with all tests green
 skills/2-implement/SKILL.md|Work through each unit without stopping to present each test cycle, in every mode
 guidelines/tdd.md|Only a contract, a mapping or a DTO grows this way, and only when it relies on no existing code
 skills/2-implement/SKILL.md|writing a unit's tests together when it isn't a contract, a mapping or a DTO, or when it relies on existing code
+skills/2-implement/SKILL.md|Ask even when the remaining items look obvious
+skills/2-implement/SKILL.md|Files with different jobs are different areas, even within one feature
 skills/5-handle-review/SKILL.md|and before the push, follow the process
 skills/5-handle-review/SKILL.md|triage every comment before asking about any
 skills/5-handle-review/SKILL.md|"One Item at a Time" in `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md`

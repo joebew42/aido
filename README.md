@@ -4,7 +4,7 @@
 
 # aido 🥋
 
-**A spec-first, test-driven engineering workflow for Claude Code.**
+**A spec-first, test-driven engineering workflow for Claude Code and GitHub Copilot CLI.**
 
 Hand Claude Code the whole feature while you stay in the loop! Works with any stack.
 
@@ -42,7 +42,11 @@ Install the plugin in Claude Code, then start planning your first feature:
 /aido:1-plan
 ```
 
-Every skill is available as `/aido:<skill>`.
+Every skill is available as `/aido:<skill>`. To update aido later, run
+`claude plugin marketplace update aido`, then `claude plugin update aido@aido`, and restart Claude
+Code.
+
+Using GitHub Copilot CLI? See [Use it in GitHub Copilot CLI](#use-it-in-github-copilot-cli).
 
 ### Your first feature, in five steps
 
@@ -92,6 +96,35 @@ add this to `~/.claude/settings.json`:
 | Block commit messages containing<br>`Co-Authored-By` trailers | on | `git config aido.allowCommitAttribution true` |
 
 The opt-out applies to this repository, or everywhere with `--global`. The skills never set it.
+
+### Use it in GitHub Copilot CLI
+
+Copilot CLI reads this marketplace as it is:
+
+```text
+copilot plugin marketplace add joebew42/aido
+copilot plugin install aido@aido
+```
+
+To update it later, run `copilot plugin marketplace update aido`, then
+`copilot plugin update aido@aido`.
+
+Run the skills by the same names, such as `/aido:1-plan`. Copilot keeps one skill per name, so a
+skill with the same name in your repository or your personal skills hides aido's, and its `/aido:`
+command with it. An aido skill that asks for the hidden one can't load it instead of yours, and is
+instructed to stop and tell you. Rename or remove skills that clash with aido's.
+
+Autopilot, `--no-ask-user` and prompt mode (`-p`) can continue or choose without asking you. The
+guideline asks skills to stop at questions, but nothing enforces this. Approval checkpoints are
+reliable only in an interactive session. Push stays protected: the hook denies it when it can't ask.
+
+Copilot tells its agent to add a `Co-authored-by` trailer to every commit, and aido's hook denies
+those commits. Turn the trailer off with `copilot config includeCoAuthoredBy false`, which writes
+`"includeCoAuthoredBy": false` to `~/.copilot/settings.json`. Without it, each commit is denied
+until the agent retries it without the trailer, unless you turn the hook off as above.
+
+In Copilot CLI, subagents run on Copilot's default model, nothing reminds a skill to reload after
+Copilot compacts the conversation, and the evals measure Claude Code only.
 
 ---
 

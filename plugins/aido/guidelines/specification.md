@@ -237,7 +237,8 @@ the items and every other note, so they don't read as part of the last item:
 - AC2: unchecked
 ```
 
-A specification with no results yet has no `### Acceptance` heading.
+A specification no implementing session has recorded progress for has no `### Acceptance` heading.
+Once one has, every criterion has a line there, `unchecked` until it is checked.
 
 ### Items in Progress
 

@@ -5,6 +5,8 @@ disable-model-invocation: false
 
 # Open a Pull Request
 
+**In Copilot CLI only:** before anything else, read `guidelines/copilot-cli.md` in the plugin root, two folders above this skill's base directory, and follow it. Read every guideline this skill names whole, with `view`, one file per call.
+
 Open or update a draft pull request for the current feature.
 
 Resolve `SPEC.md` and `SPEC.md.draft` first, as "The Specification File" in

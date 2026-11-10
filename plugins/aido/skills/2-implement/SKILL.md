@@ -5,6 +5,8 @@ disable-model-invocation: false
 
 # Implement the Feature
 
+**In Copilot CLI only:** before anything else, read `guidelines/copilot-cli.md` in the plugin root, two folders above this skill's base directory, and follow it. Read every guideline this skill names whole, with `view`, one file per call.
+
 Build the feature from its specification, one small step at a time, with **test-driven
 development**, in the mode each plan item names.
 
@@ -88,7 +90,8 @@ logical one. Ask:
 
 > "Which items should I do in this session? (all / specific items / the next logical one)"
 
-Wait for the answer before you start.
+Wait for the answer before you start. Ask even when the remaining items look obvious, such as the rest
+of a plan whose first items are done: only the user decides how much this session builds.
 
 ## Loop Mode
 
@@ -284,7 +287,9 @@ question below offers only the next step. It can take long and isn't always need
 
 - mark **Run the review** as recommended when the diff against the default branch touches more than one
   module or area, or adds a new domain concept or abstraction. Otherwise mark **Skip it** as
-  recommended. Diff size alone doesn't count
+  recommended. Diff size alone doesn't count. Files with different jobs are different areas, even
+  within one feature: in a TODO app, a change to the settings, the task rules and the screen that
+  shows a task touches three
 - say briefly in the question why the recommended option is recommended
 - on **Skip it**, launch nothing. Note the skip for `## Progress`, and go on to completion
 

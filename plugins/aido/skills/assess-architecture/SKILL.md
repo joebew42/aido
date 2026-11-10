@@ -5,6 +5,8 @@ disable-model-invocation: false
 
 # Assess the Architecture
 
+**In Copilot CLI only:** before anything else, read `guidelines/copilot-cli.md` in the plugin root, two folders above this skill's base directory, and follow it. Read every guideline this skill names whole, with `view`, one file per call.
+
 Review the repository's design area by area, apart from any feature. Park the findings the user picks
 as refactoring opportunities. `/aido:1-plan` offers them when a planned change can include them, so
 each refactoring is made as part of a working feature.
