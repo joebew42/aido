@@ -76,6 +76,12 @@ skills/1-plan/SKILL.md|Is the plan approved?
 skills/1-plan/SKILL.md|ready to become `SPEC.md`
 skills/1-plan/SKILL.md|Do NOT move to Step 7 without approval
 skills/1-plan/SKILL.md|Do NOT implement anything in this skill
+skills/1-plan/SKILL.md|options **Plan it first** / **Defer** / **No action**
+skills/1-plan/SKILL.md|options **Include it** / **Leave it saved**
+skills/1-plan/SKILL.md|**Asking about a finding** in `systemic-refactoring.md`
+skills/1-plan/SKILL.md|Confirm each finding classed enabling or defer, as **Evidence before action** in `systemic-refactoring.md` describes
+skills/1-plan/SKILL.md|**Plan it first** matches a finding classed enabling, and **Defer** one classed defer
+skills/1-plan/SKILL.md|Recommend **Include it**, unless the idea is broader or riskier than this change justifies
 skills/2-implement/SKILL.md|Never record a criterion as met without its evidence
 skills/2-implement/SKILL.md|Should I run a final design review over the whole feature?
 skills/2-implement/SKILL.md|Once implementation is complete, should I organize the commits?
@@ -92,6 +98,12 @@ skills/2-implement/SKILL.md|"the final design review ran and recorded r1, r2"
 skills/2-implement/SKILL.md|it is not offered again
 skills/2-implement/SKILL.md|**plan items or refactorings remain**
 skills/2-implement/SKILL.md|options **Plan it for later** / **Defer** / **No action**
+skills/2-implement/SKILL.md|Recommend one, as **Asking about a finding** in `systemic-refactoring.md` describes
+skills/2-implement/SKILL.md|**Refactor now** matches a finding classed fix now or refactor now, and **Defer** one classed defer
+skills/2-implement/SKILL.md|**Plan it for later** matches a finding classed planned, and **Defer** one classed defer
+skills/2-implement/SKILL.md|ask about each finding on its own, as **Asking about a finding** in `systemic-refactoring.md` describes
+skills/2-implement/SKILL.md|each option with what it does, and which one is recommended
+skills/2-implement/SKILL.md|keeping the option it recommends
 guidelines/systemic-refactoring.md|fix now and refactor now also collapse into one outcome: **planned**
 skills/2-implement/SKILL.md|`loop r<N>`, or `loop r<first>-r<last>`, such as `loop r1-r3`
 skills/2-implement/SKILL.md|every plan item not done, then every refactoring not done
@@ -127,7 +139,16 @@ skills/verify/SKILL.md|Every finding names its evidence
 skills/verify/SKILL.md|a change that a refactoring in `## Refactorings` explains is planned, and is not a deviation. It is never evidence that something is met
 skills/verify/SKILL.md|are not evidence
 guidelines/systemic-refactoring.md|Evidence before action
+guidelines/systemic-refactoring.md|**Asking about a finding:**
+guidelines/systemic-refactoring.md|**Asking about a finding:** when a skill says to ask about findings one at a time
+guidelines/systemic-refactoring.md|the skill names which of its options matches each class, and that option is recommended
+guidelines/systemic-refactoring.md|A low-confidence finding never recommends building or planning it
+guidelines/systemic-refactoring.md|a finding classed no action is listed in one line, with no question
 guidelines/git-workflow.md|every push needs the user's approval
+guidelines/git-workflow.md|### Replying to Review Feedback
+guidelines/git-workflow.md|resolveReviewThread(input: {threadId: $threadId})
+guidelines/git-workflow.md|A reply is posted only once the user has approved its text
+guidelines/git-workflow.md|gh pr comment <NUMBER> --body-file <file>
 guidelines/specification.md|An item is done only when its line is ticked
 guidelines/specification.md|under a `### Acceptance` heading, the last heading in `## Progress`
 guidelines/specification.md|A specification with no results yet has no `### Acceptance` heading
@@ -156,6 +177,9 @@ guidelines/language.md|### In Chat
 guidelines/language.md|### In a Specification
 guidelines/language.md|### In a PR
 guidelines/language.md|### In an Issue
+guidelines/language.md|### One Item at a Time
+guidelines/language.md|the exception to being interrupted once per stage
+guidelines/language.md|ask about the first undecided item only, as text, and stop
 guidelines/subagents.md|it returns a report and adds no ending block
 guidelines/subagents.md|never to edit files, unless the skill's own brief names an exception
 skills/verify/SKILL.md|"The Shared Brief" in `${CLAUDE_PLUGIN_ROOT}/guidelines/subagents.md`
@@ -171,6 +195,8 @@ skills/assess-architecture/SKILL.md|**Index Location and Shape** in `${CLAUDE_PL
 skills/map-architecture/SKILL.md|**Index Location and Shape** in `${CLAUDE_PLUGIN_ROOT}/guidelines/architecture-index.md`
 guidelines/systemic-refactoring.md|`<repo-name>` is as **Index Location and Shape** in `architecture-index.md` defines it
 guidelines/github-issues.md|## Writing a GitHub Body
+guidelines/github-issues.md|These rules apply to every body written for GitHub: a PR, an issue, a comment or a reply
+guidelines/github-issues.md|A skill that has already asked about each point skips this step, and starts at "Check for Duplicates"
 skills/4-open-pr/SKILL.md|"Writing a GitHub Body" in `${CLAUDE_PLUGIN_ROOT}/guidelines/github-issues.md`
 skills/1-plan/SKILL.md|**Implement in a fresh context**
 guidelines/git-workflow.md|finish this skill's own work, including its commits, start nothing, and tell the user to run `/clear`, then the next skill
@@ -186,6 +212,12 @@ skills/2-implement/SKILL.md|Work through each unit without stopping to present e
 guidelines/tdd.md|Only a contract, a mapping or a DTO grows this way, and only when it relies on no existing code
 skills/2-implement/SKILL.md|writing a unit's tests together when it isn't a contract, a mapping or a DTO, or when it relies on existing code
 skills/5-handle-review/SKILL.md|and before the push, follow the process
+skills/5-handle-review/SKILL.md|triage every comment before asking about any
+skills/5-handle-review/SKILL.md|"One Item at a Time" in `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md`
+skills/5-handle-review/SKILL.md|options **Should fix** / **Out of scope** / **Park**, with the triage's choice recommended
+skills/5-handle-review/SKILL.md|Nothing is changed, opened or posted until every comment is decided
+skills/5-handle-review/SKILL.md|"Check for Duplicates" in `${CLAUDE_PLUGIN_ROOT}/guidelines/github-issues.md`
+skills/5-handle-review/SKILL.md|"Replying to Review Feedback" in `${CLAUDE_PLUGIN_ROOT}/guidelines/git-workflow.md`
 guidelines/specification.md|**Distil it into `<path>`**
 guidelines/specification.md|`docs: distil feature specification into <path>`
 guidelines/specification.md|the user approves it before it is committed

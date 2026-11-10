@@ -1,7 +1,7 @@
 # Opening GitHub Issues
 
-How a skill turns the points the user picks into GitHub issues. Nothing is opened in bulk, or without
-the user choosing it.
+How a skill turns the points the user chooses into GitHub issues. Nothing is opened in bulk, or
+without the user choosing it.
 
 The skill shows the points, numbered, then supplies:
 
@@ -16,9 +16,12 @@ for picking from a list.
 
 On none, stop.
 
+A skill that has already asked about each point skips this step, and starts at "Check for
+Duplicates" with the points the user chose.
+
 ## Check for Duplicates
 
-For each picked point, search open issues by its key terms and main symbols, leaving out the issues
+For each chosen point, search open issues by its key terms and main symbols, leaving out the issues
 that do not count as a match:
 
 ```sh
@@ -39,7 +42,7 @@ same problem." — options **Skip** / **Comment on #<n>** (posting the point's b
 
 ## Writing a GitHub Body
 
-These rules apply to every body written for GitHub, a PR's or an issue's:
+These rules apply to every body written for GitHub: a PR, an issue, a comment or a reply.
 
 - no reference to Claude Code
 - don't hard-wrap prose. GitHub shows a single newline as a line break, so fixed-width wrapping makes

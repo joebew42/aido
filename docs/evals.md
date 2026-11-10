@@ -104,11 +104,13 @@ skill doesn't refer to the ending block, or a listed approval question or eviden
 | `verify-accepts-a-real-test` | Does verification accept good tests, without false alarms? |
 | `handle-review-suggests-nothing` | Given a review with only one-off fixes, does the agent suggest no convention and add nothing to `CLAUDE.md` or `AGENTS.md`? |
 | `handle-review-asks-about-a-convention-seen-once` | Given a review point worth a convention that only this PR shows, does the agent ask whether to accept it or look in earlier PRs, adding nothing before the answer? |
+| `handle-review-asks-one-comment-at-a-time` | Given a review with three comments, does the agent ask about one comment at a time, offering to fix it, call it out of scope or park it, with one option recommended, and change nothing before the answers? |
 
 Plain Claude Code isn't expected to suggest conventions after a review. So
 `handle-review-suggests-nothing` should pass without aido, and
 `handle-review-asks-about-a-convention-seen-once` should fail without it. The first shows that aido
-adds no noise. The second shows what it adds.
+adds no noise. The second shows what it adds. `handle-review-asks-one-comment-at-a-time` is
+expected to fail without aido too, since plain Claude Code isn't told to ask about each comment.
 
 Runs have no `AskUserQuestion` tool, because nobody is there to answer. A skill's question shows up as
 text in the final message, so a case about a question grades that message.

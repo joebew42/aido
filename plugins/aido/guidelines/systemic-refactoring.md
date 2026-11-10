@@ -88,6 +88,16 @@ specification's `## Refactorings` and built later, like a plan item.
 A low-confidence finding is classified only as **defer** or **no action**, and names the evidence
 still missing.
 
+**Asking about a finding:** when a skill says to ask about findings one at a time, ask about each
+one on its own, as "One Item at a Time" in `language.md` describes. A skill that has the user pick
+from a list keeps its list:
+
+- the question shows the finding as **Showing a finding** describes, with the options the skill
+  names
+- the skill names which of its options matches each class, and that option is recommended. A
+  low-confidence finding never recommends building or planning it
+- a finding classed no action is listed in one line, with no question
+
 **Parking an opportunity:** a refactoring is made as part of a working feature, so it is never
 tracked as an issue. Park one worth keeping until a planned change can pull it in:
 

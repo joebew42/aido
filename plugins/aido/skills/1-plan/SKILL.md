@@ -311,8 +311,18 @@ Launch one `Agent` with `model: "fable"`. Brief it with "The Shared Brief" in `$
 
 If `fable` is unavailable, act as "When the Model Is Unavailable" in `${CLAUDE_PLUGIN_ROOT}/guidelines/subagents.md`.
 
-Confirm each finding that would add a plan item, as **Evidence before action** in
-`systemic-refactoring.md` describes.
+Confirm each finding classed enabling or defer, as **Evidence before action** in
+`systemic-refactoring.md` describes, since either can become a plan item. Then ask about each one,
+one at a time, as **Asking about a
+finding** in `systemic-refactoring.md` describes — options **Plan it first** / **Defer** /
+**No action**. **Plan it first** matches a finding classed enabling, and **Defer** one classed
+defer:
+
+- **Plan it first** → it becomes an **enabling** plan item
+- **Defer** → it is listed in the Design notes, and parked once the plan is approved
+- **No action** → it is dropped
+
+List the findings classed no action in one line, with no question.
 
 ## Step 5.5: Pull In Parked Refactoring Opportunities
 
@@ -331,10 +341,10 @@ the current code:
 
 - **the code no longer shows the problem** → remove the file and tell the user
 - **none fits** → say so in one line and continue
-- **some still hold** → show each as **Showing a finding** in `systemic-refactoring.md` describes,
-  from its file's **Change** and **Why** (`## Refactoring` and `## Why it matters` in an older file).
-  Then ask "These saved refactoring ideas fit this work. Which should I include?", as "Asking
-  Questions" in `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` describes for picking from a list
+- **some still hold** → ask about each one on its own, as **Asking about a finding** in
+  `systemic-refactoring.md` describes, from its file's **Change** and **Why** (`## Refactoring` and
+  `## Why it matters` in an older file) — options **Include it** / **Leave it saved**. Recommend
+  **Include it**, unless the idea is broader or riskier than this change justifies
 
 Each one pulled in becomes an **enabling** plan item that names its file. The rest stay saved.
 
@@ -345,9 +355,10 @@ Each one pulled in becomes an **enabling** plan item that names its file. The re
 - choose each feature item's mode as "The Modes" in `${CLAUDE_PLUGIN_ROOT}/guidelines/tdd.md`
   describes. Read that file now. Open what an inside-out item cites, and confirm it exists and fits.
   Agents tend to call work obvious too often: when you can't cite anything, name the unknown instead
-- the **enabling** refactorings are those from Step 5 and the opportunities pulled in at Step 5.5.
-  Deferred findings are not planned. List them in the Design notes, each with every field under
-  **What every finding states** in `systemic-refactoring.md`
+- the **enabling** refactorings are the findings the user chose to plan first at Step 5, and the
+  opportunities pulled in at Step 5.5. The findings the user deferred are not planned. List them in
+  the Design notes, each with every field under **What every finding states** in
+  `systemic-refactoring.md`
 - before asking for approval, check that at least one plan item serves each acceptance criterion. Add
   an item for any that has none, or raise it as below when the criterion itself is wrong
 - a `SPEC.md` without numbered acceptance criteria (see "Specifications Without Acceptance

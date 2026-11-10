@@ -81,6 +81,47 @@ Read one PR's review comments with these two calls:
 - `gh api repos/{owner}/{repo}/pulls/<NUMBER>/comments` — the comments on lines of code. `gh`
   fills in `{owner}` and `{repo}` from the current repository
 
+### Replying to Review Feedback
+
+A reply is posted only once the user has approved its text. Write it as "Writing a GitHub Body" in
+`github-issues.md` describes, to a temporary file in the scratchpad.
+
+**A comment on a line of code** gets its reply in its thread, then the thread is resolved:
+
+1. reply to the comment that starts the thread: the line comment's `in_reply_to_id`, or its own `id`
+   when it has none.
+   `gh api repos/{owner}/{repo}/pulls/<NUMBER>/comments/<COMMENT_ID>/replies -F body=@<file>`
+2. find the thread that comment starts:
+
+   ```sh
+   gh api graphql -F owner='{owner}' -F repo='{repo}' -F number=<NUMBER> -f query='
+     query($owner: String!, $repo: String!, $number: Int!) {
+       repository(owner: $owner, name: $repo) {
+         pullRequest(number: $number) {
+           reviewThreads(first: 100) {
+             nodes { id isResolved comments(first: 1) { nodes { databaseId } } }
+           }
+         }
+       }
+     }' --jq '.data.repository.pullRequest.reviewThreads.nodes[]
+       | select(.comments.nodes[0].databaseId == <COMMENT_ID>) | {id, isResolved}'
+   ```
+
+3. resolve it, unless it is already resolved:
+
+   ```sh
+   gh api graphql -F threadId=<THREAD_ID> -f query='
+     mutation($threadId: ID!) {
+       resolveReviewThread(input: {threadId: $threadId}) { thread { isResolved } }
+     }'
+   ```
+
+When no thread is found, say so, and leave it.
+
+**Feedback with no thread**, such as a review's summary or a conversation comment, gets its reply as
+a PR comment: `gh pr comment <NUMBER> --body-file <file>`. The body opens by quoting the feedback's
+author and the part it answers, as a `>` quote, then gives the reply. There is no thread to resolve.
+
 ## Commit Organization Strategy
 
 ### General Principles
