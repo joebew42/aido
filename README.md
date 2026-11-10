@@ -111,8 +111,7 @@ Use an interactive session whenever approval matters. To keep AI attribution out
 `"includeCoAuthoredBy": false` to `~/.copilot/settings.json`.
 
 In Copilot CLI, subagents run on Copilot's default model, nothing reminds a skill to reload after
-Copilot compacts the conversation, and the memory hook doesn't apply. The evals measure Claude Code
-only.
+Copilot compacts the conversation, and the evals measure Claude Code only.
 
 ---
 
