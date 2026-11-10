@@ -32,12 +32,10 @@ File" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md` describes. On a lef
 before anything below, as "A Leftover Spec" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`
 describes. Otherwise:
 
-- **only `SPEC.md.draft` exists** → approve and refine it with the user as `/aido:1-plan` Step 2
-  (**Approve the draft**) and Step 3 do, without the question about the enabling refactoring
-  analysis. That means rewriting it into "The Specification Structure" in
-  `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`, with numbered acceptance criteria for the
-  whole feature, and running the alignment check in
-  `${CLAUDE_PLUGIN_ROOT}/guidelines/repository-alignment.md`. Then move it with
+- **only `SPEC.md.draft` exists** → have the user approve it as "Approve the draft" in
+  `${CLAUDE_PLUGIN_ROOT}/skills/1-plan/SKILL.md` describes. Then refine it as
+  `${CLAUDE_PLUGIN_ROOT}/guidelines/refining-a-draft.md` describes, with numbered acceptance criteria
+  for the whole feature, and don't ask about the enabling refactoring analysis. Then move it with
   `mv SPEC.md.draft SPEC.md`
 - **neither exists** → ask the user to write `SPEC.md.draft`, then go on as above
 

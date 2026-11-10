@@ -106,6 +106,8 @@ guidelines/refining-a-draft.md|a `## Design decision` stays unchanged, in its pl
 skills/1-plan/SKILL.md|keeping any `## Design decision` as "Rewrite it into the specification structure" in `${CLAUDE_PLUGIN_ROOT}/guidelines/refining-a-draft.md` says
 skills/1-plan/SKILL.md|Refine it as `${CLAUDE_PLUGIN_ROOT}/guidelines/refining-a-draft.md` describes
 skills/stabilize/SKILL.md|refine it with the user as `${CLAUDE_PLUGIN_ROOT}/guidelines/refining-a-draft.md` describes
+skills/multi-phase-spec-pr/SKILL.md|"Approve the draft" in `${CLAUDE_PLUGIN_ROOT}/skills/1-plan/SKILL.md`
+skills/multi-phase-spec-pr/SKILL.md|refine it as `${CLAUDE_PLUGIN_ROOT}/guidelines/refining-a-draft.md` describes
 skills/1-plan/SKILL.md|the developer approved it, so findings work within the chosen approach
 skills/1-plan/SKILL.md|the plan follows its chosen approach
 skills/2-implement/SKILL.md|Never record a criterion as met without its evidence
