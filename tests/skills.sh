@@ -221,6 +221,9 @@ skills/deliberate/SKILL.md|This skill writes only `SPEC.md.draft`, and only once
 skills/deliberate/SKILL.md|**nothing, and `SPEC.md.draft` exists** → deliberate on the draft
 skills/deliberate/SKILL.md|options **Use the draft** / **Replace it with the request**
 skills/deliberate/SKILL.md|`Needs you: run /aido:1-plan`
+skills/deliberate/SKILL.md|for /aido:1-plan, or /aido:multi-phase-plan for a feature built in phases, to plan from
+skills/deliberate/SKILL.md|and `/aido:1-plan` plans from it, or `/aido:multi-phase-plan` for a feature built in phases
+skills/deliberate/SKILL.md|`Needs you: run /aido:1-plan`, or `/aido:multi-phase-plan` for a feature built in phases
 skills/deliberate/SKILL.md|Launch two `Agent` calls with `model: "fable"`, in one message
 skills/deliberate/SKILL.md|### The Proposal Brief
 skills/deliberate/SKILL.md|the same requirements, word for word, and the same repository

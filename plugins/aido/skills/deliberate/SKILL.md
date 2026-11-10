@@ -1,5 +1,5 @@
 ---
-description: Explores competing designs for a feature before planning — two agents propose a design independently, one aiming for the best design and one for the simplest, and a third compares them and recommends one. Saves the design the developer approves in SPEC.md.draft for /aido:1-plan to plan from. Invoked when the user wants to deliberate on a design, compare design alternatives before planning, or runs /aido:deliberate.
+description: Explores competing designs for a feature before planning — two agents propose a design independently, one aiming for the best design and one for the simplest, and a third compares them and recommends one. Saves the design the developer approves in SPEC.md.draft for /aido:1-plan, or /aido:multi-phase-plan for a feature built in phases, to plan from. Invoked when the user wants to deliberate on a design, compare design alternatives before planning, or runs /aido:deliberate.
 disable-model-invocation: false
 ---
 
@@ -9,8 +9,8 @@ disable-model-invocation: false
 
 Weigh competing designs before planning. Two agents propose a design for the same requirements, each
 on its own. A third compares them and recommends one. The design the developer approves is saved in
-`SPEC.md.draft`, and `/aido:1-plan` plans from it. This step is optional: planning without it works
-as before.
+`SPEC.md.draft`, and `/aido:1-plan` plans from it, or `/aido:multi-phase-plan` for a feature built in
+phases. This step is optional: planning without it works as before.
 
 Resolve `SPEC.md` and `SPEC.md.draft` first, as "The Specification File" in
 `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md` describes.
@@ -164,6 +164,7 @@ Show the saved section.
 ## STOP — Skill Complete
 
 Once the decision is saved, end as "Ending a Skill" in
-`${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` describes, with `Needs you: run /aido:1-plan`. It
-resumes the draft and plans from the decision. Ask nothing more. When the skill stops early, end the
+`${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` describes, with `Needs you: run /aido:1-plan`, or
+`/aido:multi-phase-plan` for a feature built in phases. Either one resumes the draft and plans from
+the decision. Ask nothing more. When the skill stops early, end the
 same way, and say that nothing was saved.
