@@ -179,6 +179,10 @@ plan.
 - **Revisit when:** users ask for reminders at a time of day
 ```
 
+In a feature split into phases, the main specification holds the whole decision. A phase draft keeps
+the four fields, each cut to what that phase builds. When the decision can't be split by phase, the
+phase draft copies it whole.
+
 ### Plan Items
 
 Each item in `## Plan` names the criteria it serves, in parentheses after its title, e.g.

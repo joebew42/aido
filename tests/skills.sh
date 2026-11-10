@@ -252,6 +252,8 @@ skills/deliberate/SKILL.md|**the draft already has a `## Design decision`** → 
 skills/deliberate/SKILL.md|Ask nothing more
 guidelines/specification.md|<added before planning, when the developer approves a design>
 guidelines/specification.md|### Design Decision
+guidelines/specification.md|A phase draft keeps the four fields, each cut to what that phase builds
+guidelines/specification.md|When the decision can't be split by phase, the phase draft copies it whole
 guidelines/specification.md|the alternatives considered, the chosen approach and why, the accepted trade-offs and risks, and when to revisit it
 guidelines/specification.md|The one exception is `## Design decision`
 guidelines/specification.md|and the decisions, from Intent, Out of scope, the design decision, the alignment decisions
