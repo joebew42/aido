@@ -83,18 +83,8 @@ is no issue, as **Branch Naming** in `${CLAUDE_PLUGIN_ROOT}/guidelines/git-workf
 
 ### Add the GitHub Issue to Feature Spec
 
-If there is a GitHub issue, add it at the top of `SPEC.md`:
-
-```markdown
-# <descriptive title>
-
-> Working specification for this branch. Remove it before merging: revert the `docs: feature specification` commit.
-
-GitHub Issue: [github repository link]/#42
-
-## Context
-...
-```
+If there is a GitHub issue, add its `GitHub Issue:` line to `SPEC.md`, where "The Specification
+Structure" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md` shows it.
 
 ## Step 1: Commit the Feature Specification
 

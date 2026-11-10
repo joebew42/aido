@@ -108,6 +108,7 @@ skills/1-plan/SKILL.md|Refine it as `${CLAUDE_PLUGIN_ROOT}/guidelines/refining-a
 skills/stabilize/SKILL.md|refine it with the user as `${CLAUDE_PLUGIN_ROOT}/guidelines/refining-a-draft.md` describes
 skills/multi-phase-spec-pr/SKILL.md|"Approve the draft" in `${CLAUDE_PLUGIN_ROOT}/skills/1-plan/SKILL.md`
 skills/multi-phase-spec-pr/SKILL.md|refine it as `${CLAUDE_PLUGIN_ROOT}/guidelines/refining-a-draft.md` describes
+skills/multi-phase-spec-pr/SKILL.md|add its `GitHub Issue:` line to `SPEC.md`, where "The Specification Structure" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md` shows it
 skills/1-plan/SKILL.md|the developer approved it, so findings work within the chosen approach
 skills/1-plan/SKILL.md|the plan follows its chosen approach
 skills/2-implement/SKILL.md|Never record a criterion as met without its evidence
@@ -481,7 +482,7 @@ push_line="$(grep -n -m1 -F '## Push and End' "$handle_review" | cut -d: -f1)"
 report $? "5-handle-review settles the spec after the review commits, before the push"
 
 marker='> Working specification for this branch. Remove it before merging: revert the `docs: feature specification` commit.'
-for file in guidelines/specification.md skills/stabilize/SKILL.md skills/multi-phase-spec-pr/SKILL.md; do
+for file in guidelines/specification.md skills/stabilize/SKILL.md; do
   awk -v marker="$marker" '
     /^# <descriptive title>$/ { title = NR; templates++ }
     title && NR == title + 2 { if ($0 == marker) marked++; title = 0 }
