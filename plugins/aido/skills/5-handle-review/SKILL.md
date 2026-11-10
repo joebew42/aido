@@ -69,13 +69,13 @@ Before any change:
       - **title:** the title the user saw, with no prefix
       - **body:** **Observation**, holding the comment's point, and **Why it was parked**, ending
         with one line linking to the comment
-      - **issues that do not count as a match:** the issue in the PR's `Closes #NUMBER`, if any
    3. post the reply for each **Out of scope** and **Park** comment, as "Replying to Review Feedback"
       in `${CLAUDE_PLUGIN_ROOT}/guidelines/git-workflow.md` describes. A parked comment's reply links
       the issue opened, or the existing issue the duplicate check found
 
-   A comment you fix gets no reply: the user talks to the reviewer about it. Report each issue opened
-   or commented on, and each reply posted, with its URL.
+   A comment you fix gets no reply: the user talks to the reviewer about it. Report each reply posted,
+   with its URL, and each parked comment's issue as "Report the Result" in
+   `${CLAUDE_PLUGIN_ROOT}/guidelines/github-issues.md` describes.
 
 ## Quality Checks
 
@@ -125,9 +125,9 @@ and end as below, listing the unpushed commits.
 
 ## Push and End
 
-- show a summary of the changes, with the replies posted, the issues opened, any convention added
-  and how the spec was settled, then push. The permission prompt asks for the user's approval,
-  as "Pushing Changes" in `${CLAUDE_PLUGIN_ROOT}/guidelines/git-workflow.md` describes
+- show a summary of the changes, with the replies posted, the issue opened, commented on or skipped
+  for each parked comment and each parked convention, any convention added and how the spec was
+  settled, then push. The permission prompt asks for the user's approval, as "Pushing Changes" in `${CLAUDE_PLUGIN_ROOT}/guidelines/git-workflow.md` describes
 - then end as "Ending a Skill" in `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` describes
 - if the user declines the push, they may want more changes. End the same way, and list in
   `Needs you` every commit left unpushed, a convention's included

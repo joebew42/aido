@@ -1,6 +1,6 @@
 schema_version: "1.1"
 name: handle-review-asks-about-a-convention-seen-once
-description: A review point worth a convention, seen only in this PR, leads to a question to accept it or look in earlier PRs, and nothing is added before the answer
+description: A review point worth a convention, seen only in this PR, leads to a question to accept it, look in earlier PRs, ignore it or park it, and nothing is added before the answer
 tags: [handle-review]
 context:
   scaffold_script: fixture.sh

@@ -7,7 +7,6 @@ The skill shows the points, numbered, then supplies:
 
 - the **points**, each with its title and body
 - the **label** to look for on each point, if any
-- the **issues that do not count as a match**, if any
 
 ## Pick the Issues
 
@@ -21,8 +20,9 @@ Duplicates" with the points the user chose.
 
 ## Check for Duplicates
 
-For each chosen point, search open issues by its key terms and main symbols, leaving out the issues
-that do not count as a match:
+For each chosen point, search open issues by its key terms and main symbols. When the points come
+from a PR, the issue in its `Closes #NUMBER` never counts as a match: merging the PR closes it, and
+the point with it.
 
 ```sh
 gh issue list --state open --search "<terms> in:title,body" --limit 5
@@ -39,6 +39,11 @@ same problem." — options **Skip** / **Comment on #<n>** (posting the point's b
 - write the body to a temporary file in the scratchpad and run
   `gh issue create --title "<title>" --body-file <file> [--label "<label>"]`
 - follow `language.md` and "Writing a GitHub Body" below
+
+## Report the Result
+
+Report each issue opened or commented on, with its URL, and each point skipped, with the issue it
+duplicates.
 
 ## Writing a GitHub Body
 
