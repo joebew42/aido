@@ -169,6 +169,7 @@ guidelines/git-workflow.md|### Replying to Review Feedback
 guidelines/git-workflow.md|resolveReviewThread(input: {threadId: $threadId})
 guidelines/git-workflow.md|A reply is posted only once the user has approved its text
 guidelines/git-workflow.md|gh pr comment <NUMBER> --body-file <file>
+guidelines/copilot-cli.md|A check, such as a test run, a build or a linter, passes only on its own exit status
 guidelines/copilot-cli.md|call the `skill` tool with `aido:<name>`
 guidelines/copilot-cli.md|If the `skill` tool reports the skill not found, another skill with the same name hides aido's
 guidelines/copilot-cli.md|Mark the recommended option in its label and set no default

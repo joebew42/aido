@@ -20,6 +20,13 @@ long output is saved to a file instead of shown, and a part of a guideline is no
 Whenever a command's output is saved to a file instead of shown, read that file before you go on.
 A guideline cited for a single rule counts too: read all of it, not just the part around the rule.
 
+## Command Results
+
+A check, such as a test run, a build or a linter, passes only on its own exit status. Piping its
+output through a filter such as `grep`, `head` or `tail`, or ending the command with `echo`, reports
+the status of that last command instead. Run the check unfiltered, or keep its status, for example
+with `set -o pipefail` where the shell supports it. Only then treat the check as passed, or commit.
+
 ## Skills
 
 The user runs a skill as `/aido:<name>`, as in Claude Code. To invoke one with the `Skill` tool, call
