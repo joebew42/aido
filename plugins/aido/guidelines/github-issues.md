@@ -40,6 +40,11 @@ same problem." — options **Skip** / **Comment on #<n>** (posting the point's b
   `gh issue create --title "<title>" --body-file <file> [--label "<label>"]`
 - follow `language.md` and "Writing a GitHub Body" below
 
+## Report the Result
+
+Report each issue opened or commented on, with its URL, and each point skipped, with the issue it
+duplicates.
+
 ## Writing a GitHub Body
 
 These rules apply to every body written for GitHub: a PR, an issue, a comment or a reply.

@@ -243,8 +243,8 @@ Otherwise, get the PR's URL with `gh pr view --json url --jq .url`, show the cri
 - **body:** **Observation**, holding the criterion's wording, and **Why it was deferred**, ending with
   one line linking to the PR
 
-Report each issue opened or commented on with its URL, and each skipped criterion with the reason.
-Criteria not picked stay where they were recorded. Neither the specification nor the PR description
+Report the result as "Report the Result" in `${CLAUDE_PLUGIN_ROOT}/guidelines/github-issues.md`
+describes. Criteria not picked stay where they were recorded. Neither the specification nor the PR description
 changes.
 
 ## STOP — Skill Complete

@@ -239,6 +239,8 @@ guidelines/github-issues.md|## Writing a GitHub Body
 guidelines/github-issues.md|These rules apply to every body written for GitHub: a PR, an issue, a comment or a reply
 guidelines/github-issues.md|A skill that has already asked about each point skips this step, and starts at "Check for Duplicates"
 guidelines/github-issues.md|When the points come from a PR, the issue in its `Closes #NUMBER` never counts as a match: merging the PR closes it
+guidelines/github-issues.md|## Report the Result
+guidelines/github-issues.md|Report each issue opened or commented on, with its URL, and each point skipped, with the issue it duplicates
 skills/4-open-pr/SKILL.md|"Writing a GitHub Body" in `${CLAUDE_PLUGIN_ROOT}/guidelines/github-issues.md`
 skills/1-plan/SKILL.md|**Implement in a fresh context**
 guidelines/git-workflow.md|finish this skill's own work, including its commits, start nothing, and tell the user to run `/clear`, then the next skill
@@ -304,7 +306,9 @@ guidelines/evolving-guidelines.md|get the PR's URL with `gh pr view --json url -
 guidelines/evolving-guidelines.md|**body:** the target file, the exact text to add, and **Why it was parked**: only this PR's review shows it, so it is kept for later. End with one line linking to the PR
 guidelines/evolving-guidelines.md|options **Add it anyway** / **Ignore it**
 guidelines/evolving-guidelines.md|When `AskUserQuestion` isn't available, ask it as text, with the exact text to add and the four options, and stop there: push nothing until the user answers
-skills/5-handle-review/SKILL.md|the issues opened, each issue opened for a parked convention, any convention added
+skills/5-handle-review/SKILL.md|the replies posted, the issue opened, commented on or skipped for each parked comment and each parked convention, any convention added
+skills/5-handle-review/SKILL.md|"Report the Result" in `${CLAUDE_PLUGIN_ROOT}/guidelines/github-issues.md`
+skills/4-open-pr/SKILL.md|"Report the Result" in `${CLAUDE_PLUGIN_ROOT}/guidelines/github-issues.md`
 evals/handle-review-asks-about-a-convention-seen-once/graders/asks-to-accept-look-ignore-or-park.md|asks whether to accept it, look for the same point in earlier pull requests' review comments, ignore it or park it in an issue
 EOF_PHRASES
 
@@ -395,6 +399,14 @@ match_rules="$(
 )"
 [ "$match_rules" = "$plugin/guidelines/github-issues.md" ]
 report $? "only github-issues.md says which issues don't count as a match"
+
+result_rules="$(
+  for file in "$plugin"/skills/*/SKILL.md "$plugin"/guidelines/*.md; do
+    on_one_line "$file" | grep -qE 'issues? opened or commented on' && echo "$file"
+  done
+)"
+[ "$result_rules" = "$plugin/guidelines/github-issues.md" ]
+report $? "only github-issues.md says to report each issue opened or commented on"
 
 ! grep -rnF -- '**Drop it**' "$plugin/skills" "$plugin/guidelines"
 report $? "declining a convention reads Ignore it everywhere"
