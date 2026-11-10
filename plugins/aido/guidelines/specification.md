@@ -107,7 +107,7 @@ GitHub Issue: <repo link>/#<NUMBER>   (or omit)
 
 ## Design decision
 
-<added before planning, when the developer approves a design>
+<added before planning, when the user approves a design>
 
 ## Plan
 
@@ -133,7 +133,7 @@ marker line existed has none either, and stays valid.
 
 **The specification states what and why, never how.** Context, Intent, Out of scope and Acceptance
 criteria are approved before any planning. How the change is built belongs to `## Plan` and
-`## Design notes`. The one exception is `## Design decision`: a design the developer approved before
+`## Design notes`. The one exception is `## Design decision`: a design the user approved before
 planning, which the plan follows. A skill may add its own sections after the title, such as where the original work
 came from. The required sections keep their names and order.
 
@@ -164,7 +164,7 @@ engineer chose to proceed with, one line each, so later checks don't raise it ag
 
 ### Design Decision
 
-`## Design decision` records the design the developer approved after weighing competing proposals.
+`## Design decision` records the design the user approved after weighing competing proposals.
 It states the alternatives considered, the chosen approach and why, the accepted trade-offs and
 risks, and when to revisit it. It names the approach, not the files or symbols: those stay in the
 plan.

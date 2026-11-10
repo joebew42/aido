@@ -117,7 +117,7 @@ skills/multi-phase-plan/SKILL.md|with the exact message `docs: feature specifica
 skills/multi-phase-plan/SKILL.md|every item starts unchecked
 skills/multi-phase-plan/SKILL.md|created as a draft PR, not ready for review
 skills/multi-phase-plan/SKILL.md|add its `GitHub Issue:` line to `SPEC.md`, where "The Specification Structure" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md` shows it
-skills/1-plan/SKILL.md|the developer approved it, so findings work within the chosen approach
+skills/1-plan/SKILL.md|the user approved it, so findings work within the chosen approach
 skills/1-plan/SKILL.md|the plan follows its chosen approach
 skills/2-implement/SKILL.md|Never record a criterion as met without its evidence
 skills/2-implement/SKILL.md|Should I run a final design review over the whole feature?
@@ -217,7 +217,7 @@ skills/deliberate/SKILL.md|**`SPEC.md` exists** → say the specification is alr
 skills/deliberate/SKILL.md|on a leftover spec, stop, as "A Leftover Spec" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md` describes
 skills/deliberate/SKILL.md|**a GitHub issue**, as a number or a link → read it with `gh issue view <NUMBER>`
 skills/deliberate/SKILL.md|**a feature request**, any other text → the requirements are the request, as given
-skills/deliberate/SKILL.md|This skill writes only `SPEC.md.draft`, and only once the developer approves a design
+skills/deliberate/SKILL.md|This skill writes only `SPEC.md.draft`, and only once the user approves a design
 skills/deliberate/SKILL.md|**nothing, and `SPEC.md.draft` exists** → deliberate on the draft
 skills/deliberate/SKILL.md|options **Use the draft** / **Replace it with the request**
 skills/deliberate/SKILL.md|`Needs you: run /aido:1-plan`
@@ -248,12 +248,12 @@ skills/deliberate/SKILL.md|ask it in free text. The answer joins the constraints
 skills/deliberate/SKILL.md|options **Accept the recommendation** / **Use the best design** / **Use the simplest design** / **Another round**
 skills/deliberate/SKILL.md|With no answer, save nothing
 skills/deliberate/SKILL.md|"Design Decision" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`
-skills/deliberate/SKILL.md|**no `SPEC.md.draft`, or the developer chose Replace it with the request** → write `SPEC.md.draft` with the requirements deliberated on
+skills/deliberate/SKILL.md|**no `SPEC.md.draft`, or the user chose Replace it with the request** → write `SPEC.md.draft` with the requirements deliberated on
 skills/deliberate/SKILL.md|`GitHub Issue: [github repository link]/#NUMBER`
 skills/deliberate/SKILL.md|**the draft has no `## Design decision`** → add it at the end of the draft
 skills/deliberate/SKILL.md|**the draft already has a `## Design decision`** → replace that section, and leave the rest of the draft as it is
 skills/deliberate/SKILL.md|Ask nothing more
-guidelines/specification.md|<added before planning, when the developer approves a design>
+guidelines/specification.md|<added before planning, when the user approves a design>
 guidelines/specification.md|### Design Decision
 guidelines/specification.md|A phase draft keeps the four fields, each cut to what that phase builds
 guidelines/specification.md|When the decision can't be split by phase, the phase draft copies it whole

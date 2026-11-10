@@ -1,5 +1,5 @@
 ---
-description: Explores competing designs for a feature before planning — two agents propose a design independently, one aiming for the best design and one for the simplest, and a third compares them and recommends one. Saves the design the developer approves in SPEC.md.draft for /aido:1-plan, or /aido:multi-phase-plan for a feature built in phases, to plan from. Invoked when the user wants to deliberate on a design, compare design alternatives before planning, or runs /aido:deliberate.
+description: Explores competing designs for a feature before planning — two agents propose a design independently, one aiming for the best design and one for the simplest, and a third compares them and recommends one. Saves the design the user approves in SPEC.md.draft for /aido:1-plan, or /aido:multi-phase-plan for a feature built in phases, to plan from. Invoked when the user wants to deliberate on a design, compare design alternatives before planning, or runs /aido:deliberate.
 disable-model-invocation: false
 ---
 
@@ -8,7 +8,7 @@ disable-model-invocation: false
 **In Copilot CLI only:** before anything else, read `guidelines/copilot-cli.md` in the plugin root, two folders above this skill's base directory, and follow it. Read every guideline this skill names whole, with `view`, one file per call.
 
 Weigh competing designs before planning. Two agents propose a design for the same requirements, each
-on its own. A third compares them and recommends one. The design the developer approves is saved in
+on its own. A third compares them and recommends one. The design the user approves is saved in
 `SPEC.md.draft`, and `/aido:1-plan` plans from it, or `/aido:multi-phase-plan` for a feature built in
 phases. This step is optional: planning without it works as before.
 
@@ -17,7 +17,7 @@ Resolve `SPEC.md` and `SPEC.md.draft` first, as "The Specification File" in
 
 Load `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` and follow it in everything you write for a person.
 
-This skill writes only `SPEC.md.draft`, and only once the developer approves a design. It changes no
+This skill writes only `SPEC.md.draft`, and only once the user approves a design. It changes no
 code, commits nothing and pushes nothing.
 
 ## Step 0: Load Context
@@ -127,7 +127,7 @@ Return only this:
 - **Question:** <for clarification only: the question, and how each likely answer changes the choice>
 ```
 
-## Step 4: The Developer Decides
+## Step 4: The User Decides
 
 Show both proposals and the recommendation, whole, as they came back.
 
@@ -151,7 +151,7 @@ Write the approved design as a `## Design decision` section, as "Design Decision
 `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md` describes. The alternatives are the two
 proposals, and the trade-offs and risks come from the proposals and the recommendation.
 
-- **no `SPEC.md.draft`, or the developer chose Replace it with the request** → write `SPEC.md.draft`
+- **no `SPEC.md.draft`, or the user chose Replace it with the request** → write `SPEC.md.draft`
   with the requirements deliberated on: a title, the marker line as "The Specification Structure" in
   `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md` shows it, the requirements word for word, and,
   for an issue, `GitHub Issue: [github repository link]/#NUMBER`. Then add the section at the end

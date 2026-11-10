@@ -35,7 +35,7 @@ written once the specification is approved.
 
 - move the draft's content into the matching section, in the user's words where they work
 - a `## Design decision` stays unchanged, in its place after the acceptance criteria and any
-  `## Alignment decisions`. Never ask whether to move or drop it. The developer approved it with
+  `## Alignment decisions`. Never ask whether to move or drop it. The user approved it with
   `/aido:deliberate`
 - when part of the draft fits no section, such as a design idea, a task list or a question, ask with
   `AskUserQuestion` whether to move it to the plan, turn it into an acceptance criterion, or drop it

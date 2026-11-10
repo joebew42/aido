@@ -264,7 +264,7 @@ finds what this planning conversation has stopped seeing, so checking the code y
 replace it. Brief it with "The Shared Brief" in `${CLAUDE_PLUGIN_ROOT}/guidelines/subagents.md`, and:
 
 - the path to `SPEC.md` and the repository root
-- when `SPEC.md` has a `## Design decision`, that the developer approved it, so findings work within
+- when `SPEC.md` has a `## Design decision`, that the user approved it, so findings work within
   the chosen approach
 - if there is an index, its directory and the **Reading the Index** steps from
   `${CLAUDE_PLUGIN_ROOT}/guidelines/architecture-index.md`, copied in full
