@@ -105,6 +105,10 @@ GitHub Issue: <repo link>/#<NUMBER>   (or omit)
 
 <added only when the engineer proceeds despite a significant misalignment>
 
+## Design decision
+
+<added before planning, when the developer approves a design>
+
 ## Plan
 
 <added by planning>
@@ -129,7 +133,8 @@ marker line existed has none either, and stays valid.
 
 **The specification states what and why, never how.** Context, Intent, Out of scope and Acceptance
 criteria are approved before any planning. How the change is built belongs to `## Plan` and
-`## Design notes`. A skill may add its own sections after the title, such as where the original work
+`## Design notes`. The one exception is `## Design decision`: a design the developer approved before
+planning, which the plan follows. A skill may add its own sections after the title, such as where the original work
 came from. The required sections keep their names and order.
 
 **The specification is quick to read.** It follows `language.md`. Context and Intent aim for about 3
@@ -156,6 +161,23 @@ unless a criterion is about that file.
 engineer chose to proceed with, one line each, so later checks don't raise it again:
 
 - `<the conflict, with the file that shows it> — proceeding because <the engineer's reason>`
+
+### Design Decision
+
+`## Design decision` records the design the developer approved after weighing competing proposals.
+It states the alternatives considered, the chosen approach and why, the accepted trade-offs and
+risks, and when to revisit it. It names the approach, not the files or symbols: those stay in the
+plan.
+
+```markdown
+## Design decision
+
+- **Alternatives:** a reminder per task, scheduled when the task is saved; one daily job that finds
+  the tasks due
+- **Chosen:** one daily job, because the tasks already know their due date, and nothing new is stored
+- **Trade-offs and risks:** a reminder can arrive up to a day early; a large list makes the job slow
+- **Revisit when:** users ask for reminders at a time of day
+```
 
 ### Plan Items
 
@@ -325,6 +347,6 @@ The answer gives the last commits:
   still follows, as the last commit, and is the outcome commit
 
 **The distilled text** states the problem, from Context, and the decisions, from Intent, Out of
-scope, the alignment decisions and the key decisions in `## Progress`, with the acceptance criteria
-only if the user wants them. It follows `language.md`, and reads as the repository's doc, not as a
+scope, the design decision, the alignment decisions and the key decisions in `## Progress`, with the
+acceptance criteria only if the user wants them. It follows `language.md`, and reads as the repository's doc, not as a
 spec. The distilled text holds no plan, progress, design notes, refactorings or marker line.

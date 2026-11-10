@@ -196,6 +196,11 @@ guidelines/specification.md|every criterion has a line there, `unchecked` until 
 guidelines/specification.md|`- [x] r1. <title>`
 guidelines/specification.md|A refactoring's code is never renumbered or reused
 guidelines/specification.md|<added by implementation, when the user accepts a refactoring>
+guidelines/specification.md|<added before planning, when the developer approves a design>
+guidelines/specification.md|### Design Decision
+guidelines/specification.md|the alternatives considered, the chosen approach and why, the accepted trade-offs and risks, and when to revisit it
+guidelines/specification.md|The one exception is `## Design decision`
+guidelines/specification.md|and the decisions, from Intent, Out of scope, the design decision, the alignment decisions
 guidelines/systemic-refactoring.md|the specification's `## Design notes`, `## Refactorings` and `## Progress`
 guidelines/language.md|`(enabling)`, `r1`, `inside-out`
 guidelines/language.md|show a short plain-language list of what changed since the user last saw it
