@@ -305,6 +305,7 @@ guidelines/evolving-guidelines.md|**body:** the target file, the exact text to a
 guidelines/evolving-guidelines.md|options **Add it anyway** / **Ignore it**
 guidelines/evolving-guidelines.md|When `AskUserQuestion` isn't available, ask it as text, with the exact text to add and the four options, and stop there: push nothing until the user answers
 skills/5-handle-review/SKILL.md|the issues opened, each issue opened for a parked convention, any convention added
+evals/handle-review-asks-about-a-convention-seen-once/graders/asks-to-accept-look-ignore-or-park.md|asks whether to accept it, look for the same point in earlier pull requests' review comments, ignore it or park it in an issue
 EOF_PHRASES
 
 for skill in "$plugin"/skills/*/SKILL.md; do
