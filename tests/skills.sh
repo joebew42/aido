@@ -108,6 +108,14 @@ skills/1-plan/SKILL.md|Refine it as `${CLAUDE_PLUGIN_ROOT}/guidelines/refining-a
 skills/stabilize/SKILL.md|refine it with the user as `${CLAUDE_PLUGIN_ROOT}/guidelines/refining-a-draft.md` describes
 skills/multi-phase-plan/SKILL.md|"Approve the draft" in `${CLAUDE_PLUGIN_ROOT}/skills/1-plan/SKILL.md`
 skills/multi-phase-plan/SKILL.md|refine it as `${CLAUDE_PLUGIN_ROOT}/guidelines/refining-a-draft.md` describes
+skills/multi-phase-plan/SKILL.md|**`SPEC.md` exists** → the specification is approved. Delete `SPEC.md.draft` if it is there, and go on at "Get the GitHub Issue", then propose the phases
+skills/multi-phase-plan/SKILL.md|**neither exists** → write `SPEC.md.draft` from one of the sources "Standalone Project Flow" in `${CLAUDE_PLUGIN_ROOT}/skills/1-plan/SKILL.md` offers
+skills/multi-phase-plan/SKILL.md|the acceptance criteria each phase delivers, by ID
+skills/multi-phase-plan/SKILL.md|when `SPEC.md` has a `## Design decision`, the phases follow its chosen approach
+skills/multi-phase-plan/SKILL.md|Update `SPEC.md` only with the user's agreement
+skills/multi-phase-plan/SKILL.md|with the exact message `docs: feature specification`
+skills/multi-phase-plan/SKILL.md|every item starts unchecked
+skills/multi-phase-plan/SKILL.md|created as a draft PR, not ready for review
 skills/multi-phase-plan/SKILL.md|add its `GitHub Issue:` line to `SPEC.md`, where "The Specification Structure" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md` shows it
 skills/1-plan/SKILL.md|the developer approved it, so findings work within the chosen approach
 skills/1-plan/SKILL.md|the plan follows its chosen approach
