@@ -102,6 +102,10 @@ skills/1-plan/SKILL.md|**Asking about a finding** in `systemic-refactoring.md`
 skills/1-plan/SKILL.md|Confirm each finding classed enabling or defer, as **Evidence before action** in `systemic-refactoring.md` describes
 skills/1-plan/SKILL.md|**Plan it first** matches a finding classed enabling, and **Defer** one classed defer
 skills/1-plan/SKILL.md|Recommend **Include it**, unless the idea is broader or riskier than this change justifies
+skills/1-plan/SKILL.md|a `## Design decision` stays unchanged, in its place after the acceptance criteria and any `## Alignment decisions`. Never ask whether to move or drop it
+skills/1-plan/SKILL.md|keeping any `## Design decision` as "Rewrite it into the specification structure" in Step 3 says
+skills/1-plan/SKILL.md|the developer approved it, so findings work within the chosen approach
+skills/1-plan/SKILL.md|the plan follows its chosen approach
 skills/2-implement/SKILL.md|Never record a criterion as met without its evidence
 skills/2-implement/SKILL.md|Should I run a final design review over the whole feature?
 skills/2-implement/SKILL.md|Once implementation is complete, should I organize the commits?

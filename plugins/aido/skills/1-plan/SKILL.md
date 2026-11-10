@@ -163,7 +163,8 @@ The specification and the plan are written together and approved once. Steps 3 t
 except Step 5.5. Don't ask about the enabling refactoring analysis.
 
 1. Rewrite `SPEC.md.draft` into "The Specification Structure" in
-   `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`, with every section brief. Propose the
+   `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`, with every section brief, keeping any
+   `## Design decision` as "Rewrite it into the specification structure" in Step 3 says. Propose the
    acceptance criteria yourself when the draft has none
 2. Check the rewritten draft against the repository, as "What the Check Looks At" in
    `${CLAUDE_PLUGIN_ROOT}/guidelines/repository-alignment.md` describes. A conflict with the
@@ -171,7 +172,8 @@ except Step 5.5. Don't ask about the enabling refactoring analysis.
 3. Run Step 5.5 against the draft
 4. Add a `## Plan` whose items follow Step 6: in order, each naming the criteria it serves and, for a
    feature item, its mode and why. Every criterion is served by at least one item, and any
-   opportunity pulled in comes first. After it, add this line:
+   opportunity pulled in comes first. It follows any `## Design decision`, as Step 6 says. After it,
+   add this line:
    `The enabling refactoring analysis was skipped.`
 5. Show what changed in the draft, as "Showing What Changed" in
    `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` describes. Then ask two questions in one
@@ -185,8 +187,8 @@ except Step 5.5. Don't ask about the enabling refactoring analysis.
 On approval:
 
 - [ ] no open questions remain in the draft
-- [ ] the draft has Context, Intent, Out of scope and Acceptance criteria, in that order, then the
-      plan
+- [ ] the draft has Context, Intent, Out of scope and Acceptance criteria, in that order, then any
+      `## Design decision`, then the plan
 - [ ] every acceptance criterion follows "Acceptance Criteria" in
       `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`
 - [ ] move it: `mv SPEC.md.draft SPEC.md`
@@ -235,6 +237,9 @@ The refined draft follows "The Specification Structure" in
 criteria, in that order. It says what and why. How belongs in `## Plan`, in Step 6.
 
 - move the draft's content into the matching section, in the user's words where they work
+- a `## Design decision` stays unchanged, in its place after the acceptance criteria and any
+  `## Alignment decisions`. Never ask whether to move or drop it. The developer approved it with
+  `/aido:deliberate`
 - when part of the draft fits no section, such as a design idea, a task list or a question, ask with
   `AskUserQuestion` whether to move it to the plan, turn it into an acceptance criterion, or drop it
 - **acceptance criteria are required.** When the draft has none, or they leave part of the Intent
@@ -305,6 +310,8 @@ finds what this planning conversation has stopped seeing, so checking the code y
 replace it. Brief it with "The Shared Brief" in `${CLAUDE_PLUGIN_ROOT}/guidelines/subagents.md`, and:
 
 - the path to `SPEC.md` and the repository root
+- when `SPEC.md` has a `## Design decision`, that the developer approved it, so findings work within
+  the chosen approach
 - if there is an index, its directory and the **Reading the Index** steps from
   `${CLAUDE_PLUGIN_ROOT}/guidelines/architecture-index.md`, copied in full
 - "The Design-Check Brief" in `${CLAUDE_PLUGIN_ROOT}/guidelines/subagents.md`
@@ -388,6 +395,8 @@ modes each feature item needs.
 - when the user skipped the analysis in Step 4, plan only the enabling refactorings pulled in at
   Step 5.5, and add no `## Design notes`. Add this line after `## Plan` instead:
   `The enabling refactoring analysis was skipped.`
+- when `SPEC.md` has a `## Design decision`, the plan follows its chosen approach. When it can't,
+  such as when the code rules the approach out, raise it as below
 - if planning shows the specification is wrong or incomplete, ask with `AskUserQuestion`. Update
   `SPEC.md` only with the user's agreement
 - ask for approval as "Approve the plan" below describes. Do NOT move to Step 7 without approval
