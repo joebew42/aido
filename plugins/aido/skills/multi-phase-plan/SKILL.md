@@ -1,9 +1,9 @@
 ---
-description: Creates the main specification and tracking draft PR for a multi-phase feature. Invoked when the user wants to create a spec PR, create the main tracking PR, set up a multi-phase feature, or runs /aido:multi-phase-spec-pr.
+description: Plans a multi-phase feature — refines its specification with the user, splits the work into phases, and opens the draft PR that tracks them. Invoked when the user wants to plan a multi-phase feature, create the main tracking PR, set up a multi-phase feature, or runs /aido:multi-phase-plan.
 disable-model-invocation: false
 ---
 
-# Create Multi-Phase Specification PR
+# Plan a Multi-Phase Feature
 
 **In Copilot CLI only:** before anything else, read `guidelines/copilot-cli.md` in the plugin root, two folders above this skill's base directory, and follow it. Read every guideline this skill names whole, with `view`, one file per call.
 

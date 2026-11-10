@@ -219,7 +219,7 @@ passed during the check, or by your confirmation. Otherwise it is **insufficient
 
 | Skill&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | Purpose |
 | :--- | :--- |
-| `/aido:multi-phase-spec-pr` | Create the specification tracking PR. |
+| `/aido:multi-phase-plan` | Plan a feature in phases, and open the PR that tracks them. |
 | `/aido:multi-phase-switch` | Switch to the main plan branch. |
 | `/aido:multi-phase-sync` | Sync the main plan with progress. |
 
@@ -240,7 +240,7 @@ passed during the check, or by your confirmation. Otherwise it is **insufficient
 ### Plan a multi-phase feature
 
 1. Write the overall feature specification in `SPEC.md.draft`.
-2. Run `/aido:multi-phase-spec-pr` to create the tracking PR.
+2. Run `/aido:multi-phase-plan` to plan the phases and open the tracking PR.
 3. For each phase (or independent phases in parallel), run `/aido:1-plan`, `/aido:2-implement`,
    `/aido:3-organize-commits`, and `/aido:4-open-pr`. Planning can offer parallel worktrees.
 4. Run `/aido:multi-phase-sync` to update the main plan and begin the next phase.

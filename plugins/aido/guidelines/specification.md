@@ -186,7 +186,7 @@ Each item in `## Plan` names the criteria it serves, in parentheses after its ti
 An enabling refactoring serves none, and says so: `(enabling)`. Items use short sentences.
 
 These rules apply to the plan of a feature or a phase. The phases of a main plan, written by
-`/aido:multi-phase-spec-pr`, only name the criteria they deliver.
+`/aido:multi-phase-plan`, only name the criteria they deliver.
 
 - each item names the layers it touches: domain, application service, or infrastructure (see
   "Architecture" in `code-standards.md`)
