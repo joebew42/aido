@@ -145,6 +145,22 @@ constraints, and a new round starts at Step 2, from fresh agents, with no earlie
 
 With no answer, save nothing. End as "STOP — Skill Complete" describes.
 
+## Step 5: Save the Approved Decision
+
+Write the approved design as a `## Design decision` section, as "Design Decision" in
+`${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md` describes. The alternatives are the two
+proposals, and the trade-offs and risks come from the proposals and the recommendation.
+
+- **no `SPEC.md.draft`, or the developer chose Replace it with the request** → write `SPEC.md.draft`
+  with the requirements deliberated on: a title, the marker line as "The Specification Structure" in
+  `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md` shows it, the requirements word for word, and,
+  for an issue, `GitHub Issue: [github repository link]/#NUMBER`. Then add the section at the end
+- **the draft has no `## Design decision`** → add it at the end of the draft
+- **the draft already has a `## Design decision`** → replace that section, and leave the rest of the
+  draft as it is
+
+Show the saved section.
+
 ## STOP — Skill Complete
 
 Once the decision is saved, end as "Ending a Skill" in

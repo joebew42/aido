@@ -227,6 +227,11 @@ skills/deliberate/SKILL.md|**Trade-offs:** <
 skills/deliberate/SKILL.md|ask it in free text. The answer joins the constraints, and a new round starts at Step 2, from fresh agents, with no earlier proposal
 skills/deliberate/SKILL.md|options **Accept the recommendation** / **Use the best design** / **Use the simplest design** / **Another round**
 skills/deliberate/SKILL.md|With no answer, save nothing
+skills/deliberate/SKILL.md|"Design Decision" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`
+skills/deliberate/SKILL.md|**no `SPEC.md.draft`, or the developer chose Replace it with the request** → write `SPEC.md.draft` with the requirements deliberated on
+skills/deliberate/SKILL.md|`GitHub Issue: [github repository link]/#NUMBER`
+skills/deliberate/SKILL.md|**the draft has no `## Design decision`** → add it at the end of the draft
+skills/deliberate/SKILL.md|**the draft already has a `## Design decision`** → replace that section, and leave the rest of the draft as it is
 skills/deliberate/SKILL.md|Ask nothing more
 guidelines/specification.md|<added before planning, when the developer approves a design>
 guidelines/specification.md|### Design Decision
