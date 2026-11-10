@@ -304,6 +304,7 @@ guidelines/evolving-guidelines.md|get the PR's URL with `gh pr view --json url -
 guidelines/evolving-guidelines.md|**body:** the target file, the exact text to add, and **Why it was parked**: only this PR's review shows it, so it is kept for later. End with one line linking to the PR
 guidelines/evolving-guidelines.md|options **Add it anyway** / **Ignore it**
 guidelines/evolving-guidelines.md|When `AskUserQuestion` isn't available, ask it as text, with the exact text to add and the four options, and stop there: push nothing until the user answers
+skills/5-handle-review/SKILL.md|the issues opened, each issue opened for a parked convention, any convention added
 EOF_PHRASES
 
 for skill in "$plugin"/skills/*/SKILL.md; do

@@ -124,8 +124,8 @@ and end as below, listing the unpushed commits.
 
 ## Push and End
 
-- show a summary of the changes, with the replies posted, the issues opened, any convention added
-  and how the spec was settled, then push. The permission prompt asks for the user's approval,
+- show a summary of the changes, with the replies posted, the issues opened, each issue opened for a
+  parked convention, any convention added and how the spec was settled, then push. The permission prompt asks for the user's approval,
   as "Pushing Changes" in `${CLAUDE_PLUGIN_ROOT}/guidelines/git-workflow.md` describes
 - then end as "Ending a Skill" in `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` describes
 - if the user declines the push, they may want more changes. End the same way, and list in
