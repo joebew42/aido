@@ -93,6 +93,58 @@ Don't plan the work, and don't write code. Return only this:
 - **Implementation impact:** <what changes, by module or area, and roughly how much>
 ```
 
+## Step 3: Compare Them — `fable` subagent
+
+Once both proposals are back, launch one more `Agent` with `model: "fable"`. Brief it as Step 2
+does, with the same requirements, constraints and repository, and:
+
+- both proposals, as they came back
+- "The Comparison Brief" below, copied in full, instead of "The Proposal Brief"
+
+Act as Step 2 does when `fable` or a subagent is unavailable.
+
+### The Comparison Brief
+
+Compare the two proposals below against the requirements and the repository. Check each one's claims
+about the code before you weigh them. Then recommend one proposal unchanged, a justified hybrid, or
+ask for clarification:
+
+- **one proposal unchanged** — when it meets the requirements and its costs are worth it
+- **a hybrid** — only when parts of each fit together better than either proposal, and you can say
+  why. Never force a compromise: a hybrid that only splits the difference is worse than either
+- **clarification** — when the choice turns on something the requirements leave open. Ask the one
+  question that settles it
+
+Return only this:
+
+```markdown
+## Recommendation
+
+- **Choice:** <the best design | the simplest design | a hybrid | clarification needed>
+- **Why:** <what decides it, against the requirements and the repository>
+- **Trade-offs:** <what each proposal gains and gives up against the other>
+- **Hybrid:** <for a hybrid only: what it takes from each proposal, and why the parts fit>
+- **Question:** <for clarification only: the question, and how each likely answer changes the choice>
+```
+
+## Step 4: The Developer Decides
+
+Show both proposals and the recommendation, whole, as they came back.
+
+**The recommendation asks for clarification** → ask it in free text. The answer joins the
+constraints, and a new round starts at Step 2, from fresh agents, with no earlier proposal.
+
+**Otherwise**, ask with `AskUserQuestion`: "Which design should I save in `SPEC.md.draft`?" — options
+**Accept the recommendation** / **Use the best design** / **Use the simplest design** /
+**Another round**. Mark **Accept the recommendation** as recommended:
+
+- **Accept the recommendation**, **Use the best design** or **Use the simplest design** → that
+  design is approved. Continue at Step 5
+- **Another round** → ask in free text what the new round should take into account. The answer
+  joins the constraints, and a new round starts at Step 2, from fresh agents, with no earlier proposal
+
+With no answer, save nothing. End as "STOP — Skill Complete" describes.
+
 ## STOP — Skill Complete
 
 Once the decision is saved, end as "Ending a Skill" in

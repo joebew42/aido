@@ -217,6 +217,16 @@ skills/deliberate/SKILL.md|**Risks:** <
 skills/deliberate/SKILL.md|**Repository constraints:** <
 skills/deliberate/SKILL.md|**Implementation impact:** <
 skills/deliberate/SKILL.md|say that deliberation needs independent agents, save nothing, and stop
+skills/deliberate/SKILL.md|### The Comparison Brief
+skills/deliberate/SKILL.md|recommend one proposal unchanged, a justified hybrid, or ask for clarification
+skills/deliberate/SKILL.md|Never force a compromise
+skills/deliberate/SKILL.md|launch one more `Agent` with `model: "fable"`
+skills/deliberate/SKILL.md|**Why:** <
+skills/deliberate/SKILL.md|Show both proposals and the recommendation, whole, as they came back
+skills/deliberate/SKILL.md|**Trade-offs:** <
+skills/deliberate/SKILL.md|ask it in free text. The answer joins the constraints, and a new round starts at Step 2, from fresh agents, with no earlier proposal
+skills/deliberate/SKILL.md|options **Accept the recommendation** / **Use the best design** / **Use the simplest design** / **Another round**
+skills/deliberate/SKILL.md|With no answer, save nothing
 skills/deliberate/SKILL.md|Ask nothing more
 guidelines/specification.md|<added before planning, when the developer approves a design>
 guidelines/specification.md|### Design Decision
