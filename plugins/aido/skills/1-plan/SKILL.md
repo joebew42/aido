@@ -140,8 +140,8 @@ ask again) / **Cancel** (stop, and leave the draft in place).
 
 ### Approve the draft and choose the route
 
-For standalone work. Load the context as Step 3 — **Load the context** — describes. Then judge the
-draft. A change is **small and clear** only when all of these hold:
+For standalone work. Load the context as **Load the context** in
+`${CLAUDE_PLUGIN_ROOT}/guidelines/refining-a-draft.md` describes. Then judge the draft. A change is **small and clear** only when all of these hold:
 
 - it has no open decision. A conflict with the repository, as "What Counts as Significant" in
   `${CLAUDE_PLUGIN_ROOT}/guidelines/repository-alignment.md` defines it, is an open decision
@@ -164,8 +164,9 @@ except Step 5.5. Don't ask about the enabling refactoring analysis.
 
 1. Rewrite `SPEC.md.draft` into "The Specification Structure" in
    `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`, with every section brief, keeping any
-   `## Design decision` as "Rewrite it into the specification structure" in Step 3 says. Propose the
-   acceptance criteria yourself when the draft has none
+   `## Design decision` as "Rewrite it into the specification structure" in
+   `${CLAUDE_PLUGIN_ROOT}/guidelines/refining-a-draft.md` says. Propose the acceptance criteria
+   yourself when the draft has none
 2. Check the rewritten draft against the repository, as "What the Check Looks At" in
    `${CLAUDE_PLUGIN_ROOT}/guidelines/repository-alignment.md` describes. A conflict with the
    repository is an open decision: continue at "Moving to the full route", where Step 3 raises it
@@ -203,58 +204,9 @@ approving the draft as the starting point.
 
 Only once the draft is approved as the starting point.
 
-### Load the context
-
-1. Load the host repository's conventions as `${CLAUDE_PLUGIN_ROOT}/guidelines/project-conventions.md`
-   describes
-2. If the feature also touches another repository, such as a shared API, models, events or schema,
-   read its `CLAUDE.md` and `AGENTS.md` too, when it is available locally
-3. Read the code the draft touches, enough to check the draft against it
-
-### Analyse, refine and reword
-
-Go through the draft and fix what you find, in `SPEC.md.draft` itself:
-
-- **gaps** — missing behaviour, edge cases, error cases or acceptance criteria
-- **ambiguity** — statements two readers could build differently
-- **contradictions** — within the draft, or with how the code works today. A conflict with the
-  repository, as "What Counts as Significant" in
-  `${CLAUDE_PLUGIN_ROOT}/guidelines/repository-alignment.md` defines it, goes to "Check the alignment
-  with the repository" below. A lesser one is fixed here
-- **scope** — what is in, and what is out
-- **wording** — follows `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md`, in the project's own words
-  (see "don't invent domain vocabulary" in `${CLAUDE_PLUGIN_ROOT}/guidelines/code-standards.md`).
-  Acceptance criteria can be tested
-
-**Ask, don't guess.** When a decision belongs to the user, such as a behaviour the draft leaves open,
-a scope choice or a conflict between the draft and the code, ask with `AskUserQuestion`, with the
-likely answers as options. Group related questions in one call. Use free text only for open input.
-
-### Rewrite it into the specification structure
-
-The refined draft follows "The Specification Structure" in
-`${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`: Context, Intent, Out of scope and Acceptance
-criteria, in that order. It says what and why. How belongs in `## Plan`, in Step 6.
-
-- move the draft's content into the matching section, in the user's words where they work
-- a `## Design decision` stays unchanged, in its place after the acceptance criteria and any
-  `## Alignment decisions`. Never ask whether to move or drop it. The developer approved it with
-  `/aido:deliberate`
-- when part of the draft fits no section, such as a design idea, a task list or a question, ask with
-  `AskUserQuestion` whether to move it to the plan, turn it into an acceptance criterion, or drop it
-- **acceptance criteria are required.** When the draft has none, or they leave part of the Intent
-  unchecked, propose them from the Intent and the code you read
-- write them as "Acceptance Criteria" in that same guideline describes
-- show the proposed criteria, and ask about any you are unsure of. The user approves the list with
-  the specification below
-
-### Check the alignment with the repository
-
-Run the alignment check on the rewritten draft, as
-`${CLAUDE_PLUGIN_ROOT}/guidelines/repository-alignment.md` describes, with the context already
-loaded. When it finds a conflict with the repository, ask as "When It Is Significant" in
-`${CLAUDE_PLUGIN_ROOT}/guidelines/repository-alignment.md` describes, with the draft as the
-specification. Don't ask for approval below until this is settled.
+Refine it as `${CLAUDE_PLUGIN_ROOT}/guidelines/refining-a-draft.md` describes: load the context,
+analyse, refine and reword the draft, rewrite it into the specification structure, and check its
+alignment with the repository. Then ask for approval below.
 
 ### Approve the specification
 
@@ -279,8 +231,8 @@ On approval:
 
 ## Step 4: Check the Architecture Index
 
-If you entered at Step 4 with an existing `SPEC.md`, first load the context as Step 3 — **Load the
-context** — describes. Then ask the analysis question from "Approve the specification" on its own,
+If you entered at Step 4 with an existing `SPEC.md`, first load the context as **Load the context** in
+`${CLAUDE_PLUGIN_ROOT}/guidelines/refining-a-draft.md` describes. Then ask the analysis question from "Approve the specification" on its own,
 without its "Once it's approved" opening.
 
 The architecture index feeds the analysis in Step 5. When the user chose to skip the analysis, skip
