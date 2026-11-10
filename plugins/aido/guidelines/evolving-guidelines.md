@@ -55,9 +55,18 @@ strong ones around it. Treat "nothing to add" as success, and say so in one line
 
 5. **Ask about each candidate seen only in this PR**, one `AskUserQuestion` for each, at most 2.
    Name the rule and its target file, with the exact text to add in the preview. Say that only this
-   PR's review shows it, and ask whether to add it or look for the same point in earlier PRs —
-   options **Accept it** / **Look in earlier PRs**:
+   PR's review shows it, and ask what to do with it — options **Accept it** / **Look in earlier PRs**
+   / **Ignore it** / **Park it**, with none recommended. When `AskUserQuestion` isn't available, ask it
+   as text, with the exact text to add and the four options, and stop there: push nothing until the
+   user answers, as "One Item at a Time" in `language.md` describes. Each answer:
    - **Accept it** → add it and commit it as step 7 describes, with no further question
+   - **Ignore it** → add nothing, and ask nothing more about it
+   - **Park it** → open an issue for it at once, and add nothing. To open it, get the PR's URL with
+     `gh pr view --json url --jq .url`, then start at "Check for Duplicates" in `github-issues.md`,
+     with no label and:
+     - **title:** a plain title naming the rule, with no prefix
+     - **body:** the target file, the exact text to add, and **Why it was parked**: only this PR's
+       review shows it, so it is kept for later. End with one line linking to the PR
    - **Look in earlier PRs** → ask how many recently merged PRs to read, with `AskUserQuestion` —
      options **5** / **10** / **20**. List them by recency with
      `gh pr list --state merged --limit <n> --json number,title`, as "Using GitHub CLI" in
@@ -66,7 +75,8 @@ strong ones around it. Treat "nothing to add" as success, and say so in one line
    - **an earlier PR makes the same point** → the candidate joins the question in step 6, and its
      description cites that PR
    - **no earlier PR makes the same point** → say so, and ask with `AskUserQuestion` — options
-     **Add it anyway** / **Drop it**. Adding it commits it as step 7 describes
+     **Add it anyway** / **Ignore it**. Adding it commits it as step 7 describes, and ignoring it
+     adds nothing
 
 6. **Ask with `AskUserQuestion`:** "Which of these conventions should I add to this repository's
    agent instruction files?" — multi-select, one option per candidate:

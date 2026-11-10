@@ -297,6 +297,13 @@ guidelines/specification.md|Remove it in its own PR, then run this again
 skills/3-organize-commits/SKILL.md|"Closing the Specification" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`
 skills/3-organize-commits/SKILL.md|"When the Spec Is Settled" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`
 skills/5-handle-review/SKILL.md|list in `Needs you` every commit left unpushed, a convention's included
+guidelines/evolving-guidelines.md|options **Accept it** / **Look in earlier PRs** / **Ignore it** / **Park it**, with none recommended
+guidelines/evolving-guidelines.md|**Ignore it** → add nothing, and ask nothing more about it
+guidelines/evolving-guidelines.md|**Park it** → open an issue for it at once, and add nothing
+guidelines/evolving-guidelines.md|get the PR's URL with `gh pr view --json url --jq .url`, then start at "Check for Duplicates" in `github-issues.md`
+guidelines/evolving-guidelines.md|**body:** the target file, the exact text to add, and **Why it was parked**: only this PR's review shows it, so it is kept for later. End with one line linking to the PR
+guidelines/evolving-guidelines.md|options **Add it anyway** / **Ignore it**
+guidelines/evolving-guidelines.md|When `AskUserQuestion` isn't available, ask it as text, with the exact text to add and the four options, and stop there: push nothing until the user answers
 EOF_PHRASES
 
 for skill in "$plugin"/skills/*/SKILL.md; do
@@ -386,6 +393,9 @@ match_rules="$(
 )"
 [ "$match_rules" = "$plugin/guidelines/github-issues.md" ]
 report $? "only github-issues.md says which issues don't count as a match"
+
+! grep -rnF -- '**Drop it**' "$plugin/skills" "$plugin/guidelines"
+report $? "declining a convention reads Ignore it everywhere"
 
 handle_review="$plugin/skills/5-handle-review/SKILL.md"
 guidance_line="$(grep -n -m1 -F 'Worth examining' "$handle_review" | cut -d: -f1)"
