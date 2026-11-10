@@ -20,7 +20,7 @@ Load `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` and follow it in everything 
 2. **No main plan branch:**
    - tell the user none was found
    - ask with `AskUserQuestion`: "No main plan branch exists. Should I create one?" — options:
-     - **Yes — run `/aido:multi-phase-spec-pr`**
+     - **Yes — run `/aido:multi-phase-plan`**
      - **No — stop**
    - stop after the answer
 

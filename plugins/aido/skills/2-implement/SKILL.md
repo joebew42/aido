@@ -304,7 +304,8 @@ On **Run the review**, launch one `Agent` with `model: "fable"`. Brief it with
 
 - the repository root and the diff range (`git diff origin/<default-branch>...HEAD`)
 - the `SPEC.md` path. When it has `## Design notes`, ask the subagent to check them against what was
-  built, and to say where they no longer hold
+  built, and to say where they no longer hold. When it has a `## Design decision`, ask the subagent
+  to say where the build departs from the chosen approach
 - if there is an index, its directory and the **Reading the Index** steps from
   `${CLAUDE_PLUGIN_ROOT}/guidelines/architecture-index.md`, copied in full
 - "The Design-Check Brief" in `${CLAUDE_PLUGIN_ROOT}/guidelines/subagents.md`

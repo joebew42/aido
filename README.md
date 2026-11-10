@@ -73,6 +73,12 @@ Start from a GitHub issue, your own `SPEC.md.draft`, or a conversation where aid
 three times: the draft, the specification and the plan. A small, clear change can take a lighter
 route, where you approve a short specification and plan at once.
 
+`/aido:deliberate` is an optional step before planning, for when a design really needs exploring. It
+runs three agents on Fable, an expensive model, so use it at your discretion. Two agents each propose
+a design on their own, one aiming for the best and one for the simplest. A third compares them and
+recommends one. You approve the design, and `/aido:1-plan` plans from it, or `/aido:multi-phase-plan`
+for a feature built in phases.
+
 Each skill ends by offering the next one, so you don't have to remember the order. It recommends a
 fresh context: run `/clear`, then the next skill. That skill picks up from `SPEC.md` and the git
 history. Every skill ends with a short note: what it did, what it decided, and what it needs from you.
@@ -219,7 +225,7 @@ passed during the check, or by your confirmation. Otherwise it is **insufficient
 
 | Skill&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | Purpose |
 | :--- | :--- |
-| `/aido:multi-phase-spec-pr` | Create the specification tracking PR. |
+| `/aido:multi-phase-plan` | Plan a feature in phases, and open the PR that tracks them. |
 | `/aido:multi-phase-switch` | Switch to the main plan branch. |
 | `/aido:multi-phase-sync` | Sync the main plan with progress. |
 
@@ -227,6 +233,7 @@ passed during the check, or by your confirmation. Otherwise it is **insufficient
 
 | Skill&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | Purpose |
 | :--- | :--- |
+| `/aido:deliberate` | Before planning, compare a best and a simplest design, and save the one you approve for `/aido:1-plan` or `/aido:multi-phase-plan`. |
 | `/aido:verify` | Check a branch or PR against the agreed requirements from a fresh context. |
 | `/aido:stabilize` | Take over a PR, remote branch, or local changes created outside this workflow. |
 | `/aido:map-architecture` | Build or update a slim map of domain areas and building blocks. |
@@ -239,8 +246,10 @@ passed during the check, or by your confirmation. Otherwise it is **insufficient
 
 ### Plan a multi-phase feature
 
-1. Write the overall feature specification in `SPEC.md.draft`.
-2. Run `/aido:multi-phase-spec-pr` to create the tracking PR.
+1. Optionally, run `/aido:deliberate` to compare designs for the whole feature first. Each phase
+   then plans from its part of the approved design.
+2. Run `/aido:multi-phase-plan` to refine the overall specification, plan the phases and open the
+   tracking PR. It starts from your `SPEC.md.draft`, a GitHub issue, or a conversation.
 3. For each phase (or independent phases in parallel), run `/aido:1-plan`, `/aido:2-implement`,
    `/aido:3-organize-commits`, and `/aido:4-open-pr`. Planning can offer parallel worktrees.
 4. Run `/aido:multi-phase-sync` to update the main plan and begin the next phase.

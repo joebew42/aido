@@ -152,10 +152,8 @@ feature item naming its mode and reason as "The Modes" in `tdd.md` defines them.
 normally inside-out, citing the original work>
 ```
 
-- refine it with the user as `/aido:1-plan` Step 3 does, without the question about the enabling
-  refactoring analysis. Fill gaps, remove ambiguity, reword, and ask with `AskUserQuestion` wherever
-  a decision belongs to the user. Run the alignment check in
-  `${CLAUDE_PLUGIN_ROOT}/guidelines/repository-alignment.md` on it, as that step does
+- refine it with the user as `${CLAUDE_PLUGIN_ROOT}/guidelines/refining-a-draft.md` describes,
+  alignment check included. Don't ask about the enabling refactoring analysis
 - propose the plan and **wait for explicit approval**, as "Approve the plan" in `/aido:1-plan` Step 6
   does. Leave its question on how to continue to Step 6 below. Update the draft with any changes the
   user asks for

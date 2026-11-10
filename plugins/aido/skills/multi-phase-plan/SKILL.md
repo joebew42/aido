@@ -1,13 +1,15 @@
 ---
-description: Creates the main specification and tracking draft PR for a multi-phase feature. Invoked when the user wants to create a spec PR, create the main tracking PR, set up a multi-phase feature, or runs /aido:multi-phase-spec-pr.
+description: Plans a multi-phase feature — refines its specification with the user, splits the work into phases, and opens the draft PR that tracks them. Invoked when the user wants to plan a multi-phase feature, create the main tracking PR, set up a multi-phase feature, or runs /aido:multi-phase-plan.
 disable-model-invocation: false
 ---
 
-# Create Multi-Phase Specification PR
+# Plan a Multi-Phase Feature
 
 **In Copilot CLI only:** before anything else, read `guidelines/copilot-cli.md` in the plugin root, two folders above this skill's base directory, and follow it. Read every guideline this skill names whole, with `view`, one file per call.
 
-Create a draft PR that holds the main specification of a multi-phase feature and tracks its progress.
+Plan a feature in phases, as `/aido:1-plan` plans a single one: refine its specification with the
+user, then split the work into phases. Then open a draft PR that holds the main specification and
+tracks its progress.
 
 Resolve `SPEC.md` and `SPEC.md.draft` first, as "The Specification File" in
 `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md` describes.
@@ -32,14 +34,16 @@ File" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md` describes. On a lef
 before anything below, as "A Leftover Spec" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`
 describes. Otherwise:
 
-- **only `SPEC.md.draft` exists** → approve and refine it with the user as `/aido:1-plan` Step 2
-  (**Approve the draft**) and Step 3 do, without the question about the enabling refactoring
-  analysis. That means rewriting it into "The Specification Structure" in
-  `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`, with numbered acceptance criteria for the
-  whole feature, and running the alignment check in
-  `${CLAUDE_PLUGIN_ROOT}/guidelines/repository-alignment.md`. Then move it with
+- **`SPEC.md` exists** → the specification is approved. Delete `SPEC.md.draft` if it is there, and go
+  on at "Get the GitHub Issue", then propose the phases
+- **only `SPEC.md.draft` exists** → have the user approve it as "Approve the draft" in
+  `${CLAUDE_PLUGIN_ROOT}/skills/1-plan/SKILL.md` describes. Then refine it as
+  `${CLAUDE_PLUGIN_ROOT}/guidelines/refining-a-draft.md` describes, with numbered acceptance criteria
+  for the whole feature, and don't ask about the enabling refactoring analysis. Then move it with
   `mv SPEC.md.draft SPEC.md`
-- **neither exists** → ask the user to write `SPEC.md.draft`, then go on as above
+- **neither exists** → write `SPEC.md.draft` from one of the sources "Standalone Project Flow" in
+  `${CLAUDE_PLUGIN_ROOT}/skills/1-plan/SKILL.md` offers: a GitHub issue, the user writing it, or a
+  conversation. Then go on as above
 
 **BEFORE creating the multi-phase PR, review and finish the `SPEC.md` file.**
 
@@ -67,6 +71,9 @@ Steps:
    - the acceptance criteria each phase delivers, by ID. Every criterion is delivered by at least
      one phase
    - any risks, dependencies or open questions worth raising
+4. when `SPEC.md` has a `## Design decision`, the phases follow its chosen approach. When they can't,
+   such as when the code rules the approach out, ask the user with `AskUserQuestion`. Update
+   `SPEC.md` only with the user's agreement
 
 **Wait for explicit approval of the plan before going on.** Once approved, write the phases into
 `SPEC.md` as its `## Plan`, each naming the criteria it delivers, as "Plan Items" in "The
@@ -85,18 +92,8 @@ is no issue, as **Branch Naming** in `${CLAUDE_PLUGIN_ROOT}/guidelines/git-workf
 
 ### Add the GitHub Issue to Feature Spec
 
-If there is a GitHub issue, add it at the top of `SPEC.md`:
-
-```markdown
-# <descriptive title>
-
-> Working specification for this branch. Remove it before merging: revert the `docs: feature specification` commit.
-
-GitHub Issue: [github repository link]/#42
-
-## Context
-...
-```
+If there is a GitHub issue, add its `GitHub Issue:` line to `SPEC.md`, where "The Specification
+Structure" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md` shows it.
 
 ## Step 1: Commit the Feature Specification
 

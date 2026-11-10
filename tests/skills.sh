@@ -102,6 +102,23 @@ skills/1-plan/SKILL.md|**Asking about a finding** in `systemic-refactoring.md`
 skills/1-plan/SKILL.md|Confirm each finding classed enabling or defer, as **Evidence before action** in `systemic-refactoring.md` describes
 skills/1-plan/SKILL.md|**Plan it first** matches a finding classed enabling, and **Defer** one classed defer
 skills/1-plan/SKILL.md|Recommend **Include it**, unless the idea is broader or riskier than this change justifies
+guidelines/refining-a-draft.md|a `## Design decision` stays unchanged, in its place after the acceptance criteria and any `## Alignment decisions`. Never ask whether to move or drop it
+skills/1-plan/SKILL.md|keeping any `## Design decision` as "Rewrite it into the specification structure" in `${CLAUDE_PLUGIN_ROOT}/guidelines/refining-a-draft.md` says
+skills/1-plan/SKILL.md|Refine it as `${CLAUDE_PLUGIN_ROOT}/guidelines/refining-a-draft.md` describes
+skills/stabilize/SKILL.md|refine it with the user as `${CLAUDE_PLUGIN_ROOT}/guidelines/refining-a-draft.md` describes
+skills/multi-phase-plan/SKILL.md|"Approve the draft" in `${CLAUDE_PLUGIN_ROOT}/skills/1-plan/SKILL.md`
+skills/multi-phase-plan/SKILL.md|refine it as `${CLAUDE_PLUGIN_ROOT}/guidelines/refining-a-draft.md` describes
+skills/multi-phase-plan/SKILL.md|**`SPEC.md` exists** → the specification is approved. Delete `SPEC.md.draft` if it is there, and go on at "Get the GitHub Issue", then propose the phases
+skills/multi-phase-plan/SKILL.md|**neither exists** → write `SPEC.md.draft` from one of the sources "Standalone Project Flow" in `${CLAUDE_PLUGIN_ROOT}/skills/1-plan/SKILL.md` offers
+skills/multi-phase-plan/SKILL.md|the acceptance criteria each phase delivers, by ID
+skills/multi-phase-plan/SKILL.md|when `SPEC.md` has a `## Design decision`, the phases follow its chosen approach
+skills/multi-phase-plan/SKILL.md|Update `SPEC.md` only with the user's agreement
+skills/multi-phase-plan/SKILL.md|with the exact message `docs: feature specification`
+skills/multi-phase-plan/SKILL.md|every item starts unchecked
+skills/multi-phase-plan/SKILL.md|created as a draft PR, not ready for review
+skills/multi-phase-plan/SKILL.md|add its `GitHub Issue:` line to `SPEC.md`, where "The Specification Structure" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md` shows it
+skills/1-plan/SKILL.md|the user approved it, so findings work within the chosen approach
+skills/1-plan/SKILL.md|the plan follows its chosen approach
 skills/2-implement/SKILL.md|Never record a criterion as met without its evidence
 skills/2-implement/SKILL.md|Should I run a final design review over the whole feature?
 skills/2-implement/SKILL.md|Once implementation is complete, should I organize the commits?
@@ -196,6 +213,54 @@ guidelines/specification.md|every criterion has a line there, `unchecked` until 
 guidelines/specification.md|`- [x] r1. <title>`
 guidelines/specification.md|A refactoring's code is never renumbered or reused
 guidelines/specification.md|<added by implementation, when the user accepts a refactoring>
+skills/deliberate/SKILL.md|**`SPEC.md` exists** → say the specification is already approved, and stop without deliberating
+skills/deliberate/SKILL.md|on a leftover spec, stop, as "A Leftover Spec" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md` describes
+skills/deliberate/SKILL.md|**a GitHub issue**, as a number or a link → read it with `gh issue view <NUMBER>`
+skills/deliberate/SKILL.md|**a feature request**, any other text → the requirements are the request, as given
+skills/deliberate/SKILL.md|This skill writes only `SPEC.md.draft`, and only once the user approves a design
+skills/deliberate/SKILL.md|**nothing, and `SPEC.md.draft` exists** → deliberate on the draft
+skills/deliberate/SKILL.md|options **Use the draft** / **Replace it with the request**
+skills/deliberate/SKILL.md|`Needs you: run /aido:1-plan`
+skills/deliberate/SKILL.md|for /aido:1-plan, or /aido:multi-phase-plan for a feature built in phases, to plan from
+skills/deliberate/SKILL.md|and `/aido:1-plan` plans from it, or `/aido:multi-phase-plan` for a feature built in phases
+skills/deliberate/SKILL.md|`Needs you: run /aido:1-plan`, or `/aido:multi-phase-plan` for a feature built in phases
+skills/deliberate/SKILL.md|Launch two `Agent` calls with `model: "fable"`, in one message
+skills/deliberate/SKILL.md|### The Proposal Brief
+skills/deliberate/SKILL.md|the same requirements, word for word, and the same repository
+skills/deliberate/SKILL.md|nothing else from this session, and never the other agent's proposal
+skills/deliberate/SKILL.md|**the best design**
+skills/deliberate/SKILL.md|**the simplest design**
+skills/deliberate/SKILL.md|**Approach:** <
+skills/deliberate/SKILL.md|**Rationale:** <
+skills/deliberate/SKILL.md|**Assumes:** <
+skills/deliberate/SKILL.md|**Risks:** <
+skills/deliberate/SKILL.md|**Repository constraints:** <
+skills/deliberate/SKILL.md|**Implementation impact:** <
+skills/deliberate/SKILL.md|say that deliberation needs independent agents, save nothing, and stop
+skills/deliberate/SKILL.md|### The Comparison Brief
+skills/deliberate/SKILL.md|recommend one proposal unchanged, a justified hybrid, or ask for clarification
+skills/deliberate/SKILL.md|Never force a compromise
+skills/deliberate/SKILL.md|launch one more `Agent` with `model: "fable"`
+skills/deliberate/SKILL.md|**Why:** <
+skills/deliberate/SKILL.md|Show both proposals and the recommendation, whole, as they came back
+skills/deliberate/SKILL.md|**Trade-offs:** <
+skills/deliberate/SKILL.md|ask it in free text. The answer joins the constraints, and a new round starts at Step 2, from fresh agents, with no earlier proposal
+skills/deliberate/SKILL.md|options **Accept the recommendation** / **Use the best design** / **Use the simplest design** / **Another round**
+skills/deliberate/SKILL.md|With no answer, save nothing
+skills/deliberate/SKILL.md|"Design Decision" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`
+skills/deliberate/SKILL.md|**no `SPEC.md.draft`, or the user chose Replace it with the request** → write `SPEC.md.draft` with the requirements deliberated on
+skills/deliberate/SKILL.md|`GitHub Issue: [github repository link]/#NUMBER`
+skills/deliberate/SKILL.md|**the draft has no `## Design decision`** → add it at the end of the draft
+skills/deliberate/SKILL.md|**the draft already has a `## Design decision`** → replace that section, and leave the rest of the draft as it is
+skills/deliberate/SKILL.md|Ask nothing more
+guidelines/specification.md|<added before planning, when the user approves a design>
+guidelines/specification.md|### Design Decision
+guidelines/specification.md|A phase draft keeps the four fields, each cut to what that phase builds
+guidelines/specification.md|When the decision can't be split by phase, the phase draft copies it whole
+skills/1-plan/SKILL.md|carry over any `## Design decision`, cut to this phase, as "Design Decision" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md` describes
+guidelines/specification.md|the alternatives considered, the chosen approach and why, the accepted trade-offs and risks, and when to revisit it
+guidelines/specification.md|The one exception is `## Design decision`
+guidelines/specification.md|and the decisions, from Intent, Out of scope, the design decision, the alignment decisions
 guidelines/systemic-refactoring.md|the specification's `## Design notes`, `## Refactorings` and `## Progress`
 guidelines/language.md|`(enabling)`, `r1`, `inside-out`
 guidelines/language.md|show a short plain-language list of what changed since the user last saw it
@@ -294,7 +359,7 @@ guidelines/specification.md|git log -1 --diff-filter=A --format=%s origin/<defau
 guidelines/specification.md|the commit that added the file there is `docs: feature specification`
 skills/1-plan/SKILL.md|"A Leftover Spec" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`
 skills/stabilize/SKILL.md|"A Leftover Spec" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`
-skills/multi-phase-spec-pr/SKILL.md|"A Leftover Spec" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`
+skills/multi-phase-plan/SKILL.md|"A Leftover Spec" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`
 guidelines/specification.md|Remove it in its own PR, then run this again
 skills/3-organize-commits/SKILL.md|"Closing the Specification" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`
 skills/3-organize-commits/SKILL.md|"When the Spec Is Settled" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`
@@ -310,6 +375,9 @@ skills/5-handle-review/SKILL.md|the replies posted, the issue opened, commented 
 skills/5-handle-review/SKILL.md|"Report the Result" in `${CLAUDE_PLUGIN_ROOT}/guidelines/github-issues.md`
 skills/4-open-pr/SKILL.md|"Report the Result" in `${CLAUDE_PLUGIN_ROOT}/guidelines/github-issues.md`
 evals/handle-review-asks-about-a-convention-seen-once/graders/asks-to-accept-look-ignore-or-park.md|asks whether to accept it, look for the same point in earlier pull requests' review comments, ignore it or park it in an issue
+skills/verify/SKILL.md|does the change respect the specification's `## Design notes`, its `## Design decision` and the host repository's agent instruction files?
+skills/verify/SKILL.md|departures from the agreed scope, `## Out of scope`, the plan, the `## Design decision` or the `## Design notes`
+skills/2-implement/SKILL.md|When it has a `## Design decision`, ask the subagent to say where the build departs from the chosen approach
 EOF_PHRASES
 
 for skill in "$plugin"/skills/*/SKILL.md; do
@@ -431,7 +499,7 @@ push_line="$(grep -n -m1 -F '## Push and End' "$handle_review" | cut -d: -f1)"
 report $? "5-handle-review settles the spec after the review commits, before the push"
 
 marker='> Working specification for this branch. Remove it before merging: revert the `docs: feature specification` commit.'
-for file in guidelines/specification.md skills/stabilize/SKILL.md skills/multi-phase-spec-pr/SKILL.md; do
+for file in guidelines/specification.md skills/stabilize/SKILL.md; do
   awk -v marker="$marker" '
     /^# <descriptive title>$/ { title = NR; templates++ }
     title && NR == title + 2 { if ($0 == marker) marked++; title = 0 }
@@ -463,6 +531,9 @@ while IFS= read -r reference; do
   grep -qxF "${reference#/aido:}" <<< "$skill_names"
   report $? "$reference names an existing skill"
 done <<< "$skill_references"
+
+! xargs -r grep -lF 'multi-phase-spec-pr' <<< "$referencing_files"
+report $? "nothing names the removed /aido:multi-phase-spec-pr"
 
 for grader in "$plugin"/evals/*/graders/*.md; do
   [ -f "$grader" ] && grep -qx 'tool: Skill' "$grader" || continue
