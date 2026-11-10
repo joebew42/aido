@@ -106,6 +106,8 @@ On a leftover spec, stop before anything below, as "A Leftover Spec" in
    - carry over only the acceptance criteria this phase delivers, as the overall plan names them.
      Keep their IDs, as "The Specification Structure" in
      `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md` describes
+   - carry over any `## Design decision`, cut to this phase, as "Design Decision" in
+     `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md` describes
    - add the GitHub Issue ID, if there is one
    - keep a single marker line under the title, as "The Specification Structure" in
      `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md` shows it, whether or not the overall
