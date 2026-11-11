@@ -110,6 +110,14 @@ skills/stabilize/SKILL.md|refine it with the user as `${CLAUDE_PLUGIN_ROOT}/guid
 skills/stabilize/SKILL.md|Should I plan this work as one change, or in phases?
 skills/stabilize/SKILL.md|Recommend **In phases** when the work spans several areas, or would make one large PR. Recommend **One change** otherwise
 skills/stabilize/SKILL.md|**One change** → go on at Step 3, as before
+skills/stabilize/SKILL.md|Strategy: <reimplement from scratch | carry over and adjust | rebuild in phases>
+skills/stabilize/SKILL.md|Don't ask Step 3's question, and create no branch
+skills/stabilize/SKILL.md|keep local changes aside, as **Keeping local changes aside** in Step 1 says
+skills/stabilize/SKILL.md|with `Strategy: rebuild in phases`, and no `## Plan`
+skills/stabilize/SKILL.md|Don't refine it, and commit nothing
+skills/stabilize/SKILL.md|The draft specification is ready. Should I start `/aido:multi-phase-plan` now?
+skills/stabilize/SKILL.md|options **Plan the phases now** / **Stop here**
+skills/stabilize/SKILL.md|run `/aido:multi-phase-plan` later, not `/aido:1-plan`
 skills/multi-phase-plan/SKILL.md|"Approve the draft" in `${CLAUDE_PLUGIN_ROOT}/skills/1-plan/SKILL.md`
 skills/multi-phase-plan/SKILL.md|refine it as `${CLAUDE_PLUGIN_ROOT}/guidelines/refining-a-draft.md` describes
 skills/multi-phase-plan/SKILL.md|**`SPEC.md` exists** → the specification is approved. Delete `SPEC.draft.md` if it is there, and go on at "Get the GitHub Issue", then propose the phases
@@ -539,6 +547,11 @@ choose_line="$(grep -n -m1 -E '^## Step [0-9.]+: Choose One Change or Phases' "$
 branch_line="$(grep -n -m1 -E '^## Step [0-9.]+: Propose a New Branch' "$stabilize" | cut -d: -f1)"
 [ -n "$understand_line" ] && [ -n "$choose_line" ] && [ -n "$branch_line" ] && [ "$understand_line" -lt "$choose_line" ] && [ "$choose_line" -lt "$branch_line" ]
 report $? "stabilize asks one change or phases after showing the change, before proposing a branch"
+
+phases_line="$(grep -n -m1 -F '## The Phases Route' "$stabilize" | cut -d: -f1)"
+stop_line="$(grep -n -m1 -F '## STOP — Skill Complete' "$stabilize" | cut -d: -f1)"
+[ -n "$phases_line" ] && [ -n "$stop_line" ] && [ "$phases_line" -lt "$stop_line" ]
+report $? "stabilize describes the phases route before it ends"
 
 skill_names="$(
   for skill in "$plugin"/skills/*/SKILL.md; do

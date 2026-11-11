@@ -147,7 +147,7 @@ own lines and sections added:
 
 GitHub Issue: <repo link>/#<NUMBER>   (or omit)
 Original work: <PR #N (url) | branch origin/<name> | local changes, stash "stabilize: original work">
-Strategy: <reimplement from scratch | carry over and adjust>
+Strategy: <reimplement from scratch | carry over and adjust | rebuild in phases>
 
 ## What the original does
 <short summary of the behaviour it introduces, per layer>
@@ -192,6 +192,22 @@ Tell the user the branch is ready. Then ask "Choose how to continue" from Step 6
 In carry-over mode, leave out **Implement in a worktree**, and keep **Implement in a fresh context**.
 The uncommitted original changes live in this working directory, and only the fresh context stays in
 it. `/aido:2-implement` then adjusts and commits those changes instead of writing them again.
+
+## The Phases Route
+
+The user chose **In phases** in Step 2.5. Each phase rebuilds its part from the default branch, with
+the original work as a reference, so nothing is carried over. Don't ask Step 3's question, and create
+no branch.
+
+1. **local changes** → keep local changes aside, as **Keeping local changes aside** in Step 1 says.
+   The working directory is left clean
+2. write `SPEC.draft.md` from Step 5's template, with `Strategy: rebuild in phases`, and no `## Plan`.
+   Don't refine it, and commit nothing. `/aido:multi-phase-plan` approves and refines it, splits the
+   work into phases, and keeps the lines and sections about the original work
+3. ask with `AskUserQuestion`: "The draft specification is ready. Should I start
+   `/aido:multi-phase-plan` now?" — options **Plan the phases now** / **Stop here**. Go on as
+   **Hand-off Outcomes** in `git-workflow.md` describes. On **Stop here**, tell the user to run
+   `/aido:multi-phase-plan` later, not `/aido:1-plan`, which would plan the draft as one change
 
 ## STOP — Skill Complete
 
