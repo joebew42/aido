@@ -117,6 +117,7 @@ skills/multi-phase-plan/SKILL.md|Update `SPEC.md` only with the user's agreement
 skills/multi-phase-plan/SKILL.md|with the exact message `docs: feature specification`
 skills/multi-phase-plan/SKILL.md|every item starts unchecked
 skills/multi-phase-plan/SKILL.md|created as a draft PR, not ready for review
+skills/multi-phase-plan/SKILL.md|create it from an up-to-date default branch: run `git fetch origin`, then `git checkout -b <branch> origin/<default-branch>`
 skills/multi-phase-plan/SKILL.md|add its `GitHub Issue:` line to `SPEC.md`, where "The Specification Structure" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md` shows it
 skills/1-plan/SKILL.md|the user approved it, so findings work within the chosen approach
 skills/1-plan/SKILL.md|the plan follows its chosen approach
