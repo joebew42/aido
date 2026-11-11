@@ -152,8 +152,8 @@ marker line existed has none either, and stays valid.
 **The specification states what and why, never how.** Context, Intent, Out of scope and Acceptance
 criteria are approved before any planning. How the change is built belongs to `## Plan` and
 `## Design notes`. The one exception is `## Design decision`: a design the user approved before
-planning, which the plan follows. A skill may add its own sections after the title, such as where the original work
-came from. The required sections keep their names and order.
+planning, which the plan follows. A skill may add its own lines and sections after the title, such as
+where the original work came from. The required sections keep their names and order.
 
 **The specification is quick to read.** It follows `language.md`. Context and Intent aim for about 3
 sentences each, and may run over when the content needs it. File names and symbols stay in the plan,
