@@ -206,6 +206,12 @@ when continuing isn't.
   `main-plan-FEATURE_NAME` without an issue
 - delete local branches whose PRs are merged
 
+### Creating a Branch
+
+Create a branch from the up-to-date default branch: run `git fetch origin`, then
+`git checkout -b <branch> origin/<default-branch>`. Uncommitted changes, such as a new `SPEC.md`,
+come along.
+
 ### Worktree Branch Discipline
 
 In a `git worktree` for a parallel phase, check the branch with `git branch --show-current` before

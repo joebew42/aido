@@ -1,5 +1,5 @@
 ---
-description: Takes over work done outside this workflow — an existing PR, a remote branch, or local changes — and sets up a fresh branch and feature spec to bring it in line with the guidelines. Invoked when the user wants to stabilize, take over, adopt or rework someone else's PR or branch, or runs /aido:stabilize.
+description: Takes over work done outside this workflow — an existing PR, a remote branch, or local changes — and sets up a fresh branch and feature spec to bring it in line with the guidelines, or a draft spec to rebuild it in phases. Invoked when the user wants to stabilize, take over, adopt or rework someone else's PR or branch, or runs /aido:stabilize.
 disable-model-invocation: false
 ---
 
@@ -8,13 +8,14 @@ disable-model-invocation: false
 **In Copilot CLI only:** before anything else, read `guidelines/copilot-cli.md` in the plugin root, two folders above this skill's base directory, and follow it. Read every guideline this skill names whole, with `view`, one file per call.
 
 Take over a change started outside this workflow. Set it up so `/aido:2-implement`,
-`/aido:3-organize-commits` and `/aido:4-open-pr` can carry it to a clean PR.
+`/aido:3-organize-commits` and `/aido:4-open-pr` can carry it to a clean PR, or so
+`/aido:multi-phase-plan` can split it into phases.
 
 Resolve `SPEC.md` and `SPEC.draft.md` first, as "The Specification File" in
 `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md` describes.
 
-This skill **reads** the original work and **prepares** a new branch and `SPEC.md`. It builds
-nothing. It never pushes to, rewrites, comments on or closes the original PR or branch.
+This skill **reads** the original work and **prepares** a new branch and `SPEC.md`, or, in phases,
+only `SPEC.draft.md`. It builds nothing. It never pushes to, rewrites, comments on or closes the original PR or branch.
 
 Load `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` and follow it in everything you write for a person.
 
@@ -60,6 +61,10 @@ Gather the change:
 
 Read the touched files in full where the diff alone doesn't show how the change fits in.
 
+**Keeping local changes aside.** Whenever a later step keeps local changes aside, run
+`git stash push -u -m "stabilize: original work"`. The stash holds them, untracked files included,
+and leaves the working directory clean.
+
 ## Step 2: Understand the Change
 
 Show the user, briefly:
@@ -77,6 +82,24 @@ Show the user, briefly:
 
 If the change has no real gaps, say so. Stabilizing may then only mean fixing the commit history, and
 the user should know that before choosing a strategy.
+
+## Step 2.5: Choose One Change or Phases
+
+Ask with `AskUserQuestion`:
+
+- Question: "Should I plan this work as one change, or in phases?"
+- Options:
+  - **One change** — one branch, one `SPEC.md` and one PR, rebuilt or carried over
+  - **In phases** — `/aido:multi-phase-plan` splits the work into phases, and each phase rebuilds
+    its part in its own PR. The main spec names the original work, as a reference while planning the
+    phases
+
+Recommend **In phases** when the work spans several areas, or would make one large PR. Recommend
+**One change** otherwise. Files with different jobs are different areas: in a TODO app, the task
+rules, the storage and the screen that shows a task are three. Say in the recommended option why.
+
+- **One change** → go on at Step 3
+- **In phases** → go on at "The Phases Route" below
 
 ## Step 3: Propose a New Branch
 
@@ -99,16 +122,15 @@ with a messy history → carry over.
    already names an issue, offer it as the default
 2. name the branch as **Branch Naming** in `git-workflow.md` describes. It must differ from the
    original branch's name
-3. create it from an up-to-date default branch:
+3. create it as **Creating a Branch** in `git-workflow.md` describes:
    - **reimplement**:
-     - local changes → first `git stash push -u -m "stabilize: original work"` to keep them aside,
-       then `git checkout -b <branch> origin/<default-branch>`
-     - PR or remote branch → `git checkout -b <branch> origin/<default-branch>`
+     - local changes → first keep them aside, as **Keeping local changes aside** in Step 1 says, then
+       create the branch
+     - PR or remote branch → create the branch
    - **carry over**:
-     - local changes → `git stash push -u -m "stabilize: original work"`,
-       `git checkout -b <branch> origin/<default-branch>`, then `git stash apply`. Keep the stash as
-       a backup
-     - PR or remote branch → `git checkout -b <branch> origin/<default-branch>`, then
+     - local changes → first keep them aside, as **Keeping local changes aside** in Step 1 says, then
+       create the branch, then `git stash apply`. Keep the stash as a backup
+     - PR or remote branch → create the branch, then
        `git diff origin/<default-branch>...origin/<original-branch> | git apply`
    - if `git apply` or `git stash apply` hits conflicts, stop and show them to the user. Don't
      resolve them silently
@@ -125,8 +147,8 @@ own lines and sections added:
 > Working specification for this branch. Remove it before merging: revert the `docs: feature specification` commit.
 
 GitHub Issue: <repo link>/#<NUMBER>   (or omit)
-Original work: <PR #N (url) | branch origin/<name> | local changes, stash "stabilize: original work">
-Strategy: <reimplement from scratch | carry over and adjust>
+Original work: <PR #N (url) | branch origin/<name> | local changes: stash "stabilize: original work", and any commits on <branch> not on the default branch>
+Strategy: <reimplement from scratch | carry over and adjust | rebuild in phases>
 
 ## What the original does
 <short summary of the behaviour it introduces, per layer>
@@ -171,6 +193,22 @@ Tell the user the branch is ready. Then ask "Choose how to continue" from Step 6
 In carry-over mode, leave out **Implement in a worktree**, and keep **Implement in a fresh context**.
 The uncommitted original changes live in this working directory, and only the fresh context stays in
 it. `/aido:2-implement` then adjusts and commits those changes instead of writing them again.
+
+## The Phases Route
+
+The user chose **In phases** in Step 2.5. Each phase rebuilds its part from the default branch, so
+nothing is carried over. The main spec names the original work, as a reference while planning the
+phases. Don't ask Step 3's question, and create no branch.
+
+1. **local changes** → keep local changes aside, as **Keeping local changes aside** in Step 1 says.
+   The working directory is left clean
+2. write `SPEC.draft.md` from Step 5's template, with `Strategy: rebuild in phases`, and no `## Plan`.
+   Don't refine it, and commit nothing. `/aido:multi-phase-plan` approves and refines it, splits the
+   work into phases, and keeps the lines and sections about the original work
+3. ask with `AskUserQuestion`: "The draft specification is ready. Should I start
+   `/aido:multi-phase-plan` now?" — options **Plan the phases now** / **Stop here**. Go on as
+   **Hand-off Outcomes** in `git-workflow.md` describes. On **Stop here**, tell the user to run
+   `/aido:multi-phase-plan` later, not `/aido:1-plan`, which would plan the draft as one change
 
 ## STOP — Skill Complete
 

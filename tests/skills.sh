@@ -103,9 +103,26 @@ skills/1-plan/SKILL.md|Confirm each finding classed enabling or defer, as **Evid
 skills/1-plan/SKILL.md|**Plan it first** matches a finding classed enabling, and **Defer** one classed defer
 skills/1-plan/SKILL.md|Recommend **Include it**, unless the idea is broader or riskier than this change justifies
 guidelines/refining-a-draft.md|a `## Design decision` stays unchanged, in its place after the acceptance criteria and any `## Alignment decisions`. Never ask whether to move or drop it
+guidelines/refining-a-draft.md|lines and sections a skill wrote after the title, such as the original work, stay unchanged and in place, and are never asked about
+guidelines/specification.md|A skill may add its own lines and sections after the title, such as where the original work came from
 skills/1-plan/SKILL.md|keeping any `## Design decision` as "Rewrite it into the specification structure" in `${CLAUDE_PLUGIN_ROOT}/guidelines/refining-a-draft.md` says
 skills/1-plan/SKILL.md|Refine it as `${CLAUDE_PLUGIN_ROOT}/guidelines/refining-a-draft.md` describes
 skills/stabilize/SKILL.md|refine it with the user as `${CLAUDE_PLUGIN_ROOT}/guidelines/refining-a-draft.md` describes
+skills/stabilize/SKILL.md|Should I plan this work as one change, or in phases?
+skills/stabilize/SKILL.md|Recommend **In phases** when the work spans several areas, or would make one large PR. Recommend **One change** otherwise
+skills/stabilize/SKILL.md|**One change** → go on at Step 3 - **In phases**
+skills/stabilize/SKILL.md|Strategy: <reimplement from scratch | carry over and adjust | rebuild in phases>
+skills/stabilize/SKILL.md|Don't ask Step 3's question, and create no branch
+skills/stabilize/SKILL.md|The main spec names the original work, as a reference while planning the phases
+skills/stabilize/SKILL.md|local changes: stash "stabilize: original work", and any commits on <branch> not on the default branch
+skills/stabilize/SKILL.md|keep local changes aside, as **Keeping local changes aside** in Step 1 says
+skills/stabilize/SKILL.md|with `Strategy: rebuild in phases`, and no `## Plan`
+skills/stabilize/SKILL.md|Don't refine it, and commit nothing
+skills/stabilize/SKILL.md|The draft specification is ready. Should I start `/aido:multi-phase-plan` now?
+skills/stabilize/SKILL.md|options **Plan the phases now** / **Stop here**
+skills/stabilize/SKILL.md|run `/aido:multi-phase-plan` later, not `/aido:1-plan`
+skills/stabilize/SKILL.md|or a draft spec to rebuild it in phases
+skills/stabilize/SKILL.md|or, in phases, only `SPEC.draft.md`. It builds nothing
 skills/multi-phase-plan/SKILL.md|"Approve the draft" in `${CLAUDE_PLUGIN_ROOT}/skills/1-plan/SKILL.md`
 skills/multi-phase-plan/SKILL.md|refine it as `${CLAUDE_PLUGIN_ROOT}/guidelines/refining-a-draft.md` describes
 skills/multi-phase-plan/SKILL.md|**`SPEC.md` exists** → the specification is approved. Delete `SPEC.draft.md` if it is there, and go on at "Get the GitHub Issue", then propose the phases
@@ -116,6 +133,10 @@ skills/multi-phase-plan/SKILL.md|Update `SPEC.md` only with the user's agreement
 skills/multi-phase-plan/SKILL.md|with the exact message `docs: feature specification`
 skills/multi-phase-plan/SKILL.md|every item starts unchecked
 skills/multi-phase-plan/SKILL.md|created as a draft PR, not ready for review
+skills/multi-phase-plan/SKILL.md|When you are not on it yet, create it as **Creating a Branch** in `${CLAUDE_PLUGIN_ROOT}/guidelines/git-workflow.md` describes
+guidelines/git-workflow.md|Create a branch from the up-to-date default branch: run `git fetch origin`, then `git checkout -b <branch> origin/<default-branch>`
+skills/stabilize/SKILL.md|create it as **Creating a Branch** in `git-workflow.md` describes
+skills/1-plan/SKILL.md|create a new branch as **Creating a Branch** in `git-workflow.md` describes
 skills/multi-phase-plan/SKILL.md|add its `GitHub Issue:` line to `SPEC.md`, where "The Specification Structure" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md` shows it
 skills/1-plan/SKILL.md|the user approved it, so findings work within the chosen approach
 skills/1-plan/SKILL.md|the plan follows its chosen approach
@@ -524,6 +545,29 @@ done
 
 [ "$(grep -cF -- "$marker" "$plugin/guidelines/specification.md")" -ge 2 ]
 report $? "the leftover check looks for the marker line the template writes"
+
+[ "$(grep -cF 'git stash push -u -m "stabilize: original work"' "$plugin/skills/stabilize/SKILL.md")" -eq 1 ]
+report $? "stabilize states the stash of local changes once"
+
+branch_creation="$(grep -rlF -- 'git checkout -b <branch> origin/<default-branch>' "$plugin/skills" "$plugin/guidelines")"
+[ "$branch_creation" = "$plugin/guidelines/git-workflow.md" ]
+report $? "only git-workflow.md says how to create a branch from the up-to-date default branch"
+
+! on_one_line "$plugin/skills/stabilize/SKILL.md" | grep -qF -- 'with the original work as a reference' &&
+  ! on_one_line "$root/README.md" | grep -qF -- 'with the original work as a reference'
+report $? "stabilize and the README promise no phase the original work as a reference"
+
+stabilize="$plugin/skills/stabilize/SKILL.md"
+understand_line="$(grep -n -m1 -E '^## Step [0-9.]+: Understand the Change' "$stabilize" | cut -d: -f1)"
+choose_line="$(grep -n -m1 -E '^## Step [0-9.]+: Choose One Change or Phases' "$stabilize" | cut -d: -f1)"
+branch_line="$(grep -n -m1 -E '^## Step [0-9.]+: Propose a New Branch' "$stabilize" | cut -d: -f1)"
+[ -n "$understand_line" ] && [ -n "$choose_line" ] && [ -n "$branch_line" ] && [ "$understand_line" -lt "$choose_line" ] && [ "$choose_line" -lt "$branch_line" ]
+report $? "stabilize asks one change or phases after showing the change, before proposing a branch"
+
+phases_line="$(grep -n -m1 -F '## The Phases Route' "$stabilize" | cut -d: -f1)"
+stop_line="$(grep -n -m1 -F '## STOP — Skill Complete' "$stabilize" | cut -d: -f1)"
+[ -n "$phases_line" ] && [ -n "$stop_line" ] && [ "$phases_line" -lt "$stop_line" ]
+report $? "stabilize describes the phases route before it ends"
 
 skill_names="$(
   for skill in "$plugin"/skills/*/SKILL.md; do

@@ -37,6 +37,8 @@ written once the specification is approved.
 - a `## Design decision` stays unchanged, in its place after the acceptance criteria and any
   `## Alignment decisions`. Never ask whether to move or drop it. The user approved it with
   `/aido:deliberate`
+- lines and sections a skill wrote after the title, such as the original work, stay unchanged and in
+  place, and are never asked about. "The Specification Structure" allows them
 - when part of the draft fits no section, such as a design idea, a task list or a question, ask with
   `AskUserQuestion` whether to move it to the plan, turn it into an acceptance criterion, or drop it
 - **acceptance criteria are required.** When the draft has none, or they leave part of the Intent
