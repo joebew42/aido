@@ -121,16 +121,15 @@ with a messy history → carry over.
    already names an issue, offer it as the default
 2. name the branch as **Branch Naming** in `git-workflow.md` describes. It must differ from the
    original branch's name
-3. create it from an up-to-date default branch:
+3. create it as **Creating a Branch** in `git-workflow.md` describes:
    - **reimplement**:
      - local changes → first keep them aside, as **Keeping local changes aside** in Step 1 says, then
-       `git checkout -b <branch> origin/<default-branch>`
-     - PR or remote branch → `git checkout -b <branch> origin/<default-branch>`
+       create the branch
+     - PR or remote branch → create the branch
    - **carry over**:
      - local changes → first keep them aside, as **Keeping local changes aside** in Step 1 says, then
-       `git checkout -b <branch> origin/<default-branch>`, then `git stash apply`. Keep the stash as a
-       backup
-     - PR or remote branch → `git checkout -b <branch> origin/<default-branch>`, then
+       create the branch, then `git stash apply`. Keep the stash as a backup
+     - PR or remote branch → create the branch, then
        `git diff origin/<default-branch>...origin/<original-branch> | git apply`
    - if `git apply` or `git stash apply` hits conflicts, stop and show them to the user. Don't
      resolve them silently

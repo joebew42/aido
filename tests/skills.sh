@@ -131,7 +131,10 @@ skills/multi-phase-plan/SKILL.md|Update `SPEC.md` only with the user's agreement
 skills/multi-phase-plan/SKILL.md|with the exact message `docs: feature specification`
 skills/multi-phase-plan/SKILL.md|every item starts unchecked
 skills/multi-phase-plan/SKILL.md|created as a draft PR, not ready for review
-skills/multi-phase-plan/SKILL.md|create it from an up-to-date default branch: run `git fetch origin`, then `git checkout -b <branch> origin/<default-branch>`
+skills/multi-phase-plan/SKILL.md|When you are not on it yet, create it as **Creating a Branch** in `${CLAUDE_PLUGIN_ROOT}/guidelines/git-workflow.md` describes
+guidelines/git-workflow.md|Create a branch from the up-to-date default branch: run `git fetch origin`, then `git checkout -b <branch> origin/<default-branch>`
+skills/stabilize/SKILL.md|create it as **Creating a Branch** in `git-workflow.md` describes
+skills/1-plan/SKILL.md|create a new branch as **Creating a Branch** in `git-workflow.md` describes
 skills/multi-phase-plan/SKILL.md|add its `GitHub Issue:` line to `SPEC.md`, where "The Specification Structure" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md` shows it
 skills/1-plan/SKILL.md|the user approved it, so findings work within the chosen approach
 skills/1-plan/SKILL.md|the plan follows its chosen approach
@@ -543,6 +546,10 @@ report $? "the leftover check looks for the marker line the template writes"
 
 [ "$(grep -cF 'git stash push -u -m "stabilize: original work"' "$plugin/skills/stabilize/SKILL.md")" -eq 1 ]
 report $? "stabilize states the stash of local changes once"
+
+branch_creation="$(grep -rlF -- 'git checkout -b <branch> origin/<default-branch>' "$plugin/skills" "$plugin/guidelines")"
+[ "$branch_creation" = "$plugin/guidelines/git-workflow.md" ]
+report $? "only git-workflow.md says how to create a branch from the up-to-date default branch"
 
 stabilize="$plugin/skills/stabilize/SKILL.md"
 understand_line="$(grep -n -m1 -E '^## Step [0-9.]+: Understand the Change' "$stabilize" | cut -d: -f1)"

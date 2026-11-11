@@ -396,7 +396,7 @@ Go on only when all of these hold:
 
 ### Branch Creation Checklist
 
-- [ ] create a new branch from the default branch
+- [ ] create a new branch as **Creating a Branch** in `git-workflow.md` describes
 - [ ] name it as "Branch Naming" in `git-workflow.md` describes
 
 ### Commit the Specification

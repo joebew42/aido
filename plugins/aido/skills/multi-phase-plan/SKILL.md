@@ -90,8 +90,8 @@ approved.
 Branch naming pattern: `issue-NUMBER-main-plan-FEATURE_NAME`, or `main-plan-FEATURE_NAME` when there
 is no issue, as **Branch Naming** in `${CLAUDE_PLUGIN_ROOT}/guidelines/git-workflow.md` describes.
 
-When you are not on it yet, create it from an up-to-date default branch: run `git fetch origin`, then
-`git checkout -b <branch> origin/<default-branch>`. The uncommitted `SPEC.md` comes along.
+When you are not on it yet, create it as **Creating a Branch** in
+`${CLAUDE_PLUGIN_ROOT}/guidelines/git-workflow.md` describes. The uncommitted `SPEC.md` comes along.
 
 ### Add the GitHub Issue to Feature Spec
 
