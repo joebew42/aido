@@ -526,6 +526,9 @@ done
 [ "$(grep -cF -- "$marker" "$plugin/guidelines/specification.md")" -ge 2 ]
 report $? "the leftover check looks for the marker line the template writes"
 
+[ "$(grep -cF 'git stash push -u -m "stabilize: original work"' "$plugin/skills/stabilize/SKILL.md")" -eq 1 ]
+report $? "stabilize states the stash of local changes once"
+
 skill_names="$(
   for skill in "$plugin"/skills/*/SKILL.md; do
     basename "$(dirname "$skill")"

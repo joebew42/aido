@@ -60,6 +60,10 @@ Gather the change:
 
 Read the touched files in full where the diff alone doesn't show how the change fits in.
 
+**Keeping local changes aside.** Whenever a later step keeps local changes aside, run
+`git stash push -u -m "stabilize: original work"`. The stash holds them, untracked files included,
+and leaves the working directory clean.
+
 ## Step 2: Understand the Change
 
 Show the user, briefly:
@@ -101,13 +105,13 @@ with a messy history → carry over.
    original branch's name
 3. create it from an up-to-date default branch:
    - **reimplement**:
-     - local changes → first `git stash push -u -m "stabilize: original work"` to keep them aside,
-       then `git checkout -b <branch> origin/<default-branch>`
+     - local changes → first keep them aside, as **Keeping local changes aside** in Step 1 says, then
+       `git checkout -b <branch> origin/<default-branch>`
      - PR or remote branch → `git checkout -b <branch> origin/<default-branch>`
    - **carry over**:
-     - local changes → `git stash push -u -m "stabilize: original work"`,
-       `git checkout -b <branch> origin/<default-branch>`, then `git stash apply`. Keep the stash as
-       a backup
+     - local changes → first keep them aside, as **Keeping local changes aside** in Step 1 says, then
+       `git checkout -b <branch> origin/<default-branch>`, then `git stash apply`. Keep the stash as a
+       backup
      - PR or remote branch → `git checkout -b <branch> origin/<default-branch>`, then
        `git diff origin/<default-branch>...origin/<original-branch> | git apply`
    - if `git apply` or `git stash apply` hits conflicts, stop and show them to the user. Don't
