@@ -10,7 +10,7 @@ disable-model-invocation: false
 Go through a PR's review feedback one comment at a time. Fix it, answer that it is out of scope, or
 park it in a GitHub issue.
 
-Resolve `SPEC.md` and `SPEC.md.draft` first, as "The Specification File" in
+Resolve `SPEC.md` and `SPEC.draft.md` first, as "The Specification File" in
 `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md` describes.
 
 Load `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` and follow it in everything you write for a person.

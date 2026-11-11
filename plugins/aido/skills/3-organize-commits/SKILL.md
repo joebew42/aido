@@ -9,7 +9,7 @@ disable-model-invocation: false
 
 Turn the branch's commits into a clean, logical history that follows the project's conventions.
 
-Resolve `SPEC.md` and `SPEC.md.draft` first, as "The Specification File" in
+Resolve `SPEC.md` and `SPEC.draft.md` first, as "The Specification File" in
 `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md` describes.
 
 Load `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` and follow it in everything you write for a person.
@@ -126,7 +126,7 @@ Once the commits are organized, check ALL of these:
 - [ ] the docs commit message is EXACTLY "docs: feature specification" (if docs present)
 - [ ] the last commit is the outcome commit chosen in Step 1, as "Closing the Specification" in
       `specification.md` names it (if Step 1 ran)
-- [ ] no `SPEC.md.draft` is left in the working tree
+- [ ] no draft is left in the working tree, under either name: `SPEC.draft.md` or `SPEC.md.draft`
 - [ ] the docs commit is the FIRST commit in history (if docs present)
 - [ ] every commit message follows "Commit Message Format" in `git-workflow.md`
 - [ ] the order and grouping follow "Commit Organization Strategy" in `git-workflow.md`, with each

@@ -11,7 +11,7 @@ Plan a feature in phases, as `/aido:1-plan` plans a single one: refine its speci
 user, then split the work into phases. Then open a draft PR that holds the main specification and
 tracks its progress.
 
-Resolve `SPEC.md` and `SPEC.md.draft` first, as "The Specification File" in
+Resolve `SPEC.md` and `SPEC.draft.md` first, as "The Specification File" in
 `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md` describes.
 
 Load `${CLAUDE_PLUGIN_ROOT}/guidelines/git-workflow.md`, `${CLAUDE_PLUGIN_ROOT}/guidelines/pr-roadmap.md`
@@ -29,19 +29,19 @@ Load `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` and follow it in everything 
 
 ### Review and Refine Feature Spec
 
-The specification lives in `SPEC.md`, and its draft in `SPEC.md.draft`, as "The Specification
+The specification lives in `SPEC.md`, and its draft in `SPEC.draft.md`, as "The Specification
 File" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md` describes. On a leftover spec, stop
 before anything below, as "A Leftover Spec" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`
 describes. Otherwise:
 
-- **`SPEC.md` exists** → the specification is approved. Delete `SPEC.md.draft` if it is there, and go
+- **`SPEC.md` exists** → the specification is approved. Delete `SPEC.draft.md` if it is there, and go
   on at "Get the GitHub Issue", then propose the phases
-- **only `SPEC.md.draft` exists** → have the user approve it as "Approve the draft" in
+- **only `SPEC.draft.md` exists** → have the user approve it as "Approve the draft" in
   `${CLAUDE_PLUGIN_ROOT}/skills/1-plan/SKILL.md` describes. Then refine it as
   `${CLAUDE_PLUGIN_ROOT}/guidelines/refining-a-draft.md` describes, with numbered acceptance criteria
   for the whole feature, and don't ask about the enabling refactoring analysis. Then move it with
-  `mv SPEC.md.draft SPEC.md`
-- **neither exists** → write `SPEC.md.draft` from one of the sources "Standalone Project Flow" in
+  `mv SPEC.draft.md SPEC.md`
+- **neither exists** → write `SPEC.draft.md` from one of the sources "Standalone Project Flow" in
   `${CLAUDE_PLUGIN_ROOT}/skills/1-plan/SKILL.md` offers: a GitHub issue, the user writing it, or a
   conversation. Then go on as above
 

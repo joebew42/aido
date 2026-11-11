@@ -17,14 +17,14 @@ Load `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` and follow it in everything 
 
 ## The Specification Files
 
-Planning refines `SPEC.md.draft` with the user, then moves it to `SPEC.md`. Step 1 resolves both
+Planning refines `SPEC.draft.md` with the user, then moves it to `SPEC.md`. Step 1 resolves both
 names. "The Specification File" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md` holds their
 rules: the names, which one is committed, and that they never exist together.
 
 The stages run in order. Each approval also settles the choice after it, as "Asking Questions" in
 `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` describes:
 
-1. **Draft** — the first version goes into `SPEC.md.draft`. The user approves it as the starting
+1. **Draft** — the first version goes into `SPEC.draft.md`. The user approves it as the starting
    point and chooses the route
 2. **Refine** — you analyse, refine and reword the draft, and ask the user where needed. The user
    approves it and chooses whether to run the enabling refactoring analysis. It moves to `SPEC.md`
@@ -57,9 +57,9 @@ user wants the choice recorded. Step 7 commits it.
 On a leftover spec, stop before anything below, as "A Leftover Spec" in
 `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md` describes.
 
-- **`SPEC.md` exists** → the specification is approved. Delete `SPEC.md.draft` if it is there, read
+- **`SPEC.md` exists** → the specification is approved. Delete `SPEC.draft.md` if it is there, read
   `SPEC.md`, and continue at Step 4
-- **only `SPEC.md.draft` exists** → `AskUserQuestion`: "`SPEC.md.draft` is left from an earlier session. What should I do with it?" — options **Resume refining it** (use "Determine the work
+- **only `SPEC.draft.md` exists** → `AskUserQuestion`: "`SPEC.draft.md` is left from an earlier session. What should I do with it?" — options **Resume refining it** (use "Determine the work
   type" in Step 2: a phase of a multi-phase project continues at Step 3, standalone work at "Approve
   the draft and choose the route") / **Start over** (delete it and continue at Step 2)
 - **neither exists** → continue at Step 2
@@ -101,7 +101,7 @@ On a leftover spec, stop before anything below, as "A Leftover Spec" in
    `docs: feature specification` commit added, with `git show <main-plan-branch>:<path>`. Ask for
    the GitHub Issue ID of this phase, if there is one.
 
-4. **Write the phase draft** into `SPEC.md.draft`:
+4. **Write the phase draft** into `SPEC.draft.md`:
    - take only the part of the overall specification that this phase builds
    - carry over only the acceptance criteria this phase delivers, as the overall plan names them.
      Keep their IDs, as "The Specification Structure" in
@@ -118,11 +118,11 @@ On a leftover spec, stop before anything below, as "A Leftover Spec" in
 `AskUserQuestion`: "Where should the feature specification come from?" — options:
 
 - **GitHub Issue** — ask for the issue link, read it with `gh issue view <NUMBER>`, and write
-  `SPEC.md.draft` from it, with the issue reference
+  `SPEC.draft.md` from it, with the issue reference
   (`GitHub Issue: [github repository link]/#NUMBER`)
-- **Write it myself** — ask the user to create `SPEC.md.draft`, and wait until they say it is ready
+- **Write it myself** — ask the user to create `SPEC.draft.md`, and wait until they say it is ready
 - **Start from a conversation** — interview the user, as "Interview the user" below describes, and
-  write `SPEC.md.draft`
+  write `SPEC.draft.md`
 
 #### Interview the user
 
@@ -130,7 +130,7 @@ On a leftover spec, stop before anything below, as "A Leftover Spec" in
 2. Ask follow-up questions in groups with `AskUserQuestion`, with the likely answers as options. When
    the code can answer a question, read the code instead
 3. Stop once nothing blocks the draft. Refining comes later. Write what you learned into
-   `SPEC.md.draft`, in the user's words where they work, then continue as for the other options
+   `SPEC.draft.md`, in the user's words where they work, then continue as for the other options
 
 ### Approve the draft
 
@@ -164,7 +164,7 @@ marked as recommended. The user's choice stands:
 The specification and the plan are written together and approved once. Steps 3 to 6 don't run,
 except Step 5.5. Don't ask about the enabling refactoring analysis.
 
-1. Rewrite `SPEC.md.draft` into "The Specification Structure" in
+1. Rewrite `SPEC.draft.md` into "The Specification Structure" in
    `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`, with every section brief, keeping any
    `## Design decision` as "Rewrite it into the specification structure" in
    `${CLAUDE_PLUGIN_ROOT}/guidelines/refining-a-draft.md` says. Propose the acceptance criteria
@@ -194,12 +194,12 @@ On approval:
       `## Design decision`, then the plan
 - [ ] every acceptance criterion follows "Acceptance Criteria" in
       `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`
-- [ ] move it: `mv SPEC.md.draft SPEC.md`
-- [ ] confirm `SPEC.md.draft` is gone, and continue at Step 7
+- [ ] move it: `mv SPEC.draft.md SPEC.md`
+- [ ] confirm `SPEC.draft.md` is gone, and continue at Step 7
 
 **Moving to the full route.** When an open decision comes up, tell the user why the change is no
 longer small. When the user picked the option above, say nothing. Remove `## Plan` and the
-skipped-analysis line from `SPEC.md.draft`, keep the rest, and continue at Step 3. This counts as
+skipped-analysis line from `SPEC.draft.md`, keep the rest, and continue at Step 3. This counts as
 approving the draft as the starting point.
 
 ## Step 3: Refine the Draft
@@ -216,7 +216,7 @@ Show what you changed and why, as "Showing What Changed" in
 `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` describes. Then ask two questions in one
 `AskUserQuestion` call:
 
-- "Is `SPEC.md.draft` ready to become `SPEC.md`?" — options **Approve — move it to SPEC.md** /
+- "Is `SPEC.draft.md` ready to become `SPEC.md`?" — options **Approve — move it to SPEC.md** /
   **Keep refining** (ask what to change, and repeat this step)
 - "Once it's approved, should I look for refactorings that would make this feature easier? This can take a while." — options **Run the analysis** /
   **Skip it**. Mark neither as recommended. The answer counts only on approval. Step 4 acts on it
@@ -228,8 +228,8 @@ On approval:
 - [ ] the draft has Context, Intent, Out of scope and Acceptance criteria, in that order
 - [ ] every acceptance criterion follows "Acceptance Criteria" in
       `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`. Fix any that don't, and ask again
-- [ ] move it: `mv SPEC.md.draft SPEC.md`
-- [ ] confirm `SPEC.md.draft` is gone
+- [ ] move it: `mv SPEC.draft.md SPEC.md`
+- [ ] confirm `SPEC.draft.md` is gone
 
 ## Step 4: Check the Architecture Index
 
@@ -392,7 +392,7 @@ Go on only when all of these hold:
 - [ ] `SPEC.md` holds the approved specification, the `## Plan`, and the `## Design notes` or the
       line saying the analysis was skipped. No open question blocks implementing
 - [ ] at least one plan item serves each acceptance criterion
-- [ ] `SPEC.md.draft` doesn't exist
+- [ ] `SPEC.draft.md` doesn't exist
 
 ### Branch Creation Checklist
 

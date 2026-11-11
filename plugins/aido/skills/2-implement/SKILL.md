@@ -10,7 +10,7 @@ disable-model-invocation: false
 Build the feature from its specification, one small step at a time, with **test-driven
 development**, in the mode each plan item names.
 
-Resolve `SPEC.md` and `SPEC.md.draft` first, as "The Specification File" in
+Resolve `SPEC.md` and `SPEC.draft.md` first, as "The Specification File" in
 `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md` describes.
 
 Load `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` and follow it in everything you write for a person.
@@ -28,9 +28,9 @@ Load `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` and follow it in everything 
 
 Before any implementation work:
 
-- no `SPEC.md` → stop. If only `SPEC.md.draft` exists, tell the user the specification isn't
+- no `SPEC.md` → stop. If only `SPEC.draft.md` exists, tell the user the specification isn't
   approved yet, and to run `/aido:1-plan`
-- `SPEC.md.draft` next to `SPEC.md` → act as "The Specification File" in
+- `SPEC.draft.md` next to `SPEC.md` → act as "The Specification File" in
   `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md` says
 - read `SPEC.md` for the full scope
 - check whether it has numbered acceptance criteria (`AC1`, `AC2`, …), as "The Specification
