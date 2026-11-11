@@ -113,6 +113,8 @@ skills/stabilize/SKILL.md|Recommend **In phases** when the work spans several ar
 skills/stabilize/SKILL.md|**One change** → go on at Step 3 - **In phases**
 skills/stabilize/SKILL.md|Strategy: <reimplement from scratch | carry over and adjust | rebuild in phases>
 skills/stabilize/SKILL.md|Don't ask Step 3's question, and create no branch
+skills/stabilize/SKILL.md|The main spec names the original work, as a reference while planning the phases
+skills/stabilize/SKILL.md|local changes: stash "stabilize: original work", and any commits on <branch> not on the default branch
 skills/stabilize/SKILL.md|keep local changes aside, as **Keeping local changes aside** in Step 1 says
 skills/stabilize/SKILL.md|with `Strategy: rebuild in phases`, and no `## Plan`
 skills/stabilize/SKILL.md|Don't refine it, and commit nothing
@@ -550,6 +552,10 @@ report $? "stabilize states the stash of local changes once"
 branch_creation="$(grep -rlF -- 'git checkout -b <branch> origin/<default-branch>' "$plugin/skills" "$plugin/guidelines")"
 [ "$branch_creation" = "$plugin/guidelines/git-workflow.md" ]
 report $? "only git-workflow.md says how to create a branch from the up-to-date default branch"
+
+! on_one_line "$plugin/skills/stabilize/SKILL.md" | grep -qF -- 'with the original work as a reference' &&
+  ! on_one_line "$root/README.md" | grep -qF -- 'with the original work as a reference'
+report $? "stabilize and the README promise no phase the original work as a reference"
 
 stabilize="$plugin/skills/stabilize/SKILL.md"
 understand_line="$(grep -n -m1 -E '^## Step [0-9.]+: Understand the Change' "$stabilize" | cut -d: -f1)"

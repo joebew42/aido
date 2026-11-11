@@ -263,7 +263,8 @@ passed during the check, or by your confirmation. Otherwise it is **insufficient
    them. Approve the plan written into `SPEC.md`, then continue with implementation, commit
    organization, and PR creation.
 4. In phases, continue with `/aido:multi-phase-plan`, as in "Plan a multi-phase feature". Each phase
-   rebuilds its part, with the original work as a reference.
+   rebuilds its part. The main spec names the original work, as a reference while planning the
+   phases.
 
 ### Review someone else's PR
 

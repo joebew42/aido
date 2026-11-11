@@ -90,8 +90,9 @@ Ask with `AskUserQuestion`:
 - Question: "Should I plan this work as one change, or in phases?"
 - Options:
   - **One change** — one branch, one `SPEC.md` and one PR, rebuilt or carried over
-  - **In phases** — each phase rebuilds its part in its own PR, with the original work as a
-    reference. `/aido:multi-phase-plan` splits the work into phases
+  - **In phases** — `/aido:multi-phase-plan` splits the work into phases, and each phase rebuilds
+    its part in its own PR. The main spec names the original work, as a reference while planning the
+    phases
 
 Recommend **In phases** when the work spans several areas, or would make one large PR. Recommend
 **One change** otherwise. Files with different jobs are different areas: in a TODO app, the task
@@ -146,7 +147,7 @@ own lines and sections added:
 > Working specification for this branch. Remove it before merging: revert the `docs: feature specification` commit.
 
 GitHub Issue: <repo link>/#<NUMBER>   (or omit)
-Original work: <PR #N (url) | branch origin/<name> | local changes, stash "stabilize: original work">
+Original work: <PR #N (url) | branch origin/<name> | local changes: stash "stabilize: original work", and any commits on <branch> not on the default branch>
 Strategy: <reimplement from scratch | carry over and adjust | rebuild in phases>
 
 ## What the original does
@@ -195,9 +196,9 @@ it. `/aido:2-implement` then adjusts and commits those changes instead of writin
 
 ## The Phases Route
 
-The user chose **In phases** in Step 2.5. Each phase rebuilds its part from the default branch, with
-the original work as a reference, so nothing is carried over. Don't ask Step 3's question, and create
-no branch.
+The user chose **In phases** in Step 2.5. Each phase rebuilds its part from the default branch, so
+nothing is carried over. The main spec names the original work, as a reference while planning the
+phases. Don't ask Step 3's question, and create no branch.
 
 1. **local changes** → keep local changes aside, as **Keeping local changes aside** in Step 1 says.
    The working directory is left clean
