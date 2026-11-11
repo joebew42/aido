@@ -387,6 +387,7 @@ guidelines/specification.md|**the spec file exists** → delete the draft under 
 guidelines/specification.md|**only the old name exists** → rename it to the new name with `mv`, tell the user, then go on as with a draft under the new name
 guidelines/specification.md|**both names exist** → keep both, use the one under the new name, and tell the user the old one is still there
 guidelines/specification.md|A skill that changes no files reads the spec file only, and renames nothing
+skills/3-organize-commits/SKILL.md|no draft is left in the working tree, under either name: `SPEC.draft.md` or `SPEC.md.draft`
 EOF_PHRASES
 
 for skill in "$plugin"/skills/*/SKILL.md; do
@@ -400,9 +401,9 @@ for skill in "$plugin"/skills/*/SKILL.md; do
   fi
 done
 
-old_draft="$(grep -rlF '.md.draft' "$plugin/skills" "$plugin/guidelines" "$root/README.md" | grep -vxF "$plugin/guidelines/specification.md")"
+old_draft="$(grep -rlF '.md.draft' "$plugin/skills" "$plugin/guidelines" "$root/README.md" | grep -vxF -e "$plugin/guidelines/specification.md" -e "$plugin/skills/3-organize-commits/SKILL.md")"
 [ -z "$old_draft" ]
-report $? "only specification.md names the draft's old name${old_draft:+, not: $(echo $old_draft)}"
+report $? "only specification.md and 3-organize-commits name the draft's old name${old_draft:+, not: $(echo $old_draft)}"
 
 ! grep -rniE 'auto-memory|allowMemoryWrites' "$plugin/skills" "$plugin/guidelines"
 report $? "skills and guidelines leave Claude's memory to the user"
