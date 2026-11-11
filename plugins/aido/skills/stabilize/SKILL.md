@@ -97,7 +97,7 @@ Recommend **In phases** when the work spans several areas, or would make one lar
 **One change** otherwise. Files with different jobs are different areas: in a TODO app, the task
 rules, the storage and the screen that shows a task are three. Say in the recommended option why.
 
-- **One change** → go on at Step 3, as before
+- **One change** → go on at Step 3
 - **In phases** → go on at "The Phases Route" below
 
 ## Step 3: Propose a New Branch

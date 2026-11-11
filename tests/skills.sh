@@ -110,7 +110,7 @@ skills/1-plan/SKILL.md|Refine it as `${CLAUDE_PLUGIN_ROOT}/guidelines/refining-a
 skills/stabilize/SKILL.md|refine it with the user as `${CLAUDE_PLUGIN_ROOT}/guidelines/refining-a-draft.md` describes
 skills/stabilize/SKILL.md|Should I plan this work as one change, or in phases?
 skills/stabilize/SKILL.md|Recommend **In phases** when the work spans several areas, or would make one large PR. Recommend **One change** otherwise
-skills/stabilize/SKILL.md|**One change** → go on at Step 3, as before
+skills/stabilize/SKILL.md|**One change** → go on at Step 3 - **In phases**
 skills/stabilize/SKILL.md|Strategy: <reimplement from scratch | carry over and adjust | rebuild in phases>
 skills/stabilize/SKILL.md|Don't ask Step 3's question, and create no branch
 skills/stabilize/SKILL.md|keep local changes aside, as **Keeping local changes aside** in Step 1 says
