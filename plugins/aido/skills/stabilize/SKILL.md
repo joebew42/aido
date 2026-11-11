@@ -10,7 +10,7 @@ disable-model-invocation: false
 Take over a change started outside this workflow. Set it up so `/aido:2-implement`,
 `/aido:3-organize-commits` and `/aido:4-open-pr` can carry it to a clean PR.
 
-Resolve `SPEC.md` and `SPEC.md.draft` first, as "The Specification File" in
+Resolve `SPEC.md` and `SPEC.draft.md` first, as "The Specification File" in
 `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md` describes.
 
 This skill **reads** the original work and **prepares** a new branch and `SPEC.md`. It builds
@@ -30,7 +30,7 @@ Load `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` and follow it in everything 
   `${CLAUDE_PLUGIN_ROOT}/guidelines/project-conventions.md` describes
 - on a leftover spec, stop, as "A Leftover Spec" in
   `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md` describes
-- if `SPEC.md` or `SPEC.md.draft` already exists in the working directory, stop and tell the user:
+- if `SPEC.md` or `SPEC.draft.md` already exists in the working directory, stop and tell the user:
   this skill creates a new one
 
 ## Step 1: Identify the Original Work
@@ -115,7 +115,7 @@ with a messy history → carry over.
 
 ## Step 5: Write and Approve the Specification
 
-Write the first version into `SPEC.md.draft`, which is never committed. It follows "The
+Write the first version into `SPEC.draft.md`, which is never committed. It follows "The
 Specification Structure" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`, with this skill's
 own lines and sections added:
 
@@ -157,7 +157,7 @@ normally inside-out, citing the original work>
 - propose the plan and **wait for explicit approval**, as "Approve the plan" in `/aido:1-plan` Step 6
   does. Leave its question on how to continue to Step 6 below. Update the draft with any changes the
   user asks for
-- once approved, move it with `mv SPEC.md.draft SPEC.md`. Then follow "The Specification File" in
+- once approved, move it with `mv SPEC.draft.md SPEC.md`. Then follow "The Specification File" in
   `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md` for the draft
 - commit **only** `SPEC.md`, with the exact message `docs: feature specification`. In carry-over mode
   the original changes stay uncommitted, for `/aido:2-implement` to commit step by step

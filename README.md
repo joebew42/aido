@@ -63,7 +63,7 @@ Using GitHub Copilot CLI? See [Use it in GitHub Copilot CLI](#use-it-in-github-c
 
 ### What planning looks like
 
-Start from a GitHub issue, your own `SPEC.md.draft`, or a conversation where aido interviews you.
+Start from a GitHub issue, your own `SPEC.draft.md`, or a conversation where aido interviews you.
 
 <div align="center">
   <img src="docs/readme/plan-asks-for-the-spec.png" alt="aido planning asks whether to start from a GitHub issue, a draft specification, or a conversation" width="760" />
@@ -249,7 +249,7 @@ passed during the check, or by your confirmation. Otherwise it is **insufficient
 1. Optionally, run `/aido:deliberate` to compare designs for the whole feature first. Each phase
    then plans from its part of the approved design.
 2. Run `/aido:multi-phase-plan` to refine the overall specification, plan the phases and open the
-   tracking PR. It starts from your `SPEC.md.draft`, a GitHub issue, or a conversation.
+   tracking PR. It starts from your `SPEC.draft.md`, a GitHub issue, or a conversation.
 3. For each phase (or independent phases in parallel), run `/aido:1-plan`, `/aido:2-implement`,
    `/aido:3-organize-commits`, and `/aido:4-open-pr`. Planning can offer parallel worktrees.
 4. Run `/aido:multi-phase-sync` to update the main plan and begin the next phase.

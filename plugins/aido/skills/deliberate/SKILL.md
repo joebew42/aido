@@ -1,5 +1,5 @@
 ---
-description: Explores competing designs for a feature before planning — two agents propose a design independently, one aiming for the best design and one for the simplest, and a third compares them and recommends one. Saves the design the user approves in SPEC.md.draft for /aido:1-plan, or /aido:multi-phase-plan for a feature built in phases, to plan from. Invoked when the user wants to deliberate on a design, compare design alternatives before planning, or runs /aido:deliberate.
+description: Explores competing designs for a feature before planning — two agents propose a design independently, one aiming for the best design and one for the simplest, and a third compares them and recommends one. Saves the design the user approves in SPEC.draft.md for /aido:1-plan, or /aido:multi-phase-plan for a feature built in phases, to plan from. Invoked when the user wants to deliberate on a design, compare design alternatives before planning, or runs /aido:deliberate.
 disable-model-invocation: false
 ---
 
@@ -9,16 +9,17 @@ disable-model-invocation: false
 
 Weigh competing designs before planning. Two agents propose a design for the same requirements, each
 on its own. A third compares them and recommends one. The design the user approves is saved in
-`SPEC.md.draft`, and `/aido:1-plan` plans from it, or `/aido:multi-phase-plan` for a feature built in
+`SPEC.draft.md`, and `/aido:1-plan` plans from it, or `/aido:multi-phase-plan` for a feature built in
 phases. This step is optional: planning without it works as before.
 
-Resolve `SPEC.md` and `SPEC.md.draft` first, as "The Specification File" in
+Resolve `SPEC.md` and `SPEC.draft.md` first, as "The Specification File" in
 `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md` describes.
 
 Load `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` and follow it in everything you write for a person.
 
-This skill writes only `SPEC.md.draft`, and only once the user approves a design. It changes no
-code, commits nothing and pushes nothing.
+This skill writes `SPEC.draft.md`, and only once the user approves a design. Besides renaming or
+deleting a draft, as "The Specification File" says, it changes no other file, commits nothing and
+pushes nothing.
 
 ## Step 0: Load Context
 
@@ -29,7 +30,7 @@ code, commits nothing and pushes nothing.
 - on a leftover spec, stop, as "A Leftover Spec" in
   `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md` describes
 - **`SPEC.md` exists** → say the specification is already approved, and stop without deliberating.
-  Delete a `SPEC.md.draft` next to it first, as "The Specification File" says
+  Delete a `SPEC.draft.md` next to it first, as "The Specification File" says
 
 ## Step 1: Find the Requirements
 
@@ -38,11 +39,11 @@ The argument decides what to deliberate on:
 - **a GitHub issue**, as a number or a link → read it with `gh issue view <NUMBER>`. The
   requirements are its title and body
 - **a feature request**, any other text → the requirements are the request, as given
-- **nothing, and `SPEC.md.draft` exists** → deliberate on the draft
+- **nothing, and `SPEC.draft.md` exists** → deliberate on the draft
 - **nothing, and no draft** → ask in free text what the feature should do, and why
 
-When an issue or a request is given while `SPEC.md.draft` exists, ask with `AskUserQuestion`:
-"`SPEC.md.draft` already exists. Which requirements should I deliberate on?" — options
+When an issue or a request is given while `SPEC.draft.md` exists, ask with `AskUserQuestion`:
+"`SPEC.draft.md` already exists. Which requirements should I deliberate on?" — options
 **Use the draft** / **Replace it with the request**. On **Replace it with the request**, the draft
 stays untouched until a design is approved.
 
@@ -134,7 +135,7 @@ Show both proposals and the recommendation, whole, as they came back.
 **The recommendation asks for clarification** → ask it in free text. The answer joins the
 constraints, and a new round starts at Step 2, from fresh agents, with no earlier proposal.
 
-**Otherwise**, ask with `AskUserQuestion`: "Which design should I save in `SPEC.md.draft`?" — options
+**Otherwise**, ask with `AskUserQuestion`: "Which design should I save in `SPEC.draft.md`?" — options
 **Accept the recommendation** / **Use the best design** / **Use the simplest design** /
 **Another round**. Mark **Accept the recommendation** as recommended:
 
@@ -151,7 +152,7 @@ Write the approved design as a `## Design decision` section, as "Design Decision
 `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md` describes. The alternatives are the two
 proposals, and the trade-offs and risks come from the proposals and the recommendation.
 
-- **no `SPEC.md.draft`, or the user chose Replace it with the request** → write `SPEC.md.draft`
+- **no `SPEC.draft.md`, or the user chose Replace it with the request** → write `SPEC.draft.md`
   with the requirements deliberated on: a title, the marker line as "The Specification Structure" in
   `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md` shows it, the requirements word for word, and,
   for an issue, `GitHub Issue: [github repository link]/#NUMBER`. Then add the section at the end

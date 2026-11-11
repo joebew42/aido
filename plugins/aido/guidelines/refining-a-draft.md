@@ -1,7 +1,7 @@
 # Refining a Draft
 
 Refining turns an approved draft into a specification ready for the user's approval. Work on
-`SPEC.md.draft`, through these steps in order.
+`SPEC.draft.md`, through these steps in order.
 
 ## Load the context
 
@@ -12,7 +12,7 @@ Refining turns an approved draft into a specification ready for the user's appro
 
 ## Analyse, refine and reword
 
-Go through the draft and fix what you find, in `SPEC.md.draft` itself:
+Go through the draft and fix what you find, in `SPEC.draft.md` itself:
 
 - **gaps** — missing behaviour, edge cases, error cases or acceptance criteria
 - **ambiguity** — statements two readers could build differently

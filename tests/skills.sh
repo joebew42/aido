@@ -108,8 +108,8 @@ skills/1-plan/SKILL.md|Refine it as `${CLAUDE_PLUGIN_ROOT}/guidelines/refining-a
 skills/stabilize/SKILL.md|refine it with the user as `${CLAUDE_PLUGIN_ROOT}/guidelines/refining-a-draft.md` describes
 skills/multi-phase-plan/SKILL.md|"Approve the draft" in `${CLAUDE_PLUGIN_ROOT}/skills/1-plan/SKILL.md`
 skills/multi-phase-plan/SKILL.md|refine it as `${CLAUDE_PLUGIN_ROOT}/guidelines/refining-a-draft.md` describes
-skills/multi-phase-plan/SKILL.md|**`SPEC.md` exists** → the specification is approved. Delete `SPEC.md.draft` if it is there, and go on at "Get the GitHub Issue", then propose the phases
-skills/multi-phase-plan/SKILL.md|**neither exists** → write `SPEC.md.draft` from one of the sources "Standalone Project Flow" in `${CLAUDE_PLUGIN_ROOT}/skills/1-plan/SKILL.md` offers
+skills/multi-phase-plan/SKILL.md|**`SPEC.md` exists** → the specification is approved. Delete `SPEC.draft.md` if it is there, and go on at "Get the GitHub Issue", then propose the phases
+skills/multi-phase-plan/SKILL.md|**neither exists** → write `SPEC.draft.md` from one of the sources "Standalone Project Flow" in `${CLAUDE_PLUGIN_ROOT}/skills/1-plan/SKILL.md` offers
 skills/multi-phase-plan/SKILL.md|the acceptance criteria each phase delivers, by ID
 skills/multi-phase-plan/SKILL.md|when `SPEC.md` has a `## Design decision`, the phases follow its chosen approach
 skills/multi-phase-plan/SKILL.md|Update `SPEC.md` only with the user's agreement
@@ -217,8 +217,9 @@ skills/deliberate/SKILL.md|**`SPEC.md` exists** → say the specification is alr
 skills/deliberate/SKILL.md|on a leftover spec, stop, as "A Leftover Spec" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md` describes
 skills/deliberate/SKILL.md|**a GitHub issue**, as a number or a link → read it with `gh issue view <NUMBER>`
 skills/deliberate/SKILL.md|**a feature request**, any other text → the requirements are the request, as given
-skills/deliberate/SKILL.md|This skill writes only `SPEC.md.draft`, and only once the user approves a design
-skills/deliberate/SKILL.md|**nothing, and `SPEC.md.draft` exists** → deliberate on the draft
+skills/deliberate/SKILL.md|This skill writes `SPEC.draft.md`, and only once the user approves a design
+skills/deliberate/SKILL.md|Besides renaming or deleting a draft, as "The Specification File" says, it changes no other file
+skills/deliberate/SKILL.md|**nothing, and `SPEC.draft.md` exists** → deliberate on the draft
 skills/deliberate/SKILL.md|options **Use the draft** / **Replace it with the request**
 skills/deliberate/SKILL.md|`Needs you: run /aido:1-plan`
 skills/deliberate/SKILL.md|for /aido:1-plan, or /aido:multi-phase-plan for a feature built in phases, to plan from
@@ -248,7 +249,7 @@ skills/deliberate/SKILL.md|ask it in free text. The answer joins the constraints
 skills/deliberate/SKILL.md|options **Accept the recommendation** / **Use the best design** / **Use the simplest design** / **Another round**
 skills/deliberate/SKILL.md|With no answer, save nothing
 skills/deliberate/SKILL.md|"Design Decision" in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`
-skills/deliberate/SKILL.md|**no `SPEC.md.draft`, or the user chose Replace it with the request** → write `SPEC.md.draft` with the requirements deliberated on
+skills/deliberate/SKILL.md|**no `SPEC.draft.md`, or the user chose Replace it with the request** → write `SPEC.draft.md` with the requirements deliberated on
 skills/deliberate/SKILL.md|`GitHub Issue: [github repository link]/#NUMBER`
 skills/deliberate/SKILL.md|**the draft has no `## Design decision`** → add it at the end of the draft
 skills/deliberate/SKILL.md|**the draft already has a `## Design decision`** → replace that section, and leave the rest of the draft as it is
@@ -398,6 +399,10 @@ for skill in "$plugin"/skills/*/SKILL.md; do
     report $? "only 5-handle-review suggests conventions, not $name"
   fi
 done
+
+old_draft="$(grep -rlF '.md.draft' "$plugin/skills" "$plugin/guidelines" "$root/README.md" | grep -vxF "$plugin/guidelines/specification.md")"
+[ -z "$old_draft" ]
+report $? "only specification.md names the draft's old name${old_draft:+, not: $(echo $old_draft)}"
 
 ! grep -rniE 'auto-memory|allowMemoryWrites' "$plugin/skills" "$plugin/guidelines"
 report $? "skills and guidelines leave Claude's memory to the user"
