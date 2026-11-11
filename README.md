@@ -257,9 +257,13 @@ passed during the check, or by your confirmation. Otherwise it is **insufficient
 ### Take over existing work
 
 1. Run `/aido:stabilize` against a PR, remote branch, or local changes.
-2. Choose whether to reimplement from scratch or carry the changes over and adjust them.
-3. Approve the plan written into `SPEC.md`.
-4. Continue with implementation, commit organization, and PR creation.
+2. Choose whether to plan it as one change or in phases. Large work, such as a proof of concept, is
+   easier to build and review in phases.
+3. As one change, choose whether to reimplement from scratch or carry the changes over and adjust
+   them. Approve the plan written into `SPEC.md`, then continue with implementation, commit
+   organization, and PR creation.
+4. In phases, continue with `/aido:multi-phase-plan`, as in "Plan a multi-phase feature". Each phase
+   rebuilds its part, with the original work as a reference.
 
 ### Review someone else's PR
 

@@ -118,6 +118,8 @@ skills/stabilize/SKILL.md|Don't refine it, and commit nothing
 skills/stabilize/SKILL.md|The draft specification is ready. Should I start `/aido:multi-phase-plan` now?
 skills/stabilize/SKILL.md|options **Plan the phases now** / **Stop here**
 skills/stabilize/SKILL.md|run `/aido:multi-phase-plan` later, not `/aido:1-plan`
+skills/stabilize/SKILL.md|or a draft spec to rebuild it in phases
+skills/stabilize/SKILL.md|or, in phases, only `SPEC.draft.md`. It builds nothing
 skills/multi-phase-plan/SKILL.md|"Approve the draft" in `${CLAUDE_PLUGIN_ROOT}/skills/1-plan/SKILL.md`
 skills/multi-phase-plan/SKILL.md|refine it as `${CLAUDE_PLUGIN_ROOT}/guidelines/refining-a-draft.md` describes
 skills/multi-phase-plan/SKILL.md|**`SPEC.md` exists** → the specification is approved. Delete `SPEC.draft.md` if it is there, and go on at "Get the GitHub Issue", then propose the phases

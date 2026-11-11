@@ -1,5 +1,5 @@
 ---
-description: Takes over work done outside this workflow — an existing PR, a remote branch, or local changes — and sets up a fresh branch and feature spec to bring it in line with the guidelines. Invoked when the user wants to stabilize, take over, adopt or rework someone else's PR or branch, or runs /aido:stabilize.
+description: Takes over work done outside this workflow — an existing PR, a remote branch, or local changes — and sets up a fresh branch and feature spec to bring it in line with the guidelines, or a draft spec to rebuild it in phases. Invoked when the user wants to stabilize, take over, adopt or rework someone else's PR or branch, or runs /aido:stabilize.
 disable-model-invocation: false
 ---
 
@@ -8,13 +8,14 @@ disable-model-invocation: false
 **In Copilot CLI only:** before anything else, read `guidelines/copilot-cli.md` in the plugin root, two folders above this skill's base directory, and follow it. Read every guideline this skill names whole, with `view`, one file per call.
 
 Take over a change started outside this workflow. Set it up so `/aido:2-implement`,
-`/aido:3-organize-commits` and `/aido:4-open-pr` can carry it to a clean PR.
+`/aido:3-organize-commits` and `/aido:4-open-pr` can carry it to a clean PR, or so
+`/aido:multi-phase-plan` can split it into phases.
 
 Resolve `SPEC.md` and `SPEC.draft.md` first, as "The Specification File" in
 `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md` describes.
 
-This skill **reads** the original work and **prepares** a new branch and `SPEC.md`. It builds
-nothing. It never pushes to, rewrites, comments on or closes the original PR or branch.
+This skill **reads** the original work and **prepares** a new branch and `SPEC.md`, or, in phases,
+only `SPEC.draft.md`. It builds nothing. It never pushes to, rewrites, comments on or closes the original PR or branch.
 
 Load `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` and follow it in everything you write for a person.
 
