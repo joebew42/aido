@@ -103,6 +103,7 @@ skills/1-plan/SKILL.md|Confirm each finding classed enabling or defer, as **Evid
 skills/1-plan/SKILL.md|**Plan it first** matches a finding classed enabling, and **Defer** one classed defer
 skills/1-plan/SKILL.md|Recommend **Include it**, unless the idea is broader or riskier than this change justifies
 guidelines/refining-a-draft.md|a `## Design decision` stays unchanged, in its place after the acceptance criteria and any `## Alignment decisions`. Never ask whether to move or drop it
+guidelines/refining-a-draft.md|lines and sections a skill wrote after the title, such as the original work, stay unchanged and in place, and are never asked about
 skills/1-plan/SKILL.md|keeping any `## Design decision` as "Rewrite it into the specification structure" in `${CLAUDE_PLUGIN_ROOT}/guidelines/refining-a-draft.md` says
 skills/1-plan/SKILL.md|Refine it as `${CLAUDE_PLUGIN_ROOT}/guidelines/refining-a-draft.md` describes
 skills/stabilize/SKILL.md|refine it with the user as `${CLAUDE_PLUGIN_ROOT}/guidelines/refining-a-draft.md` describes
