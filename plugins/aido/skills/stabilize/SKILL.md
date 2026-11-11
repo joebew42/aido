@@ -82,6 +82,23 @@ Show the user, briefly:
 If the change has no real gaps, say so. Stabilizing may then only mean fixing the commit history, and
 the user should know that before choosing a strategy.
 
+## Step 2.5: Choose One Change or Phases
+
+Ask with `AskUserQuestion`:
+
+- Question: "Should I plan this work as one change, or in phases?"
+- Options:
+  - **One change** — one branch, one `SPEC.md` and one PR, rebuilt or carried over
+  - **In phases** — each phase rebuilds its part in its own PR, with the original work as a
+    reference. `/aido:multi-phase-plan` splits the work into phases
+
+Recommend **In phases** when the work spans several areas, or would make one large PR. Recommend
+**One change** otherwise. Files with different jobs are different areas: in a TODO app, the task
+rules, the storage and the screen that shows a task are three. Say in the recommended option why.
+
+- **One change** → go on at Step 3, as before
+- **In phases** → go on at "The Phases Route" below
+
 ## Step 3: Propose a New Branch
 
 Ask with `AskUserQuestion`:

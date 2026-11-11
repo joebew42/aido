@@ -107,6 +107,9 @@ guidelines/refining-a-draft.md|lines and sections a skill wrote after the title,
 skills/1-plan/SKILL.md|keeping any `## Design decision` as "Rewrite it into the specification structure" in `${CLAUDE_PLUGIN_ROOT}/guidelines/refining-a-draft.md` says
 skills/1-plan/SKILL.md|Refine it as `${CLAUDE_PLUGIN_ROOT}/guidelines/refining-a-draft.md` describes
 skills/stabilize/SKILL.md|refine it with the user as `${CLAUDE_PLUGIN_ROOT}/guidelines/refining-a-draft.md` describes
+skills/stabilize/SKILL.md|Should I plan this work as one change, or in phases?
+skills/stabilize/SKILL.md|Recommend **In phases** when the work spans several areas, or would make one large PR. Recommend **One change** otherwise
+skills/stabilize/SKILL.md|**One change** → go on at Step 3, as before
 skills/multi-phase-plan/SKILL.md|"Approve the draft" in `${CLAUDE_PLUGIN_ROOT}/skills/1-plan/SKILL.md`
 skills/multi-phase-plan/SKILL.md|refine it as `${CLAUDE_PLUGIN_ROOT}/guidelines/refining-a-draft.md` describes
 skills/multi-phase-plan/SKILL.md|**`SPEC.md` exists** → the specification is approved. Delete `SPEC.draft.md` if it is there, and go on at "Get the GitHub Issue", then propose the phases
@@ -529,6 +532,13 @@ report $? "the leftover check looks for the marker line the template writes"
 
 [ "$(grep -cF 'git stash push -u -m "stabilize: original work"' "$plugin/skills/stabilize/SKILL.md")" -eq 1 ]
 report $? "stabilize states the stash of local changes once"
+
+stabilize="$plugin/skills/stabilize/SKILL.md"
+understand_line="$(grep -n -m1 -E '^## Step [0-9.]+: Understand the Change' "$stabilize" | cut -d: -f1)"
+choose_line="$(grep -n -m1 -E '^## Step [0-9.]+: Choose One Change or Phases' "$stabilize" | cut -d: -f1)"
+branch_line="$(grep -n -m1 -E '^## Step [0-9.]+: Propose a New Branch' "$stabilize" | cut -d: -f1)"
+[ -n "$understand_line" ] && [ -n "$choose_line" ] && [ -n "$branch_line" ] && [ "$understand_line" -lt "$choose_line" ] && [ "$choose_line" -lt "$branch_line" ]
+report $? "stabilize asks one change or phases after showing the change, before proposing a branch"
 
 skill_names="$(
   for skill in "$plugin"/skills/*/SKILL.md; do
