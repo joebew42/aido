@@ -3,8 +3,11 @@
 ## The Specification File
 
 Each feature's specification lives in one file at the repository root, `SPEC.md` by default. Its
-draft sits next to it, with `.draft` added (`SPEC.md.draft`). Some repositories have a `SPEC.md` of
-their own, so every skill resolves the name once per run. The first rule that matches wins:
+draft sits next to it, named after it with `.draft` before its last extension: `SPEC.draft.md` for
+`SPEC.md`, `FEATURE-SPEC.draft.md` for `FEATURE-SPEC.md`, and `feature.spec.draft.md` for
+`feature.spec.md`. A spec file with no extension gets `.draft` at the end. Some repositories have a
+`SPEC.md` of their own, so every skill resolves the name once per run. The first rule that matches
+wins:
 
 1. **The host repository names it** — its `CLAUDE.md` or `AGENTS.md` says where the feature
    specification goes (e.g. "the aido feature specification lives in `FEATURE-SPEC.md`"). Use that
@@ -28,7 +31,7 @@ that is the file it uses, so rule 1 answers it next time. Ask with `AskUserQuest
 **Record it** / **Not now**. On **Record it**, add one line naming the path. Commit it on the feature
 branch right after the spec commit, as `docs: name the feature specification file`.
 
-Skills write **`SPEC.md`** and **`SPEC.md.draft`**: read them as the resolved spec file and its
+Skills write **`SPEC.md`** and **`SPEC.draft.md`**: read them as the resolved spec file and its
 draft.
 
 The draft is refined with the user and is **never committed**. The spec file holds the approved
@@ -37,6 +40,21 @@ specification, then the plan and the design notes. It is committed first on the 
 
 **Never keep a draft next to its spec file.** Whenever you find both, or right after you create the
 spec file, delete the draft and tell the user.
+
+### A Draft Under the Old Name
+
+Earlier versions of aido named the draft with `.draft` at the end, such as `SPEC.md.draft`. Once the
+spec file's name is resolved, look for its draft under both names, and act on the first case that
+matches:
+
+- **the spec file exists** → delete the draft under either name, as "Never keep a draft next to its
+  spec file" says
+- **only the old name exists** → rename it to the new name with `mv`, tell the user, then go on as
+  with a draft under the new name
+- **both names exist** → keep both, use the one under the new name, and tell the user the old one is
+  still there
+
+A skill that changes no files reads the spec file only, and renames nothing.
 
 ### A Leftover Spec
 

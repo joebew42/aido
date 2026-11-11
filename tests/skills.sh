@@ -378,6 +378,14 @@ evals/handle-review-asks-about-a-convention-seen-once/graders/asks-to-accept-loo
 skills/verify/SKILL.md|does the change respect the specification's `## Design notes`, its `## Design decision` and the host repository's agent instruction files?
 skills/verify/SKILL.md|departures from the agreed scope, `## Out of scope`, the plan, the `## Design decision` or the `## Design notes`
 skills/2-implement/SKILL.md|When it has a `## Design decision`, ask the subagent to say where the build departs from the chosen approach
+guidelines/specification.md|named after it with `.draft` before its last extension
+guidelines/specification.md|`SPEC.draft.md` for `SPEC.md`, `FEATURE-SPEC.draft.md` for `FEATURE-SPEC.md`, and `feature.spec.draft.md` for `feature.spec.md`
+guidelines/specification.md|A spec file with no extension gets `.draft` at the end
+guidelines/specification.md|### A Draft Under the Old Name
+guidelines/specification.md|**the spec file exists** → delete the draft under either name, as "Never keep a draft next to its spec file" says
+guidelines/specification.md|**only the old name exists** → rename it to the new name with `mv`, tell the user, then go on as with a draft under the new name
+guidelines/specification.md|**both names exist** → keep both, use the one under the new name, and tell the user the old one is still there
+guidelines/specification.md|A skill that changes no files reads the spec file only, and renames nothing
 EOF_PHRASES
 
 for skill in "$plugin"/skills/*/SKILL.md; do
