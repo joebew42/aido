@@ -168,6 +168,8 @@ A child builds plan item `<N>`, or refactoring `r<N>`, and nothing else:
   with what it does, and which one is recommended. Return nothing else, and carry on from the answer
   the orchestrator sends back
 - wherever this skill says to tell the user something, put it in the results instead
+- a contradiction between criteria is returned as a question, even when the other criterion belongs
+  to another item
 
 ### Child Results
 
@@ -201,6 +203,10 @@ Structure" describes.
 The acceptance criteria are the outer loop, as "The Modes" in `tdd.md` describes. An outside-in item
 has one goal post per slice. Before growing the units of a plan item or slice:
 
+- [ ] before writing a criterion's acceptance test, compare it with every criterion in `SPEC.md`,
+      not only the item's. When two contradict, as **contradictory criteria** in
+      `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md` defines them, ask about them as
+      **Contradictory criteria** in the Acceptance Criteria Check describes, before the goal post
 - [ ] for each **automatable** criterion the item serves that no test covers yet, write its
       acceptance test first, at the boundary where the behaviour shows
 - [ ] run it, and confirm it fails for the **right reason**: the behaviour is missing, not the test
@@ -346,7 +352,8 @@ last plan items are done. This checks the specification's intent, not only the p
 - every plan item is built → every criterion in `SPEC.md`
 - a partial session → only the criteria whose plan items are all done. The rest are recorded as
   `unchecked`
-- a criterion already recorded as `met`, `changed` or `deferred` keeps that result. A session that
+- a criterion already recorded as `met`, `changed` or `deferred` keeps that result, unless settling
+  a contradiction changes its wording, as **Contradictory criteria** below says. A session that
   builds only refactorings runs the tests that cover the criteria again, and asks nothing again
 
 **For each criterion:**
@@ -364,6 +371,20 @@ options:
 - **Change the criterion** — agree the new wording with the user, update it in `SPEC.md`'s
   `## Acceptance criteria` (keeping its ID), and check it again against the new wording
 - **Defer it** — leave it unmet, with the reason
+
+**Contradictory criteria.** Two criteria that contradict, as **contradictory criteria** in
+`${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md` defines them, are never both `met`, even with a
+green test for each: those tests cover different inputs, and the clash stays. Ask with
+`AskUserQuestion`, showing both and an input where they clash — options **Change the criterion** /
+**Defer it**:
+
+- **Change the criterion** — agree with the user which result holds and the new wording. Update the
+  affected criteria in `SPEC.md`'s `## Acceptance criteria`, keeping their IDs, and check them again
+  against the new wording
+- **Defer it** — record the criterion with the higher ID as `deferred`, with the clash as the reason
+
+With no answer, record the criterion with the higher ID as `deferred`, with the clash as the reason.
+A criterion already `met` whose wording changes by agreement becomes `changed`.
 
 Note each result for `## Progress`. Never record a criterion as met without its
 evidence.
@@ -419,6 +440,7 @@ If you catch yourself doing any of these, STOP:
 - ❌ Ending the session without the Acceptance Criteria Check, or recording a criterion as met
   without its evidence
 - ❌ Changing an acceptance criterion without the user's agreement
+- ❌ Recording two contradictory criteria both as `met`, or settling the clash without the user
 - ❌ Building past a conflict with the repository the user hasn't decided on
 - ❌ Applying a refactoring the final design review found, instead of adding it to `## Refactorings`
 

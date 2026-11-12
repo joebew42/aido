@@ -102,6 +102,20 @@ skills/1-plan/SKILL.md|**Asking about a finding** in `systemic-refactoring.md`
 skills/1-plan/SKILL.md|Confirm each finding classed enabling or defer, as **Evidence before action** in `systemic-refactoring.md` describes
 skills/1-plan/SKILL.md|**Plan it first** matches a finding classed enabling, and **Defer** one classed defer
 skills/1-plan/SKILL.md|Recommend **Include it**, unless the idea is broader or riskier than this change justifies
+guidelines/refining-a-draft.md|Two acceptance criteria that contradict, as **contradictory criteria** in `specification.md` defines them, are never fixed here
+guidelines/refining-a-draft.md|Show both, with an input where they clash, and ask which result holds. Then reword the affected criteria to agree, keeping their IDs
+guidelines/refining-a-draft.md|such as a behaviour the draft leaves open, contradictory criteria, a scope choice
+skills/1-plan/SKILL.md|and so are contradictory criteria, as **contradictory criteria** in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md` defines them
+skills/1-plan/SKILL.md|Contradictory criteria are not yours to fix: settle them with the user first
+skills/2-implement/SKILL.md|before writing a criterion's acceptance test, compare it with every criterion in `SPEC.md`, not only the item's
+skills/2-implement/SKILL.md|are never both `met`, even with a green test for each
+skills/2-implement/SKILL.md|options **Change the criterion** / **Defer it**
+skills/2-implement/SKILL.md|With no answer, record the criterion with the higher ID as `deferred`, with the clash as the reason
+skills/2-implement/SKILL.md|A criterion already `met` whose wording changes by agreement becomes `changed`
+skills/2-implement/SKILL.md|a contradiction between criteria is returned as a question, even when the other criterion belongs to another item
+skills/2-implement/SKILL.md|❌ Recording two contradictory criteria both as `met`, or settling the clash without the user
+skills/verify/SKILL.md|two requirements contradict when they demand different results for the same input, even if neither names it
+skills/verify/SKILL.md|Sort at most one of them as **verified**. Sort the other as **insufficient evidence** or **unmet**, and name the contradiction on its line
 guidelines/refining-a-draft.md|a `## Design decision` stays unchanged, in its place after the acceptance criteria and any `## Alignment decisions`. Never ask whether to move or drop it
 guidelines/refining-a-draft.md|lines and sections a skill wrote after the title, such as the original work, stay unchanged and in place, and are never asked about
 guidelines/specification.md|A skill may add its own lines and sections after the title, such as where the original work came from
@@ -464,6 +478,15 @@ design_check_copies="$(
 )"
 [ "$design_check_copies" = "$plugin/guidelines/subagents.md" ]
 report $? "only subagents.md says what a design-check brief copies"
+
+contradiction_rules="$(
+  for file in "$plugin"/skills/*/SKILL.md "$plugin"/guidelines/*.md; do
+    on_one_line "$file" | grep -qF 'contradict when they demand different results for the same input' && echo "$file"
+  done
+)"
+[ "$contradiction_rules" = "$plugin/skills/verify/SKILL.md
+$plugin/guidelines/specification.md" ]
+report $? "only specification.md, and the verification brief that copies it, say what makes criteria contradict"
 
 test_run_reasons="$(grep -rlF -- 'tested while they were built' "$plugin/skills" "$plugin/guidelines")"
 [ "$test_run_reasons" = "$plugin/guidelines/git-workflow.md" ]

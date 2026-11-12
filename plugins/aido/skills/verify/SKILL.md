@@ -129,6 +129,10 @@ once per requirement:
 - a criterion recorded as `deferred` is not sorted above. List it under deviations as already
   decided, with its reason
 - a criterion recorded as `changed` is checked against its current wording
+- two requirements contradict when they demand different results for the same input, even if
+  neither names it. A passing test for each doesn't settle it: the tests cover different inputs.
+  Sort at most one of them as **verified**. Sort the other as **insufficient evidence** or
+  **unmet**, and name the contradiction on its line, with an input where they clash
 - a conflict under `## Alignment decisions` was decided by the engineer, and is not a deviation
 - a change that a refactoring in `## Refactorings` explains is planned, and is not a deviation. It is
   never evidence that something is met
