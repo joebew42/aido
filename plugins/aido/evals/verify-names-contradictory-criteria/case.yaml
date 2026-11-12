@@ -1,0 +1,6 @@
+schema_version: "1.1"
+name: verify-names-contradictory-criteria
+description: Given a branch whose two criteria clash for a completed task, each with a passing test and recorded as met, verification verifies at most one of them and names the clash
+tags: [verify]
+context:
+  scaffold_script: fixture.sh
