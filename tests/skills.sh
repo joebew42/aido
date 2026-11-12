@@ -114,6 +114,8 @@ skills/2-implement/SKILL.md|With no answer, record the criterion with the higher
 skills/2-implement/SKILL.md|A criterion already `met` whose wording changes by agreement becomes `changed`
 skills/2-implement/SKILL.md|a contradiction between criteria is returned as a question, even when the other criterion belongs to another item
 skills/2-implement/SKILL.md|❌ Recording two contradictory criteria both as `met`, or settling the clash without the user
+skills/verify/SKILL.md|two requirements contradict when they demand different results for the same input, even if neither names it
+skills/verify/SKILL.md|Sort at most one of them as **verified**. Sort the other as **insufficient evidence** or **unmet**, and name the contradiction on its line
 guidelines/refining-a-draft.md|a `## Design decision` stays unchanged, in its place after the acceptance criteria and any `## Alignment decisions`. Never ask whether to move or drop it
 guidelines/refining-a-draft.md|lines and sections a skill wrote after the title, such as the original work, stay unchanged and in place, and are never asked about
 guidelines/specification.md|A skill may add its own lines and sections after the title, such as where the original work came from
@@ -482,8 +484,9 @@ contradiction_rules="$(
     on_one_line "$file" | grep -qF 'contradict when they demand different results for the same input' && echo "$file"
   done
 )"
-[ "$contradiction_rules" = "$plugin/guidelines/specification.md" ]
-report $? "only specification.md says what makes criteria contradict"
+[ "$contradiction_rules" = "$plugin/skills/verify/SKILL.md
+$plugin/guidelines/specification.md" ]
+report $? "only specification.md, and the verification brief that copies it, say what makes criteria contradict"
 
 test_run_reasons="$(grep -rlF -- 'tested while they were built' "$plugin/skills" "$plugin/guidelines")"
 [ "$test_run_reasons" = "$plugin/guidelines/git-workflow.md" ]
