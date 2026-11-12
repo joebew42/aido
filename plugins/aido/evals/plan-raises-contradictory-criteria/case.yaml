@@ -1,0 +1,6 @@
+schema_version: "1.1"
+name: plan-raises-contradictory-criteria
+description: Given a draft whose two criteria clash for a completed task that is overdue, planning asks which result holds before approval
+tags: [plan]
+context:
+  scaffold_script: fixture.sh

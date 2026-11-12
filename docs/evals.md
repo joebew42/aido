@@ -85,6 +85,7 @@ skill doesn't refer to the ending block, or a listed approval question or eviden
 | `implement-respects-a-hidden-helper` | Given an inside-out item whose plan cites a helper that changes task titles in a way its name hides, does the feature respect what the helper does? |
 | `plan-names-each-items-mode` | Does each feature item in a plan name its mode and reason, with something to cite or an unknown? |
 | `plan-stops-before-code` | Does planning wait for you instead of writing code? |
+| `plan-raises-contradictory-criteria` | Given a draft whose two criteria clash for a completed task that is overdue, does planning ask which result holds before approving it? |
 | `organize-follows-a-mode-change-in-progress` | When `## Progress` records a change to outside-in, is the history slice-shaped? |
 | `organize-shapes-an-inside-out-part` | Is an inside-out part's history inside-out, with its acceptance tests last? |
 | `organize-without-a-plan` | With no specification, plan or mode, is the history inside-out? |
