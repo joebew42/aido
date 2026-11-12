@@ -1,0 +1,6 @@
+schema_version: "1.1"
+name: implement-leaves-contradictory-criteria-unresolved
+description: Given an approved specification whose two criteria clash for a completed task, with nobody answering, implementing records at most one of them as met and rewords neither
+tags: [implement]
+context:
+  scaffold_script: fixture.sh

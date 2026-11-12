@@ -92,6 +92,7 @@ skill doesn't refer to the ending block, or a listed approval question or eviden
 | `organize-runs-the-tests-once` | Does organizing the commits run the tests only once, with the history still ending green? |
 | `implement-offers-to-organize` | Once every plan item is done, does the agent ask whether to organize the commits, recommend a fresh context, name a deferred criterion, and wait instead of starting? |
 | `implement-offers-a-fresh-context` | When you choose a fresh context, does the agent start nothing, tell you to run `/clear` and the next skill, and end with the ending block? |
+| `implement-leaves-contradictory-criteria-unresolved` | Given an approved specification whose two criteria clash for a completed task, with nobody answering, does the agent record at most one of them as `met`, reword neither and name the clash? |
 | `implement-partial-session-offers-nothing` | With plan items left, does the agent name them, without offering to organize? |
 | `implement-records-each-item` | In a single session, does the agent tick item 1 in `## Progress` before it starts on item 2? |
 | `implement-loops-over-the-plan` | In loop mode, does each plan item run in its own child, with the orchestrator recording it in `## Progress`? |

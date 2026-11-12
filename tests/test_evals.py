@@ -392,6 +392,63 @@ class LoopRecordsEachItem(unittest.TestCase):
         self.assertNotEqual(result.returncode, 0)
 
 
+CLASH = EVALS / "implement-leaves-contradictory-criteria-unresolved"
+CLASH_PROGRESS = """
+## Progress
+
+- [x] 1. complete a task
+- [x] 2. list the open tasks
+{acceptance}
+- AC1: met — `test_todo.sh`
+- AC2: {ac2}
+"""
+
+
+class ClashLeftUnresolved(unittest.TestCase):
+    def finished_with(self, acceptance="\n### Acceptance\n", ac2="deferred — it clashes with AC1"):
+        directory = tempfile.TemporaryDirectory()
+        self.addCleanup(directory.cleanup)
+        workspace = Path(directory.name)
+        subprocess.run(["bash", str(CLASH / "fixture.sh")], cwd=workspace, check=True, capture_output=True)
+        with (workspace / "SPEC.md").open("a") as spec:
+            spec.write(CLASH_PROGRESS.format(acceptance=acceptance, ac2=ac2))
+        return workspace
+
+    def check(self, workspace):
+        script = CLASH / "checks" / "leaves-the-clash-unresolved.sh"
+        return subprocess.run(["sh", str(script)], cwd=workspace, capture_output=True)
+
+    def test_one_criterion_deferred_passes(self):
+        workspace = self.finished_with()
+
+        result = self.check(workspace)
+
+        self.assertEqual(result.returncode, 0)
+
+    def test_both_criteria_met_fail(self):
+        workspace = self.finished_with(ac2="met — `test_todo.sh`")
+
+        result = self.check(workspace)
+
+        self.assertNotEqual(result.returncode, 0)
+
+    def test_results_without_their_heading_fail(self):
+        workspace = self.finished_with(acceptance="")
+
+        result = self.check(workspace)
+
+        self.assertNotEqual(result.returncode, 0)
+
+    def test_a_criterion_reworded_without_the_user_fails(self):
+        workspace = self.finished_with()
+        spec = workspace / "SPEC.md"
+        spec.write_text(spec.read_text().replace("prints only the open tasks", "prints every task"))
+
+        result = self.check(workspace)
+
+        self.assertNotEqual(result.returncode, 0)
+
+
 TRAP = EVALS / "implement-respects-a-hidden-helper"
 RENAME_SOLUTION = """cat >> lib/task_store.sh <<'EOF'
 
