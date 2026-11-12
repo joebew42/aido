@@ -1,0 +1,6 @@
+schema_version: "1.1"
+name: plan-rewords-contradictory-criteria
+description: Given a draft whose two criteria clash for a completed task that is overdue, and the user's choice of grey, planning rewords the criteria to agree, keeps their IDs and still waits for approval
+tags: [plan]
+context:
+  scaffold_script: fixture.sh

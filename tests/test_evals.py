@@ -449,6 +449,46 @@ class ClashLeftUnresolved(unittest.TestCase):
         self.assertNotEqual(result.returncode, 0)
 
 
+RAISED = EVALS / "plan-raises-contradictory-criteria"
+REWORDED = EVALS / "plan-rewords-contradictory-criteria"
+
+
+class ClashReworded(unittest.TestCase):
+    def scaffolded(self, case):
+        directory = tempfile.TemporaryDirectory()
+        self.addCleanup(directory.cleanup)
+        workspace = Path(directory.name)
+        subprocess.run(["bash", str(case / "fixture.sh")], cwd=workspace, check=True, capture_output=True)
+        return workspace
+
+    def test_starts_from_the_draft_whose_clash_planning_raises(self):
+        raised = self.scaffolded(RAISED)
+
+        reworded = self.scaffolded(REWORDED)
+
+        for name in ("SPEC.draft.md", "todo.sh"):
+            with self.subTest(name):
+                self.assertEqual((reworded / name).read_text(), (raised / name).read_text())
+
+    def test_checks_the_reworded_draft_the_approval_and_the_code(self):
+        graders = {path.stem for path in (REWORDED / "graders").glob("*.md")}
+
+        self.assertEqual(graders, {
+            "rewords-ac1-to-agree",
+            "keeps-the-criteria-ids",
+            "approves-no-spec-by-itself",
+            "waits-for-approval",
+            "leaves-the-code-alone",
+        })
+
+    def test_judges_the_rewording_on_the_draft(self):
+        for name in ("rewords-ac1-to-agree", "keeps-the-criteria-ids"):
+            with self.subTest(name):
+                meta, _ = evals.parse_frontmatter((REWORDED / "graders" / f"{name}.md").read_text())
+
+                self.assertEqual(meta["focus"], {"source": "file", "path": "SPEC.draft.md"})
+
+
 TRAP = EVALS / "implement-respects-a-hidden-helper"
 RENAME_SOLUTION = """cat >> lib/task_store.sh <<'EOF'
 
