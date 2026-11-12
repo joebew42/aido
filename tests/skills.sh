@@ -107,6 +107,13 @@ guidelines/refining-a-draft.md|Show both, with an input where they clash, and as
 guidelines/refining-a-draft.md|such as a behaviour the draft leaves open, contradictory criteria, a scope choice
 skills/1-plan/SKILL.md|and so are contradictory criteria, as **contradictory criteria** in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md` defines them
 skills/1-plan/SKILL.md|Contradictory criteria are not yours to fix: settle them with the user first
+skills/2-implement/SKILL.md|before writing a criterion's acceptance test, compare it with every criterion in `SPEC.md`, not only the item's
+skills/2-implement/SKILL.md|are never both `met`, even with a green test for each
+skills/2-implement/SKILL.md|options **Change the criterion** / **Defer it**
+skills/2-implement/SKILL.md|With no answer, record the criterion with the higher ID as `deferred`, with the clash as the reason
+skills/2-implement/SKILL.md|A criterion already `met` whose wording changes by agreement becomes `changed`
+skills/2-implement/SKILL.md|a contradiction between criteria is returned as a question, even when the other criterion belongs to another item
+skills/2-implement/SKILL.md|❌ Recording two contradictory criteria both as `met`, or settling the clash without the user
 guidelines/refining-a-draft.md|a `## Design decision` stays unchanged, in its place after the acceptance criteria and any `## Alignment decisions`. Never ask whether to move or drop it
 guidelines/refining-a-draft.md|lines and sections a skill wrote after the title, such as the original work, stay unchanged and in place, and are never asked about
 guidelines/specification.md|A skill may add its own lines and sections after the title, such as where the original work came from
