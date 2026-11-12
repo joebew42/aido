@@ -489,6 +489,64 @@ class ClashReworded(unittest.TestCase):
                 self.assertEqual(meta["focus"], {"source": "file", "path": "SPEC.draft.md"})
 
 
+VERIFIED_CLASH = EVALS / "verify-names-contradictory-criteria"
+
+
+class ClashVerified(unittest.TestCase):
+    def scaffolded(self, case):
+        directory = tempfile.TemporaryDirectory()
+        self.addCleanup(directory.cleanup)
+        workspace = Path(directory.name)
+        subprocess.run(["bash", str(case / "fixture.sh")], cwd=workspace, check=True, capture_output=True)
+        return workspace
+
+    def criteria(self, workspace):
+        spec = (workspace / "SPEC.md").read_text()
+        return spec.partition("## Acceptance criteria\n")[2].partition("\n## ")[0]
+
+    def test_keeps_the_criteria_that_implementing_finds_clashing(self):
+        unresolved = self.scaffolded(CLASH)
+
+        verified = self.scaffolded(VERIFIED_CLASH)
+
+        self.assertEqual(self.criteria(verified), self.criteria(unresolved))
+
+    def test_each_clashing_criterion_has_a_passing_test(self):
+        workspace = self.scaffolded(VERIFIED_CLASH)
+
+        result = subprocess.run(["sh", "test_todo.sh"], cwd=workspace, capture_output=True, text=True)
+
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertEqual(result.stdout.splitlines()[-1], "all passed")
+
+    def test_progress_records_both_criteria_as_met(self):
+        workspace = self.scaffolded(VERIFIED_CLASH)
+
+        spec = (workspace / "SPEC.md").read_text()
+
+        acceptance = spec.partition("## Progress\n")[2].partition("### Acceptance\n")[2]
+        self.assertRegex(acceptance, r"(?m)^- AC1: met")
+        self.assertRegex(acceptance, r"(?m)^- AC2: met")
+
+    def test_leaves_a_clean_branch_to_verify(self):
+        workspace = self.scaffolded(VERIFIED_CLASH)
+
+        status = subprocess.run(["git", "status", "--porcelain"], cwd=workspace, capture_output=True, text=True)
+
+        self.assertEqual(status.stdout, "")
+
+    def test_judges_the_report_for_both_criteria_verified_and_for_the_clash(self):
+        graders = {}
+        for path in (VERIFIED_CLASH / "graders").glob("*.md"):
+            meta, _ = evals.parse_frontmatter(path.read_text())
+            graders[path.stem] = meta
+
+        self.assertEqual(graders, {
+            "verifies-at-most-one-criterion": {"type": "llm"},
+            "names-the-clash": {"type": "llm"},
+        })
+
+
 TRAP = EVALS / "implement-respects-a-hidden-helper"
 RENAME_SOLUTION = """cat >> lib/task_store.sh <<'EOF'
 

@@ -105,6 +105,7 @@ skill doesn't refer to the ending block, or a listed approval question or eviden
 | `open-pr-settles-the-spec` | When the spec is still on the branch, does opening the PR ask what happens to it before any push, and push nothing with nobody answering? |
 | `verify-catches-a-test-that-cannot-fail` | Does verification notice a test that would pass anyway? |
 | `verify-accepts-a-real-test` | Does verification accept good tests, without false alarms? |
+| `verify-names-contradictory-criteria` | Given two criteria that clash for a completed task, each with a passing test and recorded as `met`, does verification verify at most one of them and name the clash with a completed task? |
 | `handle-review-suggests-nothing` | Given a review with only one-off fixes, does the agent suggest no convention and add nothing to `CLAUDE.md` or `AGENTS.md`? |
 | `handle-review-asks-about-a-convention-seen-once` | Given a review point worth a convention that only this PR shows, does the agent ask whether to accept it, look in earlier PRs, ignore it or park it, adding nothing before the answer? |
 | `handle-review-asks-one-comment-at-a-time` | Given a review with three comments, does the agent ask about one comment at a time, offering to fix it, call it out of scope or park it, with one option recommended, and change nothing before the answers? |
