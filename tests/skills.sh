@@ -102,6 +102,11 @@ skills/1-plan/SKILL.md|**Asking about a finding** in `systemic-refactoring.md`
 skills/1-plan/SKILL.md|Confirm each finding classed enabling or defer, as **Evidence before action** in `systemic-refactoring.md` describes
 skills/1-plan/SKILL.md|**Plan it first** matches a finding classed enabling, and **Defer** one classed defer
 skills/1-plan/SKILL.md|Recommend **Include it**, unless the idea is broader or riskier than this change justifies
+guidelines/refining-a-draft.md|Two acceptance criteria that contradict, as **contradictory criteria** in `specification.md` defines them, are never fixed here
+guidelines/refining-a-draft.md|Show both, with an input where they clash, and ask which result holds. Then reword the affected criteria to agree, keeping their IDs
+guidelines/refining-a-draft.md|such as a behaviour the draft leaves open, contradictory criteria, a scope choice
+skills/1-plan/SKILL.md|and so are contradictory criteria, as **contradictory criteria** in `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md` defines them
+skills/1-plan/SKILL.md|Contradictory criteria are not yours to fix: settle them with the user first
 guidelines/refining-a-draft.md|a `## Design decision` stays unchanged, in its place after the acceptance criteria and any `## Alignment decisions`. Never ask whether to move or drop it
 guidelines/refining-a-draft.md|lines and sections a skill wrote after the title, such as the original work, stay unchanged and in place, and are never asked about
 guidelines/specification.md|A skill may add its own lines and sections after the title, such as where the original work came from

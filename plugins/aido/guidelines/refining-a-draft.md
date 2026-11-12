@@ -18,14 +18,18 @@ Go through the draft and fix what you find, in `SPEC.draft.md` itself:
 - **ambiguity** — statements two readers could build differently
 - **contradictions** — within the draft, or with how the code works today. A conflict with the
   repository, as "What Counts as Significant" in `repository-alignment.md` defines it, goes to
-  "Check the alignment with the repository" below. A lesser one is fixed here
+  "Check the alignment with the repository" below. Two acceptance criteria that contradict, as
+  **contradictory criteria** in `specification.md` defines them, are never fixed here: they go to the
+  user, as **Ask, don't guess** says. Show both, with an input where they clash, and ask which result
+  holds. Then reword the affected criteria to agree, keeping their IDs. A lesser contradiction is
+  fixed here
 - **scope** — what is in, and what is out
 - **wording** — follows `language.md`, in the project's own words (see "don't invent domain
   vocabulary" in `code-standards.md`). Acceptance criteria can be tested
 
 **Ask, don't guess.** When a decision belongs to the user, such as a behaviour the draft leaves open,
-a scope choice or a conflict between the draft and the code, ask with `AskUserQuestion`, with the
-likely answers as options. Group related questions in one call. Use free text only for open input.
+contradictory criteria, a scope choice or a conflict between the draft and the code, ask with
+`AskUserQuestion`, with the likely answers as options. Group related questions in one call. Use free text only for open input.
 
 ## Rewrite it into the specification structure
 

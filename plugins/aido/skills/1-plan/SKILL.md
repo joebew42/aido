@@ -146,7 +146,9 @@ For standalone work. Load the context as **Load the context** in
 `${CLAUDE_PLUGIN_ROOT}/guidelines/refining-a-draft.md` describes. Then judge the draft. A change is **small and clear** only when all of these hold:
 
 - it has no open decision. A conflict with the repository, as "What Counts as Significant" in
-  `${CLAUDE_PLUGIN_ROOT}/guidelines/repository-alignment.md` defines it, is an open decision
+  `${CLAUDE_PLUGIN_ROOT}/guidelines/repository-alignment.md` defines it, is an open decision, and so
+  are contradictory criteria, as **contradictory criteria** in
+  `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md` defines them
 - it touches one module or area
 - it adds no new domain concept or abstraction
 
@@ -227,7 +229,8 @@ On approval:
 - [ ] the alignment check ran, and each conflict with the repository was revised or recorded
 - [ ] the draft has Context, Intent, Out of scope and Acceptance criteria, in that order
 - [ ] every acceptance criterion follows "Acceptance Criteria" in
-      `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`. Fix any that don't, and ask again
+      `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`. Fix any that don't, and ask again.
+      Contradictory criteria are not yours to fix: settle them with the user first
 - [ ] move it: `mv SPEC.draft.md SPEC.md`
 - [ ] confirm `SPEC.draft.md` is gone
 
