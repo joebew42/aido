@@ -465,6 +465,14 @@ design_check_copies="$(
 [ "$design_check_copies" = "$plugin/guidelines/subagents.md" ]
 report $? "only subagents.md says what a design-check brief copies"
 
+contradiction_rules="$(
+  for file in "$plugin"/skills/*/SKILL.md "$plugin"/guidelines/*.md; do
+    on_one_line "$file" | grep -qF 'contradict when they demand different results for the same input' && echo "$file"
+  done
+)"
+[ "$contradiction_rules" = "$plugin/guidelines/specification.md" ]
+report $? "only specification.md says what makes criteria contradict"
+
 test_run_reasons="$(grep -rlF -- 'tested while they were built' "$plugin/skills" "$plugin/guidelines")"
 [ "$test_run_reasons" = "$plugin/guidelines/git-workflow.md" ]
 report $? "only git-workflow.md says why organizing commits runs the tests once"

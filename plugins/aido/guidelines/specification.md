@@ -170,6 +170,11 @@ unless a criterion is about that file.
 - one an automated test can check is **automatable**, with no marker. One only a person can confirm,
   such as documentation that reads well, is **manual**, marked `(manual)` after its ID
 - group a long list under short plain-text labels. The numbering stays continuous
+- **contradictory criteria** — two criteria contradict when they demand different results for the
+  same input, even if neither names it: `AC1: When a task is overdue, it shows in red.` and
+  `AC3: When a task is completed, it shows in grey.` clash for a completed task that is overdue. An
+  approved list holds none. Only the user settles one, by choosing which result holds. The affected
+  criteria are then reworded to agree, keeping their IDs
 - in a specification split into phases, a phase carries only the criteria it delivers, with their
   original IDs
 
