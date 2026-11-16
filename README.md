@@ -6,7 +6,7 @@
 
 **A spec-first, test-driven engineering workflow for Claude Code and GitHub Copilot CLI.**
 
-Hand Claude Code the whole feature while you stay in the loop! Works with any stack.
+Hand the coding agent the whole feature while you stay in the loop! Works with any stack.
 
 [Get started](#get-started) · [How it works](#how-it-works) · [Skills](#skills) ·
 [Why aido?](#why-aido)
