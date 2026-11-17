@@ -234,6 +234,7 @@ guidelines/copilot-cli.md|Mark the recommended option in its label and set no de
 guidelines/copilot-cli.md|but don't report it, since that is expected here
 guidelines/copilot-cli.md|Only a person's answer is approval
 guidelines/copilot-cli.md|Never choose an option for the user, not even the recommended one
+guidelines/copilot-cli.md|One exception: when the implementation loop asks which tests to run after each item and nobody answers, it goes on with the relevant tests
 guidelines/copilot-cli.md|Never push another way
 guidelines/copilot-cli.md|Read each guideline whole, with `view`, one file per call
 guidelines/copilot-cli.md|put what it shows in the form's `message`, above the question
