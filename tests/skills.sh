@@ -162,7 +162,13 @@ skills/2-implement/SKILL.md|stop the loop. Report what failed, and the items not
 skills/2-implement/SKILL.md|`loop <first>-<last>`, such as `loop 7-9`
 skills/2-implement/SKILL.md|Skip those already ticked in `## Progress`, and name them
 skills/2-implement/SKILL.md|a range that names an item the plan doesn't have** → don't start the loop, and say why
-skills/2-implement/SKILL.md|each with the criteria it serves, and ask nothing
+skills/2-implement/SKILL.md|each with the criteria it serves. Then ask once with `AskUserQuestion`
+skills/2-implement/SKILL.md|Which tests should the loop run after each item?
+skills/2-implement/SKILL.md|options **Whole test suite** / **Relevant tests only**
+skills/2-implement/SKILL.md|or the relevant tests, as "Before Every Commit" in `git-workflow.md` defines them
+skills/2-implement/SKILL.md|With no answer, or when asking is unavailable, say so and go on with the relevant tests, in the same turn
+skills/2-implement/SKILL.md|A loop that doesn't start asks nothing
+skills/2-implement/SKILL.md|lint and the tests the user chose pass: the whole test suite, or the relevant tests
 skills/2-implement/SKILL.md|the range ends before the plan does** → record the items left, name them
 skills/2-implement/SKILL.md|options **Refactor now** / **Plan it for later** / **Defer** / **No action**
 skills/2-implement/SKILL.md|Change no code: each one is built later, like a plan item
