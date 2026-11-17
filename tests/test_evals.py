@@ -392,6 +392,62 @@ class LoopRecordsEachItem(unittest.TestCase):
         self.assertNotEqual(result.returncode, 0)
 
 
+RELEVANT = EVALS / "implement-loop-runs-the-relevant-tests"
+RELEVANT_PROGRESS = """
+## Progress
+
+- [x] 1. complete a task
+
+### Acceptance
+
+- AC1: met — `test_todo.sh`
+"""
+
+
+class LoopRunsTheRelevantTests(unittest.TestCase):
+    def started(self):
+        directory = tempfile.TemporaryDirectory()
+        self.addCleanup(directory.cleanup)
+        workspace = Path(directory.name)
+        subprocess.run(["bash", str(RELEVANT / "fixture.sh")], cwd=workspace, check=True, capture_output=True)
+        return workspace
+
+    def finish(self, workspace):
+        subprocess.run(["git", "commit", "-q", "--allow-empty", "-m", "feat: complete a task"], cwd=workspace, check=True)
+        with (workspace / "SPEC.md").open("a") as spec:
+            spec.write(RELEVANT_PROGRESS)
+        subprocess.run(["git", "commit", "-q", "-am", "docs: update feature specification"], cwd=workspace, check=True)
+
+    def check(self, workspace):
+        script = RELEVANT / "checks" / "runs-only-the-relevant-tests.sh"
+        return subprocess.run(["sh", str(script)], cwd=workspace, capture_output=True)
+
+    def test_the_item_ticked_with_only_its_tests_run_passes(self):
+        workspace = self.started()
+        subprocess.run(["sh", "./test_todo.sh"], cwd=workspace, check=True, capture_output=True)
+        self.finish(workspace)
+
+        result = self.check(workspace)
+
+        self.assertEqual(result.returncode, 0)
+
+    def test_running_the_whole_suite_fails(self):
+        workspace = self.started()
+        subprocess.run(["sh", "./test_all.sh"], cwd=workspace, check=True, capture_output=True)
+        self.finish(workspace)
+
+        result = self.check(workspace)
+
+        self.assertNotEqual(result.returncode, 0)
+
+    def test_the_item_left_unticked_fails(self):
+        workspace = self.started()
+
+        result = self.check(workspace)
+
+        self.assertNotEqual(result.returncode, 0)
+
+
 CLASH = EVALS / "implement-leaves-contradictory-criteria-unresolved"
 CLASH_PROGRESS = """
 ## Progress

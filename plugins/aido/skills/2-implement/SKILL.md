@@ -107,7 +107,11 @@ specification and guidelines. Only the orchestrator writes `SPEC.md`.
 - **a range that names an item the plan doesn't have** → don't start the loop, and say why
 - **a refactoring code `## Refactorings` doesn't have** → don't start the loop, and say why
 
-Show the items it will run, each with the criteria it serves, and ask nothing.
+Show the items it will run, each with the criteria it serves. Then ask once with `AskUserQuestion`:
+"Which tests should the loop run after each item?" — options **Whole test suite** / **Relevant tests
+only**. The first runs every test after each item. The second runs only the tests the per-commit
+gate counts as relevant, and never the whole suite. With no answer, or when asking is unavailable,
+say so and go on with the relevant tests, in the same turn. A loop that doesn't start asks nothing.
 
 **For each item, in order:**
 
@@ -120,7 +124,9 @@ Show the items it will run, each with the criteria it serves, and ask nothing.
    - its results give each criterion the item serves as `met`, `changed` or `deferred`. A refactoring
      serves none
    - the working tree is clean
-   - lint and the whole test suite pass
+   - lint and the tests the user chose pass: the whole test suite, or the relevant tests, as "Before
+     Every Commit" in `git-workflow.md` defines them, for the files the branch changed, the child's
+     commits included
 3. **all three pass** → record the item in `## Progress` from the child's results, as "What Progress
    Records" lists, and tick it as "Items in Progress" in `specification.md` describes. For a `changed`
    criterion, also update its wording in `## Acceptance criteria`, keeping its ID. Add each

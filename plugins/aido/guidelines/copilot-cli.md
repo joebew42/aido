@@ -66,7 +66,8 @@ Only a person's answer is approval: a choice in an `ask_user` form or a reply th
 or cancelled form, an automatic continuation, or no answer is not. When asking is unavailable, such
 as in Autopilot, with `--no-ask-user` or in a prompt run, stop where the skill would ask: show the
 question and its options, and end your turn. Never choose an option for the user, not even the
-recommended one.
+recommended one. One exception: when the implementation loop asks which tests to run after each item
+and nobody answers, or asking is unavailable, it goes on with the relevant tests.
 
 aido's hook asks before every `git push`. When the push is denied or the prompt can't be shown,
 report it and stop. Never push another way.
