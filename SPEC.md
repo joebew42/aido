@@ -86,3 +86,71 @@ The enabling refactoring analysis ran and found nothing to plan first.
 - **Enabling refactorings (planned):** none.
 - **Deferred:** none.
 - **Open questions:** none. The choice isn't saved: running `loop` again asks again, as AC1 says.
+
+## Refactorings
+
+### r1. Cover "asking is unavailable" in the Copilot CLI exception
+
+- **Change:** word the exception in "Approvals" to cover both cases the skill names: nobody answers,
+  and asking is unavailable. Change its pin in `tests/skills.sh` in the same step.
+- **Why:** the skill goes on "with no answer, or when asking is unavailable", but the exception names
+  only "nobody answers". The paragraph around it tells the agent to stop when asking is unavailable,
+  so an unattended Copilot loop may still stop at the question AC4 is about.
+- **Where:**
+  - `plugins/aido/guidelines/copilot-cli.md` — "Approvals", the sentence starting "One exception:"
+  - `plugins/aido/skills/2-implement/SKILL.md` — "Loop Mode", "With no answer, or when asking is
+    unavailable"
+  - `tests/skills.sh` — the `guidelines/copilot-cli.md|One exception: …` pin
+- **Confidence:** medium. The wording gap is checked in the files. How Copilot CLI reads it is not
+  measured: the eval runs in Claude Code only.
+- **Risk:** the pin and the guideline must change together, or `tests/all.sh` fails. No other skill
+  is affected.
+
+### r2. Call the per-commit gate by its name in the loop's question
+
+- **Change:** in the loop's question text, say "the per-commit gate" instead of "the per-commit check".
+- **Why:** `git-workflow.md` and `/aido:2-implement` already call it the per-commit gate. A second
+  name leaves the reader unsure it is the same thing.
+- **Where:**
+  - `plugins/aido/skills/2-implement/SKILL.md` — "Loop Mode", "the tests the per-commit check counts
+    as relevant"
+  - `plugins/aido/guidelines/git-workflow.md` — "Before Every Commit", "This is the per-commit gate"
+- **Confidence:** high
+- **Risk:** none to behaviour. The sentence is not pinned.
+
+## Progress
+
+- [x] 1. the loop asks which tests to run
+  - `tests/skills.sh` pins the question, its two options, the reference to "Before Every Commit" and
+    the no-answer rule, in place of the old "ask nothing" pin
+  - "Loop Mode" asks once after showing the items; step 2 checks lint, a clean tree and the tests
+    the user chose
+  - the question recommends neither option: an unanswered one already falls back to the relevant tests
+- [x] 2. Copilot CLI lets the loop go on without an answer
+  - "Approvals" in `copilot-cli.md` names the exception in plain words, without pointing into the
+    skill, because `tests/skills.sh` forbids a guideline pointing into a skill for a rule
+- [x] 3. an eval shows an unattended loop runs only the relevant tests
+  - `implement-loop-runs-the-relevant-tests`: one plan item, a second test file that leaves
+    `.fixture/whole-suite-ran` when it runs, and `./test_all.sh` for the whole suite
+  - `tests/test_evals.py` checks its check for free: ticked and clean passes, a whole-suite run or an
+    unticked item fails
+- one run of the four loop eval cases: `implement-loop-runs-the-relevant-tests`,
+  `implement-loops-over-the-plan` and `implement-loop-stops-on-an-unanswered-question` passed every
+  check with aido. `implement-loop-runs-a-refactoring` failed `offers-organizing-without-a-second-review`:
+  with no way to ask, it told the user to run `/aido:3-organize-commits` later instead of asking. The
+  arm without aido failed it too, and the case has no earlier run to compare with
+- `tests/skills.sh` also pins the step-2 check for the whole test suite (AC2)
+- the final design review ran and recorded r1, r2
+- the architecture map's eval area still counts 13 `implement-*` cases; there are 15 now
+- [x] r1. Cover "asking is unavailable" in the Copilot CLI exception
+- [x] r2. Call the per-commit gate by its name in the loop's question
+  - `tests/skills.sh` now pins the sentence
+- no eval covers r1: the loop evals run in Claude Code only, so Copilot CLI reading the exception is not measured
+
+### Acceptance
+
+- AC1: met — `tests/skills.sh` pins the question and its options; `implement-loop-runs-the-relevant-tests` ran the loop through it
+- AC2: met — `tests/skills.sh` pins the **Whole test suite** option and the step-2 check that runs it; no eval chooses it
+- AC3: met — `tests/skills.sh` pins the reference to "Before Every Commit"; `runs-only-the-relevant-tests` passed (1/1)
+- AC4: met — `tests/skills.sh` pins the no-answer rule and the Copilot exception; `goes-on-with-the-relevant-tests` passed (1/1)
+- AC5: met — `runs-only-the-relevant-tests` found no whole-suite run (1/1)
