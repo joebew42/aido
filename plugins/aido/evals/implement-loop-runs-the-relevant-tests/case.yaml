@@ -1,0 +1,6 @@
+schema_version: "1.1"
+name: implement-loop-runs-the-relevant-tests
+description: In loop mode, when nobody answers which tests to run, the loop goes on and runs only the relevant tests after each item
+tags: [implement]
+context:
+  scaffold_script: fixture.sh
