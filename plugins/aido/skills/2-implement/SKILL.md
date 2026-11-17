@@ -110,7 +110,7 @@ specification and guidelines. Only the orchestrator writes `SPEC.md`.
 Show the items it will run, each with the criteria it serves. Then ask once with `AskUserQuestion`:
 "Which tests should the loop run after each item?" — options **Whole test suite** / **Relevant tests
 only**. The first runs every test after each item. The second runs only the tests the per-commit
-check counts as relevant, and never the whole suite. With no answer, or when asking is unavailable,
+gate counts as relevant, and never the whole suite. With no answer, or when asking is unavailable,
 say so and go on with the relevant tests, in the same turn. A loop that doesn't start asks nothing.
 
 **For each item, in order:**
