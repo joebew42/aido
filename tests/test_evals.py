@@ -603,6 +603,60 @@ class ClashVerified(unittest.TestCase):
         })
 
 
+BROKEN_CONVENTION = EVALS / "verify-reports-a-broken-convention"
+
+
+class ConventionBroken(unittest.TestCase):
+    def scaffolded(self):
+        directory = tempfile.TemporaryDirectory()
+        self.addCleanup(directory.cleanup)
+        workspace = Path(directory.name)
+        subprocess.run(["bash", str(BROKEN_CONVENTION / "fixture.sh")], cwd=workspace, check=True, capture_output=True)
+        return workspace
+
+    def test_both_criteria_have_a_passing_test(self):
+        workspace = self.scaffolded()
+
+        result = subprocess.run(["sh", "test_todo.sh"], cwd=workspace, capture_output=True, text=True)
+
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertEqual(result.stdout.splitlines()[-1], "all passed")
+
+    def test_the_change_breaks_the_rule_in_agents_md(self):
+        workspace = self.scaffolded()
+
+        diff = subprocess.run(["git", "diff", "origin/trunk...HEAD", "--", "todo.sh"], cwd=workspace, capture_output=True, text=True)
+
+        self.assertIn("no `perl`", (workspace / "AGENTS.md").read_text())
+        self.assertRegex(diff.stdout, r"(?m)^\+.*perl ")
+
+    def test_a_test_calls_the_behaviour_inside_its_assertion(self):
+        workspace = self.scaffolded()
+
+        test = (workspace / "test_todo.sh").read_text()
+
+        self.assertIn('[ "$(./todo.sh complete 1 && cat tasks.txt)" = "1 done" ]', test)
+
+    def test_leaves_a_clean_branch_to_verify(self):
+        workspace = self.scaffolded()
+
+        status = subprocess.run(["git", "status", "--porcelain"], cwd=workspace, capture_output=True, text=True)
+
+        self.assertEqual(status.stdout, "")
+
+    def test_judges_the_report_for_both_criteria_verified_and_for_each_broken_rule(self):
+        graders = {}
+        for path in (BROKEN_CONVENTION / "graders").glob("*.md"):
+            meta, _ = evals.parse_frontmatter(path.read_text())
+            graders[path.stem] = meta
+
+        self.assertEqual(graders, {
+            "verifies-both-criteria": {"type": "llm"},
+            "lists-the-repository-rule": {"type": "llm"},
+            "lists-the-testing-rule": {"type": "llm"},
+        })
+
+
 TRAP = EVALS / "implement-respects-a-hidden-helper"
 RENAME_SOLUTION = """cat >> lib/task_store.sh <<'EOF'
 

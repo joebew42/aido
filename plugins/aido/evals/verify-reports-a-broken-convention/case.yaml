@@ -1,0 +1,6 @@
+schema_version: "1.1"
+name: verify-reports-a-broken-convention
+description: A branch that meets its criteria but breaks a rule from its AGENTS.md and an aido testing rule
+tags: [verify]
+context:
+  scaffold_script: fixture.sh
