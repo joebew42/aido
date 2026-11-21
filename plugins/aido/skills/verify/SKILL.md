@@ -1,5 +1,5 @@
 ---
-description: Verifies that an implementation faithfully satisfies what was agreed — the approved specification, or a PR's linked issue and description — reporting what is verified, lacks evidence, is unmet or deviates, from a fresh context. Works on the current branch or any PR, and changes nothing. Invoked when the user wants to verify the implementation, check a branch or PR against its specification or acceptance criteria, or runs /aido:verify.
+description: Verifies that an implementation faithfully satisfies what was agreed — the approved specification, or a PR's linked issue and description — reporting what is verified, lacks evidence, is unmet or deviates, and where it breaks a written convention, from a fresh context. Works on the current branch or any PR, and changes nothing. Invoked when the user wants to verify the implementation, check a branch or PR against its specification or acceptance criteria, or runs /aido:verify.
 disable-model-invocation: false
 ---
 
@@ -14,8 +14,9 @@ This skill changes nothing. It edits no files, makes no commits, pushes nothing 
 one exception is checking out a PR's branch. Its only edits happen in a throwaway worktree that it
 removes. It reports, and the engineer decides.
 
-It is not a code review. `/code-review` looks for defects. This skill ignores bugs, style and design
-unless they leave a requirement unmet.
+It is not a code review. `/code-review` looks for defects. This skill ignores bugs unless they leave a
+requirement unmet. It reports where the change breaks a written convention, apart from the
+requirements, and ignores style and design that no written rule backs.
 
 Resolve `SPEC.md` first, as "The Specification File" in
 `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md` describes.
@@ -24,9 +25,11 @@ Load `${CLAUDE_PLUGIN_ROOT}/guidelines/language.md` and follow it in everything 
 
 ## Step 0: Load Context
 
-Load `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md` and
-`${CLAUDE_PLUGIN_ROOT}/guidelines/project-conventions.md`. Gather the host repository's conventions as
-the latter describes, and find out how to run a single test. Run `git fetch origin`.
+Load `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`,
+`${CLAUDE_PLUGIN_ROOT}/guidelines/project-conventions.md`,
+`${CLAUDE_PLUGIN_ROOT}/guidelines/code-standards.md` and
+`${CLAUDE_PLUGIN_ROOT}/guidelines/testing-principles.md`. Gather the host repository's conventions as
+`project-conventions.md` describes, and find out how to run a single test. Run `git fetch origin`.
 
 ## Step 1: Identify the Target
 
@@ -69,6 +72,8 @@ Launch one `Agent` with `model: "fable"`. Brief it with "The Shared Brief" in `$
 - what was agreed: the spec file's path, or the `git show` command that reads it from history, or the
   text of the PR description and its linked issues
 - the host repository's agent instruction files to read, and how to run a single test
+- the paths of `${CLAUDE_PLUGIN_ROOT}/guidelines/code-standards.md` and
+  `${CLAUDE_PLUGIN_ROOT}/guidelines/testing-principles.md`, to read whole
 - "The Verification Brief" below, copied in full. The subagent hasn't loaded this skill
 - nothing else from this session: no summary of the work, and no opinion of it
 
@@ -86,12 +91,14 @@ the throwaway worktree under "Check that each test can fail".
 - **specification compliance** — does the change do what each requirement says?
 - **completeness** — is every requirement built, with its relevant edge cases?
 - **test evidence** — does a meaningful test support each requirement?
-- **agreed constraints** — does the change respect the specification's `## Design notes`, its
-  `## Design decision` and the host repository's agent instruction files?
+- **agreed constraints** — does the change respect the specification's `## Design notes` and its
+  `## Design decision`?
+- **written conventions** — does the change break a rule in the host repository's agent instruction
+  files, `code-standards.md` or `testing-principles.md`?
 - **deviations** — what does the change do that was not agreed, or differently from what was agreed?
 
-Don't look for general defects, and don't give opinions on style or design. A defect matters here
-only when it leaves a requirement unmet.
+Don't look for general defects, and don't give opinions on style or design that no written rule
+backs. A defect matters here only when it leaves a requirement unmet.
 
 **Sort every requirement as exactly one of:**
 
@@ -139,6 +146,18 @@ once per requirement:
 - a mode change recorded in `## Progress` was decided while building, and is not a deviation from
   the plan. Don't judge whether a mode was the right choice
 
+**Check the written conventions** in the lines the change adds or edits:
+
+- the rules are those written in the host repository's agent instruction files, `code-standards.md`
+  and `testing-principles.md`. Nothing else counts as a convention
+- where the repository's files cover the same topic as a rule in `code-standards.md` or
+  `testing-principles.md`, the repository's rule holds, and the other doesn't apply. The nearest
+  instruction file wins over one higher up the tree
+- each finding names the rule it breaks, its source file, and the `path` and symbol where it breaks
+- list them under conventions, never under deviations
+- a convention finding never changes how a requirement is sorted. A requirement whose code breaks a
+  rule can still be verified
+
 **List under deviations**, separately: changes in the diff that no requirement or plan item explains,
 and departures from the agreed scope, `## Out of scope`, the plan, the `## Design decision` or the
 `## Design notes`.
@@ -171,13 +190,18 @@ Not verified: <uncommitted changes, by file> (omit if there are none)
 
 - <the change or departure, with `path` — symbol>
 - AC4: already decided, deferred — <its reason>
+
+## Conventions
+
+- <the rule it breaks> (<its source file>) — broken at `path` — symbol
 ```
 
 ## Step 4: Present the Report
 
 Show the report as it came back. Don't soften or reorder it. Then:
 
-- add that it doesn't cover general code defects, and that `/code-review` does
+- add that it checks agreed requirements and written conventions only, not general code defects,
+  and that `/code-review` covers those
 - on a PR, say which branch is now checked out
 
 Fix nothing. The engineer decides what to do with the findings.

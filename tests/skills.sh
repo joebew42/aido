@@ -419,7 +419,10 @@ skills/5-handle-review/SKILL.md|the replies posted, the issue opened, commented 
 skills/5-handle-review/SKILL.md|"Report the Result" in `${CLAUDE_PLUGIN_ROOT}/guidelines/github-issues.md`
 skills/4-open-pr/SKILL.md|"Report the Result" in `${CLAUDE_PLUGIN_ROOT}/guidelines/github-issues.md`
 evals/handle-review-asks-about-a-convention-seen-once/graders/asks-to-accept-look-ignore-or-park.md|asks whether to accept it, look for the same point in earlier pull requests' review comments, ignore it or park it in an issue
-skills/verify/SKILL.md|does the change respect the specification's `## Design notes`, its `## Design decision` and the host repository's agent instruction files?
+skills/verify/SKILL.md|does the change respect the specification's `## Design notes` and its `## Design decision`?
+skills/verify/SKILL.md|the repository's rule holds, and the other doesn't apply
+skills/verify/SKILL.md|a convention finding never changes how a requirement is sorted
+skills/verify/SKILL.md|list them under conventions, never under deviations
 skills/verify/SKILL.md|departures from the agreed scope, `## Out of scope`, the plan, the `## Design decision` or the `## Design notes`
 skills/2-implement/SKILL.md|When it has a `## Design decision`, ask the subagent to say where the build departs from the chosen approach
 guidelines/specification.md|named after it with `.draft` before its last extension
@@ -563,6 +566,16 @@ settle_line="$(grep -n -m1 -F '## Settle the Specification' "$handle_review" | c
 push_line="$(grep -n -m1 -F '## Push and End' "$handle_review" | cut -d: -f1)"
 [ -n "$conventions_line" ] && [ -n "$settle_line" ] && [ -n "$push_line" ] && [ "$conventions_line" -lt "$settle_line" ] && [ "$settle_line" -lt "$push_line" ]
 report $? "5-handle-review settles the spec after the review commits, before the push"
+
+verify="$plugin/skills/verify/SKILL.md"
+awk '
+  /^```markdown$/ { template = 1; next }
+  template && /^```$/ { template = 0; next }
+  template && /^## Deviations$/ { deviations = NR }
+  template && /^## Conventions$/ && deviations { conventions = NR }
+  END { exit !conventions }
+' "$verify"
+report $? "the verification report lists conventions after deviations"
 
 marker='> Working specification for this branch. Remove it before merging: revert the `docs: feature specification` commit.'
 for file in guidelines/specification.md skills/stabilize/SKILL.md; do

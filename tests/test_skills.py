@@ -223,6 +223,16 @@ class StaticChecks(unittest.TestCase):
         self.assertIn("FAIL - implement-review-records-refactorings/fixture.sh records acceptance results last, under ### Acceptance", result.stdout)
 
 
+    def test_a_verification_report_without_conventions_fails(self):
+        copy = self.copy_of_the_repository()
+        skill = copy / "plugins" / "aido" / "skills" / "verify" / "SKILL.md"
+        self.replace_in(skill, "\n## Conventions\n", "\n## Rules\n")
+
+        result = self.run_checks(copy)
+
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("FAIL - the verification report lists conventions after deviations", result.stdout)
+
     def test_a_skill_naming_a_commit_that_settles_the_spec_fails(self):
         copy = self.copy_of_the_repository()
         skill = copy / "plugins" / "aido" / "skills" / "4-open-pr" / "SKILL.md"
