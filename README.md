@@ -202,6 +202,11 @@ that built it isn't the judge. It changes nothing. A requirement is **verified**
 passed during the check, or by your confirmation. Otherwise it is **insufficient evidence** or
 **unmet**. A PR without a specification is checked against its description and linked issues.
 
+It also checks the change against the written conventions: the repository's `CLAUDE.md` and
+`AGENTS.md`, and aido's code and testing guidelines, where the repository doesn't say otherwise. Each
+broken rule is listed in its own section, with the file it comes from and where it is broken. A broken
+rule never changes how a requirement is sorted.
+
 | Tool | Question |
 | --- | --- |
 | `/aido:verify` | **Did we build what we agreed to build?** |
@@ -234,7 +239,7 @@ passed during the check, or by your confirmation. Otherwise it is **insufficient
 | Skill&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | Purpose |
 | :--- | :--- |
 | `/aido:deliberate` | Before planning, compare a best and a simplest design, and save the one you approve for `/aido:1-plan` or `/aido:multi-phase-plan`. |
-| `/aido:verify` | Check a branch or PR against the agreed requirements from a fresh context. |
+| `/aido:verify` | Check a branch or PR against the agreed requirements and the written conventions, from a fresh context. |
 | `/aido:stabilize` | Take over a PR, remote branch, or local changes created outside this workflow. |
 | `/aido:map-architecture` | Build or update a slim map of domain areas and building blocks. |
 | `/aido:assess-architecture` | Assess the architecture area by area, and save the refactoring ideas you pick. `/aido:1-plan` offers them when a planned change fits. |
@@ -268,8 +273,8 @@ passed during the check, or by your confirmation. Otherwise it is **insufficient
 
 ### Review someone else's PR
 
-Run `/aido:verify <PR number>` to compare it with the agreed requirements. Run `/code-review` to look
-for defects.
+Run `/aido:verify <PR number>` to compare it with the agreed requirements and the written
+conventions. Run `/code-review` to look for defects.
 
 ### Resolve a migration conflict
 
