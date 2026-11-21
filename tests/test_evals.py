@@ -14,6 +14,14 @@ EVALS = Path(__file__).parent.parent / "plugins" / "aido" / "evals"
 FINISHED = EVALS / "implement-finishes-the-feature" / "graders"
 
 
+def scaffold(test, case):
+    directory = tempfile.TemporaryDirectory()
+    test.addCleanup(directory.cleanup)
+    workspace = Path(directory.name)
+    subprocess.run(["bash", str(case / "fixture.sh")], cwd=workspace, check=True, capture_output=True)
+    return workspace
+
+
 def line(**fields):
     return json.dumps(fields, separators=(",", ":"))
 
@@ -363,10 +371,7 @@ LOOP_PROGRESS = """
 
 class LoopRecordsEachItem(unittest.TestCase):
     def finished_with(self, acceptance):
-        directory = tempfile.TemporaryDirectory()
-        self.addCleanup(directory.cleanup)
-        workspace = Path(directory.name)
-        subprocess.run(["bash", str(LOOP / "fixture.sh")], cwd=workspace, check=True, capture_output=True)
+        workspace = scaffold(self, LOOP)
         for subject in ("feat: complete a task", "feat: list the open tasks"):
             subprocess.run(["git", "commit", "-q", "--allow-empty", "-m", subject], cwd=workspace, check=True)
         with (workspace / "SPEC.md").open("a") as spec:
@@ -406,11 +411,7 @@ RELEVANT_PROGRESS = """
 
 class LoopRunsTheRelevantTests(unittest.TestCase):
     def started(self):
-        directory = tempfile.TemporaryDirectory()
-        self.addCleanup(directory.cleanup)
-        workspace = Path(directory.name)
-        subprocess.run(["bash", str(RELEVANT / "fixture.sh")], cwd=workspace, check=True, capture_output=True)
-        return workspace
+        return scaffold(self, RELEVANT)
 
     def finish(self, workspace):
         subprocess.run(["git", "commit", "-q", "--allow-empty", "-m", "feat: complete a task"], cwd=workspace, check=True)
@@ -462,10 +463,7 @@ CLASH_PROGRESS = """
 
 class ClashLeftUnresolved(unittest.TestCase):
     def finished_with(self, acceptance="\n### Acceptance\n", ac2="deferred — it clashes with AC1"):
-        directory = tempfile.TemporaryDirectory()
-        self.addCleanup(directory.cleanup)
-        workspace = Path(directory.name)
-        subprocess.run(["bash", str(CLASH / "fixture.sh")], cwd=workspace, check=True, capture_output=True)
+        workspace = scaffold(self, CLASH)
         with (workspace / "SPEC.md").open("a") as spec:
             spec.write(CLASH_PROGRESS.format(acceptance=acceptance, ac2=ac2))
         return workspace
@@ -510,17 +508,10 @@ REWORDED = EVALS / "plan-rewords-contradictory-criteria"
 
 
 class ClashReworded(unittest.TestCase):
-    def scaffolded(self, case):
-        directory = tempfile.TemporaryDirectory()
-        self.addCleanup(directory.cleanup)
-        workspace = Path(directory.name)
-        subprocess.run(["bash", str(case / "fixture.sh")], cwd=workspace, check=True, capture_output=True)
-        return workspace
-
     def test_starts_from_the_draft_whose_clash_planning_raises(self):
-        raised = self.scaffolded(RAISED)
+        raised = scaffold(self, RAISED)
 
-        reworded = self.scaffolded(REWORDED)
+        reworded = scaffold(self, REWORDED)
 
         for name in ("SPEC.draft.md", "todo.sh"):
             with self.subTest(name):
@@ -549,26 +540,19 @@ VERIFIED_CLASH = EVALS / "verify-names-contradictory-criteria"
 
 
 class ClashVerified(unittest.TestCase):
-    def scaffolded(self, case):
-        directory = tempfile.TemporaryDirectory()
-        self.addCleanup(directory.cleanup)
-        workspace = Path(directory.name)
-        subprocess.run(["bash", str(case / "fixture.sh")], cwd=workspace, check=True, capture_output=True)
-        return workspace
-
     def criteria(self, workspace):
         spec = (workspace / "SPEC.md").read_text()
         return spec.partition("## Acceptance criteria\n")[2].partition("\n## ")[0]
 
     def test_keeps_the_criteria_that_implementing_finds_clashing(self):
-        unresolved = self.scaffolded(CLASH)
+        unresolved = scaffold(self, CLASH)
 
-        verified = self.scaffolded(VERIFIED_CLASH)
+        verified = scaffold(self, VERIFIED_CLASH)
 
         self.assertEqual(self.criteria(verified), self.criteria(unresolved))
 
     def test_each_clashing_criterion_has_a_passing_test(self):
-        workspace = self.scaffolded(VERIFIED_CLASH)
+        workspace = scaffold(self, VERIFIED_CLASH)
 
         result = subprocess.run(["sh", "test_todo.sh"], cwd=workspace, capture_output=True, text=True)
 
@@ -576,7 +560,7 @@ class ClashVerified(unittest.TestCase):
         self.assertEqual(result.stdout.splitlines()[-1], "all passed")
 
     def test_progress_records_both_criteria_as_met(self):
-        workspace = self.scaffolded(VERIFIED_CLASH)
+        workspace = scaffold(self, VERIFIED_CLASH)
 
         spec = (workspace / "SPEC.md").read_text()
 
@@ -585,7 +569,7 @@ class ClashVerified(unittest.TestCase):
         self.assertRegex(acceptance, r"(?m)^- AC2: met")
 
     def test_leaves_a_clean_branch_to_verify(self):
-        workspace = self.scaffolded(VERIFIED_CLASH)
+        workspace = scaffold(self, VERIFIED_CLASH)
 
         status = subprocess.run(["git", "status", "--porcelain"], cwd=workspace, capture_output=True, text=True)
 
@@ -607,15 +591,8 @@ BROKEN_CONVENTION = EVALS / "verify-reports-a-broken-convention"
 
 
 class ConventionBroken(unittest.TestCase):
-    def scaffolded(self):
-        directory = tempfile.TemporaryDirectory()
-        self.addCleanup(directory.cleanup)
-        workspace = Path(directory.name)
-        subprocess.run(["bash", str(BROKEN_CONVENTION / "fixture.sh")], cwd=workspace, check=True, capture_output=True)
-        return workspace
-
     def test_both_criteria_have_a_passing_test(self):
-        workspace = self.scaffolded()
+        workspace = scaffold(self, BROKEN_CONVENTION)
 
         result = subprocess.run(["sh", "test_todo.sh"], cwd=workspace, capture_output=True, text=True)
 
@@ -623,7 +600,7 @@ class ConventionBroken(unittest.TestCase):
         self.assertEqual(result.stdout.splitlines()[-1], "all passed")
 
     def test_the_change_breaks_the_rule_in_agents_md(self):
-        workspace = self.scaffolded()
+        workspace = scaffold(self, BROKEN_CONVENTION)
 
         diff = subprocess.run(["git", "diff", "origin/trunk...HEAD", "--", "todo.sh"], cwd=workspace, capture_output=True, text=True)
 
@@ -631,14 +608,14 @@ class ConventionBroken(unittest.TestCase):
         self.assertRegex(diff.stdout, r"(?m)^\+.*perl ")
 
     def test_a_test_calls_the_behaviour_inside_its_assertion(self):
-        workspace = self.scaffolded()
+        workspace = scaffold(self, BROKEN_CONVENTION)
 
         test = (workspace / "test_todo.sh").read_text()
 
         self.assertIn('[ "$(./todo.sh complete 1 && cat tasks.txt)" = "1 done" ]', test)
 
     def test_leaves_a_clean_branch_to_verify(self):
-        workspace = self.scaffolded()
+        workspace = scaffold(self, BROKEN_CONVENTION)
 
         status = subprocess.run(["git", "status", "--porcelain"], cwd=workspace, capture_output=True, text=True)
 
@@ -678,10 +655,7 @@ perl -pi -e 's/^  add\\) add_task "\\$2" "\\$3" ;;$/$&\\n  rename) rename_task "
 
 class HiddenHelperTrap(unittest.TestCase):
     def solved_with(self, title):
-        directory = tempfile.TemporaryDirectory()
-        self.addCleanup(directory.cleanup)
-        workspace = Path(directory.name)
-        subprocess.run(["bash", str(TRAP / "fixture.sh")], cwd=workspace, check=True, capture_output=True)
+        workspace = scaffold(self, TRAP)
         subprocess.run(["bash", "-c", RENAME_SOLUTION.format(title=title)], cwd=workspace, check=True, capture_output=True)
         return workspace
 
