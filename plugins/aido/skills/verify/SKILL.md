@@ -29,7 +29,7 @@ Load `${CLAUDE_PLUGIN_ROOT}/guidelines/specification.md`,
 `${CLAUDE_PLUGIN_ROOT}/guidelines/project-conventions.md`,
 `${CLAUDE_PLUGIN_ROOT}/guidelines/code-standards.md` and
 `${CLAUDE_PLUGIN_ROOT}/guidelines/testing-principles.md`. Gather the host repository's conventions as
-the latter describes, and find out how to run a single test. Run `git fetch origin`.
+`project-conventions.md` describes, and find out how to run a single test. Run `git fetch origin`.
 
 ## Step 1: Identify the Target
 
